@@ -1,2 +1,0 @@
-# PromoPlan
-PerfectDraft Promo Plan
