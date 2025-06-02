@@ -267,11 +267,45 @@
             margin-top: -10px;
             z-index: 5;
         }
+         .tbc-badge {
+      position:absolute;
+
+      top: 40px;
+      right: 50px;
+      rotate: 15deg;
+      background-color: #be0000; /* Amber/Yellow */
+      color:white;
+      font-weight: bold;
+      padding: 12px 20px;
+      border-radius: 6px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border: 2px solid #333;
+        animation: pulse 2s 2;
+      z-index: 9999;
+      
+      font-family: sans-serif;
+    }
+
+    @keyframes pulse {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+      }
+      50% {
+        transform: scale(1.04);
+        
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
     </style>
 </head>
 <body>
     <div class="slide">
         <h1>2026 PerfectDraft Promotions Timeline</h1>
+         <div class="tbc-badge">TO BE CONFIRMED</div>
         
         <div class="timeline-container">
             <div class="timeline">
