@@ -19,7 +19,7 @@
         }
         
         .slide {
-            width: 1280px;
+            width: 80%;
             height: 100%;
             background: white;
             margin: 0 auto;
@@ -267,23 +267,44 @@
             margin-top: -10px;
             z-index: 5;
         }
-         .tbc-badge {
-      position:absolute;
 
-      top: 40px;
-      right: 50px;
-      rotate: 15deg;
-      background-color: #be0000; /* Amber/Yellow */
-      color:white;
-      font-weight: bold;
-      padding: 12px 20px;
-      border-radius: 6px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-      border: 2px solid #333;
+    .header-container {
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-items: center;
+        align-items: center;
+        margin-bottom: 20px;
+        position: relative;
+        }
+
+    .tbc-badge {
+        position: absolute;
+        right: 0;
+        rotate: 15deg;
+        background-color: #be0000;
+        color: white;
+        font-weight: bold;
+        padding: 12px 20px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border: 1px solid #333;
         animation: pulse 2s 2;
-      z-index: 9999;
-      
-      font-family: sans-serif;
+        font-family: sans-serif;
+    }
+
+    .confirmed-badge {
+        position: absolute;
+        right: 0;
+        rotate: 15deg;
+        background-color: #12b857;
+        color: white;
+        font-weight: bold;
+        padding: 12px 20px;
+        border-radius: 6px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border: 1px solid #333;
+        animation: pulse 2s 2;
+        font-family: sans-serif;
     }
 
     @keyframes pulse {
@@ -354,8 +375,268 @@
 </head>
 <body>
     <div class="slide">
-        <h1>2026 PerfectDraft Promotions Timeline</h1>
-         <div class="tbc-badge">TO BE CONFIRMED</div>
+        <div class="header-container">
+            <h1>2025 PerfectDraft Promotions Timeline</h1>
+            <div class="confirmed-badge">CONFIRMED</div>
+        </div>
+        
+        
+        <div class="timeline-container">
+            <div class="timeline">
+                
+                <div class="timeline-item">
+            <div class="month-marker">MAY</div>
+            <div class="timeline-content">
+                <div class="status-badge in-progress">In Progress</div>
+                <div class="promo-type discount">Discount</div>
+                <div class="promo-title">Wave 1 - 5+1 - TK Leffe</div>
+                <div class="promo-date">May 1 - Jun 15, 2025</div>
+                <div class="promo-details">
+                    • 5+1 discount promotion on TK Leffe<br>
+                    • Ongoing campaign with 3.5K HL objective<br>
+                    • Premium beer focus for spring season
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">Cavistes Indépendants</span>
+                    <span class="channel-tag">Cavistes Nationaux</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €70,000 | Source: On Trade - Discount
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🍺</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="month-marker">JUNE</div>
+            <div class="timeline-content">
+                <div class="status-badge confirmed">Confirmed</div>
+                <div class="promo-type mixed">Discount + Special Offer</div>
+                <div class="promo-title">COMMANDO: CHR</div>
+                <div class="promo-date">Jun 23 - Jun 24, 2025</div>
+                <div class="promo-details">
+                    • Intensive 2-day promotion campaign<br>
+                    • Discount offers combined with new product launches<br>
+                    • Targeted at CHR segment
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">CHR</span>
+                </div>
+                <div class="budget-info">
+                    Source: On Trade - Discount
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🎯</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="status-badge confirmed">Confirmed</div>
+                <div class="promo-type mixed">Discount + Special Offer</div>
+                <div class="promo-title">COMMANDO: Cavistes</div>
+                <div class="promo-date">Jun 25 - Jun 27, 2025</div>
+                <div class="promo-details">
+                    • 3-day intensive promotion for independent wine merchants<br>
+                    • Combined discount and special offer mechanics<br>
+                    • Focus on expanding caviste network
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">Cavistes Indépendants</span>
+                </div>
+                <div class="budget-info">
+                    Source: On Trade - Discount
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🚀</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="month-marker">JULY</div>
+            <div class="timeline-content">
+                <div class="status-badge proposed">Proposed</div>
+                <div class="promo-type special-offer">Special Offer</div>
+                <div class="promo-title">2 Kegs bought = 2 Glasses</div>
+                <div class="promo-date">Jul 1 - Jul 22, 2025</div>
+                <div class="promo-details">
+                    • 2 kegs purchased = 2 glasses pack offered<br>
+                    • Glassware promotion to enhance customer experience<br>
+                    • 2,700 glasses secured for this operation<br>
+                    • Same mechanics as DTC activations
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">Cavistes Nationaux</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €5,000 | Source: OmniChannel - POCM
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🥂</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="status-badge not-started">Not Started</div>
+                <div class="promo-type cadoc">Cadoc</div>
+                <div class="promo-title">5+1 for New DN</div>
+                <div class="promo-date">Jul 1 - Jul 18, 2025</div>
+                <div class="promo-details">
+                    • 5+1 promotion for new distribution networks<br>
+                    • Potential themes: Corona 100 years, Bud Champions Club, or Stella with RG<br>
+                    • €20 incentive per new DN with ceiling per WHS<br>
+                    • Requires confirmation of liquid availability and theme selection
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">CHR</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €10,000 | Source: OmniChannel - POCM
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🆕</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="month-marker">SEPTEMBER</div>
+            <div class="timeline-content">
+                <div class="status-badge not-started">Not Started</div>
+                <div class="promo-type discount">Discount</div>
+                <div class="promo-title">Wave 2 - Stella 5+1</div>
+                <div class="promo-date">Sep 1 - Oct 15, 2025</div>
+                <div class="promo-details">
+                    • Second wave of 5+1 discount focusing on Stella Artois<br>
+                    • GO/NO GO decision pending from Sarah Prouvost<br>
+                    • Extended campaign through mid-October
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">Cavistes Indépendants</span>
+                    <span class="channel-tag">Cavistes Nationaux</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €70,000 | Source: On Trade - Discount
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">⭐</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="status-badge not-started">Not Started</div>
+                <div class="promo-type special-offer">Special Offer</div>
+                <div class="promo-title">8 kegs bought = Pack POCM</div>
+                <div class="promo-date">Sep 8 - Sep 30, 2025</div>
+                <div class="promo-details">
+                    • 8 kegs purchase = POCM pack reward<br>
+                    • Includes bar mats (30% PD+Stella / 70% PD+Leffe)<br>
+                    • PD branded coasters included<br>
+                    • Visibility elements production required
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">CHR</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €15,000 | Source: OmniChannel - POCM
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">📦</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="month-marker">NOVEMBER</div>
+            <div class="timeline-content">
+                <div class="status-badge not-started">Not Started</div>
+                <div class="promo-type special-offer">Special Offer</div>
+                <div class="promo-title">Christmas Bundle = Machine + keg for 199€</div>
+                <div class="promo-date">Nov 21 - Dec 25, 2025</div>
+                <div class="promo-details">
+                    • Machine + keg bundle at €199<br>
+                    • Christmas season promotion<br>
+                    • Opportunity to extend to other cavistes for machine park expansion<br>
+                    • Premium holiday offering
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">Cavistes Indépendants</span>
+                    <span class="channel-tag">Cavistes Nationaux</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €10,000 | Source: SA2
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🎄</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-content">
+                <div class="status-badge not-started">Not Started</div>
+                <div class="promo-type special-offer">Special Offer</div>
+                <div class="promo-title">Liquide Leffe D'hiver + 8 kegs bought = Christmas Pack POCM</div>
+                <div class="promo-date">Nov 24 - Dec 24, 2025</div>
+                <div class="promo-details">
+                    • Winter Leffe liquid + 8 kegs = Christmas POCM pack<br>
+                    • Seasonal beer focus with premium packaging<br>
+                    • Christmas-themed promotional materials<br>
+                    • Production elements to be quantified and initiated
+                </div>
+                <div class="channel-tags">
+                    <span class="channel-tag">CHR</span>
+                </div>
+                <div class="budget-info">
+                    Budget: €15,000 | Source: OmniChannel - POCM
+                </div>
+            </div>
+            <a href="https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link" target="_blank">
+                <div class="icon-container">
+                    <div class="icon-emoji">🎁</div>
+                </div>
+                <div class="timeline-dot"></div>
+            </a>
+        </div>
+            </div>
+        </div>
+
+        <div class="header-container">
+            <h1>2026 PerfectDraft Promotions Timeline</h1>
+            <div class="tbc-badge">TO BE CONFIRMED</div>
+        </div>
         
         <div class="timeline-container">
             <div class="timeline">
@@ -891,15 +1172,13 @@
     </tr>
   </tbody>
 </table>
-
-
+            </div>
+            </div>
+                    <a href="https://www.notion.so/1fb8e2b2b0fb80ac9417d04c8a2e29c2?v=1fb8e2b2b0fb81d697d2000ca979050b&source=copy_link" target="_blank"><div class="icon-container">
+                        <div class="icon-emoji">🏆</div>
                     </div>
-                    </div>
-                                                <a href="https://www.notion.so/1fb8e2b2b0fb80ac9417d04c8a2e29c2?v=1fb8e2b2b0fb81d697d2000ca979050b&source=copy_link" target="_blank"><div class="icon-container">
-                                <div class="icon-emoji">🏆</div>
-                            </div>
-                            </a>
-                            <div class="timeline-dot"></div>
+                    </a>
+                    <div class="timeline-dot"></div>
                 </div>
                 
             </div>
