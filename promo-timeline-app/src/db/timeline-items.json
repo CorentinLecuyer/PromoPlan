@@ -1,5 +1,6 @@
 [
   {
+    "table":"none",
     "year": "2026",
     "month": "JANUARY",
     "promo_type": "Loyalty Program",
@@ -18,6 +19,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JANUARY",
     "promo_type": "Special Offer",
@@ -39,9 +41,10 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JANUARY",
-    "promo_type": "New Product Launch",
+    "promo_type": "New Product",
     "promo_title": "New 0% Variants Launch",
     "promo_start_date": "2026-01-01",
     "promo_end_date": "2026-02-15",
@@ -59,6 +62,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JANUARY",
     "promo_type": "Loyalty Program",
@@ -77,6 +81,7 @@
     "link": "https://www.notion.so/1fc8e2b2b0fb802ca24ec5b059239944?pvs=21"
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "FEBRUARY",
     "promo_type": "Special Offer",
@@ -96,6 +101,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "FEBRUARY",
     "promo_type": "Training",
@@ -114,6 +120,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "MARCH",
     "promo_type": "Discount",
@@ -133,6 +140,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "APRIL",
     "promo_type": "Loyalty Program",
@@ -151,6 +159,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "APRIL",
     "promo_type": "Special Offer",
@@ -168,6 +177,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "MAY",
     "promo_type": "Special Offer",
@@ -186,6 +196,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "MAY",
     "promo_type": "Training",
@@ -204,6 +215,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JUNE",
     "promo_type": "Special Offer",
@@ -224,9 +236,10 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JUNE",
-    "promo_type": "New Product Launch",
+    "promo_type": "New Product",
     "promo_title": "Limited Edition Summer Flavors",
     "promo_start_date": "2026-06-15",
     "promo_end_date": "2026-08-31",
@@ -242,6 +255,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JULY",
     "promo_type": "Loyalty Program",
@@ -260,6 +274,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "JULY",
     "promo_type": "Discount",
@@ -278,6 +293,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "SEPTEMBER",
     "promo_type": "Discount",
@@ -298,6 +314,7 @@
     "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21"
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "OCTOBER",
     "promo_type": "Loyalty Program",
@@ -316,6 +333,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "OCTOBER",
     "promo_type": "Special Offer",
@@ -336,6 +354,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "NOVEMBER",
     "promo_type": "Special Offer",
@@ -355,6 +374,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2026",
     "month": "DECEMBER",
     "promo_type": "Special Offer",
@@ -375,6 +395,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "JULY",
     "promo_type": "Special Offer",
@@ -393,6 +414,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "SEPTEMBER",
     "promo_type": "Discount",
@@ -410,6 +432,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "NOVEMBER",
     "promo_type": "Special Offer",
@@ -427,6 +450,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "JULY",
     "promo_type": "Cadoc",
@@ -446,6 +470,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "SEPTEMBER",
     "promo_type": "Special Offer",
@@ -464,6 +489,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "NOVEMBER",
     "promo_type": "Special Offer",
@@ -480,6 +506,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "JUNE",
     "promo_type": "Discount",
@@ -494,6 +521,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "MAY",
     "promo_type": "Discount",
@@ -513,6 +541,7 @@
     "link": ""
   },
   {
+    "table":"none",
     "year": "2025",
     "month": "JUNE",
     "promo_type": "Discount",

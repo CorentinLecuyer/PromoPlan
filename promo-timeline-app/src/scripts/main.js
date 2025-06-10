@@ -1,4 +1,6 @@
 let allTimelineItems = [];
+let selectedChannels = ['all'];
+let selectedYears = ['all']; // Changed from selectedYear
 
 function renderTimeline(items) {
     const root = document.getElementById('timeline-root');
@@ -79,21 +81,169 @@ function renderTimeline(items) {
   `;
 }
 
-function applyYearFilter(selectedYear) {
-    if (selectedYear === "all") {
-        renderTimeline(allTimelineItems);
+// Combined filter function that applies both year and channel filters
+function applyFilters() {
+    let filteredItems = allTimelineItems;
+
+    // Apply year filter (updated to handle multiple years)
+    if (!selectedYears.includes('all') && selectedYears.length > 0) {
+        filteredItems = filteredItems.filter(item => selectedYears.includes(item.year));
+    }
+
+    // Apply channel filter
+    if (!selectedChannels.includes('all') && selectedChannels.length > 0) {
+        filteredItems = filteredItems.filter(item => 
+            item.channel_tags.some(tag => selectedChannels.includes(tag))
+        );
+    }
+
+    renderTimeline(filteredItems);
+}
+
+// YEAR MULTI-SELECT FUNCTIONS
+function toggleYearDropdown() {
+    const dropdown = document.getElementById('yearDropdown');
+    const arrow = document.getElementById('yearDropdownArrow');
+    
+    dropdown.classList.toggle('show');
+    arrow.classList.toggle('rotated');
+}
+
+function handleYearOptionChange(checkbox) {
+    const allYearCheckbox = document.getElementById('year_all');
+    
+    if (checkbox.value === 'all') {
+        if (checkbox.checked) {
+            // If "All" is checked, uncheck all others and select only "all"
+            selectedYears = ['all'];
+            document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
+        } else {
+            // If "All" is unchecked, keep it unchecked
+            selectedYears = [];
+        }
     } else {
-        // Filter by the "year" property in each item
-        const filteredItems = allTimelineItems.filter(item => item.year === selectedYear);
-        renderTimeline(filteredItems);
+        // If any specific year is selected
+        allYearCheckbox.checked = false;
+        
+        if (checkbox.checked) {
+            // Add to selected years
+            if (!selectedYears.includes(checkbox.value)) {
+                selectedYears = selectedYears.filter(year => year !== 'all');
+                selectedYears.push(checkbox.value);
+            }
+        } else {
+            // Remove from selected years
+            selectedYears = selectedYears.filter(year => year !== checkbox.value);
+            
+            // If no years selected, select "All"
+            if (selectedYears.length === 0) {
+                selectedYears = ['all'];
+                allYearCheckbox.checked = true;
+            }
+        }
+    }
+    
+    updateSelectedYearText();
+    applyFilters();
+}
+
+function updateSelectedYearText() {
+    const selectedText = document.getElementById('selectedYearText');
+    
+    if (selectedYears.includes('all') || selectedYears.length === 0) {
+        selectedText.textContent = 'All Years';
+    } else if (selectedYears.length === 1) {
+        selectedText.textContent = selectedYears[0];
+    } else {
+        selectedText.innerHTML = `${selectedYears.length} Years <span class="selected-count">${selectedYears.length}</span>`;
     }
 }
 
-// Wait for the DOM to be ready (script is at the bottom of <body>, so this will work)
-document.getElementById('yearFilter').addEventListener('change', (e) => {
-    applyYearFilter(e.target.value);
+// CHANNEL MULTI-SELECT FUNCTIONS
+function toggleDropdown() {
+    const dropdown = document.getElementById('channelDropdown');
+    const arrow = document.getElementById('dropdownArrow');
+    
+    dropdown.classList.toggle('show');
+    arrow.classList.toggle('rotated');
+}
+
+function handleOptionChange(checkbox) {
+    const allCheckbox = document.getElementById('all');
+    
+    if (checkbox.value === 'all') {
+        if (checkbox.checked) {
+            // If "All" is checked, uncheck all others and select only "all"
+            selectedChannels = ['all'];
+            document.querySelectorAll('#channelDropdown input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
+        } else {
+            // If "All" is unchecked, keep it unchecked
+            selectedChannels = [];
+        }
+    } else {
+        // If any specific channel is selected
+        allCheckbox.checked = false;
+        
+        if (checkbox.checked) {
+            // Add to selected channels
+            if (!selectedChannels.includes(checkbox.value)) {
+                selectedChannels = selectedChannels.filter(ch => ch !== 'all');
+                selectedChannels.push(checkbox.value);
+            }
+        } else {
+            // Remove from selected channels
+            selectedChannels = selectedChannels.filter(ch => ch !== checkbox.value);
+            
+            // If no channels selected, select "All"
+            if (selectedChannels.length === 0) {
+                selectedChannels = ['all'];
+                allCheckbox.checked = true;
+            }
+        }
+    }
+    
+    updateSelectedText();
+    applyFilters();
+}
+
+function updateSelectedText() {
+    const selectedText = document.getElementById('selectedText');
+    
+    if (selectedChannels.includes('all') || selectedChannels.length === 0) {
+        selectedText.textContent = 'All Channels';
+    } else if (selectedChannels.length === 1) {
+        selectedText.textContent = selectedChannels[0];
+    } else {
+        selectedText.innerHTML = `${selectedChannels.length} Channels <span class="selected-count">${selectedChannels.length}</span>`;
+    }
+}
+
+// Event listeners
+document.addEventListener('DOMContentLoaded', function() {
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function(event) {
+        const channelContainer = document.querySelector('#channelDropdown')?.closest('.multiselect-container');
+        const yearContainer = document.querySelector('#yearDropdown')?.closest('.multiselect-container');
+        
+        // Close channel dropdown
+        if (channelContainer && !channelContainer.contains(event.target)) {
+            document.getElementById('channelDropdown')?.classList.remove('show');
+            document.getElementById('dropdownArrow')?.classList.remove('rotated');
+        }
+        
+        // Close year dropdown
+        if (yearContainer && !yearContainer.contains(event.target)) {
+            document.getElementById('yearDropdown')?.classList.remove('show');
+            document.getElementById('yearDropdownArrow')?.classList.remove('rotated');
+        }
+    });
 });
 
+// Load data and initialize
 fetch('./db/timeline-items.json')
     .then(response => response.json())
     .then(data => {
