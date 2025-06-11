@@ -271,6 +271,11 @@
      color: white;
  }
 
+  .promo-type.training {
+     background: rgb(255, 0, 242);
+     color: white;
+ }
+
  .month-marker {
      position: absolute;
      left: 50%;
@@ -435,7 +440,7 @@
  .multiselect-container {
      position: relative;
      display: inline-block;
-     min-width: 200px;
+     min-width: auto;
  }
 
  .multiselect-header {
@@ -448,7 +453,7 @@
      display: flex;
      justify-content: space-between;
      align-items: center;
-     min-width: 200px;
+     min-width: fit-content;
      font-size: 14px;
  }
 
@@ -515,6 +520,7 @@
  }
 
  .dropdown-arrow {
+    margin-left: 15px;
      transition: transform 0.2s ease;
      font-size: 12px;
  }

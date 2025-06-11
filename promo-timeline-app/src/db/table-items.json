@@ -1,0 +1,62 @@
+[
+    {
+        "id": "1",
+        "style": "black_table",
+        "table": "Champions Club Quarterly Benefits",
+        "th": [
+            "Tier Level",
+            "Benefits"
+        ],
+        "tr": [
+            ["Tier 1", "5% discount on all kegs"],
+            ["Tier 2", "10% discount + exclusive access to new products"],
+            ["Tier 3", "15% discount + free shipping on all orders"]
+        ]
+    },
+    
+    {
+        "id": "2",
+        "style": "black_table",
+        "table": "CHR Excellence Program",
+        "th": [
+            "Tier Level",
+            "Minimum Annual Kegs",
+            "Cash Rebate",
+            "Equipment Benefits",
+            "Marketing Benefits"
+        ],
+        "tr": [
+            [
+                "1 - Bronze",
+                "150",
+                "2% quarterly cashback on keg purchases",
+                "Standard equipment support",
+                "Basic POCM materials (branded coasters, tent cards, etc.)"
+            ],
+            [
+                "2 - Silver",
+                "300",
+                "4% quarterly cashback + €200 annual bonus",
+                "Free maintenance visit twice per year",
+                "Premium POCM kit (tap handles, branded glasses, etc.)"
+            ],
+            [
+                "3 - Gold",
+                "500",
+                "6% quarterly cashback + €500 annual bonus",
+                "Free machine replacement/upgrade every 3 years",
+                "Custom POCM design service + premium materials"
+            ],
+            [
+                "4 - Platinum",
+                "1,000",
+                "8% quarterly cashback + €1,000 annual bonus",
+                "Multiple machine locations, priority new model access",
+                "Full marketing campaign support, professional materials"
+            ]
+        ]
+    }
+    
+
+]
+

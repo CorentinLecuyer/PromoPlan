@@ -1,6 +1,81 @@
 let allTimelineItems = [];
+let allTableData = [];
 let selectedChannels = ['all'];
 let selectedYears = ['all']; // Changed from selectedYear
+
+function getTableById(tableId) {
+    return allTableData.find(table => table.id === tableId);
+}
+
+// Load table data from JSON file
+function loadTableData() {
+    return fetch('./db/table-items.json')
+        .then(response => response.json())
+        .then(data => {
+            allTableData = data;
+        })
+        .catch(error => {
+            console.error('Error loading table data:', error);
+            allTableData = [];
+        });
+}
+
+// Load timeline data from JSON file
+function loadTimelineData() {
+    return fetch('./db/timeline-items.json')
+        .then(response => response.json())
+        .then(data => {
+            allTimelineItems = data;
+        })
+        .catch(error => {
+            console.error('Error loading timeline data:', error);
+            allTimelineItems = [];
+        });
+}
+
+// Initialize the application
+async function initializeApp() {
+    try {
+        // Load both datasets concurrently
+        await Promise.all([
+            loadTableData(),
+            loadTimelineData()
+        ]);
+        
+        // Render timeline once both datasets are loaded
+        renderTimeline(allTimelineItems);
+    } catch (error) {
+        console.error('Error initializing app:', error);
+    }
+}
+
+// Call initialization when DOM is ready
+document.addEventListener('DOMContentLoaded', initializeApp);
+
+// Function to generate HTML table
+function generateTableHTML(tableObj) {
+    if (!tableObj) return '';
+    
+    return `
+        <div class="table-container ${tableObj.style}">
+            <h3 class="table-title">${tableObj.table}</h3>
+            <table class="promo-table">
+                <thead>
+                    <tr>
+                        ${tableObj.th.map(header => `<th>${header}</th>`).join('')}
+                    </tr>
+                </thead>
+                <tbody>
+                    ${tableObj.tr.map(row => `
+                        <tr>
+                            ${row.map(cell => `<td>${cell}</td>`).join('')}
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
 
 function renderTimeline(items) {
     const root = document.getElementById('timeline-root');
@@ -53,6 +128,10 @@ function renderTimeline(items) {
         const showYearMarker = YearMarker !== lastYearMarker;
         lastYearMarker = YearMarker;
 
+        // Check if item has a table and get table data
+        const hasTable = item.table && item.table !== "none";
+        const tableHTML = hasTable ? generateTableHTML(getTableById(item.table)) : '';
+
         return `
             ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
           <div class="timeline-item">
@@ -67,7 +146,20 @@ function renderTimeline(items) {
               <div class="channel-tags">
                 ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
               </div>
-            </div>
+
+
+
+
+              
+              ${tableHTML}
+            
+
+
+
+
+
+
+              </div>
             <a href="${item.link}" target="_blank">
               <div class="icon-container">
                 <div class="icon-emoji">${item.icon}</div>
@@ -92,7 +184,7 @@ function applyFilters() {
 
     // Apply channel filter
     if (!selectedChannels.includes('all') && selectedChannels.length > 0) {
-        filteredItems = filteredItems.filter(item => 
+        filteredItems = filteredItems.filter(item =>
             item.channel_tags.some(tag => selectedChannels.includes(tag))
         );
     }
@@ -104,14 +196,14 @@ function applyFilters() {
 function toggleYearDropdown() {
     const dropdown = document.getElementById('yearDropdown');
     const arrow = document.getElementById('yearDropdownArrow');
-    
+
     dropdown.classList.toggle('show');
     arrow.classList.toggle('rotated');
 }
 
 function handleYearOptionChange(checkbox) {
     const allYearCheckbox = document.getElementById('year_all');
-    
+
     if (checkbox.value === 'all') {
         if (checkbox.checked) {
             // If "All" is checked, uncheck all others and select only "all"
@@ -126,7 +218,7 @@ function handleYearOptionChange(checkbox) {
     } else {
         // If any specific year is selected
         allYearCheckbox.checked = false;
-        
+
         if (checkbox.checked) {
             // Add to selected years
             if (!selectedYears.includes(checkbox.value)) {
@@ -136,7 +228,7 @@ function handleYearOptionChange(checkbox) {
         } else {
             // Remove from selected years
             selectedYears = selectedYears.filter(year => year !== checkbox.value);
-            
+
             // If no years selected, select "All"
             if (selectedYears.length === 0) {
                 selectedYears = ['all'];
@@ -144,14 +236,14 @@ function handleYearOptionChange(checkbox) {
             }
         }
     }
-    
+
     updateSelectedYearText();
     applyFilters();
 }
 
 function updateSelectedYearText() {
     const selectedText = document.getElementById('selectedYearText');
-    
+
     if (selectedYears.includes('all') || selectedYears.length === 0) {
         selectedText.textContent = 'All Years';
     } else if (selectedYears.length === 1) {
@@ -165,14 +257,14 @@ function updateSelectedYearText() {
 function toggleDropdown() {
     const dropdown = document.getElementById('channelDropdown');
     const arrow = document.getElementById('dropdownArrow');
-    
+
     dropdown.classList.toggle('show');
     arrow.classList.toggle('rotated');
 }
 
 function handleOptionChange(checkbox) {
     const allCheckbox = document.getElementById('all');
-    
+
     if (checkbox.value === 'all') {
         if (checkbox.checked) {
             // If "All" is checked, uncheck all others and select only "all"
@@ -187,7 +279,7 @@ function handleOptionChange(checkbox) {
     } else {
         // If any specific channel is selected
         allCheckbox.checked = false;
-        
+
         if (checkbox.checked) {
             // Add to selected channels
             if (!selectedChannels.includes(checkbox.value)) {
@@ -197,7 +289,7 @@ function handleOptionChange(checkbox) {
         } else {
             // Remove from selected channels
             selectedChannels = selectedChannels.filter(ch => ch !== checkbox.value);
-            
+
             // If no channels selected, select "All"
             if (selectedChannels.length === 0) {
                 selectedChannels = ['all'];
@@ -205,14 +297,14 @@ function handleOptionChange(checkbox) {
             }
         }
     }
-    
+
     updateSelectedText();
     applyFilters();
 }
 
 function updateSelectedText() {
     const selectedText = document.getElementById('selectedText');
-    
+
     if (selectedChannels.includes('all') || selectedChannels.length === 0) {
         selectedText.textContent = 'All Channels';
     } else if (selectedChannels.length === 1) {
@@ -223,18 +315,18 @@ function updateSelectedText() {
 }
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Close dropdowns when clicking outside
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         const channelContainer = document.querySelector('#channelDropdown')?.closest('.multiselect-container');
         const yearContainer = document.querySelector('#yearDropdown')?.closest('.multiselect-container');
-        
+
         // Close channel dropdown
         if (channelContainer && !channelContainer.contains(event.target)) {
             document.getElementById('channelDropdown')?.classList.remove('show');
             document.getElementById('dropdownArrow')?.classList.remove('rotated');
         }
-        
+
         // Close year dropdown
         if (yearContainer && !yearContainer.contains(event.target)) {
             document.getElementById('yearDropdown')?.classList.remove('show');
@@ -254,3 +346,4 @@ fetch('./db/timeline-items.json')
         document.getElementById('timeline-root').innerHTML = '<p style="color:red;">Failed to load timeline data.</p>';
         console.error(error);
     });
+
