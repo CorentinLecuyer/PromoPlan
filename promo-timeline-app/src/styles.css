@@ -6,7 +6,7 @@
 
  body {
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-     background: #fffdf7;
+     background: #fafafa;
      padding: 20px;
      min-height: 100vh;
  }
@@ -228,14 +228,32 @@
      gap: 4px;
      margin-top: 8px;
  }
-
- .channel-tag {
+  .channel-tag {
      background: #FFCC02;
-     color: 333;
+     color: #333;
      padding: 3px 8px;
      border-radius: 12px;
      font-size: 9px;
      font-weight: 500;
+ }
+
+  .channel-tags-budget {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 4px;
+     align-content: center;
+     justify-content: center;
+ }
+
+
+ 
+ .channel-tag-budget{
+        background: #333;
+        color: white;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 9px;
+        font-weight: 500;
  }
 
  .promo-type {
@@ -364,9 +382,17 @@
      }
  }
 
+ .table-title {
+     font-size: 14px;
+     font-weight: 600;
+     color: #2c3e50;
+     margin: 12px 0px 0px 0px;
+     text-decoration: underline;    
+ }
+
  .promo-table {
      width: 100%;
-     margin-top: 12px;
+     margin-top: 6px;
      border-collapse: collapse;
      border-radius: 8px;
      overflow: hidden;
@@ -379,12 +405,47 @@
      color: #2c3e50;
      margin-bottom: 8px;
      margin-top: 8px;
+     
  }
 
  .promo-table thead {
      background-color: #333;
      color: white;
+     text-align: center;
+     align-items: center;
  }
+
+ .promo-table-budget{
+     width: 100%;
+     margin-top: 6px;
+     border-collapse: collapse;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+ }
+
+    .promo-table-budget thead {
+        background-color: #FFCC02;
+        color: #333;
+        text-align: center;
+        align-items: center;
+    }
+
+    .promo-table-budget th {
+        padding: 10px 12px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .promo-table-budget tbody {
+        
+        text-align: center;
+        background-color: lightyellow;
+    }
+
 
  .promo-table th {
      padding: 10px 12px;

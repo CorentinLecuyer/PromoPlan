@@ -8,10 +8,11 @@
         "promo_title": "Perfect Draft Champions Club - Q1",
         "promo_start_date": "2026-01-01",
         "promo_end_date": "2026-03-31",
-        "promo_budget":30000,
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget": 0,
         "promo_budget_type":[
-            "SA2",
-            "CADOC"
+            
         ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -33,11 +34,11 @@
         "promo_title": "Perfect Draft 0% - New Year, New You",
         "promo_start_date": "2026-01-02",
         "promo_end_date": "2026-01-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Cavistes: 6+2 on 0% beer kegs (Stella 0%, Corona 0%)",
             "CHR: €30 cash bonus per new account with 0% starter pack",
@@ -61,11 +62,11 @@
         "promo_title": "New 0% Variants Launch",
         "promo_start_date": "2026-01-01",
         "promo_end_date": "2026-02-15",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Introduction of new 0% alcohol variants",
             "Sampling campaigns across all channels",
@@ -88,11 +89,11 @@
         "promo_title": "CHR Excellence Program - Annual",
         "promo_start_date": "2026-01-01",
         "promo_end_date": "2026-12-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Annual rewards for top-performing venues",
             "Tiered benefit structure",
@@ -113,11 +114,11 @@
         "promo_title": "Share the Perfect Moment",
         "promo_start_date": "2026-02-01",
         "promo_end_date": "2026-02-16",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Valentine's Day activation",
             "Buy 2 different beer kegs, get romantic dinner voucher",
@@ -139,11 +140,11 @@
         "promo_title": "Wholesaler Academy - H1 Training",
         "promo_start_date": "2026-02-15",
         "promo_end_date": "2026-02-15",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Quarterly training + next quarter incentives presentation",
             "CHR prospection techniques",
@@ -164,11 +165,11 @@
         "promo_title": "Gear Up for Spring",
         "promo_start_date": "2026-03-01",
         "promo_end_date": "2026-03-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "CHR focus through wholesalers",
             "€50 cash incentive per new restaurant/hotel account",
@@ -190,11 +191,11 @@
         "promo_title": "Perfect Draft Champions Club - Q2",
         "promo_start_date": "2026-04-01",
         "promo_end_date": "2026-06-30",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
             "Find a good tier list mechanic for Cavistes"
@@ -215,11 +216,11 @@
         "promo_title": "Easter Perfect Moments",
         "promo_start_date": "2026-04-07",
         "promo_end_date": "2026-04-21",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, more)"
         ],
@@ -239,11 +240,11 @@
         "promo_title": "Perfect Gift for Perfect Moms",
         "promo_start_date": "2026-05-05",
         "promo_end_date": "2026-05-25",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Bundle: Machine + 3 premium kegs + elegant serving set for €249",
             "Innovation: Small stickers for Mother's day"
@@ -264,11 +265,11 @@
         "promo_title": "Wholesaler Academy - H2 Training",
         "promo_start_date": "2026-05-15",
         "promo_end_date": "2026-05-15",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Quarterly training + incentive programs",
             "Summer activation strategies",
@@ -289,11 +290,11 @@
         "promo_title": "Dad's Perfect Draft Championship",
         "promo_start_date": "2026-06-01",
         "promo_end_date": "2026-06-21",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Bundle: Machine + 6 sports kegs + football POCM for €299",
             "CHR: Sports Bar Starter Pack - Machine + 12 kegs",
@@ -316,11 +317,11 @@
         "promo_title": "Limited Edition Summer Flavors",
         "promo_start_date": "2026-06-15",
         "promo_end_date": "2026-08-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Seasonal flavor variants for summer",
             "Premium positioning"
@@ -341,11 +342,11 @@
         "promo_title": "Perfect Draft Champions Club - Q3",
         "promo_start_date": "2026-07-01",
         "promo_end_date": "2026-09-30",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
             "Find a good tier list mechanic for Cavistes"
@@ -366,11 +367,11 @@
         "promo_title": "Perfect Summer, Perfect Draft",
         "promo_start_date": "2026-07-01",
         "promo_end_date": "2026-07-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "10 kegs bought = 2 free + summer terrace kit",
             "CHR: new terrace/hotel account = €50",
@@ -391,11 +392,11 @@
         "promo_title": "September Perfect Back to School",
         "promo_start_date": "2026-09-01",
         "promo_end_date": "2026-09-30",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "CHR: Office/corporate venue targeting",
             "Cavistes: 6+1 back-to-work promotion",
@@ -418,11 +419,11 @@
         "promo_title": "Perfect Draft Champions Club - Q4",
         "promo_start_date": "2026-10-01",
         "promo_end_date": "2026-12-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
             "Find a good tier list mechanic for Cavistes"
@@ -443,11 +444,11 @@
         "promo_title": "Perfect Oktoberfest Experience",
         "promo_start_date": "2026-10-01",
         "promo_end_date": "2026-10-31",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Focus: German-style beers, Franziskaner / Becks / etc.",
             "5+1 on premium/specialty kegs",
@@ -470,11 +471,11 @@
         "promo_title": "Black Friday Perfect Deals",
         "promo_start_date": "2026-11-20",
         "promo_end_date": "2026-11-30",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Bundle: Machine + 6 kegs + premium POCM kit for €299",
             "Trade offer: 20+5 for high-volume buyers"
@@ -496,11 +497,11 @@
         "promo_title": "Perfect Christmas, Perfect Gifts",
         "promo_start_date": "2026-12-01",
         "promo_end_date": "2026-12-24",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Premium Bundle: Machine + 6 Christmas kegs + luxury gift set for €349",
             "Corporate: B2B Christmas party packages",
@@ -523,11 +524,11 @@
         "promo_title": "2 Kegs bought = 2 Glasses",
         "promo_start_date": "2025-07-01",
         "promo_end_date": "2025-07-22",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Objectif : Proposer une offre verrerie avec 2 futs achetés = packs de 2 verres offert",
             "Mécanique : Identique aux activations DTC",
@@ -548,11 +549,11 @@
         "promo_title": "Wave 2- Stella 5+1",
         "promo_start_date": "2025-09-01",
         "promo_end_date": "2025-10-15",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Décider GO/NO GO sur une offre 5+1 Wave 2"
         ],
@@ -572,11 +573,11 @@
         "promo_title": "Christmas Bundle = Machine + keg for 199€",
         "promo_start_date": "2025-11-21",
         "promo_end_date": "2025-12-25",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Opportunité : Possibilité d'étendre cette offre à d'autres cavistes pour augmenter notre parc machines"
         ],
@@ -596,11 +597,11 @@
         "promo_title": "5+1 for New DN",
         "promo_start_date": "2025-07-01",
         "promo_end_date": "2025-07-18",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Confirmer rapidement quelle thématique nous retenons en fonction du focus en milieu d'été + disponibilité du liquide",
             "Corona avec Corona 100 ans / Bud avec Champions Club / Stella avec RG",
@@ -622,11 +623,11 @@
         "promo_title": "8 kegs bough = Pack POCM",
         "promo_start_date": "2025-09-08",
         "promo_end_date": "2025-09-30",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments",
             "Produire les éléments de visibilité : Tapis de bar (30% PD+Stella / 70% PD+Leffe)",
@@ -647,11 +648,11 @@
         "promo_title": "Liquide Leffe D'hiver + 8 kegs bough = Christmas Pack POCM",
         "promo_start_date": "2025-11-24",
         "promo_end_date": "2025-12-24",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments"
         ],
@@ -670,11 +671,11 @@
         "promo_title": "COMMANDO : Cavistes",
         "promo_start_date": "2025-06-25",
         "promo_end_date": "2025-06-27",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "3-day intensive promotion for independent wine merchants",
             "Combined discount and special offer mechanics",
@@ -695,11 +696,11 @@
         "promo_title": "Wave 1 - 5+1 - TK Leffe",
         "promo_start_date": "2025-05-01",
         "promo_end_date": "2025-06-15",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "5+1 discount promotion on TK Leffe",
             "Ongoing campaign with 3.5K HL objective",
@@ -721,11 +722,11 @@
         "promo_title": "COMMANDO : CHR",
         "promo_start_date": "2025-06-23",
         "promo_end_date": "2025-06-24",
-        "promo_budget":"",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "promo_budget":0,
         "promo_budget_type":[
-            "",
-            ""
-        ],
+            ],
         "promo_details": [
             "Intensive 2-day promotion campaign",
             "Discount offers combined with new product launches",

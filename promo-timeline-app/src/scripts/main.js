@@ -41,7 +41,7 @@ async function initializeApp() {
             loadTableData(),
             loadTimelineData()
         ]);
-        
+
         // Render timeline once both datasets are loaded
         renderTimeline(allTimelineItems);
     } catch (error) {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', initializeApp);
 // Function to generate HTML table
 function generateTableHTML(tableObj) {
     if (!tableObj) return '';
-    
+
     return `
         <div class="table-container ${tableObj.style}">
             <h3 class="table-title">${tableObj.table}</h3>
@@ -132,6 +132,10 @@ function renderTimeline(items) {
         const hasTable = item.table && item.table !== "none";
         const tableHTML = hasTable ? generateTableHTML(getTableById(item.table)) : '';
 
+        // Check if item has a budget and get table data
+        const hasBudget = item.promo_budget && item.promo_budget !== 0;
+        const tableHTMLBudget = hasBudget ? generateTableHTML(getTableById(item.table)) : '';
+
         return `
             ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
           <div class="timeline-item">
@@ -147,17 +151,34 @@ function renderTimeline(items) {
                 ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
               </div>
 
-
-
-
-              
               ${tableHTML}
-            
+              ${hasBudget ? `
+                <h3 class="table-title">Budget Details // Financials</h3>
+                <table class="promo-table-budget">
+                    <thead>
+                        <tr>
+                            <th>Budget</th>
+                            <th>Budget Type</th>
+                            <th>Uplift</th>
+                            <th>ROI</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>${item.promo_budget.toLocaleString('fr-FR', { 
+                                style: 'currency', 
+                                currency: 'EUR',
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0
+                                })}
+                            </th>
 
-
-
-
-
+                            <th><div class="channel-tags-budget">${item.promo_budget_type.map(ch => `<span class="channel-tag-budget">${ch}</span>`).join("")}</div></th>
+                            <th>${item.promo_uplift}</th>
+                            <th>${item.ROI}</th>
+                        </tr>
+                    </tbody>
+                </table>` : ""}
 
               </div>
             <a href="${item.link}" target="_blank">
