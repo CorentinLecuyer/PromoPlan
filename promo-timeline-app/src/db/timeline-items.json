@@ -273,11 +273,11 @@
         "id": "3",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": 0.01,
+        "promo_budget_type": ["Information"],
         "promo_details": [
-            "Introduction of new 0% alcohol variants",
-            "Sampling campaigns across all channels",
+            "Introduction of new 0% alcohol variants? ",
+            "Sampling campaigns across all channels?",
             "Educational materials about 0% benefits"
         ],
         "promo_end_date": "2026-02-15",
@@ -303,8 +303,7 @@
         "promo_budget_type": [],
         "promo_details": [
             "Cavistes: 6+2 on 0% beer kegs (Stella 0%, Corona 0%)",
-            "CHR: €30 cash bonus per new account with 0% starter pack",
-            "Bundle: Machine + 1 kegs 0% for €190 HT",
+            "CHR: 1 machine bought = 1 keg Leffe 0.0% free",
             "Focus: Health-conscious consumers for Dry January"
         ],
         "promo_end_date": "2026-01-31",

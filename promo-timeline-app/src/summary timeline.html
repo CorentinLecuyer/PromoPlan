@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>- PerfectDraft Promotions Overview</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png" style="max-width: fit-content;">
+
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+        <div class="filter-container">
+            <label for="yearFilter" style="font-weight:600;">Filter by Year:</label>
+            <div class="multiselect-container">
+                <div class="multiselect-header" onclick="toggleYearDropdown()">
+                    <span id="selectedYearText">All Years</span>
+                    <span class="dropdown-arrow" id="yearDropdownArrow">▼</span>
+                </div>
+                <div class="multiselect-dropdown" id="yearDropdown">
+                    <div class="multiselect-option">
+                        <input type="checkbox" id="year_all" value="all" onchange="handleYearOptionChange(this)"
+                            checked>
+                        <label for="year_all">All</label>
+                    </div>
+                    <div class="multiselect-option">
+                        <input type="checkbox" id="year_2025" value="2025" onchange="handleYearOptionChange(this)">
+                        <label for="year_2025">2025</label>
+                    </div>
+                    <div class="multiselect-option">
+                        <input type="checkbox" id="year_2026" value="2026" onchange="handleYearOptionChange(this)">
+                        <label for="year_2026">2026</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" >
+            <label style="font-weight:400;" class="multiselect-header">Timeline View ↕️</label>
+        </a>
+    </div>
+
+
+    <div class="slide">
+        <h1>Promotional Calendar 2026 - Icons by Channel and Month</h1>
+
+        <table class="promo-table-HomePage">
+            <thead class="promo-table-HomePage-header"> 
+                <tr>
+                    <th>Channel</th>
+                    <th class="month-header">Jan</th>
+                    <th class="month-header">Feb</th>
+                    <th class="month-header">Mar</th>
+                    <th class="month-header">Apr</th>
+                    <th class="month-header">May</th>
+                    <th class="month-header">Jun</th>
+                    <th class="month-header">Jul</th>
+                    <th class="month-header">Aug</th>
+                    <th class="month-header">Sep</th>
+                    <th class="month-header">Oct</th>
+                    <th class="month-header">Nov</th>
+                    <th class="month-header">Dec</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="channel-header">CHR</td>
+                    <td class="icon-cell">🚀🎯</td>
+                    <td class="icon-cell">📚</td>
+                    <td class="icon-cell">🌱</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">📚</td>
+                    <td class="icon-cell">⚽</td>
+                    <td class="icon-cell">🏖️</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">🎒</td>
+                    <td class="icon-cell">🍺</td>
+                    <td class="icon-cell">🛍️</td>
+                    <td class="icon-cell">🎄</td>
+                </tr>
+                <tr>
+                    <td class="channel-header">Cavistes Indépendants</td>
+                    <td class="icon-cell">🚀🎯</td>
+                    <td class="icon-cell">💕</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">🐰</td>
+                    <td class="icon-cell">💐</td>
+                    <td class="icon-cell">⚽☀️</td>
+                    <td class="icon-cell">-</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">🎒</td>
+                    <td class="icon-cell">🍺</td>
+                    <td class="icon-cell">🛍️</td>
+                    <td class="icon-cell">🎄</td>
+                </tr>
+                <tr>
+                    <td class="channel-header">Cavistes Nationaux</td>
+                    <td class="icon-cell">🚀🎯</td>
+                    <td class="icon-cell">💕</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">🐰</td>
+                    <td class="icon-cell">💐</td>
+                    <td class="icon-cell">⚽☀️</td>
+                    <td class="icon-cell">-</td>
+                    <td class="empty-cell">-</td>
+                    <td class="icon-cell">🎒</td>
+                    <td class="icon-cell">🍺</td>
+                    <td class="icon-cell">🛍️</td>
+                    <td class="icon-cell">🎄</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div style="margin-top: 20px; font-size: 12px; color: #666;">
+            <p><strong>Legend:</strong> Each icon represents a promotional campaign. Multiple icons in the same cell
+                indicate multiple campaigns running in that month for that channel.</p>
+            <p><strong>Note:</strong> Some promotions span multiple months or have ongoing periods without specific end
+                dates.</p>
+        </div>
+    </div>
+    <script src="scripts/main.js"></script>
+</body>
+
+</html>

@@ -10,62 +10,71 @@
 </head>
 
 <body>
-    <div class="logo">
-        <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
-    </div>
+
     <div class="header">
-<div class="filter-container">
-            <label for="yearFilter" style="font-weight:600;">Filter by Year:</label>
-            <div class="multiselect-container">
-                <div class="multiselect-header" onclick="toggleYearDropdown()">
-                    <span id="selectedYearText">All Years</span>
-                    <span class="dropdown-arrow" id="yearDropdownArrow">▼</span>
+        <div class="logo">
+            <a href="summary timeline.html" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+        <div>
+            <div class="filter-container">
+                <label for="yearFilter" style="font-weight:600;">Filter by Year:</label>
+                <div class="multiselect-container">
+                    <div class="multiselect-header" onclick="toggleYearDropdown()">
+                        <span id="selectedYearText">All Years</span>
+                        <span class="dropdown-arrow" id="yearDropdownArrow">▼</span>
+                    </div>
+                    <div class="multiselect-dropdown" id="yearDropdown">
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="year_all" value="all" onchange="handleYearOptionChange(this)"
+                                checked>
+                            <label for="year_all">All</label>
+                        </div>
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="year_2025" value="2025" onchange="handleYearOptionChange(this)">
+                            <label for="year_2025">2025</label>
+                        </div>
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="year_2026" value="2026" onchange="handleYearOptionChange(this)">
+                            <label for="year_2026">2026</label>
+                        </div>
+                    </div>
                 </div>
-                <div class="multiselect-dropdown" id="yearDropdown">
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_all" value="all" onchange="handleYearOptionChange(this)" checked>
-                        <label for="year_all">All</label>
+            </div>
+            <div class="filter-container">
+                <label for="channelFilter" style="font-weight:600;">Filter by Channel:</label>
+                <div class="multiselect-container">
+                    <div class="multiselect-header" onclick="toggleDropdown()">
+                        <span id="selectedText">All Channels</span>
+                        <span class="dropdown-arrow" id="dropdownArrow">▼</span>
                     </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_2025" value="2025" onchange="handleYearOptionChange(this)">
-                        <label for="year_2025">2025</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_2026" value="2026" onchange="handleYearOptionChange(this)">
-                        <label for="year_2026">2026</label>
+                    <div class="multiselect-dropdown" id="channelDropdown">
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="all" value="all" onchange="handleOptionChange(this)" checked>
+                            <label for="all">All</label>
+                        </div>
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="cavistes_ind" value="Cavistes Indépendants"
+                                onchange="handleOptionChange(this)">
+                            <label for="cavistes_ind">Cavistes Indépendants</label>
+                        </div>
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="chr" value="CHR" onchange="handleOptionChange(this)">
+                            <label for="chr">CHR</label>
+                        </div>
+                        <div class="multiselect-option">
+                            <input type="checkbox" id="cavistes_nat" value="Cavistes Nationaux"
+                                onchange="handleOptionChange(this)">
+                            <label for="cavistes_nat">Cavistes Nationaux</label>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="filter-container">
-            <label for="channelFilter" style="font-weight:600;">Filter by Channel:</label>
-            <div class="multiselect-container">
-                <div class="multiselect-header" onclick="toggleDropdown()">
-                    <span id="selectedText">All Channels</span>
-                    <span class="dropdown-arrow" id="dropdownArrow">▼</span>
-                </div>
-                <div class="multiselect-dropdown" id="channelDropdown">
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="all" value="all" onchange="handleOptionChange(this)" checked>
-                        <label for="all">All</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="cavistes_ind" value="Cavistes Indépendants"
-                            onchange="handleOptionChange(this)">
-                        <label for="cavistes_ind">Cavistes Indépendants</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="chr" value="CHR" onchange="handleOptionChange(this)">
-                        <label for="chr">CHR</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="cavistes_nat" value="Cavistes Nationaux"
-                            onchange="handleOptionChange(this)">
-                        <label for="cavistes_nat">Cavistes Nationaux</label>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <a href="summary timeline.html">
+            <label style="font-weight:400;" class="multiselect-header">Calendar View 📅</label>
+        </a>
     </div>
     <div class="slide">
         <div id="timeline-root"></div>

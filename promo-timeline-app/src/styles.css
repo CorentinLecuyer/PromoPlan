@@ -7,22 +7,20 @@
  body {
      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
      background: #fafafa;
-     padding: 20px;
+     padding: 10px 20px;
      min-height: 100vh;
  }
 
  .header {
      display: flex;
-     gap: 30px;
-     justify-content: center;
+     justify-content: space-evenly;
      margin: 10px;
+     min-height: 30px;
  }
 
- .logo {
-     position: absolute;
-     top: 25px;
-     left: 5%;
 
+ .logo {
+     left: 5%;
      z-index: 1000;
      height: 35px;
  }
@@ -31,6 +29,128 @@
      height: 100%;
      object-fit: contain;
  }
+
+
+ .black-button {
+     background-color: #000;
+     color: #fff;
+     border: none;
+     padding: 5px 8px;
+     font-size: 16px;
+     font-weight: 200;
+     border-radius: 4px;
+     cursor: pointer;
+     transition: background-color 0.3s ease, transform 0.2s ease;
+ }
+
+ .black-button:hover {
+     background-color: #222;
+
+ }
+
+ .black-button:active {
+     transform: scale(0.98);
+ }
+
+ /* Multi-select dropdown styles */
+ .multiselect-container {
+     position: relative;
+     display: inline-block;
+     min-width: auto;
+ }
+
+ .multiselect-header {
+     background: #333;
+     color: white;
+     padding: 8px 12px;
+     border: none;
+     border-radius: 4px;
+     cursor: pointer;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     min-width: fit-content;
+     font-size: 14px;
+ }
+
+ .multiselect-header:hover {
+     background: #555;
+ }
+
+ .multiselect-dropdown {
+     display: none;
+     position: absolute;
+     top: 100%;
+     left: 0;
+     right: 0;
+     background: white;
+     border: 1px solid #ddd;
+     border-radius: 4px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     z-index: 1000;
+     max-height: 200px;
+     overflow-y: auto;
+     margin-top: 2px;
+ }
+
+ .multiselect-dropdown.show {
+     display: block;
+ }
+
+ .multiselect-option {
+     padding: 8px 12px;
+     cursor: pointer;
+     display: flex;
+     align-items: center;
+     gap: 8px;
+     border-bottom: 1px solid #f0f0f0;
+ }
+
+ .multiselect-option:last-child {
+     border-bottom: none;
+ }
+
+ .multiselect-option:hover {
+     background: #f8f9fa;
+ }
+
+ .multiselect-option input[type="checkbox"] {
+     margin: 0;
+     cursor: pointer;
+ }
+
+ .multiselect-option label {
+     cursor: pointer;
+     font-size: 14px;
+     margin: 0;
+     flex-grow: 1;
+ }
+
+ .selected-count {
+     background: #FFCC02;
+     color: #333;
+     border-radius: 10px;
+     padding: 2px 6px;
+     font-size: 12px;
+     margin-left: 8px;
+ }
+
+ .dropdown-arrow {
+     margin-left: 15px;
+     transition: transform 0.2s ease;
+     font-size: 12px;
+ }
+
+ .dropdown-arrow.rotated {
+     transform: rotate(180deg);
+ }
+
+ /* Make sure the filter containers are properly spaced */
+ .filter-container {
+     margin-right: 20px;
+     display: inline-block;
+ }
+
 
  .slide {
      width: 85%;
@@ -228,7 +348,8 @@
      gap: 4px;
      margin-top: 8px;
  }
-  .channel-tag {
+
+ .channel-tag {
      background: #FFCC02;
      color: #333;
      padding: 3px 8px;
@@ -239,7 +360,7 @@
      align-content: center;
  }
 
-  .channel-tags-budget {
+ .channel-tags-budget {
      display: flex;
      flex-wrap: wrap;
      gap: 4px;
@@ -248,14 +369,14 @@
  }
 
 
- 
- .channel-tag-budget{
-        background: #333;
-        color: white;
-        padding: 3px 8px;
-        border-radius: 12px;
-        font-size: 9px;
-        font-weight: 500;
+
+ .channel-tag-budget {
+     background: #333;
+     color: white;
+     padding: 3px 8px;
+     border-radius: 12px;
+     font-size: 9px;
+     font-weight: 500;
  }
 
  .promo-type {
@@ -291,7 +412,7 @@
      color: white;
  }
 
-  .promo-type.training {
+ .promo-type.training {
      background: rgb(255, 0, 242);
      color: white;
  }
@@ -389,7 +510,7 @@
      font-weight: 600;
      color: #2c3e50;
      margin: 12px 0px 0px 0px;
-     text-decoration: underline;    
+     text-decoration: underline;
  }
 
  .promo-table {
@@ -402,12 +523,12 @@
  }
 
  .promo-table-header {
-     font-size: 12px;
+     font-size: 14px;
      font-weight: 600;
      color: #2c3e50;
      margin-bottom: 8px;
      margin-top: 8px;
-     
+
  }
 
  .promo-table thead {
@@ -417,42 +538,10 @@
      align-items: center;
  }
 
- .promo-table-budget{
-     width: 100%;
-     margin-top: 6px;
-     border-collapse: collapse;
-     border-radius: 8px;
-     overflow: hidden;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
- }
-
-    .promo-table-budget thead {
-        background-color: #FFCC02;
-        color: #333;
-        text-align: center;
-        align-items: center;
-    }
-
-    .promo-table-budget th {
-        padding: 6px 10px;
-        text-align: center;
-        font-size: 12px;
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-
-    .promo-table-budget tbody {
-        
-        text-align: center;
-        background-color: lightyellow;
-    }
-
-
  .promo-table th {
      padding: 10px 12px;
      text-align: left;
-     font-size: 10px;
+     font-size: 14px;
      font-weight: 600;
      text-transform: uppercase;
      letter-spacing: 0.5px;
@@ -464,7 +553,7 @@
 
  .promo-table td {
      padding: 8px 12px;
-     font-size: 10px;
+     font-size: 14px;
      color: #34495e;
      border-bottom: 1px solid #f1f2f6;
  }
@@ -473,127 +562,86 @@
      border-bottom: none;
  }
 
- .promo-table tbody tr:hover {
-     background-color: #f8f9fa;
+ .promo-table-HomePage {
+     width: 100%;
+     margin-top: 6px;
+     border-collapse: collapse;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
  }
 
- .black-button {
-     /*     padding:4px 12px; */
-     background-color: #000;
-     color: #fff;
-     border: none;
-     padding: 5px 8px;
-     font-size: 16px;
-     font-weight: 200;
-     border-radius: 4px;
-     cursor: pointer;
-     transition: background-color 0.3s ease, transform 0.2s ease;
- }
-
- .black-button:hover {
-     background-color: #222;
+ .promo-table-HomePage-header {
+     font-size: 12px;
+     font-weight: 600;
+     color: #2c3e50;
+     margin-bottom: 8px;
+     margin-top: 8px;
 
  }
 
- .black-button:active {
-     transform: scale(0.98);
- }
-
- /* Multi-select dropdown styles */
- .multiselect-container {
-     position: relative;
-     display: inline-block;
-     min-width: auto;
- }
-
- .multiselect-header {
-     background: #333;
+ .promo-table-HomePage thead {
+     background-color: #333;
      color: white;
-     padding: 8px 12px;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
-     display: flex;
-     justify-content: space-between;
+     text-align: center;
      align-items: center;
-     min-width: fit-content;
+ }
+
+ .promo-table-HomePage th {
+     padding: 10px 12px;
+     text-align: left;
+     font-size: 10px;
+     font-weight: 600;
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
+ }
+
+ .promo-table-HomePage tbody {
+     background-color: white;
+ }
+
+ .promo-table-HomePage td {
+     padding: 8px 12px;
      font-size: 14px;
+     color: #34495e;
+     border-bottom: 1px solid #f1f2f6;
  }
 
- .multiselect-header:hover {
-     background: #555;
- }
-
- .multiselect-dropdown {
-     display: none;
-     position: absolute;
-     top: 100%;
-     left: 0;
-     right: 0;
-     background: white;
-     border: 1px solid #ddd;
-     border-radius: 4px;
-     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-     z-index: 1000;
-     max-height: 200px;
-     overflow-y: auto;
-     margin-top: 2px;
- }
-
- .multiselect-dropdown.show {
-     display: block;
- }
-
- .multiselect-option {
-     padding: 8px 12px;
-     cursor: pointer;
-     display: flex;
-     align-items: center;
-     gap: 8px;
-     border-bottom: 1px solid #f0f0f0;
- }
-
- .multiselect-option:last-child {
+ .promo-table-HomePage tr:last-child td {
      border-bottom: none;
  }
 
- .multiselect-option:hover {
-     background: #f8f9fa;
+ .promo-table-HomePage tbody tr:hover {
+     background-color: #f8f9fa;
  }
 
- .multiselect-option input[type="checkbox"] {
-     margin: 0;
-     cursor: pointer;
+ .promo-table-budget {
+     width: 100%;
+     margin-top: 6px;
+     border-collapse: collapse;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
  }
 
- .multiselect-option label {
-     cursor: pointer;
-     font-size: 14px;
-     margin: 0;
-     flex-grow: 1;
- }
-
- .selected-count {
-     background: #FFCC02;
+ .promo-table-budget thead {
+     background-color: #FFCC02;
      color: #333;
-     border-radius: 10px;
-     padding: 2px 6px;
+     text-align: center;
+     align-items: center;
+ }
+
+ .promo-table-budget th {
+     padding: 6px 10px;
+     text-align: center;
      font-size: 12px;
-     margin-left: 8px;
+     font-weight: 400;
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
  }
 
- .dropdown-arrow {
-    margin-left: 15px;
-     transition: transform 0.2s ease;
-     font-size: 12px;
- }
+ .promo-table-budget tbody {
 
- .dropdown-arrow.rotated {
-     transform: rotate(180deg);
- }
-
- /* Make sure the filter containers are properly spaced */
- .filter-container {
-     margin-right: 20px;
-     display: inline-block;
+     text-align: center;
+     background-color: lightyellow;
  }
