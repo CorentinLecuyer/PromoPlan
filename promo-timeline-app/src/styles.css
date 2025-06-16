@@ -569,6 +569,7 @@
      border-radius: 8px;
      overflow: hidden;
      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+     
  }
 
  .promo-table-HomePage-header {
@@ -590,10 +591,11 @@
  .promo-table-HomePage th {
      padding: 10px 12px;
      text-align: left;
-     font-size: 10px;
+     font-size: 12px;
      font-weight: 600;
      text-transform: uppercase;
      letter-spacing: 0.5px;
+     text-align: center;
  }
 
  .promo-table-HomePage tbody {
@@ -601,10 +603,11 @@
  }
 
  .promo-table-HomePage td {
-     padding: 8px 12px;
+     padding: 8px 10px;
      font-size: 14px;
      color: #34495e;
      border-bottom: 1px solid #f1f2f6;
+     text-align: center;
  }
 
  .promo-table-HomePage tr:last-child td {
@@ -614,6 +617,16 @@
  .promo-table-HomePage tbody tr:hover {
      background-color: #f8f9fa;
  }
+ 
+  .year-marker-cell{
+        background: #FFCC02;
+        color: #333;
+        text-align: center;
+        padding: 9px 6px;
+
+        font-size: 18px;
+        font-weight: 600;
+  }
 
  .promo-table-budget {
      width: 100%;

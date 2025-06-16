@@ -694,7 +694,9 @@
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "DECEMBER",
         "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget_type": [
+            "SA2"
+        ],
         "promo_details": [
             "Premium Bundle: Machine + 6 Christmas kegs + luxury gift set for €349",
             "Corporate: B2B Christmas party packages",

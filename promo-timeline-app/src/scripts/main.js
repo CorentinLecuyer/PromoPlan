@@ -1,7 +1,7 @@
 let allTimelineItems = [];
 let allTableData = [];
 let selectedChannels = ['all'];
-let selectedYears = ['all']; // Changed from selectedYear
+let selectedYears = ['all'];
 
 function getTableById(tableId) {
     return allTableData.find(table => table.id === tableId);
@@ -36,21 +36,47 @@ function loadTimelineData() {
 // Initialize the application
 async function initializeApp() {
     try {
+        // Check if required DOM elements exist
+        const timelineRoot = document.getElementById('timeline-root');
+        const homePageRoot = document.getElementById('timeline-root-home-page');
+
+        if (!timelineRoot && !homePageRoot) {
+            console.warn('No timeline containers found in DOM');
+            return;
+        }
+
         // Load both datasets concurrently
         await Promise.all([
             loadTableData(),
             loadTimelineData()
         ]);
 
-        // Render timeline once both datasets are loaded
-        renderTimeline(allTimelineItems);
+        // Render timeline only if container exists
+        if (timelineRoot) {
+            renderTimeline(allTimelineItems);
+        }
+
+        // Render home page only if container exists
+        if (homePageRoot) {
+            renderTablesHomePage(allTimelineItems);
+        }
+
     } catch (error) {
         console.error('Error initializing app:', error);
+        // Show error in available containers
+        const timelineRoot = document.getElementById('timeline-root');
+        const homePageRoot = document.getElementById('timeline-root-home-page');
+
+        const errorMessage = '<p style="color:red;">Failed to load timeline data.</p>';
+
+        if (timelineRoot) {
+            timelineRoot.innerHTML = errorMessage;
+        }
+        if (homePageRoot) {
+            homePageRoot.innerHTML = errorMessage;
+        }
     }
 }
-
-// Call initialization when DOM is ready
-document.addEventListener('DOMContentLoaded', initializeApp);
 
 // Function to generate HTML table
 function generateTableHTML(tableObj) {
@@ -79,6 +105,12 @@ function generateTableHTML(tableObj) {
 
 function renderTimeline(items) {
     const root = document.getElementById('timeline-root');
+
+    // Safety check
+    if (!root) {
+        console.warn('Timeline root element not found');
+        return;
+    }
 
     items.sort((a, b) => {
         const dateA = a.promo_type === "Loyalty Program"
@@ -124,7 +156,7 @@ function renderTimeline(items) {
         // Determine the year label for grouping (e.g., "January 2025")
         const YearMarker = startDate.toLocaleString('en-US', { year: 'numeric' });
 
-        // Show month marker only if different from the last one
+        // Show year marker only if different from the last one
         const showYearMarker = YearMarker !== lastYearMarker;
         lastYearMarker = YearMarker;
 
@@ -134,61 +166,60 @@ function renderTimeline(items) {
 
         // Check if item has a budget and get table data
         const hasBudget = item.promo_budget && item.promo_budget !== 0;
-        const tableHTMLBudget = hasBudget ? generateTableHTML(getTableById(item.table)) : '';
 
         return `
-            ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
-          <div class="timeline-item">
-              ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
-            <div class="timeline-content">
-              <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}">${item.promo_type}</div>
-              <div class="promo-title">${item.promo_title}</div>
-              <div class="promo-date"> ${formattedStartDate} - ${formattedEndDate} </div>
-              <div class="promo-details">
-                ${item.promo_details.map(line => `• ${line}<br>`).join("")}
-              </div>
-              <div class="channel-tags">
-                ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
-              </div>
+                ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
+              <div class="timeline-item">
+                  ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
+                <div class="timeline-content">
+                  <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}">${item.promo_type}</div>
+                  <div class="promo-title">${item.promo_title}</div>
+                  <div class="promo-date"> ${formattedStartDate} - ${formattedEndDate} </div>
+                  <div class="promo-details">
+                    ${item.promo_details.map(line => `• ${line}<br>`).join("")}
+                  </div>
+                  <div class="channel-tags">
+                    ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
+                  </div>
 
-              ${tableHTML}
-              ${hasBudget ? `
-                <h3 class="table-title">Budget Details // Financials</h3>
-                <table class="promo-table-budget">
-                    <thead>
-                        <tr>
-                            <th>Budget</th>
-                            <th>Budget Type</th>
-                            <th>Uplift</th>
-                            <th>ROI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>${item.promo_budget.toLocaleString('fr-FR', { 
-                                style: 'currency', 
-                                currency: 'EUR',
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0
-                                })}
-                            </th>
+                  ${tableHTML}
+                  ${hasBudget ? `
+                    <h3 class="table-title">Budget Details // Financials</h3>
+                    <table class="promo-table-budget">
+                        <thead>
+                            <tr>
+                                <th>Budget</th>
+                                <th>Budget Type</th>
+                                <th>Uplift</th>
+                                <th>ROI</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>${item.promo_budget.toLocaleString('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}
+                                </th>
+                                <th><div class="channel-tags-budget">${item.promo_budget_type.map(ch => `<span class="channel-tag-budget">${ch}</span>`).join("")}</div></th>
+                                <th>${item.promo_uplift}</th>
+                                <th>${item.ROI}</th>
+                            </tr>
+                        </tbody>
+                    </table>` : ""}
 
-                            <th><div class="channel-tags-budget">${item.promo_budget_type.map(ch => `<span class="channel-tag-budget">${ch}</span>`).join("")}</div></th>
-                            <th>${item.promo_uplift}</th>
-                            <th>${item.ROI}</th>
-                        </tr>
-                    </tbody>
-                </table>` : ""}
-
+                  </div>
+                <a href="${item.link}" target="_blank">
+                  <div class="icon-container">
+                    <div class="icon-emoji">${item.icon}</div>
+                  </div>
+                  <div class="timeline-dot"></div>
+                </a>
               </div>
-            <a href="${item.link}" target="_blank">
-              <div class="icon-container">
-                <div class="icon-emoji">${item.icon}</div>
-              </div>
-              <div class="timeline-dot"></div>
-            </a>
-          </div>
-        `}).join("")}
+            `;
+    }).join("")}
       </div>
     </div>
   `;
@@ -211,6 +242,8 @@ function applyFilters() {
     }
 
     renderTimeline(filteredItems);
+    renderTablesHomePage(filteredItems);
+
 }
 
 // YEAR MULTI-SELECT FUNCTIONS
@@ -218,8 +251,8 @@ function toggleYearDropdown() {
     const dropdown = document.getElementById('yearDropdown');
     const arrow = document.getElementById('yearDropdownArrow');
 
-    dropdown.classList.toggle('show');
-    arrow.classList.toggle('rotated');
+    if (dropdown) dropdown.classList.toggle('show');
+    if (arrow) arrow.classList.toggle('rotated');
 }
 
 function handleYearOptionChange(checkbox) {
@@ -238,7 +271,7 @@ function handleYearOptionChange(checkbox) {
         }
     } else {
         // If any specific year is selected
-        allYearCheckbox.checked = false;
+        if (allYearCheckbox) allYearCheckbox.checked = false;
 
         if (checkbox.checked) {
             // Add to selected years
@@ -253,7 +286,7 @@ function handleYearOptionChange(checkbox) {
             // If no years selected, select "All"
             if (selectedYears.length === 0) {
                 selectedYears = ['all'];
-                allYearCheckbox.checked = true;
+                if (allYearCheckbox) allYearCheckbox.checked = true;
             }
         }
     }
@@ -264,6 +297,8 @@ function handleYearOptionChange(checkbox) {
 
 function updateSelectedYearText() {
     const selectedText = document.getElementById('selectedYearText');
+
+    if (!selectedText) return;
 
     if (selectedYears.includes('all') || selectedYears.length === 0) {
         selectedText.textContent = 'All Years';
@@ -279,8 +314,8 @@ function toggleDropdown() {
     const dropdown = document.getElementById('channelDropdown');
     const arrow = document.getElementById('dropdownArrow');
 
-    dropdown.classList.toggle('show');
-    arrow.classList.toggle('rotated');
+    if (dropdown) dropdown.classList.toggle('show');
+    if (arrow) arrow.classList.toggle('rotated');
 }
 
 function handleOptionChange(checkbox) {
@@ -299,7 +334,7 @@ function handleOptionChange(checkbox) {
         }
     } else {
         // If any specific channel is selected
-        allCheckbox.checked = false;
+        if (allCheckbox) allCheckbox.checked = false;
 
         if (checkbox.checked) {
             // Add to selected channels
@@ -314,7 +349,7 @@ function handleOptionChange(checkbox) {
             // If no channels selected, select "All"
             if (selectedChannels.length === 0) {
                 selectedChannels = ['all'];
-                allCheckbox.checked = true;
+                if (allCheckbox) allCheckbox.checked = true;
             }
         }
     }
@@ -326,6 +361,8 @@ function handleOptionChange(checkbox) {
 function updateSelectedText() {
     const selectedText = document.getElementById('selectedText');
 
+    if (!selectedText) return;
+
     if (selectedChannels.includes('all') || selectedChannels.length === 0) {
         selectedText.textContent = 'All Channels';
     } else if (selectedChannels.length === 1) {
@@ -335,8 +372,207 @@ function updateSelectedText() {
     }
 }
 
+// Function to render the home page tables
+function renderTablesHomePage(items) {
+    const root = document.getElementById('timeline-root-home-page');
+
+    // Safety check
+    if (!root) {
+        console.warn('Home page root element not found');
+        return;
+    }
+
+    // Sort items by date
+    items.sort((a, b) => {
+        const dateA = a.promo_type === "Loyalty Program"
+            ? new Date(a.promo_end_date)
+            : new Date(a.promo_start_date);
+
+        const dateB = b.promo_type === "Loyalty Program"
+            ? new Date(b.promo_end_date)
+            : new Date(b.promo_start_date);
+
+        return dateA - dateB; // Ascending order (oldest first)
+    });
+
+    // Get unique channels from all items
+    const allChannels = new Set();
+    items.forEach(item => {
+        item.channel_tags.forEach(channel => {
+            allChannels.add(channel);
+        });
+    });
+    const uniqueChannels = Array.from(allChannels).sort();
+
+    // Get unique channels from all items
+    const allBudgetTypes = new Set();
+    items.forEach(item => {
+        item.promo_budget_type.forEach(promo_budget => {
+            allBudgetTypes.add(promo_budget);
+        });
+    });
+    const uniqueBudgetTypes = Array.from(allBudgetTypes).sort();
+
+    // Get unique years from filtered items
+    const uniqueYears = [...new Set(items.map(item => item.year))].sort();
+
+    // Month names for header
+    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthNames = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+
+    let h1Title = '';
+    if (
+        selectedYears.includes('all') ||
+        selectedYears.length === 0 ||
+        selectedYears.length > 1
+    ) {
+        h1Title = 'Promotional Calendar - Icons by Channel and Month';
+    } else {
+        h1Title = `Promotional Calendar ${selectedYears[0]} - Icons by Channel and Month`;
+    }
+
+    let h1TitleBudget = '';
+    if (
+        selectedYears.includes('all') ||
+        selectedYears.length === 0 ||
+        selectedYears.length > 1
+    ) {
+        h1TitleBudget = 'Budget Calendar by Channel and Month';
+    } else {
+        h1TitleBudget = `Budget Calendar ${selectedYears[0]} by Channel and Month`;
+    }
+
+    // Build the table HTML
+    let tableHTMLcalendar = '';
+
+    uniqueYears.forEach((year, yearIndex) => {
+        // Add year separator if multiple years
+        if (uniqueYears.length > 1) {
+
+            tableHTMLcalendar += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+        }
+
+        // Create data structure for this year
+        const yearData = {};
+        uniqueChannels.forEach(channel => {
+            yearData[channel] = {};
+            months.forEach((month, index) => {
+                yearData[channel][monthNames[index]] = [];
+            });
+        });
+
+        // Populate data for this year
+        items.filter(item => item.year === year).forEach(item => {
+            item.channel_tags.forEach(channel => {
+                if (yearData[channel] && yearData[channel][item.month]) {
+                    yearData[channel][item.month].push(item.icon);
+                }
+            });
+        });
+
+        // Generate table rows for this year
+        uniqueChannels.forEach(channel => {
+            tableHTMLcalendar += `
+                <tr>
+                    <td class="channel-header">${channel}</td>
+                    ${months.map((month, index) => {
+                const icons = yearData[channel][monthNames[index]];
+                const iconString = icons.length > 0 ? icons.join('') : '-';
+                return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
+            }).join('')}
+                </tr>
+            `;
+        });
+    });
+
+    // Build the table HTML
+    let tableHTMLBudget = '';
+
+    uniqueYears.forEach((year, yearIndex) => {
+        // Add year separator if multiple years
+        if (uniqueYears.length > 1) {
+
+            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+        }
+
+        // Create data structure for this year
+        const yearData = {};
+        uniqueBudgetTypes.forEach(promo_type => {
+            yearData[promo_type] = {};
+            months.forEach((month, index) => {
+                yearData[promo_type][monthNames[index]] = [];
+            });
+        });
+
+        // Populate data for this year
+        items.filter(item => item.year === year).forEach(item => {
+            item.promo_budget_type.forEach(budgetType => {
+                if (yearData[budgetType] && yearData[budgetType][item.month]) {
+                    yearData[budgetType][item.month].push(item.promo_budget.toLocaleString('fr-FR', {
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+                }));
+                }
+            });
+        });
+
+        // Generate table rows for this year
+        uniqueBudgetTypes.forEach(budgetType => {
+            tableHTMLBudget += `
+            <tr>
+                <td class="channel-header">${budgetType}</td>
+                ${months.map((month, index) => {
+                const icons = yearData[budgetType][monthNames[index]];
+                const iconString = icons.length > 0 ? icons.join('') : '-';
+                return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
+            }).join('')}
+            </tr>
+        `;
+        });
+    });
+
+    root.innerHTML = `
+        <h1>${h1Title}</h1>
+        <table class="promo-table-HomePage">
+            <thead class="promo-table-HomePage-header">
+                <tr>
+                    <th>Channel</th>
+                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
+                </tr>
+            </thead>
+            <tbody>
+                ${tableHTMLcalendar}
+            </tbody>
+        </table>
+        <div style="margin-top: 20px; font-size: 12px; color: #666;">
+            <p><strong>Legend:</strong> Each icon represents a promotional campaign. Multiple icons in the same cell
+                indicate multiple campaigns running in that month for that channel.</p>
+            <p><strong>Note:</strong> Some promotions span multiple months or have ongoing periods without specific end
+                dates.</p>
+        </div>
+
+        <h1 style="margin-top: 50px;">${h1TitleBudget}</h1>
+        <table class="promo-table-HomePage" style="margin-top: 30px;">
+            <thead class="promo-table-HomePage-header">
+                <tr>
+                    <th>Channel</th>
+                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
+                </tr>
+            </thead>
+            <tbody>
+                ${tableHTMLBudget}
+            </tbody>
+        </table>
+    `;
+}
+
 // Event listeners
 document.addEventListener('DOMContentLoaded', function () {
+    // Initialize the app when DOM is ready
+    initializeApp();
+
     // Close dropdowns when clicking outside
     document.addEventListener('click', function (event) {
         const channelContainer = document.querySelector('#channelDropdown')?.closest('.multiselect-container');
@@ -355,16 +591,3 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-
-// Load data and initialize
-fetch('./db/timeline-items.json')
-    .then(response => response.json())
-    .then(data => {
-        allTimelineItems = data;
-        renderTimeline(allTimelineItems);
-    })
-    .catch(error => {
-        document.getElementById('timeline-root').innerHTML = '<p style="color:red;">Failed to load timeline data.</p>';
-        console.error(error);
-    });
-
