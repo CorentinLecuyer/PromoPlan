@@ -33,7 +33,7 @@
  }
 
  .slide {
-     width: 80%;
+     width: 85%;
      height: 100%;
      background: white;
      margin: 0 auto;
@@ -80,7 +80,7 @@
      top: 0;
      bottom: 0;
      width: 3px;
-     background: #FFCC02;
+     background: #2c3e50;
      transform: translateX(-50%);
      border-radius: 2px;
  }
@@ -235,6 +235,8 @@
      border-radius: 12px;
      font-size: 9px;
      font-weight: 500;
+     text-align: center;
+     align-content: center;
  }
 
   .channel-tags-budget {
@@ -432,7 +434,7 @@
     }
 
     .promo-table-budget th {
-        padding: 10px 12px;
+        padding: 6px 10px;
         text-align: center;
         font-size: 12px;
         font-weight: 400;

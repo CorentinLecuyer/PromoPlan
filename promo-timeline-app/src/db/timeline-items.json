@@ -1,741 +1,713 @@
 [
     {
-        "id": "1",
-        "year": "2026",
-        "month": "JANUARY",
-        "table": "1",
-        "promo_type": "Loyalty Program",
-        "promo_title": "Perfect Draft Champions Club - Q1",
-        "promo_start_date": "2026-01-01",
-        "promo_end_date": "2026-03-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget": 0,
-        "promo_budget_type":[
-            
-        ],
-        "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
-        ],
         "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🏆",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "2",
-        "year": "2026",
-        "month": "JANUARY",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Perfect Draft 0% - New Year, New You",
-        "promo_start_date": "2026-01-02",
-        "promo_end_date": "2026-01-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Cavistes: 6+2 on 0% beer kegs (Stella 0%, Corona 0%)",
-            "CHR: €30 cash bonus per new account with 0% starter pack",
-            "Bundle: Machine + 1 kegs 0% for €190 HT",
-            "Focus: Health-conscious consumers for Dry January"
-        ],
-        "channel_tags": [
-            "CHR",
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🎯",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "3",
-        "year": "2026",
-        "month": "JANUARY",
-        "table": "none",
-        "promo_type": "New Product",
-        "promo_title": "New 0% Variants Launch",
-        "promo_start_date": "2026-01-01",
-        "promo_end_date": "2026-02-15",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Introduction of new 0% alcohol variants",
-            "Sampling campaigns across all channels",
-            "Educational materials about 0% benefits"
-        ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🚀",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "4",
-        "year": "2026",
-        "month": "JANUARY",
-        "table": "2",
-        "promo_type": "Loyalty Program",
-        "promo_title": "CHR Excellence Program - Annual",
-        "promo_start_date": "2026-01-01",
-        "promo_end_date": "2026-12-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Annual rewards for top-performing venues",
-            "Tiered benefit structure",
-            "Exclusive access to new products"
-        ],
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "⭐",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "5",
-        "year": "2026",
-        "month": "FEBRUARY",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Share the Perfect Moment",
-        "promo_start_date": "2026-02-01",
-        "promo_end_date": "2026-02-16",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Valentine's Day activation",
-            "Buy 2 different beer kegs, get romantic dinner voucher",
-            "Focus: Stella + Leffe combo packs"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "💕",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "6",
-        "year": "2026",
-        "month": "FEBRUARY",
-        "table": "none",
-        "promo_type": "Training",
-        "promo_title": "Wholesaler Academy - H1 Training",
-        "promo_start_date": "2026-02-15",
-        "promo_end_date": "2026-02-15",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Quarterly training + next quarter incentives presentation",
-            "CHR prospection techniques",
-            "Product knowledge updates"
-        ],
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "📚",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "7",
-        "year": "2026",
-        "month": "MARCH",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "Gear Up for Spring",
-        "promo_start_date": "2026-03-01",
-        "promo_end_date": "2026-03-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "CHR focus through wholesalers",
-            "€50 cash incentive per new restaurant/hotel account",
-            "10 kegs bought = 1 free + POCM terrace kit",
-            "Target: Terraces and hotels preparing for spring"
-        ],
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "🌱",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "8",
-        "year": "2026",
-        "month": "APRIL",
-        "table": "1",
-        "promo_type": "Loyalty Program",
-        "promo_title": "Perfect Draft Champions Club - Q2",
-        "promo_start_date": "2026-04-01",
-        "promo_end_date": "2026-06-30",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🏆",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "9",
-        "year": "2026",
-        "month": "APRIL",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Easter Perfect Moments",
-        "promo_start_date": "2026-04-07",
-        "promo_end_date": "2026-04-21",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, more)"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🐰",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "10",
-        "year": "2026",
+        "id": "28",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "MAY",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Perfect Gift for Perfect Moms",
-        "promo_start_date": "2026-05-05",
-        "promo_end_date": "2026-05-25",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
+        "promo_budget": 140000,
+        "promo_budget_type": [
+            "2NET"
+        ],
         "promo_details": [
-            "Bundle: Machine + 3 premium kegs + elegant serving set for €249",
-            "Innovation: Small stickers for Mother's day"
+            "5+1 discount promotion on TK Leffe",
+            "Ongoing campaign with 3.5K HL objective",
+            "Premium beer focus for spring season"
         ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "💐",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
+        "promo_end_date": "2025-06-15",
+        "promo_start_date": "2025-05-01",
+        "promo_title": "Wave 1 - 5+1 - TK Leffe",
+        "promo_type": "Discount",
+        "promo_uplift": "TBC",
+        "ROI": "TBC",
+        "table": "none",
+        "year": "2025"
     },
     {
-        "id": "11",
-        "year": "2026",
-        "month": "MAY",
-        "table": "none",
-        "promo_type": "Training",
-        "promo_title": "Wholesaler Academy - H2 Training",
-        "promo_start_date": "2026-05-15",
-        "promo_end_date": "2026-05-15",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Quarterly training + incentive programs",
-            "Summer activation strategies",
-            "Sports venue targeting"
-        ],
         "channel_tags": [
             "CHR"
         ],
-        "icon": "📚",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "12",
-        "year": "2026",
+        "icon": "⚡",
+        "id": "29",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Dad's Perfect Draft Championship",
-        "promo_start_date": "2026-06-01",
-        "promo_end_date": "2026-06-21",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
+        "promo_budget": 0,
+        "promo_budget_type": [],
         "promo_details": [
-            "Bundle: Machine + 6 sports kegs + football POCM for €299",
-            "CHR: Sports Bar Starter Pack - Machine + 12 kegs",
-            "Wholesaler: €50 cash bonus per sports bar activation"
+            "Intensive 2-day promotion campaign",
+            "Discount offers combined with new product launches",
+            "Targeted at CHR segment"
         ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "⚽",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "13",
-        "year": "2026",
-        "month": "JUNE",
-        "table": "none",
-        "promo_type": "New Product",
-        "promo_title": "Limited Edition Summer Flavors",
-        "promo_start_date": "2026-06-15",
-        "promo_end_date": "2026-08-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Seasonal flavor variants for summer",
-            "Premium positioning"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "☀️",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "14",
-        "year": "2026",
-        "month": "JULY",
-        "table": "1",
-        "promo_type": "Loyalty Program",
-        "promo_title": "Perfect Draft Champions Club - Q3",
-        "promo_start_date": "2026-07-01",
-        "promo_end_date": "2026-09-30",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🏆",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "15",
-        "year": "2026",
-        "month": "JULY",
-        "table": "none",
+        "promo_end_date": "2025-06-24",
+        "promo_start_date": "2025-06-23",
+        "promo_title": "COMMANDO : CHR",
         "promo_type": "Discount",
-        "promo_title": "Perfect Summer, Perfect Draft",
-        "promo_start_date": "2026-07-01",
-        "promo_end_date": "2026-07-31",
         "promo_uplift": "0 HL",
         "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "10 kegs bought = 2 free + summer terrace kit",
-            "CHR: new terrace/hotel account = €50",
-            "Focus: Corona, Bud and Stella"
+        "table": "none",
+        "year": "2025"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants"
         ],
+        "icon": "⚡",
+        "id": "27",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JUNE",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "3-day intensive promotion for independent wine merchants",
+            "Combined discount and special offer mechanics",
+            "Focus on expanding caviste network"
+        ],
+        "promo_end_date": "2025-06-27",
+        "promo_start_date": "2025-06-25",
+        "promo_title": "COMMANDO : Cavistes",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2025"
+    },
+    {
         "channel_tags": [
             "CHR"
         ],
-        "icon": "🏖️",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "16",
-        "year": "2026",
-        "month": "SEPTEMBER",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "September Perfect Back to School",
-        "promo_start_date": "2026-09-01",
-        "promo_end_date": "2026-09-30",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "CHR: Office/corporate venue targeting",
-            "Cavistes: 6+1 back-to-work promotion",
-            "Innovation: B2B corporate packages"
-        ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🎒",
-        "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21"
-    },
-    {
-        "id": "17",
-        "year": "2026",
-        "month": "OCTOBER",
-        "table": "1",
-        "promo_type": "Loyalty Program",
-        "promo_title": "Perfect Draft Champions Club - Q4",
-        "promo_start_date": "2026-10-01",
-        "promo_end_date": "2026-12-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🏆",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "18",
-        "year": "2026",
-        "month": "OCTOBER",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Perfect Oktoberfest Experience",
-        "promo_start_date": "2026-10-01",
-        "promo_end_date": "2026-10-31",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Focus: German-style beers, Franziskaner / Becks / etc.",
-            "5+1 on premium/specialty kegs",
-            "CHR: Themed restaurant activation campaign"
-        ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🍺",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "19",
-        "year": "2026",
-        "month": "NOVEMBER",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Black Friday Perfect Deals",
-        "promo_start_date": "2026-11-20",
-        "promo_end_date": "2026-11-30",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Bundle: Machine + 6 kegs + premium POCM kit for €299",
-            "Trade offer: 20+5 for high-volume buyers"
-        ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🛍️",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "20",
-        "year": "2026",
-        "month": "DECEMBER",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Perfect Christmas, Perfect Gifts",
-        "promo_start_date": "2026-12-01",
-        "promo_end_date": "2026-12-24",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Premium Bundle: Machine + 6 Christmas kegs + luxury gift set for €349",
-            "Corporate: B2B Christmas party packages",
-            "CHR: New Year venue preparation incentives"
-        ],
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🎄",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "21",
-        "year": "2025",
-        "month": "JULY",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "2 Kegs bought = 2 Glasses",
-        "promo_start_date": "2025-07-01",
-        "promo_end_date": "2025-07-22",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Objectif : Proposer une offre verrerie avec 2 futs achetés = packs de 2 verres offert",
-            "Mécanique : Identique aux activations DTC",
-            "Stock : 2 700 verres ont été sécurisés auprès du trade pour cette opération"
-        ],
-        "channel_tags": [
-            "Cavistes Nationaux"
-        ],
-        "icon": "🥃",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "22",
-        "year": "2025",
-        "month": "SEPTEMBER",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "Wave 2- Stella 5+1",
-        "promo_start_date": "2025-09-01",
-        "promo_end_date": "2025-10-15",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Décider GO/NO GO sur une offre 5+1 Wave 2"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🌟",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "23",
-        "year": "2025",
-        "month": "NOVEMBER",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "Christmas Bundle = Machine + keg for 199€",
-        "promo_start_date": "2025-11-21",
-        "promo_end_date": "2025-12-25",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Opportunité : Possibilité d'étendre cette offre à d'autres cavistes pour augmenter notre parc machines"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🎁",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
+        "icon": "📊",
         "id": "24",
-        "year": "2025",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "5+1 for New DN",
-        "promo_start_date": "2025-07-01",
-        "promo_end_date": "2025-07-18",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
+        "promo_budget": 0,
+        "promo_budget_type": [],
         "promo_details": [
             "Confirmer rapidement quelle thématique nous retenons en fonction du focus en milieu d'été + disponibilité du liquide",
             "Corona avec Corona 100 ans / Bud avec Champions Club / Stella avec RG",
             "Calculer les coûts de l'incentive sell-out Cadoc",
             "Fournir une liste de WHS qui seraient potentiellement intéressés par cette offre"
         ],
+        "promo_end_date": "2025-07-18",
+        "promo_start_date": "2025-07-01",
+        "promo_title": "5+1 for New DN",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2025"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Nationaux"
+        ],
+        "icon": "🥃",
+        "id": "21",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JULY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Objectif : Proposer une offre verrerie avec 2 futs achetés = packs de 2 verres offert",
+            "Mécanique : Identique aux activations DTC",
+            "Stock : 2 700 verres ont été sécurisés auprès du trade pour cette opération"
+        ],
+        "promo_end_date": "2025-07-22",
+        "promo_start_date": "2025-07-01",
+        "promo_title": "2 Kegs bought = 2 Glasses",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2025"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🌟",
+        "id": "22",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "SEPTEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Décider GO/NO GO sur une offre 5+1 Wave 2"
+        ],
+        "promo_end_date": "2025-10-15",
+        "promo_start_date": "2025-09-01",
+        "promo_title": "Wave 2- Stella 5+1",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2025"
+    },
+    {
         "channel_tags": [
             "CHR"
         ],
-        "icon": "📊",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
+        "icon": "📦",
         "id": "25",
-        "year": "2025",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "SEPTEMBER",
-        "table": "none",
-        "promo_type": "Special Offer",
-        "promo_title": "8 kegs bough = Pack POCM",
-        "promo_start_date": "2025-09-08",
-        "promo_end_date": "2025-09-30",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
+        "promo_budget": 0,
+        "promo_budget_type": [],
         "promo_details": [
             "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments",
             "Produire les éléments de visibilité : Tapis de bar (30% PD+Stella / 70% PD+Leffe)",
             "Sous-bocks PD"
         ],
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "📦",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "26",
-        "year": "2025",
-        "month": "NOVEMBER",
-        "table": "none",
+        "promo_end_date": "2025-09-30",
+        "promo_start_date": "2025-09-08",
+        "promo_title": "8 kegs bough = Pack POCM",
         "promo_type": "Special Offer",
-        "promo_title": "Liquide Leffe D'hiver + 8 kegs bough = Christmas Pack POCM",
-        "promo_start_date": "2025-11-24",
-        "promo_end_date": "2025-12-24",
         "promo_uplift": "0 HL",
         "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments"
-        ],
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "❄️",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
+        "table": "none",
+        "year": "2025"
     },
     {
-        "id": "27",
-        "year": "2025",
-        "month": "JUNE",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "COMMANDO : Cavistes",
-        "promo_start_date": "2025-06-25",
-        "promo_end_date": "2025-06-27",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "3-day intensive promotion for independent wine merchants",
-            "Combined discount and special offer mechanics",
-            "Focus on expanding caviste network"
-        ],
-        "channel_tags": [
-            "Cavistes Indépendants"
-        ],
-        "icon": "⚡",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "28",
-        "year": "2025",
-        "month": "MAY",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "Wave 1 - 5+1 - TK Leffe",
-        "promo_start_date": "2025-05-01",
-        "promo_end_date": "2025-06-15",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "5+1 discount promotion on TK Leffe",
-            "Ongoing campaign with 3.5K HL objective",
-            "Premium beer focus for spring season"
-        ],
         "channel_tags": [
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
-        "icon": "🎯",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
-    },
-    {
-        "id": "29",
-        "year": "2025",
-        "month": "JUNE",
-        "table": "none",
-        "promo_type": "Discount",
-        "promo_title": "COMMANDO : CHR",
-        "promo_start_date": "2025-06-23",
-        "promo_end_date": "2025-06-24",
+        "icon": "🎁",
+        "id": "23",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "NOVEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Opportunité : Possibilité d'étendre cette offre à d'autres cavistes pour augmenter notre parc machines"
+        ],
+        "promo_end_date": "2025-12-25",
+        "promo_start_date": "2025-11-21",
+        "promo_title": "Christmas Bundle = Machine + keg for 199€",
+        "promo_type": "Special Offer",
         "promo_uplift": "0 HL",
         "ROI": 1,
-        "promo_budget":0,
-        "promo_budget_type":[
-            ],
-        "promo_details": [
-            "Intensive 2-day promotion campaign",
-            "Discount offers combined with new product launches",
-            "Targeted at CHR segment"
-        ],
+        "table": "none",
+        "year": "2025"
+    },
+    {
         "channel_tags": [
             "CHR"
         ],
-        "icon": "⚡",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link"
+        "icon": "❄️",
+        "id": "26",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "NOVEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments"
+        ],
+        "promo_end_date": "2025-12-24",
+        "promo_start_date": "2025-11-24",
+        "promo_title": "Liquide Leffe D'hiver + 8 kegs bough = Christmas Pack POCM",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2025"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🏆",
+        "id": "1",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JANUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Find a good tier list mechanic for Cavistes"
+        ],
+        "promo_end_date": "2026-03-31",
+        "promo_start_date": "2026-01-01",
+        "promo_title": "Perfect Draft Champions Club - Q1",
+        "promo_type": "Loyalty Program",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "1",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "⭐",
+        "id": "4",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JANUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Annual rewards for top-performing venues",
+            "Tiered benefit structure",
+            "Exclusive access to new products"
+        ],
+        "promo_end_date": "2026-12-31",
+        "promo_start_date": "2026-01-01",
+        "promo_title": "CHR Excellence Program - Annual",
+        "promo_type": "Loyalty Program",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "2",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🚀",
+        "id": "3",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JANUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Introduction of new 0% alcohol variants",
+            "Sampling campaigns across all channels",
+            "Educational materials about 0% benefits"
+        ],
+        "promo_end_date": "2026-02-15",
+        "promo_start_date": "2026-01-01",
+        "promo_title": "New 0% Variants Launch",
+        "promo_type": "New Product",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🎯",
+        "id": "2",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JANUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Cavistes: 6+2 on 0% beer kegs (Stella 0%, Corona 0%)",
+            "CHR: €30 cash bonus per new account with 0% starter pack",
+            "Bundle: Machine + 1 kegs 0% for €190 HT",
+            "Focus: Health-conscious consumers for Dry January"
+        ],
+        "promo_end_date": "2026-01-31",
+        "promo_start_date": "2026-01-02",
+        "promo_title": "Perfect Draft 0% - New Year, New You",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "💕",
+        "id": "5",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "FEBRUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Valentine's Day activation",
+            "Buy 2 different beer kegs, get romantic dinner voucher",
+            "Focus: Stella + Leffe combo packs"
+        ],
+        "promo_end_date": "2026-02-16",
+        "promo_start_date": "2026-02-01",
+        "promo_title": "Share the Perfect Moment",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "📚",
+        "id": "6",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "FEBRUARY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly training + next quarter incentives presentation",
+            "CHR prospection techniques",
+            "Product knowledge updates"
+        ],
+        "promo_end_date": "2026-02-15",
+        "promo_start_date": "2026-02-15",
+        "promo_title": "Wholesaler Academy - H1 Training",
+        "promo_type": "Training",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "🌱",
+        "id": "7",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "MARCH",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "CHR focus through wholesalers",
+            "€50 cash incentive per new restaurant/hotel account",
+            "10 kegs bought = 1 free + POCM terrace kit",
+            "Target: Terraces and hotels preparing for spring"
+        ],
+        "promo_end_date": "2026-03-31",
+        "promo_start_date": "2026-03-01",
+        "promo_title": "Gear Up for Spring",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🏆",
+        "id": "8",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "APRIL",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Find a good tier list mechanic for Cavistes"
+        ],
+        "promo_end_date": "2026-06-30",
+        "promo_start_date": "2026-04-01",
+        "promo_title": "Perfect Draft Champions Club - Q2",
+        "promo_type": "Loyalty Program",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "1",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🐰",
+        "id": "9",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "APRIL",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, more)"
+        ],
+        "promo_end_date": "2026-04-21",
+        "promo_start_date": "2026-04-07",
+        "promo_title": "Easter Perfect Moments",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "💐",
+        "id": "10",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "MAY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Bundle: Machine + 3 premium kegs + elegant serving set for €249",
+            "Innovation: Small stickers for Mother's day"
+        ],
+        "promo_end_date": "2026-05-25",
+        "promo_start_date": "2026-05-05",
+        "promo_title": "Perfect Gift for Perfect Moms",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "📚",
+        "id": "11",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "MAY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly training + incentive programs",
+            "Summer activation strategies",
+            "Sports venue targeting"
+        ],
+        "promo_end_date": "2026-05-15",
+        "promo_start_date": "2026-05-15",
+        "promo_title": "Wholesaler Academy - H2 Training",
+        "promo_type": "Training",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "⚽",
+        "id": "12",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JUNE",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Bundle: Machine + 6 sports kegs + football POCM for €299",
+            "CHR: Sports Bar Starter Pack - Machine + 12 kegs",
+            "Wholesaler: €50 cash bonus per sports bar activation"
+        ],
+        "promo_end_date": "2026-06-21",
+        "promo_start_date": "2026-06-01",
+        "promo_title": "Dad's Perfect Draft Championship",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "☀️",
+        "id": "13",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JUNE",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Seasonal flavor variants for summer",
+            "Premium positioning"
+        ],
+        "promo_end_date": "2026-08-31",
+        "promo_start_date": "2026-06-15",
+        "promo_title": "Limited Edition Summer Flavors",
+        "promo_type": "New Product",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🏆",
+        "id": "14",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JULY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Find a good tier list mechanic for Cavistes"
+        ],
+        "promo_end_date": "2026-09-30",
+        "promo_start_date": "2026-07-01",
+        "promo_title": "Perfect Draft Champions Club - Q3",
+        "promo_type": "Loyalty Program",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "1",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "🏖️",
+        "id": "15",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JULY",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "10 kegs bought = 2 free + summer terrace kit",
+            "CHR: new terrace/hotel account = €50",
+            "Focus: Corona, Bud and Stella"
+        ],
+        "promo_end_date": "2026-07-31",
+        "promo_start_date": "2026-07-01",
+        "promo_title": "Perfect Summer, Perfect Draft",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🎒",
+        "id": "16",
+        "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
+        "month": "SEPTEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "CHR: Office/corporate venue targeting",
+            "Cavistes: 6+1 back-to-work promotion",
+            "Innovation: B2B corporate packages"
+        ],
+        "promo_end_date": "2026-09-30",
+        "promo_start_date": "2026-09-01",
+        "promo_title": "September Perfect Back to School",
+        "promo_type": "Discount",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🏆",
+        "id": "17",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "OCTOBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Find a good tier list mechanic for Cavistes"
+        ],
+        "promo_end_date": "2026-12-31",
+        "promo_start_date": "2026-10-01",
+        "promo_title": "Perfect Draft Champions Club - Q4",
+        "promo_type": "Loyalty Program",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "1",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🍺",
+        "id": "18",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "OCTOBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Focus: German-style beers, Franziskaner / Becks / etc.",
+            "5+1 on premium/specialty kegs",
+            "CHR: Themed restaurant activation campaign"
+        ],
+        "promo_end_date": "2026-10-31",
+        "promo_start_date": "2026-10-01",
+        "promo_title": "Perfect Oktoberfest Experience",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🛍️",
+        "id": "19",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "NOVEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Bundle: Machine + 6 kegs + premium POCM kit for €299",
+            "Trade offer: 20+5 for high-volume buyers"
+        ],
+        "promo_end_date": "2026-11-30",
+        "promo_start_date": "2026-11-20",
+        "promo_title": "Black Friday Perfect Deals",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "CHR",
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🎄",
+        "id": "20",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "DECEMBER",
+        "promo_budget": 0,
+        "promo_budget_type": [],
+        "promo_details": [
+            "Premium Bundle: Machine + 6 Christmas kegs + luxury gift set for €349",
+            "Corporate: B2B Christmas party packages",
+            "CHR: New Year venue preparation incentives"
+        ],
+        "promo_end_date": "2026-12-24",
+        "promo_start_date": "2026-12-01",
+        "promo_title": "Perfect Christmas, Perfect Gifts",
+        "promo_type": "Special Offer",
+        "promo_uplift": "0 HL",
+        "ROI": 1,
+        "table": "none",
+        "year": "2026"
     }
 ]
