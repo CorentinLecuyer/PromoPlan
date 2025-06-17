@@ -217,25 +217,27 @@
     },
     {
         "channel_tags": [
-            "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🏆",
         "id": "1",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [26500],
+        "promo_budget_type": [
+            "discount"
+        ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
+            "Find a good tier list mechanic for Cavistes",
+            "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-03-31",
         "promo_start_date": "2026-01-01",
         "promo_title": "Perfect Draft Champions Club - Q1",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_uplift": "undefined",
+        "ROI": "undefined",
         "table": "1",
         "year": "2026"
     },
@@ -248,11 +250,14 @@
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
         "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget_type": [
+            "discount"
+        ],
         "promo_details": [
             "Annual rewards for top-performing venues",
             "Tiered benefit structure",
-            "Exclusive access to new products"
+            "Exclusive access to new products",
+            ""
         ],
         "promo_end_date": "2026-12-31",
         "promo_start_date": "2026-01-01",
@@ -402,25 +407,27 @@
     },
     {
         "channel_tags": [
-            "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🏆",
         "id": "8",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "APRIL",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget":  [31401],
+        "promo_budget_type": [
+            "discount"
+        ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
+            "Find a good tier list mechanic for Cavistes",
+            "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-06-30",
         "promo_start_date": "2026-04-01",
         "promo_title": "Perfect Draft Champions Club - Q2",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_uplift": "undefined",
+        "ROI": "undefined",
         "table": "1",
         "year": "2026"
     },
@@ -433,17 +440,17 @@
         "id": "9",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "APRIL",
-        "promo_budget": 0,
+        "promo_budget": [171101],
         "promo_budget_type": [],
         "promo_details": [
-            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, more)"
+            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, Stella)"
         ],
         "promo_end_date": "2026-04-21",
         "promo_start_date": "2026-04-07",
         "promo_title": "Easter Perfect Moments",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_uplift": "3500 HL <br> 1 375 HL incremental needed",
+        "ROI": "undefined",
         "table": "none",
         "year": "2026"
     },
@@ -554,18 +561,21 @@
         "id": "14",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [37747],
+        "promo_budget_type": [
+            "discount"
+        ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
+            "Find a good tier list mechanic for Cavistes",
+            "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-09-30",
         "promo_start_date": "2026-07-01",
         "promo_title": "Perfect Draft Champions Club - Q3",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_uplift": "undefined",
+        "ROI": "undefined",
         "table": "1",
         "year": "2026"
     },
@@ -628,18 +638,21 @@
         "id": "17",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "OCTOBER",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget":[10157],
+        "promo_budget_type": [
+            "discount"
+        ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
-            "Find a good tier list mechanic for Cavistes"
+            "Find a good tier list mechanic for Cavistes",
+            "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-12-31",
         "promo_start_date": "2026-10-01",
         "promo_title": "Perfect Draft Champions Club - Q4",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_uplift": "undefined",
+        "ROI": "undefined",
         "table": "1",
         "year": "2026"
     },
