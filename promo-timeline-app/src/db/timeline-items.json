@@ -225,7 +225,7 @@
         "month": "JANUARY",
         "promo_budget": [26500],
         "promo_budget_type": [
-            "discount"
+            "Discount"
         ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -251,7 +251,7 @@
         "month": "JANUARY",
         "promo_budget": 0,
         "promo_budget_type": [
-            "discount"
+            "Discount"
         ],
         "promo_details": [
             "Annual rewards for top-performing venues",
@@ -415,7 +415,7 @@
         "month": "APRIL",
         "promo_budget":  [31401],
         "promo_budget_type": [
-            "discount"
+            "Discount"
         ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -554,7 +554,6 @@
     },
     {
         "channel_tags": [
-            "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🏆",
@@ -563,7 +562,7 @@
         "month": "JULY",
         "promo_budget": [37747],
         "promo_budget_type": [
-            "discount"
+            "Discount"
         ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -631,7 +630,6 @@
     },
     {
         "channel_tags": [
-            "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🏆",
@@ -640,7 +638,7 @@
         "month": "OCTOBER",
         "promo_budget":[10157],
         "promo_budget_type": [
-            "discount"
+            "Discount"
         ],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
