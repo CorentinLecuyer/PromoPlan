@@ -165,7 +165,7 @@ function renderTimeline(items) {
         const tableHTML = hasTable ? generateTableHTML(getTableById(item.table)) : '';
 
         // Check if item has a budget and get table data
-        const hasBudget = item.promo_budget && item.promo_budget !== 0;
+        const hasBudget = Array.isArray(item.promo_budget) && item.promo_budget.length > 0
 
         return `
                 ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
@@ -195,18 +195,26 @@ function renderTimeline(items) {
                             </tr>
                         </thead>
                         <tbody>
+                        
+                        ${item.promo_budget.map((budget, index) => `
                             <tr>
-                                <th>${item.promo_budget.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}
-                                </th>
-                                <th><div class="channel-tags-budget">${item.promo_budget_type.map(ch => `<span class="channel-tag-budget">${ch}</span>`).join("")}</div></th>
-                                <th>${item.promo_uplift}</th>
-                                <th>${item.ROI}</th>
+                                <th>${budget.toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'EUR',
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
+                                })}</th>
+                                <th><span class="channel-tag-budget">${item.promo_budget_type[index]}</span></th>
+                                ${index === 0 ?
+                                    `<th rowspan="${item.promo_budget.length}">${item.promo_uplift}</th>
+                                     <th rowspan="${item.promo_budget.length}">${item.ROI}</th>`
+                                    : ''
+                                }
                             </tr>
+                        `).join("")}
+                        
+                        
+                    </tbody>
                         </tbody>
                     </table>` : ""}
 
