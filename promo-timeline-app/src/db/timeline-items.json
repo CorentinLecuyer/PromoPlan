@@ -34,7 +34,7 @@
         "id": "29",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Intensive 2-day promotion campaign",
@@ -58,7 +58,7 @@
         "id": "27",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "3-day intensive promotion for independent wine merchants",
@@ -82,7 +82,7 @@
         "id": "24",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Confirmer rapidement quelle thématique nous retenons en fonction du focus en milieu d'été + disponibilité du liquide",
@@ -107,7 +107,7 @@
         "id": "21",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Objectif : Proposer une offre verrerie avec 2 futs achetés = packs de 2 verres offert",
@@ -132,7 +132,7 @@
         "id": "22",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "SEPTEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Décider GO/NO GO sur une offre 5+1 Wave 2"
@@ -154,7 +154,7 @@
         "id": "25",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "SEPTEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments",
@@ -179,7 +179,7 @@
         "id": "23",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "NOVEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Opportunité : Possibilité d'étendre cette offre à d'autres cavistes pour augmenter notre parc machines"
@@ -201,7 +201,7 @@
         "id": "26",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "NOVEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments"
@@ -224,7 +224,7 @@
         "id": "1",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -247,7 +247,7 @@
         "id": "4",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Annual rewards for top-performing venues",
@@ -273,7 +273,7 @@
         "id": "3",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [
         ],
         "promo_details": [
@@ -377,7 +377,7 @@
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "MARCH",
         "promo_budget": [
-            1000,
+            10000,
             25000
         ],
         "promo_budget_type": [
@@ -409,7 +409,7 @@
         "id": "8",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "APRIL",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -433,7 +433,7 @@
         "id": "9",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "APRIL",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, more)"
@@ -456,7 +456,7 @@
         "id": "10",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "MAY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Bundle: Machine + 3 premium kegs + elegant serving set for €249",
@@ -479,7 +479,7 @@
         "id": "11",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "MAY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Half yearly training + incentive programs",
@@ -505,7 +505,7 @@
         "id": "12",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Bundle: Machine + 6 sports kegs + football POCM for €299",
@@ -530,7 +530,7 @@
         "id": "13",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Seasonal flavor variants for summer",
@@ -554,7 +554,7 @@
         "id": "14",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -577,7 +577,7 @@
         "id": "15",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "10 kegs bought = 2 free + summer terrace kit",
@@ -603,7 +603,7 @@
         "id": "16",
         "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
         "month": "SEPTEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "CHR: Office/corporate venue targeting",
@@ -628,7 +628,7 @@
         "id": "17",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "OCTOBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Quarterly loyalty program for Perfect Draft Champions Club",
@@ -653,7 +653,7 @@
         "id": "18",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "OCTOBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Focus: German-style beers, Franziskaner / Becks / etc.",
@@ -679,7 +679,7 @@
         "id": "19",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "NOVEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
             "Bundle: Machine + 6 kegs + premium POCM kit for €299",
@@ -704,7 +704,7 @@
         "id": "20",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "DECEMBER",
-        "promo_budget": [0],
+        "promo_budget": 0,
         "promo_budget_type": [
             "SA2"
         ],

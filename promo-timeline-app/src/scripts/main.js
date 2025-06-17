@@ -165,7 +165,7 @@ function renderTimeline(items) {
         const tableHTML = hasTable ? generateTableHTML(getTableById(item.table)) : '';
 
         // Check if item has a budget and get table data
-        const hasBudget = Array.isArray(item.promo_budget) && item.promo_budget.length > 0
+        const hasBudget = Array.isArray(item.promo_budget) || item.promo_budget.length > 0
 
         return `
                 ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
@@ -512,16 +512,18 @@ function renderTablesHomePage(items) {
             });
         });
 
-        items.filter(item => item.year === year).forEach(item => {
-            item.promo_budget_type.forEach(budgetType => {
 
-                if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
+    items.filter(item => item.year === year).forEach(item => {
+        const budgetTypes = item.promo_budget_type;
+        const budgets = Array.isArray(item.promo_budget) ? item.promo_budget : [item.promo_budget];
 
-                    const budgetValue = parseFloat(item.promo_budget) || 0;
-                    yearData[budgetType][item.month] += budgetValue;
-                }
-            });
+        budgetTypes.forEach((budgetType, index) => {
+            const budgetValue = parseFloat(budgets[index] || 0);
+            if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
+                yearData[budgetType][item.month] += budgetValue;
+            }
         });
+    });
 
         // Generate table rows for this year
         uniqueBudgetTypes.forEach(budgetType => {
