@@ -8,12 +8,20 @@
             "Benefits"
         ],
         "tr": [
-            ["Tier 1", "5% discount on all kegs"],
-            ["Tier 2", "10% discount + exclusive access to new products"],
-            ["Tier 3", "15% discount + free shipping on all orders"]
+            [
+                "Tier 1",
+                "5% discount on all kegs"
+            ],
+            [
+                "Tier 2",
+                "10% discount + exclusive access to new products"
+            ],
+            [
+                "Tier 3",
+                "15% discount + free shipping on all orders"
+            ]
         ]
     },
-    
     {
         "id": "2",
         "style": "black_table",
@@ -55,8 +63,22 @@
                 "Full marketing campaign support, professional materials"
             ]
         ]
+    },
+    {
+        "id": "3",
+        "style": "black_table",
+        "table": "Potential Partner",
+        "th": [
+            "Partner 1",
+            "Partner 2", 
+            "Partner 3"
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/HelloFresh-logo-a2a149bdc1548e071bb89411547914ca.png\" alt=\"HelloFresh Logo\">",
+            "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/frichti.jpg\" alt=\"Frichti Logo\">",
+            "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/logo-vandb-noir-plein.png\" alt=\"V&B Logo\">"
+            ]
+        ]
     }
-    
-
 ]
-

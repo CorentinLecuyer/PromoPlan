@@ -500,20 +500,17 @@ function renderTablesHomePage(items) {
         uniqueBudgetTypes.forEach(promo_type => {
             yearData[promo_type] = {};
             months.forEach((month, index) => {
-                yearData[promo_type][monthNames[index]] = [];
+                yearData[promo_type][monthNames[index]] = 0;
             });
         });
 
-        // Populate data for this year
         items.filter(item => item.year === year).forEach(item => {
             item.promo_budget_type.forEach(budgetType => {
-                if (yearData[budgetType] && yearData[budgetType][item.month]) {
-                    yearData[budgetType][item.month].push(item.promo_budget.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-                }));
+
+                if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
+
+                    const budgetValue = parseFloat(item.promo_budget) || 0;
+                    yearData[budgetType][item.month] += budgetValue;
                 }
             });
         });
@@ -522,11 +519,17 @@ function renderTablesHomePage(items) {
         uniqueBudgetTypes.forEach(budgetType => {
             tableHTMLBudget += `
             <tr>
-                <td class="channel-header">${budgetType}</td>
-                ${months.map((month, index) => {
-                const icons = yearData[budgetType][monthNames[index]];
-                const iconString = icons.length > 0 ? icons.join('') : '-';
-                return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
+            <td class="channel-header">${budgetType}</td>
+            ${months.map((month, index) => {
+                // MODIFICATION: Format the final summed value
+                const totalBudget = yearData[budgetType][monthNames[index]];
+                const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }) : '-';
+                return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
             }).join('')}
             </tr>
         `;
@@ -591,3 +594,133 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+// Function to save filters to URL
+function saveFiltersToURL() {
+    const params = new URLSearchParams();
+
+    // Save selected years (skip if 'all' is selected)
+    if (!selectedYears.includes('all') && selectedYears.length > 0) {
+        params.set('years', selectedYears.join(','));
+    }
+
+    // Update URL without page reload
+    const newURL = params.toString() ?
+        `${window.location.pathname}?${params.toString()}` :
+        window.location.pathname;
+
+    window.history.replaceState({}, '', newURL);
+}
+
+// Function to load filters from URL
+function loadFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+
+    // Load years from URL
+    const yearsParam = params.get('years');
+    if (yearsParam) {
+        selectedYears = yearsParam.split(',').filter(year => year.trim() !== '');
+        if (selectedYears.length === 0) {
+            selectedYears = ['all'];
+        }
+    }
+}
+
+// Function to update checkboxes based on loaded filters
+function updateCheckboxesFromFilters() {
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+        // Update year checkboxes
+        document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(checkbox => {
+            if (checkbox.value === 'all') {
+                checkbox.checked = selectedYears.includes('all');
+            } else {
+                checkbox.checked = selectedYears.includes(checkbox.value);
+            }
+        });
+
+        // Update display text
+        updateSelectedYearText();
+    }, 10);
+}
+
+// Modified handleYearOptionChange function (replace your existing one)
+function handleYearOptionChange(checkbox) {
+    const allYearCheckbox = document.getElementById('year_all');
+
+    if (checkbox.value === 'all') {
+        if (checkbox.checked) {
+            selectedYears = ['all'];
+            document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
+        } else {
+            selectedYears = [];
+        }
+    } else {
+        if (allYearCheckbox) allYearCheckbox.checked = false;
+
+        if (checkbox.checked) {
+            if (!selectedYears.includes(checkbox.value)) {
+                selectedYears = selectedYears.filter(year => year !== 'all');
+                selectedYears.push(checkbox.value);
+            }
+        } else {
+            selectedYears = selectedYears.filter(year => year !== checkbox.value);
+
+            if (selectedYears.length === 0) {
+                selectedYears = ['all'];
+                if (allYearCheckbox) allYearCheckbox.checked = true;
+            }
+        }
+    }
+
+    updateSelectedYearText();
+    saveFiltersToURL(); // Save to URL when filters change
+    applyFilters();
+}
+
+// Modified initializeApp function (replace your existing one)
+async function initializeApp() {
+    try {
+        // Check if required DOM elements exist
+        const timelineRoot = document.getElementById('timeline-root');
+        const homePageRoot = document.getElementById('timeline-root-home-page');
+
+        if (!timelineRoot && !homePageRoot) {
+            console.warn('No timeline containers found in DOM');
+            return;
+        }
+
+        // Load filters from URL before loading data
+        loadFiltersFromURL();
+
+        // Load both datasets concurrently
+        await Promise.all([
+            loadTableData(),
+            loadTimelineData()
+        ]);
+
+        // Update checkboxes to match loaded filters
+        updateCheckboxesFromFilters();
+
+        // Apply filters and render
+        applyFilters();
+
+    } catch (error) {
+        console.error('Error initializing app:', error);
+        // Show error in available containers
+        const timelineRoot = document.getElementById('timeline-root');
+        const homePageRoot = document.getElementById('timeline-root-home-page');
+
+        const errorMessage = '<p style="color:red;">Failed to load timeline data.</p>';
+
+        if (timelineRoot) {
+            timelineRoot.innerHTML = errorMessage;
+        }
+        if (homePageRoot) {
+            homePageRoot.innerHTML = errorMessage;
+        }
+    }
+}

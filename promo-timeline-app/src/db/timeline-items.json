@@ -273,8 +273,9 @@
         "id": "3",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JANUARY",
-        "promo_budget": 0.01,
-        "promo_budget_type": ["Information"],
+        "promo_budget": 0,
+        "promo_budget_type": [
+        ],
         "promo_details": [
             "Introduction of new 0% alcohol variants? ",
             "Sampling campaigns across all channels?",
@@ -285,58 +286,7 @@
         "promo_title": "New 0% Variants Launch",
         "promo_type": "New Product",
         "promo_uplift": "0 HL",
-        "ROI": 1,
-        "table": "none",
-        "year": "2026"
-    },
-    {
-        "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🎯",
-        "id": "2",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "JANUARY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Cavistes: 6+2 on 0% beer kegs (Stella 0%, Corona 0%)",
-            "CHR: 1 machine bought = 1 keg Leffe 0.0% free",
-            "Focus: Health-conscious consumers for Dry January"
-        ],
-        "promo_end_date": "2026-01-31",
-        "promo_start_date": "2026-01-02",
-        "promo_title": "Perfect Draft 0% - New Year, New You",
-        "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
-        "table": "none",
-        "year": "2026"
-    },
-    {
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "💕",
-        "id": "5",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "FEBRUARY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Valentine's Day activation",
-            "Buy 2 different beer kegs, get romantic dinner voucher",
-            "Focus: Stella + Leffe combo packs"
-        ],
-        "promo_end_date": "2026-02-16",
-        "promo_start_date": "2026-02-01",
-        "promo_title": "Share the Perfect Moment",
-        "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "ROI": 0,
         "table": "none",
         "year": "2026"
     },
@@ -344,26 +294,80 @@
         "channel_tags": [
             "CHR"
         ],
-        "icon": "📚",
-        "id": "6",
+        "icon": "🎯",
+        "id": "2",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "FEBRUARY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Quarterly training + next quarter incentives presentation",
-            "CHR prospection techniques",
-            "Product knowledge updates"
+        "month": "JANUARY",
+        "promo_budget": 20000,
+        "promo_budget_type": [
+            "SA2"
         ],
-        "promo_end_date": "2026-02-15",
-        "promo_start_date": "2026-02-15",
-        "promo_title": "Wholesaler Academy - H1 Training",
-        "promo_type": "Training",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_details": [
+            "CHR: 6 kegs bought, 1 keg Leffe 0% offered // 6+1 ",
+            "Focus: Health-conscious consumers for Dry January"
+        ],
+        "promo_end_date": "2026-01-31",
+        "promo_start_date": "2026-01-02",
+        "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
+        "promo_type": "Special Offer",
+        "promo_uplift": "446 HL",
+        "ROI": 2.3,
         "table": "none",
         "year": "2026"
     },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "🎯",
+        "id": "30",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JANUARY",
+        "promo_budget": 3105,
+        "promo_budget_type": [
+            "SA2"
+        ],
+        "promo_details": [
+            "Cavistes: 1 machine bought = 1 keg Leffe 0.0% free",
+            "Focus: Health-conscious consumers for Dry January"
+        ],
+        "promo_end_date": "2026-01-31",
+        "promo_start_date": "2026-01-02",
+        "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
+        "promo_type": "Special Offer",
+        "promo_uplift": "51 HL <br>375 Machines",
+        "ROI": 5.19,
+        "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Nationaux"
+        ],
+        "icon": "💕",
+        "id": "5",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "FEBRUARY",
+        "promo_budget": 24000,
+        "promo_budget_type": [
+            "Sales Pack"
+        ],
+        "promo_details": [
+            "Valentine's Day activation",
+            "Buy 2 different beer kegs, get romantic dinner voucher (limited to 1000 vouchers of 30€ TTC (24€HT))",
+            "Focus: Stella + Leffe combo packs"
+        ],
+        "promo_end_date": "2026-02-16",
+        "promo_start_date": "2026-02-01",
+        "promo_title": "Share the Perfect Moment",
+        "promo_type": "Special Offer",
+        "promo_uplift": "120 HL",
+        "ROI": 1.33,
+        "table": "3",
+        "year": "2026"
+    },
+    
     {
         "channel_tags": [
             "CHR"
@@ -471,7 +475,7 @@
         "promo_budget": 0,
         "promo_budget_type": [],
         "promo_details": [
-            "Quarterly training + incentive programs",
+            "Half yearly training + incentive programs",
             "Summer activation strategies",
             "Sports venue targeting"
         ],
