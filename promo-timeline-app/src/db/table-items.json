@@ -1,7 +1,7 @@
 [
     {
         "id": "1",
-        "style": "black_table",
+        "style": "blackTable",
         "table": "Champions Club Quarterly Benefits",
         "th": [
             "Tier Level",
@@ -24,7 +24,7 @@
     },
     {
         "id": "2",
-        "style": "black_table",
+        "style": "blackTable",
         "table": "CHR Excellence Program",
         "th": [
             "Tier Level",
@@ -66,32 +66,73 @@
     },
     {
         "id": "3",
-        "style": "black_table",
+        "style": "blackTable",
         "table": "Potential Partner",
         "th": [
             "Partner 1",
-            "Partner 2", 
+            "Partner 2",
             "Partner 3"
         ],
         "tr": [
             [
                 "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/HelloFresh-logo-a2a149bdc1548e071bb89411547914ca.png\" alt=\"HelloFresh Logo\">",
-            "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/frichti.jpg\" alt=\"Frichti Logo\">",
-            "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/logo-vandb-noir-plein.png\" alt=\"V&B Logo\">"
+                "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/frichti.jpg\" alt=\"Frichti Logo\">",
+                "<img style=\"width: 100%; max-width: 200px; height: auto; object-fit: contain;\" src=\"img/logo-vandb-noir-plein.png\" alt=\"V&B Logo\">"
             ]
         ]
     },
     {
         "id": "4",
-        "style": "black_table",
+        "style": "blackTable",
         "table": "Parasol Design",
         "th": [
             "Designed by <u><i>Brands On</i></u>"
         ],
         "tr": [
             [
-                "<img style=\"width: 100%; max-width: fit; height: auto; object-fit: contain;\" src=\"img/Parasol Leffe.PNG\" alt=\"HelloFresh Logo\">"
+                "<img style=\"width: 100%; max-width: fit; height: auto; object-fit: contain;\" src=\"img/Parasol Leffe.PNG\" alt=\"Parasol Leffe Schema\">"
+            ]
+        ]
+    },
+    {
+        "id": "5",
+        "style": "blackTable",
+        "table": "5+1L Trio",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: auto; object-fit: contain;\" src=\"img/5+1L trio kegs.png\" alt=\"5+1L trio kegs packshot\">"
+            ]
+        ]
+    },
+    {
+        "id": "6",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 150px; object-fit: contain;\" src=\"img/Leffe Blonde 00.png\" alt=\"Leffe Blonde 00\">"
+            ]
+        ]
+    },
+      {
+        "id": "7",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 150px; object-fit: contain;\" src=\"img/LEF_ETE_LOGO.png\" alt=\"Leffe summer été\">"
             ]
         ]
     }
 ]
+
+

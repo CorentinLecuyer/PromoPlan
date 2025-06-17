@@ -85,7 +85,7 @@ function generateTableHTML(tableObj) {
     return `
         <div class="table-container ${tableObj.style}">
             <h3 class="table-title">${tableObj.table}</h3>
-            <table class="promo-table">
+            <table class="promo-table${tableObj.style}">
                 <thead>
                     <tr>
                         ${tableObj.th.map(header => `<th>${header}</th>`).join('')}
@@ -706,6 +706,10 @@ async function initializeApp() {
         // Load filters from URL before loading data
         loadFiltersFromURL();
 
+        const urlParams = new URLSearchParams(window.location.search);
+        if (!urlParams.has('years')) {
+            selectedYears = ['2026']
+        }
         // Load both datasets concurrently
         await Promise.all([
             loadTableData(),

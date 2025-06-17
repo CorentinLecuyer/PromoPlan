@@ -10,7 +10,7 @@
         "month": "MAY",
         "promo_budget": [14000],
         "promo_budget_type": [
-            "2NET"
+            "Discount"
         ],
         "promo_details": [
             "5+1 discount promotion on TK Leffe",
@@ -282,17 +282,17 @@
         "promo_budget_type": [
         ],
         "promo_details": [
-            "Introduction of new 0% alcohol variants? ",
+            "Introduction of new 0% alcohol variants",
             "Sampling campaigns across all channels?",
             "Educational materials about 0% benefits"
         ],
         "promo_end_date": "2026-02-15",
         "promo_start_date": "2026-01-01",
-        "promo_title": "New 0% Variants Launch",
+        "promo_title": "New 0% Variants Launch - Leffe 0.0%",
         "promo_type": "New Product",
         "promo_uplift": "0 HL",
         "ROI": 0,
-        "table": "none",
+        "table": "6",
         "year": "2026"
     },
     {
@@ -314,7 +314,7 @@
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
         "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
-        "promo_type": "Special Offer",
+        "promo_type": "free-beer",
         "promo_uplift": "446 HL",
         "ROI": 2.3,
         "table": "none",
@@ -340,7 +340,7 @@
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
         "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
-        "promo_type": "Special Offer",
+        "promo_type":"Special Offer",
         "promo_uplift": "51 HL <br>+ <Br>375 Machines",
         "ROI": 5.19,
         "table": "none",
@@ -443,7 +443,8 @@
         "promo_budget": [171101],
         "promo_budget_type": [],
         "promo_details": [
-            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, Stella)"
+            "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, Stella)",
+            "Budget based on last year budget (from Floris) waiting on final sales numbers to adjust the ROI and expectations"
         ],
         "promo_end_date": "2026-04-21",
         "promo_start_date": "2026-04-07",
@@ -451,7 +452,7 @@
         "promo_type": "Special Offer",
         "promo_uplift": "3500 HL <br> 1 375 HL incremental needed",
         "ROI": "undefined",
-        "table": "none",
+        "table": "5",
         "year": "2026"
     },
     {
@@ -463,18 +464,25 @@
         "id": "10",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "MAY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [
+            6830,
+            3000
+        ],
+        "promo_budget_type": [
+            "Discount", 
+            "Sales Pack"
+        ],
         "promo_details": [
-            "Bundle: Machine + 3 premium kegs + elegant serving set for €249",
+            "Bundle: Machine + 2 premium kegs + elegant serving set for €249",
+            "Maybe Stella with foaming knife + 2 glasses",
             "Innovation: Small stickers for Mother's day"
         ],
         "promo_end_date": "2026-05-25",
         "promo_start_date": "2026-05-05",
         "promo_title": "Perfect Gift for Perfect Moms",
-        "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_type": "Discount",
+        "promo_uplift": "57 HL <br>+ <Br>200 Machines",
+        "ROI": 1.65,
         "table": "none",
         "year": "2026"
     },
@@ -504,32 +512,34 @@
     },
     {
         "channel_tags": [
-            "CHR",
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
-        "icon": "⚽",
+        "icon": "👨‍👧‍👦",
         "id": "12",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [18422],
+        "promo_budget_type": [
+            "SA2"
+        ],
         "promo_details": [
-            "Bundle: Machine + 6 sports kegs + football POCM for €299",
-            "CHR: Sports Bar Starter Pack - Machine + 12 kegs",
-            "Wholesaler: €50 cash bonus per sports bar activation"
+            "Bundle: Machine + 3 Triple kegs for 220€",
+            "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet"
+            
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-06-01",
-        "promo_title": "Dad's Perfect Draft Championship",
-        "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
-        "ROI": 1,
+        "promo_title": "PefectDraft for a Perfect Dad",
+        "promo_type": "free-beer",
+        "promo_uplift": "186 HL <br>+ <Br>650 Machines",
+        "ROI": 2.79,
         "table": "none",
         "year": "2026"
     },
     {
         "channel_tags": [
+            "CHR",
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
@@ -541,7 +551,8 @@
         "promo_budget_type": [],
         "promo_details": [
             "Seasonal flavor variants for summer",
-            "Premium positioning"
+            "Premium positioning ?",
+            "3PP Maybe ? Good idea to push something fresh and new for summer"
         ],
         "promo_end_date": "2026-08-31",
         "promo_start_date": "2026-06-15",
@@ -549,7 +560,7 @@
         "promo_type": "New Product",
         "promo_uplift": "0 HL",
         "ROI": 1,
-        "table": "none",
+        "table": "7",
         "year": "2026"
     },
     {
@@ -595,7 +606,7 @@
         ],
         "promo_end_date": "2026-07-31",
         "promo_start_date": "2026-07-01",
-        "promo_title": "Perfect Summer, Perfect Draft",
+        "promo_title": "Perfect Summer, PerfectDraft",
         "promo_type": "Discount",
         "promo_uplift": "0 HL",
         "ROI": 1,

@@ -402,18 +402,23 @@
      color: #333;
  }
 
+ .promo-type.free-beer {
+     background: #0206ff;
+     color: white;
+ }
+
  .promo-type.new-product {
      background: #00c000;
      color: white;
  }
 
  .promo-type.loyalty-program {
-     background: #0206ff;
+     background: #ff00f2;
      color: white;
  }
 
  .promo-type.training {
-     background: rgb(255, 0, 242);
+     background: #1a1a1a;
      color: white;
  }
 
@@ -513,7 +518,13 @@
      text-decoration: underline;
  }
 
- .promo-table {
+ .table-container.transparentTable  {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px; 
+ }
+
+ .promo-tableblackTable {
      width: 100%;
      margin-top: 6px;
      border-collapse: collapse;
@@ -522,7 +533,7 @@
      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
  }
 
- .promo-table-header {
+ .promo-tableblackTable-header {
      font-size: 14px;
      font-weight: 600;
      color: #2c3e50;
@@ -531,14 +542,14 @@
 
  }
 
- .promo-table thead {
+ .promo-tableblackTable thead {
      background-color: #333;
      color: white;
      text-align: center;
      align-items: center;
  }
 
- .promo-table th {
+ .promo-tableblackTable th {
      padding: 10px 12px;
      text-align: left;
      font-size: 14px;
@@ -547,18 +558,18 @@
      letter-spacing: 0.5px;
  }
 
- .promo-table tbody {
+ .promo-tableblackTable tbody {
      background-color: white;
  }
 
- .promo-table td {
+ .promo-tableblackTable td {
      padding: 8px 12px;
      font-size: 14px;
      color: #34495e;
      border-bottom: 1px solid #f1f2f6;
  }
 
- .promo-table tr:last-child td {
+ .promo-tableblackTable tr:last-child td {
      border-bottom: none;
  }
 
@@ -569,7 +580,7 @@
      border-radius: 8px;
      overflow: hidden;
      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-     
+
  }
 
  .promo-table-HomePage-header {
@@ -617,16 +628,16 @@
  .promo-table-HomePage tbody tr:hover {
      background-color: #f8f9fa;
  }
- 
-  .year-marker-cell{
-        background: #FFCC02;
-        color: #333;
-        text-align: center;
-        padding: 9px 6px;
 
-        font-size: 18px;
-        font-weight: 600;
-  }
+ .year-marker-cell {
+     background: #FFCC02;
+     color: #333;
+     text-align: center;
+     padding: 9px 6px;
+
+     font-size: 18px;
+     font-weight: 600;
+ }
 
  .promo-table-budget {
      width: 100%;
