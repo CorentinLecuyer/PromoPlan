@@ -146,8 +146,12 @@ function renderTimeline(items) {
         const formattedStartDate = new Intl.DateTimeFormat('en-US', startOptions).format(startDate);
         const formattedEndDate = new Intl.DateTimeFormat('en-US', endOptions).format(endDate);
 
+        const specialDate = item.promo_type === "Loyalty Program"
+            ? new Date(item.promo_end_date)
+            : new Date(item.promo_start_date);
+
         // Determine the month label for grouping (e.g., "January 2025")
-        const monthMarker = startDate.toLocaleString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
+        const monthMarker = specialDate.toLocaleString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
 
         // Show month marker only if different from the last one
         const showMonthMarker = monthMarker !== lastMonthMarker;
@@ -190,7 +194,8 @@ function renderTimeline(items) {
                             <tr>
                                 <th>Budget</th>
                                 <th>Budget Type</th>
-                                <th>Uplift</th>
+                                <th>Uplift HL</th>
+                                <th>Uplift Machine</th>
                                 <th>ROI</th>
                             </tr>
                         </thead>
@@ -199,17 +204,18 @@ function renderTimeline(items) {
                         ${item.promo_budget.map((budget, index) => `
                             <tr>
                                 <th>${budget.toLocaleString('fr-FR', {
-                                    style: 'currency',
-                                    currency: 'EUR',
-                                    minimumFractionDigits: 0,
-                                    maximumFractionDigits: 0
-                                })}</th>
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}</th>
                                 <th><span class="channel-tag-budget">${item.promo_budget_type[index]}</span></th>
                                 ${index === 0 ?
-                                    `<th rowspan="${item.promo_budget.length}">${item.promo_uplift}</th>
+                `<th rowspan="${item.promo_budget.length}">${item.promo_uplift_HL} HL</th>
+                                        <th rowspan="${item.promo_budget.length}">${item.promo_uplift_machine} Machines</th>
                                      <th rowspan="${item.promo_budget.length}">${item.ROI}</th>`
-                                    : ''
-                                }
+                : ''
+            }
                             </tr>
                         `).join("")}
                         
@@ -513,17 +519,20 @@ function renderTablesHomePage(items) {
         });
 
 
-    items.filter(item => item.year === year).forEach(item => {
-        const budgetTypes = item.promo_budget_type;
-        const budgets = Array.isArray(item.promo_budget) ? item.promo_budget : [item.promo_budget];
+        items.filter(item => item.year === year).forEach(item => {
+            const budgetTypes = item.promo_budget_type;
+            const budgets = Array.isArray(item.promo_budget) ? item.promo_budget : [item.promo_budget];
+            const HL = Array.isArray(item.promo_uplift_HL) ? item.promo_uplift_HL : [item.promo_uplift_HL];
+            const Machines = Array.isArray(item.promo_uplift_machine) ? item.promo_uplift_machine : [item.promo_uplift_machine];
 
-        budgetTypes.forEach((budgetType, index) => {
-            const budgetValue = parseFloat(budgets[index] || 0);
-            if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
-                yearData[budgetType][item.month] += budgetValue;
-            }
+
+            budgetTypes.forEach((budgetType, index) => {
+                const budgetValue = parseFloat(budgets[index] || 0);
+                if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
+                    yearData[budgetType][item.month] += budgetValue;
+                }
+            });
         });
-    });
 
         // Generate table rows for this year
         uniqueBudgetTypes.forEach(budgetType => {
@@ -544,6 +553,70 @@ function renderTablesHomePage(items) {
             </tr>
         `;
         });
+
+
+    });
+
+
+    // Build the table HTML
+    let tableHTMLUplift = '';
+
+    uniqueYears.forEach((year, yearIndex) => {
+
+        if (uniqueYears.length > 1) {
+
+            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+        }
+
+        // Create data structure for this year (just months)
+        const yearData = {};
+        months.forEach((month, index) => {
+            yearData[monthNames[index]] = {
+                HL: 0,
+                machines: 0
+            };
+        });
+
+
+        items.filter(item => item.year === year).forEach(item => {
+            const HL = Array.isArray(item.promo_uplift_HL) ? item.promo_uplift_HL : [item.promo_uplift_HL];
+            const HLvalue = parseFloat(HL[0] || 0);
+
+            // Handle machines uplift (assuming similar structure)
+            const machines = Array.isArray(item.promo_uplift_machine) ? item.promo_uplift_machine : [item.promo_uplift_machine];
+            const machinesValue = parseFloat(machines[0] || 0);
+
+            // Sum up by month (all promo types combined)
+            if (yearData[item.month]) {
+                yearData[item.month].HL += HLvalue;
+                yearData[item.month].machines += machinesValue;
+            }
+        })
+
+        tableHTMLUplift += `
+    <tr>
+    <td class="channel-header">HL Uplift</td>
+    ${months.map((month, index) => {
+            const totalHL = yearData[monthNames[index]].HL;
+            const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
+        }).join('')}
+    </tr>
+    <tr>
+    <td class="channel-header">Machines Uplift</td>
+    ${months.map((month, index) => {
+            const totalMachines = yearData[monthNames[index]].machines;
+            const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
+        }).join('')}
+    </tr>
+    `;
     });
 
     root.innerHTML = `
@@ -576,6 +649,18 @@ function renderTablesHomePage(items) {
             </thead>
             <tbody>
                 ${tableHTMLBudget}
+            </tbody>
+        </table>
+
+        <table class="promo-table-HomePage" style="margin-top: 30px;">
+            <thead class="promo-table-HomePage-header">
+                <tr>
+                    <th>UPLIFT</th>
+                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
+                </tr>
+            </thead>
+            <tbody>
+                ${tableHTMLUplift}
             </tbody>
         </table>
     `;

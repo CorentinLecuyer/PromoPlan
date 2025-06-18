@@ -21,7 +21,8 @@
         "promo_start_date": "2025-05-01",
         "promo_title": "Wave 1 - 5+1 - TK Leffe",
         "promo_type": "Discount",
-        "promo_uplift": "TBC",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": "TBC",
         "table": "none",
         "year": "2025"
@@ -45,7 +46,8 @@
         "promo_start_date": "2025-06-23",
         "promo_title": "COMMANDO : CHR",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -69,7 +71,8 @@
         "promo_start_date": "2025-06-25",
         "promo_title": "COMMANDO : Cavistes",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -94,7 +97,8 @@
         "promo_start_date": "2025-07-01",
         "promo_title": "5+1 for New DN",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -118,7 +122,8 @@
         "promo_start_date": "2025-07-01",
         "promo_title": "2 Kegs bought = 2 Glasses",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -141,7 +146,8 @@
         "promo_start_date": "2025-09-01",
         "promo_title": "Wave 2- Stella 5+1",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -165,7 +171,8 @@
         "promo_start_date": "2025-09-08",
         "promo_title": "8 kegs bough = Pack POCM",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -188,7 +195,8 @@
         "promo_start_date": "2025-11-21",
         "promo_title": "Christmas Bundle = Machine + keg for 199€",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -210,7 +218,8 @@
         "promo_start_date": "2025-11-24",
         "promo_title": "Liquide Leffe D'hiver + 8 kegs bough = Christmas Pack POCM",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -236,7 +245,8 @@
         "promo_start_date": "2026-01-01",
         "promo_title": "Perfect Draft Champions Club - Q1",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "undefined",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -263,7 +273,8 @@
         "promo_start_date": "2026-01-01",
         "promo_title": "CHR Excellence Program - Annual",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "2",
         "year": "2026"
@@ -290,7 +301,8 @@
         "promo_start_date": "2026-01-01",
         "promo_title": "New 0% Variants Launch - Leffe 0.0%",
         "promo_type": "New Product",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 0,
         "table": "6",
         "year": "2026"
@@ -315,7 +327,8 @@
         "promo_start_date": "2026-01-02",
         "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
         "promo_type": "free-beer",
-        "promo_uplift": "446 HL",
+        "promo_uplift_HL": 446,
+        "promo_uplift_machine":0,
         "ROI": 2.3,
         "table": "none",
         "year": "2026"
@@ -341,7 +354,8 @@
         "promo_start_date": "2026-01-02",
         "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
         "promo_type":"Special Offer",
-        "promo_uplift": "51 HL <br>+ <Br>375 Machines",
+        "promo_uplift_HL": 51,
+        "promo_uplift_machine":375,
         "ROI": 5.19,
         "table": "none",
         "year": "2026"
@@ -367,7 +381,8 @@
         "promo_start_date": "2026-02-01",
         "promo_title": "Share the Perfect Moment",
         "promo_type": "Special Offer",
-        "promo_uplift": "120 HL",
+        "promo_uplift_HL": 120,
+        "promo_uplift_machine":0,
         "ROI": 1.33,
         "table": "3",
         "year": "2026"
@@ -400,7 +415,8 @@
         "promo_start_date": "2026-03-01",
         "promo_title": "Gear Up for Spring",
         "promo_type": "Discount",
-        "promo_uplift": "120 HL",
+        "promo_uplift_HL": 120,
+           "promo_uplift_machine":0,
         "ROI": 1,
         "table": "4",
         "year": "2026"
@@ -426,7 +442,8 @@
         "promo_start_date": "2026-04-01",
         "promo_title": "Perfect Draft Champions Club - Q2",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "undefined",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -450,7 +467,8 @@
         "promo_start_date": "2026-04-07",
         "promo_title": "Easter Perfect Moments",
         "promo_type": "Special Offer",
-        "promo_uplift": "3500 HL <br> 1 375 HL incremental needed",
+        "promo_uplift_HL": 3500,
+        "promo_uplift_machine":0,
         "ROI": "undefined",
         "table": "5",
         "year": "2026"
@@ -481,7 +499,8 @@
         "promo_start_date": "2026-05-05",
         "promo_title": "Perfect Gift for Perfect Moms",
         "promo_type": "Discount",
-        "promo_uplift": "57 HL <br>+ <Br>200 Machines",
+        "promo_uplift_HL": 57,
+        "promo_uplift_machine":200,
         "ROI": 1.65,
         "table": "none",
         "year": "2026"
@@ -505,7 +524,8 @@
         "promo_start_date": "2026-05-15",
         "promo_title": "Wholesaler Academy - H2 Training",
         "promo_type": "Training",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -524,7 +544,7 @@
             "SA2"
         ],
         "promo_details": [
-            "Bundle: Machine + 3 Triple kegs for 220€",
+            "Bundle: Machine + 2 Triple kegs for 220€",
             "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet"
             
         ],
@@ -532,9 +552,71 @@
         "promo_start_date": "2026-06-01",
         "promo_title": "PefectDraft for a Perfect Dad",
         "promo_type": "free-beer",
-        "promo_uplift": "186 HL <br>+ <Br>650 Machines",
+        "promo_uplift_HL": 186,
+        "promo_uplift_machine":650,
         "ROI": 2.79,
         "table": "none",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants",
+            "Cavistes Nationaux"
+        ],
+        "icon": "⚽",
+        "id": "31",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "JUNE",
+        "promo_budget": [
+            5000,
+            9971
+        ],
+        "promo_budget_type": [
+            "Sales Pack",
+            "Discount"
+        ],
+        "promo_details": [
+            "2 steps deal : <br> - Get a offer for 10 (or more) Television with Versuni partner<br> - Create your bundle Machine + 1 kegs and register to the 'jeu concours' to win a TV",
+            "Beer: any from the Perfect Draft portfolio"
+        ],
+        "promo_end_date": "2026-06-21",
+        "promo_start_date": "2026-05-21",
+        "promo_title": "PefectDraft World Cup 2026 - Cavistes",
+        "promo_type": "Special Offer",
+        "promo_uplift_HL": 72,
+        "promo_uplift_machine":250,
+        "ROI": 1.82,
+        "table": "9",
+        "year": "2026"
+    },
+        {
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "⚽",
+        "id": "32",
+        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "month": "MAY",
+        "promo_budget": [162000],
+        "promo_budget_type": [
+            "Sales Pack"
+        ],
+        "promo_details": [
+            "2 steps deal : <br> - Get a bundle offer for 200 (or more) yearly subscription fees for Canal SPORT EVENEMENT <br> - Propose this offer for a 360 kegs commitment based on sellout data",
+            "Beer: any from the Perfect Draft portfolio",
+            "Focus: CHR venues with high sports viewership",
+            "limited to the number of subscription available in the negociation with Canal+",
+            "1820 HL Incremental"
+            
+        ],
+        "promo_end_date": "2026-06-11",
+        "promo_start_date": "2026-05-11",
+        "promo_title": "PefectDraft World Cup 2026 - CHR",
+        "promo_type": "Special Offer",
+        "promo_uplift_HL": 1320,
+           "promo_uplift_machine":0,
+        "ROI": 1.72,
+        "table": "8",
         "year": "2026"
     },
     {
@@ -558,7 +640,8 @@
         "promo_start_date": "2026-06-15",
         "promo_title": "Limited Edition Summer Flavors",
         "promo_type": "New Product",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "7",
         "year": "2026"
@@ -584,7 +667,8 @@
         "promo_start_date": "2026-07-01",
         "promo_title": "Perfect Draft Champions Club - Q3",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "undefined",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -608,7 +692,8 @@
         "promo_start_date": "2026-07-01",
         "promo_title": "Perfect Summer, PerfectDraft",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -634,7 +719,8 @@
         "promo_start_date": "2026-09-01",
         "promo_title": "September Perfect Back to School",
         "promo_type": "Discount",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -660,7 +746,8 @@
         "promo_start_date": "2026-10-01",
         "promo_title": "Perfect Draft Champions Club - Q4",
         "promo_type": "Loyalty Program",
-        "promo_uplift": "undefined",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -686,7 +773,8 @@
         "promo_start_date": "2026-10-01",
         "promo_title": "Perfect Oktoberfest Experience",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -711,7 +799,8 @@
         "promo_start_date": "2026-11-20",
         "promo_title": "Black Friday Perfect Deals",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -739,7 +828,8 @@
         "promo_start_date": "2026-12-01",
         "promo_title": "Perfect Christmas, Perfect Gifts",
         "promo_type": "Special Offer",
-        "promo_uplift": "0 HL",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine":0,
         "ROI": 1,
         "table": "none",
         "year": "2026"

@@ -120,7 +120,7 @@
             ]
         ]
     },
-      {
+    {
         "id": "7",
         "style": "transparentTable",
         "table": "",
@@ -132,7 +132,31 @@
                 "<img style=\"width: 100%; max-width: fit; height: 150px; object-fit: contain;\" src=\"img/LEF_ETE_LOGO.png\" alt=\"Leffe summer été\">"
             ]
         ]
+    },
+    {
+        "id": "8",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 250px; object-fit: contain;\" src=\"img/FifiWC_pink.png\" alt=\"2026 FIFA World Cup Pink\">"
+            ]
+        ]
+    },
+    {
+        "id": "9",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 250px; object-fit: contain;\" src=\"img/World-Cup-2026-PNG_009.png\" alt=\"2026 FIFA World Cup all colors\">"
+            ]
+        ]
     }
 ]
-
-
