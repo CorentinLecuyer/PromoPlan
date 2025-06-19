@@ -102,6 +102,20 @@ function generateTableHTML(tableObj) {
         </div>
     `;
 }
+function generateMultipleTablesHTML(tableIds) {
+    if (!tableIds || tableIds.length === 0) return '';
+
+    // Handle both single table ID (string/number) and array of table IDs
+    const tableIdArray = Array.isArray(tableIds) ? tableIds : [tableIds];
+
+    return tableIdArray
+        .map(tableId => {
+            const tableObj = getTableById(tableId);
+            return generateTableHTML(tableObj);
+        })
+        .filter(html => html !== '') // Remove empty results
+        .join('');
+}
 
 function renderTimeline(items) {
     const root = document.getElementById('timeline-root');
@@ -165,8 +179,8 @@ function renderTimeline(items) {
         lastYearMarker = YearMarker;
 
         // Check if item has a table and get table data
-        const hasTable = item.table && item.table !== "none";
-        const tableHTML = hasTable ? generateTableHTML(getTableById(item.table)) : '';
+        const hasTable = item.table && item.table !== "none" && (Array.isArray(item.table) ? item.table.length > 0 : true);
+        const tablesHTML = hasTable ? generateMultipleTablesHTML(item.table) : '';
 
         // Check if item has a budget and get table data
         const hasBudget = Array.isArray(item.promo_budget) || item.promo_budget.length > 0
@@ -186,7 +200,7 @@ function renderTimeline(items) {
                     ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
                   </div>
 
-                  ${tableHTML}
+                  ${tablesHTML}
                   ${hasBudget ? `
                     <h3 class="table-title">Budget Details // Financials</h3>
                     <table class="promo-table-budget">

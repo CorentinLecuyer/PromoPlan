@@ -158,5 +158,82 @@
                 "<img style=\"width: 100%; max-width: fit; height: 250px; object-fit: contain;\" src=\"img/World-Cup-2026-PNG_009.png\" alt=\"2026 FIFA World Cup all colors\">"
             ]
         ]
+    },
+    {
+        "id": "10",
+        "style": "blackTable",
+        "table": "",
+        "th": [
+            "Paradise best served with a lime"
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 250px; object-fit: contain;\" src=\"img/Corona_this_is_living.JPG\" alt=\"Corona this is living\">"
+            ]
+        ]
+    },
+    {
+        "id": "11",
+        "style": "blackTable",
+        "table": "Mechanic description:",
+        "th": [
+            "Package Name",
+            "Target Market",
+            "Package Content",
+            "Price",
+            "Key Value Proposition",
+            "Discount vs Internet"
+        ],
+        "tr": [
+            [
+                "Starter Office Package",
+                "Small Offices (20-50 employees)",
+                "1 Perfect Draft machine + 21 kegs",
+                "€899",
+                "Cost-effective employee engagement solution",
+                "10% discount compared to Internet price"
+            ],
+            [
+                "Corporate Standard",
+                "Medium Offices (50-200 employees)",
+                "2 Perfect Draft machine + 57 kegs",
+                "€1,499",
+                "Complete workplace culture enhancement",
+                "12.3% discount compared to Internet price"
+            ],
+            [
+                "Enterprise Solution",
+                "Large Corporations (200+ employees)",
+                "2 Perfect Draft machine + 57 kegs",
+                "€2,499",
+                "Premium corporate hospitality solution",
+                "15% discount compared to Internet price"
+            ]
+        ]
+    },
+    {
+        "id": "12",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 80%; object-fit: contain;\" src=\"img/PD At work.png\" alt=\"PD At work\">"
+            ]
+        ]
+    },
+    {
+        "id": "13",
+        "style": "blackTable",
+        "table": "",
+        "th": [
+            ""
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 80%; object-fit: contain;\" src=\"img/Test BF.png\" alt=\"BlackFriday\">"
+            ]
+        ]
     }
 ]

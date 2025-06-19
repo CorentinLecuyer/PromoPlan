@@ -458,7 +458,9 @@
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "APRIL",
         "promo_budget": [171101],
-        "promo_budget_type": [],
+        "promo_budget_type": [
+            "Discount"
+        ],
         "promo_details": [
             "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, Stella)",
             "Budget based on last year budget (from Floris) waiting on final sales numbers to adjust the ROI and expectations"
@@ -539,9 +541,13 @@
         "id": "12",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
-        "promo_budget": [18422],
+        "promo_budget": [
+            18422,
+            4000
+    ],
         "promo_budget_type": [
-            "SA2"
+            "SA2", 
+            "Sales Pack"
         ],
         "promo_details": [
             "Bundle: Machine + 2 Triple kegs for 220€",
@@ -681,47 +687,74 @@
         "id": "15",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JULY",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [
+            3225,
+            7000
+        ],
+        "promo_budget_type": [
+            "SA2",
+            "Sales Pack"
+        ],
         "promo_details": [
-            "10 kegs bought = 2 free + summer terrace kit",
-            "CHR: new terrace/hotel account = €50",
-            "Focus: Corona, Bud and Stella"
+            "Machine + 5 kegs bought = 1 free keg for new POCs on the coast only + POCM Corona",
+            "CHR: new beach POC = €20",
+            "Focus: Corona"
         ],
         "promo_end_date": "2026-07-31",
         "promo_start_date": "2026-07-01",
-        "promo_title": "Perfect Summer, PerfectDraft",
-        "promo_type": "Discount",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
-        "ROI": 1,
-        "table": "none",
+        "promo_title": "Perfect Summer, PerfectDraft 🍋",
+        "promo_type": "free-beer",
+        "promo_uplift_HL": 72,
+        "promo_uplift_machine":200,
+        "ROI": 0.89,
+        "table": "10",
         "year": "2026"
     },
     {
         "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
+            "CHR"
+        ],
+        "icon": "💼",
+        "id": "33",
+        "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
+        "month": "SEPTEMBER",
+        "promo_budget": [0],
+        "promo_budget_type": [],
+        "promo_details": [
+            "Innovation: B2B corporate packages"
+        ],
+        "promo_end_date": "2027-12-31",
+        "promo_start_date": "2026-09-01",
+        "promo_title": "September Perfect Back to School - New programm",
+        "promo_type": "Special Offer",
+        "promo_uplift_HL": 380.4,
+        "promo_uplift_machine":240,
+        "ROI": 1,
+        "table": ["12","11"],
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
             "Cavistes Nationaux"
         ],
         "icon": "🎒",
-        "id": "16",
+        "id": "34",
         "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
         "month": "SEPTEMBER",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [4205],
+        "promo_budget_type": [
+            "Discount"
+        ],
         "promo_details": [
-            "CHR: Office/corporate venue targeting",
-            "Cavistes: 6+1 back-to-work promotion",
-            "Innovation: B2B corporate packages"
+            "Cavistes: 4+1 back-to-work promotion"
         ],
         "promo_end_date": "2026-09-30",
         "promo_start_date": "2026-09-01",
         "promo_title": "September Perfect Back to School",
         "promo_type": "Discount",
-        "promo_uplift_HL": 0,
+        "promo_uplift_HL": 25,
         "promo_uplift_machine":0,
-        "ROI": 1,
+        "ROI": 1.26,
         "table": "none",
         "year": "2026"
     },
@@ -754,7 +787,6 @@
     },
     {
         "channel_tags": [
-            "CHR",
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
@@ -762,12 +794,15 @@
         "id": "18",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "OCTOBER",
-        "promo_budget": 0,
-        "promo_budget_type": [],
+        "promo_budget": [8000],
+        "promo_budget_type": [
+            "Sales Pack"
+        ],
         "promo_details": [
             "Focus: German-style beers, Franziskaner / Becks / etc.",
-            "5+1 on premium/specialty kegs",
-            "CHR: Themed restaurant activation campaign"
+            "2 kegs on premium/specialty kegs = 2 glasses",
+            "Activation with nice posters + GlassBox on counter...",
+            "Limited to 2388 glassbox"
         ],
         "promo_end_date": "2026-10-31",
         "promo_start_date": "2026-10-01",
@@ -781,57 +816,32 @@
     },
     {
         "channel_tags": [
-            "CHR",
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🛍️",
-        "id": "19",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "NOVEMBER",
-        "promo_budget": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Bundle: Machine + 6 kegs + premium POCM kit for €299",
-            "Trade offer: 20+5 for high-volume buyers"
-        ],
-        "promo_end_date": "2026-11-30",
-        "promo_start_date": "2026-11-20",
-        "promo_title": "Black Friday Perfect Deals",
-        "promo_type": "Special Offer",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
-        "ROI": 1,
-        "table": "none",
-        "year": "2026"
-    },
-    {
-        "channel_tags": [
-            "CHR",
             "Cavistes Indépendants",
             "Cavistes Nationaux"
         ],
         "icon": "🎄",
-        "id": "20",
+        "id": "19",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "DECEMBER",
-        "promo_budget": 0,
+        "month": "NOVEMBER",
+        "promo_budget": [
+            18422,
+            4000
+        ],
         "promo_budget_type": [
-            "SA2"
+            "SA2", 
+            "Sales Pack"
         ],
         "promo_details": [
-            "Premium Bundle: Machine + 6 Christmas kegs + luxury gift set for €349",
-            "Corporate: B2B Christmas party packages",
-            "CHR: New Year venue preparation incentives"
+            "Bundle: Machine + 2 kegs €199"
         ],
         "promo_end_date": "2026-12-24",
-        "promo_start_date": "2026-12-01",
-        "promo_title": "Perfect Christmas, Perfect Gifts",
+        "promo_start_date": "2026-11-20",
+        "promo_title": "Black Friday Perfect Deals",
         "promo_type": "Special Offer",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
-        "ROI": 1,
-        "table": "none",
+        "promo_uplift_HL": 186,
+        "promo_uplift_machine":650,
+        "ROI": 2.79,
+        "table": "13",
         "year": "2026"
     }
 ]
