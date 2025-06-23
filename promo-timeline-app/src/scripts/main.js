@@ -400,8 +400,23 @@ function updateSelectedText() {
     }
 }
 
+function getMonthsBetweenDates(startDate, endDate) {
+    const months = [];
+    const current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+
+    while (current <= endDate) {
+        months.push({
+            year: current.getFullYear(),
+            month: current.toLocaleString('en-US', { month: 'long' }).toUpperCase()
+        });
+        current.setMonth(current.getMonth() + 1);
+    }
+
+    return months;
+}
 // Function to render the home page tables
 function renderTablesHomePage(items) {
+
     const root = document.getElementById('timeline-root-home-page');
 
     // Safety check
@@ -442,7 +457,7 @@ function renderTablesHomePage(items) {
     const uniqueBudgetTypes = Array.from(allBudgetTypes).sort();
 
     // Get unique years from filtered items
-    const uniqueYears = [...new Set(items.map(item => item.year))].sort();
+    const uniqueYears = [...new Set(items.map(item => String(item.year)))].sort();
 
     // Month names for header
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
@@ -491,10 +506,21 @@ function renderTablesHomePage(items) {
 
         // Populate data for this year
         items.filter(item => item.year === year).forEach(item => {
+            // Get start and end dates for the promotion
+            const startDate = new Date(item.promo_start_date);
+            const endDate = new Date(item.promo_end_date);
+
+            // Get all months between start and end date
+            const promoMonths = getMonthsBetweenDates(startDate, endDate);
+
+            // Add icon to each month of the promotion for each channel
             item.channel_tags.forEach(channel => {
-                if (yearData[channel] && yearData[channel][item.month]) {
-                    yearData[channel][item.month].push(item.icon);
-                }
+                promoMonths.forEach(promoMonth => {
+                    // Only add to months within the current year being processed
+                    if (promoMonth.year === year && yearData[channel] && yearData[channel][promoMonth.month]) {
+                        yearData[channel][promoMonth.month].push(item.icon);
+                    }
+                });
             });
         });
 
@@ -567,8 +593,6 @@ function renderTablesHomePage(items) {
             </tr>
         `;
         });
-
-
     });
 
 
