@@ -518,10 +518,10 @@
      text-decoration: underline;
  }
 
- .table-container.transparentTable  {
-    display: flex;
-    justify-content: center;
-    margin-top: 10px; 
+ .table-container.transparentTable {
+     display: flex;
+     justify-content: center;
+     margin-top: 10px;
  }
 
  .promo-tableblackTable {
@@ -669,3 +669,102 @@
      text-align: center;
      background-color: lightyellow;
  }
+
+
+
+ .threePP-table {
+    table-layout: fixed;
+     width: 100%;
+     margin-top: 6px;
+     border-collapse: collapse;
+     border-radius: 8px;
+     overflow: hidden;
+     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+ }
+
+ .threePP-table-header {
+     font-size: 12px;
+     font-weight: 600;
+     color: #2c3e50;
+     margin-bottom: 8px;
+     margin-top: 8px;
+
+ }
+
+ .threePP-table thead {
+     background-color: #333;
+     color: white;
+     text-align: center;
+     align-items: center;
+ }
+
+ .threePP-table th {
+     padding: 10px 12px;
+     text-align: left;
+     font-size: 12px;
+     font-weight: 600;
+     text-transform: uppercase;
+     letter-spacing: 0.5px;
+     text-align: center;
+ }
+
+ .threePP-table tbody {
+     background-color: white;
+ }
+
+ .threePP-table td {
+     padding: 8px 10px;
+     font-size: 14px;
+     color: #34495e;
+     border-bottom: 1px solid #f1f2f6;
+     text-align: center;
+ }
+
+ .threePP-table tr:last-child td {
+     border-bottom: none;
+ }
+
+ .threePP-table tbody tr:hover {
+     background-color: #f8f9fa;
+ }
+ .threepplogo {
+     max-height: 100px;
+     height: fit-content;
+ }
+
+.promo-td {
+  position: relative;
+  height: 120px; /* force row height */
+  padding: 0;
+}
+
+.promo-box {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40%;
+  color: white;
+  background: linear-gradient(90deg, #3dca46, #13c81f);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  border-radius: 100px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  animation: fadeIn 0.6s ease-in-out forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
