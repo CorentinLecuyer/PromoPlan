@@ -406,7 +406,7 @@ function getMonthsBetweenDates(startDate, endDate) {
 
     while (current <= endDate) {
         months.push({
-            year: current.getFullYear(),
+            year: current.getFullYear().toString(),  // Ensure it's a string like item.year
             month: current.toLocaleString('en-US', { month: 'long' }).toUpperCase()
         });
         current.setMonth(current.getMonth() + 1);
@@ -511,31 +511,43 @@ function renderTablesHomePage(items) {
             const endDate = new Date(item.promo_end_date);
 
             // Get all months between start and end date
-            const promoMonths = getMonthsBetweenDates(startDate, endDate);
+            let promoMonths = [];
+
+            if (item.promo_type === "Loyalty Program") {
+                // Only end date's month
+                promoMonths.push({
+                    year: endDate.getFullYear().toString(),
+                    month: endDate.toLocaleString('en-US', { month: 'long' }).toUpperCase()
+                });
+            } else {
+                promoMonths = getMonthsBetweenDates(startDate, endDate);
+            }
+
 
             // Add icon to each month of the promotion for each channel
             item.channel_tags.forEach(channel => {
                 promoMonths.forEach(promoMonth => {
-                    // Only add to months within the current year being processed
-                    if (promoMonth.year === year && yearData[channel] && yearData[channel][promoMonth.month]) {
+                    if (promoMonth.year === year && yearData[channel][promoMonth.month]) {
                         yearData[channel][promoMonth.month].push(item.icon);
                     }
                 });
             });
+
         });
 
-        // Generate table rows for this year
         uniqueChannels.forEach(channel => {
+            const className = channel.includes("Loyalty") ? "channel-header-loyalty" : "channel-header";
+            // Generate table rows for this year
             tableHTMLcalendar += `
-                <tr>
-                    <td class="channel-header">${channel}</td>
-                    ${months.map((month, index) => {
+        <tr class="${className}">
+            <td>${channel}</td>
+            ${months.map((month, index) => {
                 const icons = yearData[channel][monthNames[index]];
                 const iconString = icons.length > 0 ? icons.join('') : '-';
                 return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
             }).join('')}
-                </tr>
-            `;
+        </tr>
+    `;
         });
     });
 

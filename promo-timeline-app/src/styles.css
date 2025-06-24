@@ -629,6 +629,10 @@
      background-color: #f8f9fa;
  }
 
+ .channel-header-loyalty{
+    background-color: lightyellow;
+ }
+
  .year-marker-cell {
      background: #FFCC02;
      color: #333;
