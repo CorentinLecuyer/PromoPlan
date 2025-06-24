@@ -149,7 +149,7 @@
  /* Make sure the filter containers are properly spaced */
  .filter-block{
 padding: 8px;
-background-color: #FFCC02;
+background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
 border-radius: 5px;
  }
 
@@ -179,7 +179,7 @@ border-radius: 5px;
      left: 0;
      right: 0;
      height: 6px;
-     background: #FFCC02;
+     background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
  }
 
  h1 {
@@ -278,7 +278,7 @@ border-radius: 5px;
  }
 
  .timeline-item:nth-child(even) .timeline-dot {
-     border-color: #FFCC02;
+     border-color:linear-gradient(180deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
  }
 
  .timeline-item:hover .timeline-dot {
@@ -452,7 +452,7 @@ border-radius: 5px;
      margin: 10px 0 60px 0;
      /* Combined margin values */
 
-     background: #FFCC02;
+     background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
      color: #333;
      text-align: center;
      padding: 9px 6px;

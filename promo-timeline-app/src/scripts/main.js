@@ -223,13 +223,10 @@ function renderTimeline(items) {
             minimumFractionDigits: 0,
             maximumFractionDigits: 0
         })}</th>
-                                <th><span class="channel-tag-budget">${item.promo_budget_type[index]}</span></th>
-                                ${index === 0 ?
+                                <th><span class="channel-tag-budget">${item.promo_budget_type[index]}</span></th>${index === 0 ?
                 `<th rowspan="${item.promo_budget.length}">${item.promo_uplift_HL} HL</th>
-                                        <th rowspan="${item.promo_budget.length}">${item.promo_uplift_machine} Machines</th>
-                                     <th rowspan="${item.promo_budget.length}">${item.ROI}</th>`
-                : ''
-            }
+                                <th rowspan="${item.promo_budget.length}">${item.promo_uplift_machine} Machines</th>
+                                <th rowspan="${item.promo_budget.length}">${item.ROI}</th>` : ''}
                             </tr>
                         `).join("")}
                         
@@ -623,7 +620,8 @@ function renderTablesHomePage(items) {
         months.forEach((month, index) => {
             yearData[monthNames[index]] = {
                 HL: 0,
-                machines: 0
+                machines: 0,
+                MACO: 0
             };
         });
 
@@ -631,6 +629,9 @@ function renderTablesHomePage(items) {
         items.filter(item => item.year === year).forEach(item => {
             const HL = Array.isArray(item.promo_uplift_HL) ? item.promo_uplift_HL : [item.promo_uplift_HL];
             const HLvalue = parseFloat(HL[0] || 0);
+
+            const MACO = Array.isArray(item.MACO) ? item.MACO : [item.MACO];
+            const MACOvalue = parseFloat(MACO[0] || 0);
 
             // Handle machines uplift (assuming similar structure)
             const machines = Array.isArray(item.promo_uplift_machine) ? item.promo_uplift_machine : [item.promo_uplift_machine];
@@ -640,6 +641,7 @@ function renderTablesHomePage(items) {
             if (yearData[item.month]) {
                 yearData[item.month].HL += HLvalue;
                 yearData[item.month].machines += machinesValue;
+                yearData[item.month].MACO += MACOvalue;
             }
         })
 
@@ -655,6 +657,19 @@ function renderTablesHomePage(items) {
             return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
         }).join('')}
     </tr>
+
+    <tr>
+    <td class="channel-header">MACO</td>
+    ${months.map((month, index) => {
+            const totalMACO = yearData[monthNames[index]].MACO;
+            const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
+        }).join('')}
+    </tr>
+
     <tr>
     <td class="channel-header">Machines Uplift</td>
     ${months.map((month, index) => {
