@@ -247,13 +247,13 @@
             "Discount"
         ],
         "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Quarterly loyalty program for PerfectDraft Champions Club",
             "Find a good tier list mechanic for Cavistes",
             "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-03-31",
         "promo_start_date": "2026-01-01",
-        "promo_title": "Perfect Draft Champions Club - Q1",
+        "promo_title": "PerfectDraft Champions Club - Q1",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
         "promo_uplift_machine":0,
@@ -339,7 +339,7 @@
         ],
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
-        "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
+        "promo_title": "PerfectDraft 0% - New Year, New You with Leffe 0.0%",
         "promo_type": "free-beer",
         "promo_uplift_HL": 446,
         "promo_uplift_machine":0,
@@ -367,7 +367,7 @@
         ],
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
-        "promo_title": "Perfect Draft 0% - New Year, New You with Leffe 0.0%",
+        "promo_title": "PerfectDraft 0% - New Year, New You with Leffe 0.0%",
         "promo_type":"Special Offer",
         "promo_uplift_HL": 51,
         "promo_uplift_machine":375,
@@ -412,17 +412,14 @@
         ],
         "icon": "🌱",
         "id": "7",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EbKCOCNkJUJMpI1_P0gjcsMBEIobKMGxUgJWxPHH9wXw3w?e=iagjce",
         "month": "MARCH",
         "promo_budget": [    
-            10000,
-            25000
+            32500
         ],
-        "MACO": 0,
+        "MACO": 63416.24,
         "promo_budget_type": [
-            "Sales Pack",
-            "SA2"
-            
+            "Sales Pack"
         ],
         "promo_details": [
             "CHR focus through wholesalers telesales",
@@ -434,9 +431,9 @@
         "promo_start_date": "2026-03-01",
         "promo_title": "Gear Up for Spring",
         "promo_type": "Discount",
-        "promo_uplift_HL": 120,
-           "promo_uplift_machine":0,
-        "ROI": 1,
+        "promo_uplift_HL": 300,
+        "promo_uplift_machine":250,
+        "ROI": 1.95,
         "table": "4",
         "year": "2026"
     },
@@ -454,13 +451,13 @@
             "Discount"
         ],
         "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Quarterly loyalty program for PerfectDraft Champions Club",
             "Find a good tier list mechanic for Cavistes",
             "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-06-30",
         "promo_start_date": "2026-04-01",
-        "promo_title": "Perfect Draft Champions Club - Q2",
+        "promo_title": "PerfectDraft Champions Club - Q2",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
         "promo_uplift_machine":0,
@@ -475,16 +472,17 @@
         ],
         "icon": "🐰",
         "id": "9",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EUXPSWhh5QRJvKkZfzvSIXUBCx-etzoJHzE79X6qeJorJA?e=OtTaM8",
         "month": "APRIL",
-        "promo_budget": [171101],
+        "promo_budget": [0],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
         ],
         "promo_details": [
             "Cavistes: 5+1L kegs for P/SP (Leffe, Triple Karmeliet, Stella)",
-            "Budget based on last year budget (from Floris) waiting on final sales numbers to adjust the ROI and expectations"
+            "Budget based on last year budget (from Floris) waiting on final sales numbers to adjust the ROI and expectations",
+            "SARAH : BUDGET SET TO 0 AS PART OF A DEDICATED PART OF THE 1YP"
         ],
         "promo_end_date": "2026-04-21",
         "promo_start_date": "2026-04-07",
@@ -503,20 +501,20 @@
         ],
         "icon": "💐",
         "id": "10",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EeNXWhiPY81DrVvkwpwJJEEBnF9AQE_vQ7sXjiC6yPu8cw?e=YWzg4p",
         "month": "MAY",
         "promo_budget": [
             6830,
             3000
         ],
-        "MACO": 0,
+        "MACO": 21018,
         "promo_budget_type": [
             "Discount", 
             "Sales Pack"
         ],
         "promo_details": [
-            "Bundle: Machine + 2 premium kegs + elegant serving set for €249",
-            "Maybe Stella with foaming knife + 2 glasses",
+            "Bundle: Machine + 2 premium kegs + elegant serving set for €229",
+            "Stella with foaming knife + 2 glasses",
             "Innovation: Small stickers for Mother's day"
         ],
         "promo_end_date": "2026-05-25",
@@ -525,7 +523,7 @@
         "promo_type": "Discount",
         "promo_uplift_HL": 57,
         "promo_uplift_machine":200,
-        "ROI": 1.65,
+        "ROI": 2.14,
         "table": "none",
         "year": "2026"
     },
@@ -565,26 +563,26 @@
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "JUNE",
         "promo_budget": [
-            18422,
+            37252,
             4000
         ],
-        "MACO": 0,
+        "MACO": 82700,
         "promo_budget_type": [
-            "SA2", 
+            "Discount", 
             "Sales Pack"
         ],
         "promo_details": [
-            "Bundle: Machine + 2 Triple kegs for 220€",
-            "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet"
-            
+            "Bundle: Machine + 2 Triple kegs for 220€ + 2 glasses",
+            "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet",
+            "Posters highlighting the offer"            
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-06-01",
         "promo_title": "PefectDraft for a Perfect Dad",
-        "promo_type": "free-beer",
+        "promo_type": "Discount",
         "promo_uplift_HL": 186,
         "promo_uplift_machine":650,
-        "ROI": 2.79,
+        "ROI": 2.22,
         "table": "none",
         "year": "2026"
     },
@@ -595,20 +593,20 @@
         ],
         "icon": "⚽",
         "id": "31",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EUdFgqIqprlMrpdmgOo91tYB01186lrLdoSH051BKfjPQA?e=887ngs",
         "month": "JUNE",
         "promo_budget": [
             5000,
             9971
         ],
-        "MACO": 0,
+        "MACO": 29635,
         "promo_budget_type": [
             "Sales Pack",
             "Discount"
         ],
         "promo_details": [
             "2 steps deal : <br> - Get a offer for 10 (or more) Television with Versuni partner<br> - Create your bundle Machine + 1 kegs and register to the 'jeu concours' to win a TV",
-            "Beer: any from the Perfect Draft portfolio"
+            "Beer: any from the PerfectDraft portfolio"
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-05-21",
@@ -616,7 +614,7 @@
         "promo_type": "Special Offer",
         "promo_uplift_HL": 72,
         "promo_uplift_machine":250,
-        "ROI": "1.82 <br>  <small>(2.73 <small>if TV offered by Versuni)</small></small>" ,
+        "ROI": "1.98 <br>  <small>(2.97 <small>if TV offered by Versuni)</small></small>" ,
         "table": "9",
         "year": "2026"
     },
@@ -626,16 +624,16 @@
         ],
         "icon": "⚽",
         "id": "32",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EXSgS482xidKuHZAIVOpzCkBFFe7bu0GXqgGVuWloSO-VA?e=qlf0TK",
         "month": "MAY",
         "promo_budget": [162000],
-        "MACO": 0,
+        "MACO": 279031,
         "promo_budget_type": [
             "Sales Pack"
         ],
         "promo_details": [
             "2 steps deal : <br> - Get a bundle offer for 200 (or more) yearly subscription fees for Canal SPORT EVENEMENT <br> - Propose this offer for a 360 kegs commitment based on sellout data",
-            "Beer: any from the Perfect Draft portfolio",
+            "Beer: any from the PerfectDraft portfolio",
             "Focus: CHR venues with high sports viewership",
             "limited to the number of subscription available in the negociation with Canal+",
             "1820 HL Incremental"
@@ -646,7 +644,7 @@
         "promo_title": "PefectDraft World Cup 2026 - CHR",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 1320,
-           "promo_uplift_machine":0,
+        "promo_uplift_machine":0,
         "ROI": 1.72,
         "table": "8",
         "year": "2026"
@@ -693,13 +691,13 @@
             "Discount"
         ],
         "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Quarterly loyalty program for PerfectDraft Champions Club",
             "Find a good tier list mechanic for Cavistes",
             "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-09-30",
         "promo_start_date": "2026-07-01",
-        "promo_title": "Perfect Draft Champions Club - Q3",
+        "promo_title": "PerfectDraft Champions Club - Q3",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
         "promo_uplift_machine":0,
@@ -713,13 +711,13 @@
         ],
         "icon": "🏖️",
         "id": "15",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/Eb71YapfMLxNhGqh3iFcx3gBMVK8uEiBGI0S4bDjVXrVig?e=uJm7Pt",
         "month": "JULY",
         "promo_budget": [
-            3225,
-            7000
+            4032,
+            8000
         ],
-        "MACO": 0,
+        "MACO": 24189,
         "promo_budget_type": [
             "SA2",
             "Sales Pack"
@@ -733,9 +731,9 @@
         "promo_start_date": "2026-07-01",
         "promo_title": "Perfect Summer, PerfectDraft 🍋",
         "promo_type": "free-beer",
-        "promo_uplift_HL": 72,
-        "promo_uplift_machine":200,
-        "ROI": 0.89,
+        "promo_uplift_HL": 90,
+        "promo_uplift_machine":250,
+        "ROI": 1.01,
         "table": "10",
         "year": "2026"
     },
@@ -745,10 +743,10 @@
         ],
         "icon": "💼",
         "id": "33",
-        "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EcbtAmqUCCJHgZH_cpUxQlYBBGy3nSduzcfWHNFy_hkjJQ?e=m1J1Gw",
         "month": "SEPTEMBER",
         "promo_budget": [0],
-        "MACO": 0,
+        "MACO": 97965.85,
         "promo_budget_type": [],
         "promo_details": [
             "Innovation: B2B corporate packages"
@@ -769,10 +767,10 @@
         ],
         "icon": "🎒",
         "id": "34",
-        "link": "https://www.notion.so/1fc8e2b2b0fb8031a270c14e191006fd?pvs=21",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ESNGkecfx3dHi5ltZYaXifEBiJv8KL972p9tOfxfy6OE6Q?e=wxsOh2",
         "month": "SEPTEMBER",
         "promo_budget": [4205],
-        "MACO": 0,
+        "MACO":  5284.69,
         "promo_budget_type": [
             "Discount"
         ],
@@ -803,13 +801,13 @@
             "Discount"
         ],
         "promo_details": [
-            "Quarterly loyalty program for Perfect Draft Champions Club",
+            "Quarterly loyalty program for PerfectDraft Champions Club",
             "Find a good tier list mechanic for Cavistes",
             "Budget below calculated on 2,5% of every quarter of V&B sales in 2024 <br>(reduced by the ponderated RFA)"
         ],
         "promo_end_date": "2026-12-31",
         "promo_start_date": "2026-10-01",
-        "promo_title": "Perfect Draft Champions Club - Q4",
+        "promo_title": "PerfectDraft Champions Club - Q4",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
         "promo_uplift_machine":0,
@@ -824,10 +822,10 @@
         ],
         "icon": "🍺",
         "id": "18",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ET9UX8NqMYVAoOJVDRJXwQ4BULWJXo_W-2DaJ3or-EpNbA?e=anGyTU",
         "month": "OCTOBER",
-        "promo_budget": [8000],
-        "MACO": 0,
+        "promo_budget": [23000],
+        "MACO": 50732,
         "promo_budget_type": [
             "Sales Pack"
         ],
@@ -841,9 +839,9 @@
         "promo_start_date": "2026-10-01",
         "promo_title": "Perfect Oktoberfest Experience",
         "promo_type": "Special Offer",
-        "promo_uplift_HL": 0,
+        "promo_uplift_HL": 240,
         "promo_uplift_machine":0,
-        "ROI": 1,
+        "ROI": 2.21,
         "table": "none",
         "year": "2026"
     },
@@ -854,15 +852,15 @@
         ],
         "icon": "🎄",
         "id": "19",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EVE9UWSP4vVPoVtmk8wSR1sBZdeEWyxdh2JPXMTlWMiDsw?e=HEl7H3",
         "month": "NOVEMBER",
         "promo_budget": [
-            18422,
-            4000
+            39079,
+            3000
         ],
-        "MACO": 0,
+        "MACO":  74427,
         "promo_budget_type": [
-            "SA2", 
+            "Discount", 
             "Sales Pack"
         ],
         "promo_details": [
@@ -874,7 +872,7 @@
         "promo_type": "Special Offer",
         "promo_uplift_HL": 186,
         "promo_uplift_machine":650,
-        "ROI": 2.79,
+        "ROI": 1.9,
         "table": "13",
         "year": "2026"
     }
