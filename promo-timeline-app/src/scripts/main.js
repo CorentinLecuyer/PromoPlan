@@ -663,8 +663,10 @@ function renderTablesHomePage(items) {
     ${months.map((month, index) => {
             const totalMACO = yearData[monthNames[index]].MACO;
             const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
             }) : '-';
             return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
         }).join('')}
