@@ -1,131 +1,250 @@
-let allTimelineItems = [];
-let allTableData = [];
-let selectedChannels = ['all'];
-let selectedYears = ['all'];
+const supabaseUrl = 'https://supabase.com/dashboard/project/wbvfmgyaudfkhridkhep';
+const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidmZtZ3lhdWRma2hyaWRraGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzNjM0ODQsImV4cCI6MjA2NTkzOTQ4NH0.ycacnokvGqBRAKCBAOaWJMjafiFGB3KuAp3gQYGJLrc';
+const supabase = Supabase.createClient(supabaseUrl, supabaseAnonKey);
 
-function getTableById(tableId) {
-    return allTableData.find(table => table.id === tableId);
-}
+// ======================================================
+// 2. Global State Management
+// ======================================================
+// Centralized state for filters and fetched data
+const appState = {
+    allTimelineItems: [],
+    allTableData: [],
+    selectedChannels: ['all'], // Default to all channels
+    selectedYears: ['2026']    // Default to 2026 based on your current setup
+};
 
-// Load table data from JSON file
-function loadTableData() {
-    return fetch('./db/table-items.json')
-        .then(response => response.json())
-        .then(data => {
-            allTableData = data;
-        })
-        .catch(error => {
-            console.error('Error loading table data:', error);
-            allTableData = [];
-        });
-}
+// ======================================================
+// 3. Utility Functions (utils.js equivalent)
+// ======================================================
 
-// Load timeline data from JSON file
-function loadTimelineData() {
-    return fetch('./db/timeline-items.json')
-        .then(response => response.json())
-        .then(data => {
-            allTimelineItems = data;
-        })
-        .catch(error => {
-            console.error('Error loading timeline data:', error);
-            allTimelineItems = [];
-        });
-}
-
-// Initialize the application
-async function initializeApp() {
+/**
+ * Safely parses a JSON string that might represent an array or a single value.
+ * Handles cases where the input is null, 'none', or invalid JSON.
+ * @param {string|null|undefined} jsonString - The string to parse.
+ * @returns {Array<string>} An array of strings.
+ */
+function parseJsonArray(jsonString) {
+    if (!jsonString || jsonString === 'none') {
+        return [];
+    }
     try {
-        // Check if required DOM elements exist
-        const timelineRoot = document.getElementById('timeline-root');
-        const homePageRoot = document.getElementById('timeline-root-home-page');
-
-        if (!timelineRoot && !homePageRoot) {
-            console.warn('No timeline containers found in DOM');
-            return;
+        const parsed = JSON.parse(jsonString);
+        if (Array.isArray(parsed)) {
+            return parsed.map(String);
         }
-
-        // Load both datasets concurrently
-        await Promise.all([
-            loadTableData(),
-            loadTimelineData()
-        ]);
-
-        // Render timeline only if container exists
-        if (timelineRoot) {
-            renderTimeline(allTimelineItems);
-        }
-
-        // Render home page only if container exists
-        if (homePageRoot) {
-            renderTablesHomePage(allTimelineItems);
-        }
-
-    } catch (error) {
-        console.error('Error initializing app:', error);
-        // Show error in available containers
-        const timelineRoot = document.getElementById('timeline-root');
-        const homePageRoot = document.getElementById('timeline-root-home-page');
-
-        const errorMessage = '<p style="color:red;">Failed to load timeline data.</p>';
-
-        if (timelineRoot) {
-            timelineRoot.innerHTML = errorMessage;
-        }
-        if (homePageRoot) {
-            homePageRoot.innerHTML = errorMessage;
-        }
+        // If it's a single value (number, string, etc.), wrap it in an array
+        return [String(parsed)];
+    } catch (e) {
+        console.warn('Failed to parse JSON string:', jsonString, e);
+        // Fallback: if parsing fails, assume it's a literal string and return it in an array
+        return [String(jsonString)];
     }
 }
 
-// Function to generate HTML table
+/**
+ * Formats a date range for display.
+ * @param {string} startDateStr - The start date string (YYYY-MM-DD).
+ * @param {string} endDateStr - The end date string (YYYY-MM-DD).
+ * @returns {string} Formatted date range (e.g., "1 Jan - 31 Dec 2026").
+ */
+function formatDateRange(startDateStr, endDateStr) {
+    const startDate = new Date(startDateStr);
+    const endDate = new Date(endDateStr);
+
+    const sameYear = startDate.getFullYear() === endDate.getFullYear();
+
+    const startOptions = sameYear
+        ? { day: 'numeric', month: 'long' }
+        : { day: 'numeric', month: 'long', year: 'numeric' };
+
+    const endOptions = { day: '2-digit', month: 'long', year: 'numeric' };
+
+    const formattedStartDate = new Intl.DateTimeFormat('en-US', startOptions).format(startDate);
+    const formattedEndDate = new Intl.DateTimeFormat('en-US', endOptions).format(endDate);
+
+    return `${formattedStartDate} - ${formattedEndDate}`;
+}
+
+/**
+ * Generates an array of months between two dates (inclusive).
+ * @param {Date} startDate - The start date.
+ * @param {Date} endDate - The end date.
+ * @returns {Array<{year: string, month: string}>} Array of month objects.
+ */
+function getMonthsBetweenDates(startDate, endDate) {
+    const months = [];
+    const current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+
+    while (current <= endDate) {
+        months.push({
+            year: current.getFullYear().toString(),
+            month: current.toLocaleString('en-US', { month: 'long' }).toUpperCase()
+        });
+        current.setMonth(current.getMonth() + 1);
+    }
+    return months;
+}
+
+// ======================================================
+// 4. Data Fetching (supabaseClient.js equivalent)
+// ======================================================
+
+/**
+ * Fetches promotional items from Supabase with applied filters.
+ * @returns {Promise<Array>} A promise that resolves to an array of processed timeline items.
+ */
+async function fetchTimelineItems() {
+    try {
+        let query = supabase.from('promo_items').select('*');
+
+        // Apply year filter
+        if (!appState.selectedYears.includes('all') && appState.selectedYears.length > 0) {
+            query = query.in('year', appState.selectedYears); // 'year' column in DB is likely int, ensure comparison is correct.
+        }
+
+        // Apply channel filter using 'contains' for array columns
+        if (!appState.selectedChannels.includes('all') && appState.selectedChannels.length > 0) {
+            query = query.contains('channel_tags', appState.selectedChannels);
+        }
+
+        const { data, error } = await query;
+
+        if (error) {
+            console.error('Supabase fetchTimelineItems error:', error.message);
+            throw new Error('Failed to load timeline data from database.');
+        }
+
+        // Process fetched data to parse JSON strings and convert types
+        return data.map(item => ({
+            ...item,
+            promo_details: parseJsonArray(item.promo_details),
+            // Parse promo_budget, converting elements to numbers
+            promo_budget: parseJsonArray(item.promo_budget).map(b => parseFloat(b) || 0),
+            promo_budget_type: parseJsonArray(item.promo_budget_type),
+            channel_tags: parseJsonArray(item.channel_tags),
+            // Map 'table_name' from DB to 'table' property for existing rendering logic
+            table: parseJsonArray(item.table_name).length > 0 ? parseJsonArray(item.table_name) : 'none',
+            // Ensure year is string for consistent filtering with checkbox values
+            year: String(item.year)
+        }));
+
+    } catch (error) {
+        console.error('Error in fetchTimelineItems:', error);
+        return []; // Return empty array on error
+    }
+}
+
+/**
+ * Fetches table data from Supabase.
+ * @returns {Promise<Array>} A promise that resolves to an array of processed table data.
+ */
+async function fetchTableData() {
+    try {
+        const { data, error } = await supabase
+            .from('promoTables_items') // Your Supabase table name for display tables
+            .select('*');
+
+        if (error) {
+            console.error('Supabase fetchTableData error:', error.message);
+            throw new Error('Failed to load table data from database.');
+        }
+
+        // Process fetched data: parse 'th' and 'tr' from string to array
+        return data.map(row => ({
+            ...row,
+            th: parseJsonArray(row.th),
+            tr: parseJsonArray(row.tr)
+        }));
+
+    } catch (error) {
+        console.error('Error in fetchTableData:', error);
+        return []; // Return empty array on error
+    }
+}
+
+// ======================================================
+// 5. UI Rendering Functions (ui.js equivalent)
+// ======================================================
+
+/**
+ * Retrieves a table object by its ID from the cached table data.
+ * @param {string|number} tableId - The ID of the table to find.
+ * @returns {object|undefined} The table object or undefined if not found.
+ */
+function getTableDataById(tableId) {
+    return appState.allTableData.find(table => String(table.id) === String(tableId));
+}
+
+/**
+ * Generates HTML for a single table.
+ * @param {object} tableObj - The table object.
+ * @returns {string} HTML string for the table.
+ */
 function generateTableHTML(tableObj) {
     if (!tableObj) return '';
 
+    // Use table_name from DB as the title
+    const tableTitle = tableObj.table_name || '';
+    const tableHeaders = tableObj.th || [];
+    const tableRows = tableObj.tr || [];
+
     return `
         <div class="table-container ${tableObj.style}">
-            <h3 class="table-title">${tableObj.table}</h3>
+            <h3 class="table-title">${tableTitle}</h3>
             <table class="promo-table${tableObj.style}">
                 <thead>
                     <tr>
-                        ${tableObj.th.map(header => `<th>${header}</th>`).join('')}
+                        ${tableHeaders.map(header => `<th>${header}</th>`).join('')}
                     </tr>
                 </thead>
                 <tbody>
-                    ${tableObj.tr.map(row => `
-                        <tr>
-                            ${row.map(cell => `<td>${cell}</td>`).join('')}
-                        </tr>
-                    `).join('')}
+                    ${tableRows.map(rowArray => {
+                        // Assuming rowArray is already an array from parseJsonArray
+                        // Each item in rowArray is a cell content
+                        return `
+                            <tr>
+                                ${rowArray.map(cell => `<td>${cell}</td>`).join('')}
+                            </tr>
+                        `;
+                    }).join('')}
                 </tbody>
             </table>
         </div>
     `;
 }
-function generateMultipleTablesHTML(tableIds) {
-    if (!tableIds || tableIds.length === 0) return '';
 
-    // Handle both single table ID (string/number) and array of table IDs
+/**
+ * Generates HTML for multiple tables given their IDs.
+ * @param {string|number|Array<string|number>} tableIds - Single ID or array of IDs.
+ * @returns {string} Combined HTML string for all tables.
+ */
+function generateMultipleTablesHTML(tableIds) {
+    if (!tableIds || (Array.isArray(tableIds) && tableIds.length === 0) || tableIds === 'none') return '';
+
     const tableIdArray = Array.isArray(tableIds) ? tableIds : [tableIds];
 
     return tableIdArray
         .map(tableId => {
-            const tableObj = getTableById(tableId);
+            const tableObj = getTableDataById(tableId);
             return generateTableHTML(tableObj);
         })
-        .filter(html => html !== '') // Remove empty results
+        .filter(html => html !== '')
         .join('');
 }
 
+
+/**
+ * Renders the timeline view based on filtered items.
+ * @param {Array<object>} items - The timeline items to render.
+ */
 function renderTimeline(items) {
     const root = document.getElementById('timeline-root');
-
-    // Safety check
     if (!root) {
-        console.warn('Timeline root element not found');
+        console.warn('Timeline root element not found, cannot render timeline.');
         return;
     }
 
+    // Sort items by start date or end date for loyalty programs
     items.sort((a, b) => {
         const dateA = a.promo_type === "Loyalty Program"
             ? new Date(a.promo_end_date)
@@ -148,51 +267,37 @@ function renderTimeline(items) {
         const startDate = new Date(item.promo_start_date);
         const endDate = new Date(item.promo_end_date);
 
-        const sameYear = startDate.getFullYear() === endDate.getFullYear();
-
-        // Choose format options depending on year match
-        const startOptions = sameYear
-            ? { day: 'numeric', month: 'long' }
-            : { day: 'numeric', month: 'long', year: 'numeric' };
-
-        const endOptions = { day: '2-digit', month: 'long', year: 'numeric' };
-
-        const formattedStartDate = new Intl.DateTimeFormat('en-US', startOptions).format(startDate);
-        const formattedEndDate = new Intl.DateTimeFormat('en-US', endOptions).format(endDate);
+        const formattedDate = formatDateRange(item.promo_start_date, item.promo_end_date);
 
         const specialDate = item.promo_type === "Loyalty Program"
             ? new Date(item.promo_end_date)
             : new Date(item.promo_start_date);
 
-        // Determine the month label for grouping (e.g., "January 2025")
         const monthMarker = specialDate.toLocaleString('en-US', { month: 'long', year: 'numeric' }).toUpperCase();
-
-        // Show month marker only if different from the last one
         const showMonthMarker = monthMarker !== lastMonthMarker;
         lastMonthMarker = monthMarker;
 
-        // Determine the year label for grouping (e.g., "January 2025")
-        const YearMarker = startDate.toLocaleString('en-US', { year: 'numeric' });
+        const yearMarker = String(startDate.getFullYear()); // Ensure year is a string
+        const showYearMarker = yearMarker !== lastYearMarker;
+        lastYearMarker = yearMarker;
 
-        // Show year marker only if different from the last one
-        const showYearMarker = YearMarker !== lastYearMarker;
-        lastYearMarker = YearMarker;
+        const tablesHTML = generateMultipleTablesHTML(item.table); // Use item.table which is now an array of IDs
 
-        // Check if item has a table and get table data
-        const hasTable = item.table && item.table !== "none" && (Array.isArray(item.table) ? item.table.length > 0 : true);
-        const tablesHTML = hasTable ? generateMultipleTablesHTML(item.table) : '';
+        const hasBudget = Array.isArray(item.promo_budget) && item.promo_budget.length > 0 && item.promo_budget.some(b => b > 0);
+        const hasMACO = typeof item.MACO === 'number' && item.MACO > 0;
+        const hasUpliftHL = typeof item.promo_uplift_HL === 'number' && item.promo_uplift_HL > 0;
+        const hasUpliftMachine = typeof item.promo_uplift_machine === 'number' && item.promo_uplift_machine > 0;
+        const hasROI = item.ROI !== null && item.ROI !== undefined && item.ROI !== 0 && item.ROI !== 'TBC' && item.ROI !== 'undefined';
 
-        // Check if item has a budget and get table data
-        const hasBudget = Array.isArray(item.promo_budget) || item.promo_budget.length > 0
 
         return `
-                ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
+                ${showYearMarker ? `<div class="year-marker">${yearMarker}</div>` : ""}
               <div class="timeline-item">
                   ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
                 <div class="timeline-content">
                   <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}">${item.promo_type}</div>
                   <div class="promo-title">${item.promo_title}</div>
-                  <div class="promo-date"> ${formattedStartDate} - ${formattedEndDate} </div>
+                  <div class="promo-date"> ${formattedDate} </div>
                   <div class="promo-details">
                     ${item.promo_details.map(line => `• ${line}<br>`).join("")}
                   </div>
@@ -201,8 +306,9 @@ function renderTimeline(items) {
                   </div>
 
                   ${tablesHTML}
-                  ${hasBudget ? `
-                    <h3 class="table-title">Budget Details // Financials</h3>
+
+                  ${(hasBudget || hasMACO || hasUpliftHL || hasUpliftMachine || hasROI) ? `
+                    <h3 class="table-title">Budget Details / Financials</h3>
                     <table class="promo-table-budget">
                         <thead>
                             <tr>
@@ -211,30 +317,54 @@ function renderTimeline(items) {
                                 <th>Uplift HL</th>
                                 <th>Uplift Machine</th>
                                 <th>ROI</th>
+                                <th>MACO</th>
                             </tr>
                         </thead>
                         <tbody>
-                        
-                        ${item.promo_budget.map((budget, index) => `
-                            <tr>
-                                <th>${budget.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</th>
-                                <th><span class="channel-tag-budget">${item.promo_budget_type[index]}</span></th>${index === 0 ?
-                `<th rowspan="${item.promo_budget.length}">${item.promo_uplift_HL} HL</th>
-                                <th rowspan="${item.promo_budget.length}">${item.promo_uplift_machine} Machines</th>
-                                <th rowspan="${item.promo_budget.length}">${item.ROI}</th>` : ''}
-                            </tr>
-                        `).join("")}
-                        
-                        
-                    </tbody>
+                        ${item.promo_budget.map((budget, index) => {
+                            const budgetType = item.promo_budget_type[index] || 'N/A';
+                            // Only render ROI, Uplift HL, Uplift Machine, and MACO on the first row of budget
+                            const displayFinancials = index === 0;
+                            return `
+                                <tr>
+                                    <th>${budget.toLocaleString('fr-FR', {
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0
+                                    })}</th>
+                                    <th><span class="channel-tag-budget">${budgetType}</span></th>
+                                    ${displayFinancials ?
+                                        `<th rowspan="${item.promo_budget.length}">${item.promo_uplift_HL || 0} HL</th>
+                                        <th rowspan="${item.promo_budget.length}">${item.promo_uplift_machine || 0} Machines</th>
+                                        <th rowspan="${item.promo_budget.length}">${item.ROI || 'TBC'}</th>
+                                        <th rowspan="${item.promo_budget.length}">${item.MACO.toLocaleString('fr-FR', {
+                                            style: 'currency',
+                                            currency: 'EUR',
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0
+                                        })}</th>`
+                                        : ''}
+                                </tr>
+                            `;
+                        }).join("")}
+                        ${item.promo_budget.length === 0 && (hasMACO || hasUpliftHL || hasUpliftMachine || hasROI) ?
+                            // Case for items with MACO/Uplift/ROI but no specific budget breakdown
+                            `<tr>
+                                <th>-</th>
+                                <th><span class="channel-tag-budget">-</span></th>
+                                <th>${item.promo_uplift_HL || 0} HL</th>
+                                <th>${item.promo_uplift_machine || 0} Machines</th>
+                                <th>${item.ROI || 'TBC'}</th>
+                                <th>${item.MACO.toLocaleString('fr-FR', {
+                                    style: 'currency',
+                                    currency: 'EUR',
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 0
+                                })}</th>
+                            </tr>` : ''}
                         </tbody>
                     </table>` : ""}
-
                   </div>
                 <a href="${item.link}" target="_blank">
                   <div class="icon-container">
@@ -250,179 +380,18 @@ function renderTimeline(items) {
   `;
 }
 
-// Combined filter function that applies both year and channel filters
-function applyFilters() {
-    let filteredItems = allTimelineItems;
-
-    // Apply year filter (updated to handle multiple years)
-    if (!selectedYears.includes('all') && selectedYears.length > 0) {
-        filteredItems = filteredItems.filter(item => selectedYears.includes(item.year));
-    }
-
-    // Apply channel filter
-    if (!selectedChannels.includes('all') && selectedChannels.length > 0) {
-        filteredItems = filteredItems.filter(item =>
-            item.channel_tags.some(tag => selectedChannels.includes(tag))
-        );
-    }
-
-    renderTimeline(filteredItems);
-    renderTablesHomePage(filteredItems);
-
-}
-
-// YEAR MULTI-SELECT FUNCTIONS
-function toggleYearDropdown() {
-    const dropdown = document.getElementById('yearDropdown');
-    const arrow = document.getElementById('yearDropdownArrow');
-
-    if (dropdown) dropdown.classList.toggle('show');
-    if (arrow) arrow.classList.toggle('rotated');
-}
-
-function handleYearOptionChange(checkbox) {
-    const allYearCheckbox = document.getElementById('year_all');
-
-    if (checkbox.value === 'all') {
-        if (checkbox.checked) {
-            // If "All" is checked, uncheck all others and select only "all"
-            selectedYears = ['all'];
-            document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(cb => {
-                cb.checked = cb.value === 'all';
-            });
-        } else {
-            // If "All" is unchecked, keep it unchecked
-            selectedYears = [];
-        }
-    } else {
-        // If any specific year is selected
-        if (allYearCheckbox) allYearCheckbox.checked = false;
-
-        if (checkbox.checked) {
-            // Add to selected years
-            if (!selectedYears.includes(checkbox.value)) {
-                selectedYears = selectedYears.filter(year => year !== 'all');
-                selectedYears.push(checkbox.value);
-            }
-        } else {
-            // Remove from selected years
-            selectedYears = selectedYears.filter(year => year !== checkbox.value);
-
-            // If no years selected, select "All"
-            if (selectedYears.length === 0) {
-                selectedYears = ['all'];
-                if (allYearCheckbox) allYearCheckbox.checked = true;
-            }
-        }
-    }
-
-    updateSelectedYearText();
-    applyFilters();
-}
-
-function updateSelectedYearText() {
-    const selectedText = document.getElementById('selectedYearText');
-
-    if (!selectedText) return;
-
-    if (selectedYears.includes('all') || selectedYears.length === 0) {
-        selectedText.textContent = 'All Years';
-    } else if (selectedYears.length === 1) {
-        selectedText.textContent = selectedYears[0];
-    } else {
-        selectedText.innerHTML = `${selectedYears.length} Years <span class="selected-count">${selectedYears.length}</span>`;
-    }
-}
-
-// CHANNEL MULTI-SELECT FUNCTIONS
-function toggleDropdown() {
-    const dropdown = document.getElementById('channelDropdown');
-    const arrow = document.getElementById('dropdownArrow');
-
-    if (dropdown) dropdown.classList.toggle('show');
-    if (arrow) arrow.classList.toggle('rotated');
-}
-
-function handleOptionChange(checkbox) {
-    const allCheckbox = document.getElementById('all');
-
-    if (checkbox.value === 'all') {
-        if (checkbox.checked) {
-            // If "All" is checked, uncheck all others and select only "all"
-            selectedChannels = ['all'];
-            document.querySelectorAll('#channelDropdown input[type="checkbox"]').forEach(cb => {
-                cb.checked = cb.value === 'all';
-            });
-        } else {
-            // If "All" is unchecked, keep it unchecked
-            selectedChannels = [];
-        }
-    } else {
-        // If any specific channel is selected
-        if (allCheckbox) allCheckbox.checked = false;
-
-        if (checkbox.checked) {
-            // Add to selected channels
-            if (!selectedChannels.includes(checkbox.value)) {
-                selectedChannels = selectedChannels.filter(ch => ch !== 'all');
-                selectedChannels.push(checkbox.value);
-            }
-        } else {
-            // Remove from selected channels
-            selectedChannels = selectedChannels.filter(ch => ch !== checkbox.value);
-
-            // If no channels selected, select "All"
-            if (selectedChannels.length === 0) {
-                selectedChannels = ['all'];
-                if (allCheckbox) allCheckbox.checked = true;
-            }
-        }
-    }
-
-    updateSelectedText();
-    applyFilters();
-}
-
-function updateSelectedText() {
-    const selectedText = document.getElementById('selectedText');
-
-    if (!selectedText) return;
-
-    if (selectedChannels.includes('all') || selectedChannels.length === 0) {
-        selectedText.textContent = 'All Channels';
-    } else if (selectedChannels.length === 1) {
-        selectedText.textContent = selectedChannels[0];
-    } else {
-        selectedText.innerHTML = `${selectedChannels.length} Channels <span class="selected-count">${selectedChannels.length}</span>`;
-    }
-}
-
-function getMonthsBetweenDates(startDate, endDate) {
-    const months = [];
-    const current = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-
-    while (current <= endDate) {
-        months.push({
-            year: current.getFullYear().toString(),  // Ensure it's a string like item.year
-            month: current.toLocaleString('en-US', { month: 'long' }).toUpperCase()
-        });
-        current.setMonth(current.getMonth() + 1);
-    }
-
-    return months;
-}
-// Function to render the home page tables
+/**
+ * Renders the home page calendar tables (icons, budget, uplift).
+ * @param {Array<object>} items - The timeline items to render.
+ */
 function renderTablesHomePage(items) {
-
     const root = document.getElementById('timeline-root-home-page');
-
-    // Safety check
     if (!root) {
-        console.warn('Home page root element not found');
+        console.warn('Home page root element not found, cannot render tables.');
         return;
     }
 
-    // Sort items by date
+    // Sort items by date for consistent calendar display
     items.sort((a, b) => {
         const dateA = a.promo_type === "Loyalty Program"
             ? new Date(a.promo_end_date)
@@ -432,262 +401,180 @@ function renderTablesHomePage(items) {
             ? new Date(b.promo_end_date)
             : new Date(b.promo_start_date);
 
-        return dateA - dateB; // Ascending order (oldest first)
+        return dateA - dateB;
     });
 
-    // Get unique channels from all items
+    // Extract unique channels and budget types from the *filtered* items
     const allChannels = new Set();
-    items.forEach(item => {
-        item.channel_tags.forEach(channel => {
-            allChannels.add(channel);
-        });
-    });
-    const uniqueChannels = Array.from(allChannels).sort();
-
-    // Get unique channels from all items
     const allBudgetTypes = new Set();
     items.forEach(item => {
-        item.promo_budget_type.forEach(promo_budget => {
-            allBudgetTypes.add(promo_budget);
-        });
+        item.channel_tags.forEach(channel => allChannels.add(channel));
+        item.promo_budget_type.forEach(type => allBudgetTypes.add(type));
     });
+    const uniqueChannels = Array.from(allChannels).sort();
     const uniqueBudgetTypes = Array.from(allBudgetTypes).sort();
 
-    // Get unique years from filtered items
-    const uniqueYears = [...new Set(items.map(item => String(item.year)))].sort();
+    const uniqueYearsInFilteredData = [...new Set(items.map(item => String(item.year)))].sort();
 
-    // Month names for header
     const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthNames = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+    const monthNamesFull = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
 
-    let h1Title = '';
-    if (
-        selectedYears.includes('all') ||
-        selectedYears.length === 0 ||
-        selectedYears.length > 1
-    ) {
-        h1Title = 'Promotional Calendar - Icons by Channel and Month';
+    let h1TitleCalendar = '';
+    if (appState.selectedYears.includes('all') || appState.selectedYears.length > 1) {
+        h1TitleCalendar = 'Promotional Calendar - Icons by Channel and Month';
     } else {
-        h1Title = `Promotional Calendar ${selectedYears[0]} - Icons by Channel and Month`;
+        h1TitleCalendar = `Promotional Calendar ${appState.selectedYears[0]} - Icons by Channel and Month`;
     }
 
     let h1TitleBudget = '';
-    if (
-        selectedYears.includes('all') ||
-        selectedYears.length === 0 ||
-        selectedYears.length > 1
-    ) {
+    if (appState.selectedYears.includes('all') || appState.selectedYears.length > 1) {
         h1TitleBudget = 'Budget Calendar by Channel and Month';
     } else {
-        h1TitleBudget = `Budget Calendar ${selectedYears[0]} by Channel and Month`;
+        h1TitleBudget = `Budget Calendar ${appState.selectedYears[0]} by Channel and Month`;
     }
 
-    // Build the table HTML
+
     let tableHTMLcalendar = '';
+    let tableHTMLBudget = '';
+    let tableHTMLUplift = '';
 
-    uniqueYears.forEach((year, yearIndex) => {
-        // Add year separator if multiple years
-        if (uniqueYears.length > 1) {
+    uniqueYearsInFilteredData.forEach(year => {
+        const itemsForThisYear = items.filter(item => String(item.year) === year);
 
+        if (uniqueYearsInFilteredData.length > 1) {
             tableHTMLcalendar += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
         }
 
-        // Create data structure for this year
-        const yearData = {};
+        // Calendar Icons Data
+        const yearIconsData = {};
         uniqueChannels.forEach(channel => {
-            yearData[channel] = {};
-            months.forEach((month, index) => {
-                yearData[channel][monthNames[index]] = [];
-            });
+            yearIconsData[channel] = {};
+            monthNamesFull.forEach(month => yearIconsData[channel][month] = []);
         });
 
-        // Populate data for this year
-        items.filter(item => item.year === year).forEach(item => {
-            // Get start and end dates for the promotion
+        itemsForThisYear.forEach(item => {
             const startDate = new Date(item.promo_start_date);
             const endDate = new Date(item.promo_end_date);
+            const promoMonths = getMonthsBetweenDates(startDate, endDate);
 
-            // Get all months between start and end date
-            let promoMonths = [];
-
-            if (item.promo_type === "Loyalty Program") {
-                // Only end date's month
-                promoMonths.push({
-                    year: endDate.getFullYear().toString(),
-                    month: endDate.toLocaleString('en-US', { month: 'long' }).toUpperCase()
-                });
-            } else {
-                promoMonths = getMonthsBetweenDates(startDate, endDate);
-            }
-
-
-            // Add icon to each month of the promotion for each channel
             item.channel_tags.forEach(channel => {
                 promoMonths.forEach(promoMonth => {
-                    if (promoMonth.year === year && yearData[channel][promoMonth.month]) {
-                        yearData[channel][promoMonth.month].push(item.icon);
+                    if (yearIconsData[channel] && yearIconsData[channel][promoMonth.month]) {
+                        yearIconsData[channel][promoMonth.month].push(item.icon);
                     }
                 });
             });
-
         });
 
-        uniqueChannels.forEach(channel => {
-            const className = channel.includes("Loyalty") ? "channel-header-loyalty" : "channel-header";
-            // Generate table rows for this year
-            tableHTMLcalendar += `
-        <tr class="${className}">
-            <td>${channel}</td>
-            ${months.map((month, index) => {
-                const icons = yearData[channel][monthNames[index]];
-                const iconString = icons.length > 0 ? icons.join('') : '-';
-                return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
-            }).join('')}
-        </tr>
-    `;
+        // Budget & Uplift Data Aggregation
+        const yearFinancialData = {};
+        monthNamesFull.forEach(month => {
+            yearFinancialData[month] = { HL: 0, machines: 0, MACO: 0 };
         });
-    });
-
-    // Build the table HTML
-    let tableHTMLBudget = '';
-
-    uniqueYears.forEach((year, yearIndex) => {
-        // Add year separator if multiple years
-        if (uniqueYears.length > 1) {
-
-            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
-        }
-
-        // Create data structure for this year
-        const yearData = {};
-        uniqueBudgetTypes.forEach(promo_type => {
-            yearData[promo_type] = {};
-            months.forEach((month, index) => {
-                yearData[promo_type][monthNames[index]] = 0;
-            });
+        const yearBudgetByTypeData = {};
+        uniqueBudgetTypes.forEach(type => {
+            yearBudgetByTypeData[type] = {};
+            monthNamesFull.forEach(month => yearBudgetByTypeData[type][month] = 0);
         });
 
+        itemsForThisYear.forEach(item => {
+            // Aggregate total HL, Machines, MACO by month
+            const promoMonthFull = item.month.toUpperCase(); // Ensure month matches full name
+            if (yearFinancialData[promoMonthFull]) {
+                yearFinancialData[promoMonthFull].HL += item.promo_uplift_HL || 0;
+                yearFinancialData[promoMonthFull].machines += item.promo_uplift_machine || 0;
+                yearFinancialData[promoMonthFull].MACO += item.MACO || 0;
+            }
 
-        items.filter(item => item.year === year).forEach(item => {
-            const budgetTypes = item.promo_budget_type;
-            const budgets = Array.isArray(item.promo_budget) ? item.promo_budget : [item.promo_budget];
-            const HL = Array.isArray(item.promo_uplift_HL) ? item.promo_uplift_HL : [item.promo_uplift_HL];
-            const Machines = Array.isArray(item.promo_uplift_machine) ? item.promo_uplift_machine : [item.promo_uplift_machine];
-
-
-            budgetTypes.forEach((budgetType, index) => {
-                const budgetValue = parseFloat(budgets[index] || 0);
-                if (yearData[budgetType] && yearData[budgetType][item.month] !== undefined) {
-                    yearData[budgetType][item.month] += budgetValue;
+            // Aggregate budget by type and month
+            item.promo_budget_type.forEach((type, index) => {
+                const budgetValue = item.promo_budget[index] || 0;
+                if (yearBudgetByTypeData[type] && yearBudgetByTypeData[type][promoMonthFull] !== undefined) {
+                    yearBudgetByTypeData[type][promoMonthFull] += budgetValue;
                 }
             });
         });
 
-        // Generate table rows for this year
+
+        // Generate Calendar HTML for this year
+        uniqueChannels.forEach(channel => {
+            const className = channel.includes("Loyalty") ? "channel-header-loyalty" : "channel-header";
+            tableHTMLcalendar += `
+                <tr class="${className}">
+                    <td>${channel}</td>
+                    ${months.map((month, index) => {
+                        const icons = yearIconsData[channel][monthNamesFull[index]];
+                        const iconString = icons.length > 0 ? icons.join('') : '-';
+                        return `<td class="${icons.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
+                    }).join('')}
+                </tr>
+            `;
+        });
+
+        // Generate Budget HTML for this year
         uniqueBudgetTypes.forEach(budgetType => {
             tableHTMLBudget += `
+                <tr>
+                    <td class="channel-header">${budgetType}</td>
+                    ${months.map((month, index) => {
+                        const totalBudget = yearBudgetByTypeData[budgetType][monthNamesFull[index]];
+                        const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
+                            style: 'currency',
+                            currency: 'EUR',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                        }) : '-';
+                        return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
+                    }).join('')}
+                </tr>
+            `;
+        });
+
+        // Generate Uplift HTML for this year
+        tableHTMLUplift += `
             <tr>
-            <td class="channel-header">${budgetType}</td>
-            ${months.map((month, index) => {
-                // MODIFICATION: Format the final summed value
-                const totalBudget = yearData[budgetType][monthNames[index]];
-                const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }) : '-';
-                return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
-            }).join('')}
+                <td class="channel-header">HL Uplift</td>
+                ${months.map((month, index) => {
+                    const totalHL = yearFinancialData[monthNamesFull[index]].HL;
+                    const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : '-';
+                    return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
+                }).join('')}
+            </tr>
+            <tr>
+                <td class="channel-header">MACO</td>
+                ${months.map((month, index) => {
+                    const totalMACO = yearFinancialData[monthNamesFull[index]].MACO;
+                    const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
+                            style: 'currency',
+                            currency: 'EUR',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0
+                    }) : '-';
+                    return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
+                }).join('')}
+            </tr>
+            <tr>
+                <td class="channel-header">Machines Uplift</td>
+                ${months.map((month, index) => {
+                    const totalMachines = yearFinancialData[monthNamesFull[index]].machines;
+                    const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 0
+                    }) : '-';
+                    return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
+                }).join('')}
             </tr>
         `;
-        });
     });
 
-
-    // Build the table HTML
-    let tableHTMLUplift = '';
-
-    uniqueYears.forEach((year, yearIndex) => {
-
-        if (uniqueYears.length > 1) {
-
-            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
-        }
-
-        // Create data structure for this year (just months)
-        const yearData = {};
-        months.forEach((month, index) => {
-            yearData[monthNames[index]] = {
-                HL: 0,
-                machines: 0,
-                MACO: 0
-            };
-        });
-
-
-        items.filter(item => item.year === year).forEach(item => {
-            const HL = Array.isArray(item.promo_uplift_HL) ? item.promo_uplift_HL : [item.promo_uplift_HL];
-            const HLvalue = parseFloat(HL[0] || 0);
-
-            const MACO = Array.isArray(item.MACO) ? item.MACO : [item.MACO];
-            const MACOvalue = parseFloat(MACO[0] || 0);
-
-            // Handle machines uplift (assuming similar structure)
-            const machines = Array.isArray(item.promo_uplift_machine) ? item.promo_uplift_machine : [item.promo_uplift_machine];
-            const machinesValue = parseFloat(machines[0] || 0);
-
-            // Sum up by month (all promo types combined)
-            if (yearData[item.month]) {
-                yearData[item.month].HL += HLvalue;
-                yearData[item.month].machines += machinesValue;
-                yearData[item.month].MACO += MACOvalue;
-            }
-        })
-
-        tableHTMLUplift += `
-    <tr>
-    <td class="channel-header">HL Uplift</td>
-    ${months.map((month, index) => {
-            const totalHL = yearData[monthNames[index]].HL;
-            const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
-        }).join('')}
-    </tr>
-
-    <tr>
-    <td class="channel-header">MACO</td>
-    ${months.map((month, index) => {
-            const totalMACO = yearData[monthNames[index]].MACO;
-            const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
-        }).join('')}
-    </tr>
-
-    <tr>
-    <td class="channel-header">Machines Uplift</td>
-    ${months.map((month, index) => {
-            const totalMachines = yearData[monthNames[index]].machines;
-            const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
-        }).join('')}
-    </tr>
-    `;
-    });
 
     root.innerHTML = `
-        <h1>${h1Title}</h1>
+        <h1>${h1TitleCalendar}</h1>
         <table class="promo-table-HomePage">
             <thead class="promo-table-HomePage-header">
                 <tr>
@@ -710,7 +597,7 @@ function renderTablesHomePage(items) {
         <table class="promo-table-HomePage" style="margin-top: 30px;">
             <thead class="promo-table-HomePage-header">
                 <tr>
-                    <th>Channel</th>
+                    <th>Budget Type</th>
                     ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
                 </tr>
             </thead>
@@ -722,7 +609,7 @@ function renderTablesHomePage(items) {
         <table class="promo-table-HomePage" style="margin-top: 30px;">
             <thead class="promo-table-HomePage-header">
                 <tr>
-                    <th>UPLIFT</th>
+                    <th>UPLIFT / MACO</th>
                     ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
                 </tr>
             </thead>
@@ -733,40 +620,173 @@ function renderTablesHomePage(items) {
     `;
 }
 
-// Event listeners
-document.addEventListener('DOMContentLoaded', function () {
-    // Initialize the app when DOM is ready
-    initializeApp();
+// ======================================================
+// 6. Filter Management (filters.js equivalent)
+// ======================================================
 
-    // Close dropdowns when clicking outside
-    document.addEventListener('click', function (event) {
-        const channelContainer = document.querySelector('#channelDropdown')?.closest('.multiselect-container');
-        const yearContainer = document.querySelector('#yearDropdown')?.closest('.multiselect-container');
+/**
+ * Toggles the visibility of the channel dropdown and arrow rotation.
+ */
+function toggleChannelDropdown() {
+    const dropdown = document.getElementById('channelDropdown');
+    const arrow = document.getElementById('dropdownArrow');
+    dropdown?.classList.toggle('show');
+    arrow?.classList.toggle('rotated');
+}
 
-        // Close channel dropdown
-        if (channelContainer && !channelContainer.contains(event.target)) {
-            document.getElementById('channelDropdown')?.classList.remove('show');
-            document.getElementById('dropdownArrow')?.classList.remove('rotated');
+/**
+ * Handles changes to channel filter checkboxes.
+ * @param {HTMLInputElement} checkbox - The checkbox that triggered the change.
+ */
+async function handleChannelOptionChange(checkbox) {
+    const allCheckbox = document.getElementById('all');
+
+    if (checkbox.value === 'all') {
+        if (checkbox.checked) {
+            appState.selectedChannels = ['all'];
+            document.querySelectorAll('#channelDropdown input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
+        } else {
+            appState.selectedChannels = [];
         }
+    } else {
+        if (allCheckbox) allCheckbox.checked = false;
 
-        // Close year dropdown
-        if (yearContainer && !yearContainer.contains(event.target)) {
-            document.getElementById('yearDropdown')?.classList.remove('show');
-            document.getElementById('yearDropdownArrow')?.classList.remove('rotated');
+        if (checkbox.checked) {
+            if (!appState.selectedChannels.includes(checkbox.value)) {
+                appState.selectedChannels = appState.selectedChannels.filter(ch => ch !== 'all');
+                appState.selectedChannels.push(checkbox.value);
+            }
+        } else {
+            appState.selectedChannels = appState.selectedChannels.filter(ch => ch !== checkbox.value);
+            if (appState.selectedChannels.length === 0) {
+                appState.selectedChannels = ['all'];
+                if (allCheckbox) allCheckbox.checked = true;
+            }
         }
-    });
-});
+    }
 
-// Function to save filters to URL
+    updateSelectedChannelText();
+    saveFiltersToURL();
+    await updateAndRenderContent();
+}
+
+/**
+ * Updates the text displayed on the channel filter button.
+ */
+function updateSelectedChannelText() {
+    const selectedText = document.getElementById('selectedText');
+    if (!selectedText) return;
+
+    if (appState.selectedChannels.includes('all') || appState.selectedChannels.length === 0) {
+        selectedText.textContent = 'All Channels';
+    } else if (appState.selectedChannels.length === 1) {
+        selectedText.textContent = appState.selectedChannels[0];
+    } else {
+        selectedText.innerHTML = `${appState.selectedChannels.length} Channels <span class="selected-count">${appState.selectedChannels.length}</span>`;
+    }
+}
+
+/**
+ * Toggles the visibility of the year dropdown and arrow rotation.
+ */
+function toggleYearDropdown() {
+    const dropdown = document.getElementById('yearDropdown');
+    const arrow = document.getElementById('yearDropdownArrow');
+    dropdown?.classList.toggle('show');
+    arrow?.classList.toggle('rotated');
+}
+
+/**
+ * Handles changes to year filter checkboxes.
+ * @param {HTMLInputElement} checkbox - The checkbox that triggered the change.
+ */
+async function handleYearOptionChange(checkbox) {
+    const allYearCheckbox = document.getElementById('year_all');
+
+    if (checkbox.value === 'all') {
+        if (checkbox.checked) {
+            appState.selectedYears = ['all'];
+            document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(cb => {
+                cb.checked = cb.value === 'all';
+            });
+        } else {
+            appState.selectedYears = [];
+        }
+    } else {
+        if (allYearCheckbox) allYearCheckbox.checked = false;
+
+        if (checkbox.checked) {
+            if (!appState.selectedYears.includes(checkbox.value)) {
+                appState.selectedYears = appState.selectedYears.filter(year => year !== 'all');
+                appState.selectedYears.push(checkbox.value);
+            }
+        } else {
+            appState.selectedYears = appState.selectedYears.filter(year => year !== checkbox.value);
+            if (appState.selectedYears.length === 0) {
+                appState.selectedYears = ['all'];
+                if (allYearCheckbox) allYearCheckbox.checked = true;
+            }
+        }
+    }
+
+    updateSelectedYearText();
+    saveFiltersToURL();
+    await updateAndRenderContent();
+}
+
+/**
+ * Updates the text displayed on the year filter button.
+ */
+function updateSelectedYearText() {
+    const selectedText = document.getElementById('selectedYearText');
+    if (!selectedText) return;
+
+    if (appState.selectedYears.includes('all') || appState.selectedYears.length === 0) {
+        selectedText.textContent = 'All Years';
+    } else if (appState.selectedYears.length === 1) {
+        selectedText.textContent = appState.selectedYears[0];
+    } else {
+        selectedText.innerHTML = `${appState.selectedYears.length} Years <span class="selected-count">${appState.selectedYears.length}</span>`;
+    }
+}
+
+/**
+ * Loads filter selections from the URL query parameters.
+ */
+function loadFiltersFromURL() {
+    const params = new URLSearchParams(window.location.search);
+
+    const yearsParam = params.get('years');
+    if (yearsParam) {
+        appState.selectedYears = yearsParam.split(',').filter(year => year.trim() !== '');
+        if (appState.selectedYears.length === 0) {
+            appState.selectedYears = ['all'];
+        }
+    } else {
+        // If no years in URL, set default to '2026'
+        appState.selectedYears = ['2026'];
+    }
+
+    // No channel filter in URL in original main.js, so keep default.
+    // If you want to add channel filter to URL, implement similar logic here.
+}
+
+/**
+ * Saves current filter selections to the URL query parameters.
+ */
 function saveFiltersToURL() {
     const params = new URLSearchParams();
 
-    // Save selected years (skip if 'all' is selected)
-    if (!selectedYears.includes('all') && selectedYears.length > 0) {
-        params.set('years', selectedYears.join(','));
+    if (!appState.selectedYears.includes('all') && appState.selectedYears.length > 0) {
+        params.set('years', appState.selectedYears.join(','));
     }
+    // Add channel filters to URL if desired
+    // if (!appState.selectedChannels.includes('all') && appState.selectedChannels.length > 0) {
+    //     params.set('channels', appState.selectedChannels.join(','));
+    // }
 
-    // Update URL without page reload
     const newURL = params.toString() ?
         `${window.location.pathname}?${params.toString()}` :
         window.location.pathname;
@@ -774,119 +794,107 @@ function saveFiltersToURL() {
     window.history.replaceState({}, '', newURL);
 }
 
-// Function to load filters from URL
-function loadFiltersFromURL() {
-    const params = new URLSearchParams(window.location.search);
-
-
-    // Load years from URL
-    const yearsParam = params.get('years');
-    if (yearsParam) {
-        selectedYears = yearsParam.split(',').filter(year => year.trim() !== '');
-        if (selectedYears.length === 0) {
-            selectedYears = ['all'];
-        }
-    }
-}
-
-// Function to update checkboxes based on loaded filters
+/**
+ * Updates the filter checkboxes in the UI to reflect the current appState.
+ */
 function updateCheckboxesFromFilters() {
-    // Small delay to ensure DOM is ready
-    setTimeout(() => {
-        // Update year checkboxes
-        document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(checkbox => {
-            if (checkbox.value === 'all') {
-                checkbox.checked = selectedYears.includes('all');
-            } else {
-                checkbox.checked = selectedYears.includes(checkbox.value);
-            }
-        });
-
-        // Update display text
-        updateSelectedYearText();
-    }, 10);
-}
-
-// Modified handleYearOptionChange function (replace your existing one)
-function handleYearOptionChange(checkbox) {
-    const allYearCheckbox = document.getElementById('year_all');
-
-    if (checkbox.value === 'all') {
-        if (checkbox.checked) {
-            selectedYears = ['all'];
-            document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(cb => {
-                cb.checked = cb.value === 'all';
-            });
-        } else {
-            selectedYears = [];
-        }
-    } else {
-        if (allYearCheckbox) allYearCheckbox.checked = false;
-
-        if (checkbox.checked) {
-            if (!selectedYears.includes(checkbox.value)) {
-                selectedYears = selectedYears.filter(year => year !== 'all');
-                selectedYears.push(checkbox.value);
-            }
-        } else {
-            selectedYears = selectedYears.filter(year => year !== checkbox.value);
-
-            if (selectedYears.length === 0) {
-                selectedYears = ['all'];
-                if (allYearCheckbox) allYearCheckbox.checked = true;
-            }
-        }
-    }
-
+    // Update year checkboxes
+    document.querySelectorAll('#yearDropdown input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = appState.selectedYears.includes(checkbox.value);
+    });
     updateSelectedYearText();
-    saveFiltersToURL(); // Save to URL when filters change
-    applyFilters();
+
+    // Update channel checkboxes
+    document.querySelectorAll('#channelDropdown input[type="checkbox"]').forEach(checkbox => {
+        checkbox.checked = appState.selectedChannels.includes(checkbox.value);
+    });
+    updateSelectedChannelText();
 }
 
-// Modified initializeApp function (replace your existing one)
-async function initializeApp() {
+// ======================================================
+// 7. Application Flow Control
+// ======================================================
+
+/**
+ * Fetches data, updates state, and renders the UI.
+ * This is called whenever filters change or on initial load.
+ */
+async function updateAndRenderContent() {
     try {
-        // Check if required DOM elements exist
+        // Fetch table data first as it's needed by timeline rendering
+        appState.allTableData = await fetchTableData();
+        // Fetch timeline items with current filters
+        appState.allTimelineItems = await fetchTimelineItems();
+
+        // Render based on the current page
         const timelineRoot = document.getElementById('timeline-root');
         const homePageRoot = document.getElementById('timeline-root-home-page');
-
-        if (!timelineRoot && !homePageRoot) {
-            console.warn('No timeline containers found in DOM');
-            return;
-        }
-
-        // Load filters from URL before loading data
-        loadFiltersFromURL();
-
-        const urlParams = new URLSearchParams(window.location.search);
-        if (!urlParams.has('years')) {
-            selectedYears = ['2026']
-        }
-        // Load both datasets concurrently
-        await Promise.all([
-            loadTableData(),
-            loadTimelineData()
-        ]);
-
-        // Update checkboxes to match loaded filters
-        updateCheckboxesFromFilters();
-
-        // Apply filters and render
-        applyFilters();
-
-    } catch (error) {
-        console.error('Error initializing app:', error);
-        // Show error in available containers
-        const timelineRoot = document.getElementById('timeline-root');
-        const homePageRoot = document.getElementById('timeline-root-home-page');
-
-        const errorMessage = '<p style="color:red;">Failed to load timeline data.</p>';
 
         if (timelineRoot) {
-            timelineRoot.innerHTML = errorMessage;
+            renderTimeline(appState.allTimelineItems);
         }
         if (homePageRoot) {
-            homePageRoot.innerHTML = errorMessage;
+            renderTablesHomePage(appState.allTimelineItems);
+        }
+
+    } catch (error) {
+        console.error('Error updating and rendering content:', error);
+        const errorMessage = '<p style="color:red;">Failed to load data. Please try again.</p>';
+
+        // Corrected lines: Explicitly check for element existence before assignment
+        const timelineRootElement = document.getElementById('timeline-root');
+        if (timelineRootElement) {
+            timelineRootElement.innerHTML = errorMessage;
+        }
+
+        const homePageRootElement = document.getElementById('timeline-root-home-page');
+        if (homePageRootElement) {
+            homePageRootElement.innerHTML = errorMessage;
         }
     }
 }
+
+/**
+ * Initializes the application: loads filters, fetches data, and renders UI.
+ */
+async function initializeApp() {
+    loadFiltersFromURL();
+    updateCheckboxesFromFilters(); // Ensure UI reflects initial state
+
+    // Attach event listeners for filter dropdowns
+    document.getElementById('channelDropdown')?.addEventListener('change', (event) => {
+        if (event.target.type === 'checkbox') {
+            handleChannelOptionChange(event.target);
+        }
+    });
+    document.getElementById('yearDropdown')?.addEventListener('change', (event) => {
+        if (event.target.type === 'checkbox') {
+            handleYearOptionChange(event.target);
+        }
+    });
+    document.querySelector('.multiselect-header[onclick="toggleDropdown()"]')?.addEventListener('click', toggleChannelDropdown);
+    document.querySelector('.multiselect-header[onclick="toggleYearDropdown()"]')?.addEventListener('click', toggleYearDropdown);
+
+
+    // Close dropdowns when clicking outside
+    document.addEventListener('click', function (event) {
+        const channelContainer = document.querySelector('#channelDropdown')?.closest('.multiselect-container');
+        const yearContainer = document.querySelector('#yearDropdown')?.closest('.multiselect-container');
+
+        if (channelContainer && !channelContainer.contains(event.target)) {
+            document.getElementById('channelDropdown')?.classList.remove('show');
+            document.getElementById('dropdownArrow')?.classList.remove('rotated');
+        }
+        if (yearContainer && !yearContainer.contains(event.target)) {
+            document.getElementById('yearDropdown')?.classList.remove('show');
+            document.getElementById('yearDropdownArrow')?.classList.remove('rotated');
+        }
+    });
+
+    await updateAndRenderContent(); // Initial data fetch and render
+}
+
+// ======================================================
+// 8. Event Listener for DOMContentLoaded
+// ======================================================
+document.addEventListener('DOMContentLoaded', initializeApp);
