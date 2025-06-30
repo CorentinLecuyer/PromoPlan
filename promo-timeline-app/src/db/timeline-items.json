@@ -25,7 +25,7 @@
         "promo_title": "Wave 1 - 5+1 - TK Leffe",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "TBC",
         "table": "none",
         "year": "2025"
@@ -51,7 +51,7 @@
         "promo_title": "COMMANDO : CHR",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -77,7 +77,7 @@
         "promo_title": "COMMANDO : Cavistes",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -104,7 +104,7 @@
         "promo_title": "5+1 for New DN",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -130,7 +130,7 @@
         "promo_title": "2 Kegs bought = 2 Glasses",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -155,7 +155,7 @@
         "promo_title": "Wave 2- Stella 5+1",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -181,7 +181,7 @@
         "promo_title": "8 kegs bough = Pack POCM",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -206,7 +206,7 @@
         "promo_title": "Christmas Bundle = Machine + keg for 199€",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -230,7 +230,7 @@
         "promo_title": "Liquide Leffe D'hiver + 8 kegs bough = Christmas Pack POCM",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2025"
@@ -243,7 +243,9 @@
         "id": "1",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EQIPbPHmnG5Dop5zRnc_6UUBdmO5XymxPSBZJO1oA3NlsQ?e=b9fwnX",
         "month": "JANUARY",
-        "promo_budget": [26500],
+        "promo_budget": [
+            26500
+        ],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
@@ -258,7 +260,7 @@
         "promo_title": "PerfectDraft Champions Club - Q1",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -287,7 +289,7 @@
         "promo_title": "CHR Excellence Program - Annual",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "2",
         "year": "2026"
@@ -304,8 +306,7 @@
         "month": "JANUARY",
         "promo_budget": 0,
         "MACO": 0,
-        "promo_budget_type": [
-        ],
+        "promo_budget_type": [],
         "promo_details": [
             "Introduction of new 0% alcohol variants",
             "Sampling campaigns across all channels?",
@@ -316,7 +317,7 @@
         "promo_title": "New 0% Variants Launch - Leffe 0.0%",
         "promo_type": "New Product",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 0,
         "table": "6",
         "year": "2026"
@@ -345,7 +346,7 @@
         "promo_title": "PerfectDraft 0% - New Year, New You with Leffe 0.0%",
         "promo_type": "free-beer",
         "promo_uplift_HL": 446,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 2.33,
         "table": "none",
         "year": "2026"
@@ -359,8 +360,10 @@
         "id": "30",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EeakmuMZEVRKp_xxwFzpkkoBP2Rue_U-D_XJrlY-3VToDw?e=MfOgeF",
         "month": "JANUARY",
-        "promo_budget": [3100],
-        "MACO":  19233,
+        "promo_budget": [
+            3100
+        ],
+        "MACO": 19233,
         "promo_budget_type": [
             "SA2"
         ],
@@ -371,9 +374,9 @@
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
         "promo_title": "PerfectDraft 0% - New Year, New You with Leffe 0.0%",
-        "promo_type":"Special Offer",
+        "promo_type": "Special Offer",
         "promo_uplift_HL": 51,
-        "promo_uplift_machine":375,
+        "promo_uplift_machine": 375,
         "ROI": 6.19,
         "table": "none",
         "year": "2026"
@@ -403,12 +406,11 @@
         "promo_title": "Share the Perfect Moment",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 120,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1.83,
         "table": "3",
         "year": "2026"
     },
-    
     {
         "channel_tags": [
             "CHR"
@@ -417,7 +419,7 @@
         "id": "7",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EbKCOCNkJUJMpI1_P0gjcsMBEIobKMGxUgJWxPHH9wXw3w?e=iagjce",
         "month": "MARCH",
-        "promo_budget": [    
+        "promo_budget": [
             32500
         ],
         "MACO": 63416.24,
@@ -435,7 +437,7 @@
         "promo_title": "Gear Up for Spring",
         "promo_type": "Discount",
         "promo_uplift_HL": 300,
-        "promo_uplift_machine":250,
+        "promo_uplift_machine": 250,
         "ROI": 1.95,
         "table": "4",
         "year": "2026"
@@ -448,7 +450,9 @@
         "id": "8",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EQIPbPHmnG5Dop5zRnc_6UUBdmO5XymxPSBZJO1oA3NlsQ?e=b9fwnX",
         "month": "APRIL",
-        "promo_budget":  [31401],
+        "promo_budget": [
+            31401
+        ],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
@@ -463,7 +467,7 @@
         "promo_title": "PerfectDraft Champions Club - Q2",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -477,7 +481,9 @@
         "id": "9",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EUXPSWhh5QRJvKkZfzvSIXUBCx-etzoJHzE79X6qeJorJA?e=OtTaM8",
         "month": "APRIL",
-        "promo_budget": [0],
+        "promo_budget": [
+            0
+        ],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
@@ -492,7 +498,7 @@
         "promo_title": "Easter Perfect Moments",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "undefined",
         "table": "5",
         "year": "2026"
@@ -512,7 +518,7 @@
         ],
         "MACO": 21018,
         "promo_budget_type": [
-            "Discount", 
+            "Discount",
             "Sales Pack"
         ],
         "promo_details": [
@@ -525,7 +531,7 @@
         "promo_title": "Perfect Gift for Perfect Moms",
         "promo_type": "Discount",
         "promo_uplift_HL": 57,
-        "promo_uplift_machine":200,
+        "promo_uplift_machine": 200,
         "ROI": 2.14,
         "table": "none",
         "year": "2026"
@@ -551,7 +557,7 @@
         "promo_title": "Wholesaler Academy - H2 Training",
         "promo_type": "Training",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "none",
         "year": "2026"
@@ -571,20 +577,20 @@
         ],
         "MACO": 82700,
         "promo_budget_type": [
-            "Discount", 
+            "Discount",
             "Sales Pack"
         ],
         "promo_details": [
             "Bundle: Machine + 2 Triple kegs for 220€ + 2 glasses",
             "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet",
-            "Posters highlighting the offer"            
+            "Posters highlighting the offer"
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-06-01",
         "promo_title": "PefectDraft for a Perfect Dad",
         "promo_type": "Discount",
         "promo_uplift_HL": 186,
-        "promo_uplift_machine":650,
+        "promo_uplift_machine": 650,
         "ROI": 2.22,
         "table": "none",
         "year": "2026"
@@ -616,12 +622,12 @@
         "promo_title": "PefectDraft World Cup 2026 - Cavistes",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 72,
-        "promo_uplift_machine":250,
-        "ROI": "1.98 <br>  <small>(2.97 <small>if TV offered by Versuni)</small></small>" ,
+        "promo_uplift_machine": 250,
+        "ROI": "1.98 <br>  <small>(2.97 <small>if TV offered by Versuni)</small></small>",
         "table": "9",
         "year": "2026"
     },
-        {
+    {
         "channel_tags": [
             "CHR"
         ],
@@ -629,8 +635,10 @@
         "id": "32",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EXSgS482xidKuHZAIVOpzCkBFFe7bu0GXqgGVuWloSO-VA?e=qlf0TK",
         "month": "MAY",
-        "promo_budget": [162000],
-        "MACO": 279031,
+        "promo_budget": [
+            81000
+        ],
+        "MACO": 253665,
         "promo_budget_type": [
             "Sales Pack"
         ],
@@ -640,15 +648,14 @@
             "Focus: CHR venues with high sports viewership",
             "limited to the number of subscription available in the negociation with Canal+",
             "1320 HL Incremental"
-            
         ],
         "promo_end_date": "2026-06-11",
         "promo_start_date": "2026-05-11",
         "promo_title": "PefectDraft World Cup 2026 - CHR",
         "promo_type": "Special Offer",
-        "promo_uplift_HL": 1320,
-        "promo_uplift_machine":0,
-        "ROI": 1.72,
+        "promo_uplift_HL": 240,
+        "promo_uplift_machine": 0,
+        "ROI": 3.13,
         "table": "8",
         "year": "2026"
     },
@@ -675,7 +682,7 @@
         "promo_title": "Limited Edition Summer Flavors",
         "promo_type": "New Product",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1,
         "table": "7",
         "year": "2026"
@@ -688,7 +695,9 @@
         "id": "14",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EQIPbPHmnG5Dop5zRnc_6UUBdmO5XymxPSBZJO1oA3NlsQ?e=b9fwnX",
         "month": "JULY",
-        "promo_budget": [37747],
+        "promo_budget": [
+            37747
+        ],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
@@ -703,7 +712,7 @@
         "promo_title": "PerfectDraft Champions Club - Q3",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -718,7 +727,7 @@
         "month": "JULY",
         "promo_budget": [
             4032,
-            8000
+            11300
         ],
         "MACO": 24189,
         "promo_budget_type": [
@@ -735,9 +744,41 @@
         "promo_title": "Perfect Summer, PerfectDraft 🍋",
         "promo_type": "free-beer",
         "promo_uplift_HL": 90,
-        "promo_uplift_machine":250,
+        "promo_uplift_machine": 250,
         "ROI": 1.01,
         "table": "10",
+        "year": "2026"
+    },
+    {
+        "channel_tags": [
+            "Cavistes Indépendants"
+        ],
+        "icon": "🎖️",
+        "id": "20",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EWBtUbQXvM1PiMVP267KM68BYQBvAG7T4EtyB10zkV7DdQ?e=ugpj7Y",
+        "month": "SEPTEMBER",
+        "promo_budget": [
+             34619.50,
+             33695.58
+        ],
+        "MACO":151780.92,
+        "promo_budget_type": [
+            "Sales Pack",
+            "Discount"
+        ],
+        "promo_details": [
+            "3-day intensive promotion for independent wine merchants",
+            "Combined discount and special offer mechanics",
+            "Focus on expanding caviste network"
+        ],
+        "promo_end_date": "2026-09-01",
+        "promo_start_date": "2026-09-03",
+        "promo_title": "COMMANDO : Cavistes Indépendants 2026",
+        "promo_type": "Discount",
+        "promo_uplift_HL": 322,
+        "promo_uplift_machine": 0,
+        "ROI": 1.22,
+        "table": "none",
         "year": "2026"
     },
     {
@@ -748,7 +789,9 @@
         "id": "33",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EcbtAmqUCCJHgZH_cpUxQlYBBGy3nSduzcfWHNFy_hkjJQ?e=m1J1Gw",
         "month": "SEPTEMBER",
-        "promo_budget": [0],
+        "promo_budget": [
+            0
+        ],
         "MACO": 97965.85,
         "promo_budget_type": [],
         "promo_details": [
@@ -759,9 +802,12 @@
         "promo_title": "September Perfect Back to School - New programm",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 380.4,
-        "promo_uplift_machine":240,
+        "promo_uplift_machine": 240,
         "ROI": 1,
-        "table": ["12","11"],
+        "table": [
+            "12",
+            "11"
+        ],
         "year": "2026"
     },
     {
@@ -772,8 +818,10 @@
         "id": "34",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ESNGkecfx3dHi5ltZYaXifEBiJv8KL972p9tOfxfy6OE6Q?e=wxsOh2",
         "month": "SEPTEMBER",
-        "promo_budget": [4205],
-        "MACO":  5284.69,
+        "promo_budget": [
+            4205
+        ],
+        "MACO": 5284.69,
         "promo_budget_type": [
             "Discount"
         ],
@@ -785,7 +833,7 @@
         "promo_title": "September Perfect Back to School",
         "promo_type": "Discount",
         "promo_uplift_HL": 25,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 1.26,
         "table": "none",
         "year": "2026"
@@ -798,7 +846,9 @@
         "id": "17",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EQIPbPHmnG5Dop5zRnc_6UUBdmO5XymxPSBZJO1oA3NlsQ?e=b9fwnX",
         "month": "OCTOBER",
-        "promo_budget":[10157],
+        "promo_budget": [
+            10157
+        ],
         "MACO": 0,
         "promo_budget_type": [
             "Discount"
@@ -813,7 +863,7 @@
         "promo_title": "PerfectDraft Champions Club - Q4",
         "promo_type": "Loyalty Program",
         "promo_uplift_HL": 0,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": "undefined",
         "table": "1",
         "year": "2026"
@@ -827,7 +877,9 @@
         "id": "18",
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ET9UX8NqMYVAoOJVDRJXwQ4BULWJXo_W-2DaJ3or-EpNbA?e=anGyTU",
         "month": "OCTOBER",
-        "promo_budget": [23000],
+        "promo_budget": [
+            23000
+        ],
         "MACO": 50732,
         "promo_budget_type": [
             "Sales Pack"
@@ -843,7 +895,7 @@
         "promo_title": "Perfect Oktoberfest Experience",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 240,
-        "promo_uplift_machine":0,
+        "promo_uplift_machine": 0,
         "ROI": 2.21,
         "table": "none",
         "year": "2026"
@@ -861,9 +913,9 @@
             39079,
             3000
         ],
-        "MACO":  74427,
+        "MACO": 74427,
         "promo_budget_type": [
-            "Discount", 
+            "Discount",
             "Sales Pack"
         ],
         "promo_details": [
@@ -874,7 +926,7 @@
         "promo_title": "Black Friday Perfect Deals",
         "promo_type": "Special Offer",
         "promo_uplift_HL": 186,
-        "promo_uplift_machine":650,
+        "promo_uplift_machine": 650,
         "ROI": 1.9,
         "table": "13",
         "year": "2026"

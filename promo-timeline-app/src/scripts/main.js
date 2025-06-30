@@ -599,10 +599,21 @@ function renderTablesHomePage(items) {
                 }) : '-';
                 return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
             }).join('')}
+
+            <td class="data-cell">
+    ${Object.values(yearData[budgetType]).reduce((sum, val) => sum + val, 0).toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            })}
+</td>
             </tr>
         `;
         });
     });
+
+
 
 
     // Build the table HTML
@@ -646,43 +657,38 @@ function renderTablesHomePage(items) {
         })
 
         tableHTMLUplift += `
-    <tr>
-    <td class="channel-header">HL Uplift</td>
-    ${months.map((month, index) => {
+            <tr>
+            <td class="channel-header">HL Uplift</td>
+            ${months.map((month, index) => {
             const totalHL = yearData[monthNames[index]].HL;
-            const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
+            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${totalHL > 0 ? totalHL.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) : '-'}</td>`;
         }).join('')}
-    </tr>
+            <td class="data-cell">
+                ${Object.values(yearData).reduce((sum, m) => sum + m.HL, 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })}
+            </td>
+            </tr>
 
-    <tr>
-    <td class="channel-header">MACO</td>
-    ${months.map((month, index) => {
+            <tr>
+            <td class="channel-header">MACO</td>
+            ${months.map((month, index) => {
             const totalMACO = yearData[monthNames[index]].MACO;
-            const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
+            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }) : '-'}</td>`;
         }).join('')}
-    </tr>
+            <td class="data-cell">
+                ${Object.values(yearData).reduce((sum, m) => sum + m.MACO, 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 })}
+            </td>
+            </tr>
 
-    <tr>
-    <td class="channel-header">Machines Uplift</td>
-    ${months.map((month, index) => {
+            <tr>
+            <td class="channel-header">Machines Uplift</td>
+            ${months.map((month, index) => {
             const totalMachines = yearData[monthNames[index]].machines;
-            const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
+            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', { maximumFractionDigits: 0 }) : '-'}</td>`;
         }).join('')}
-    </tr>
+            <td class="data-cell">
+                ${Object.values(yearData).reduce((sum, m) => sum + m.machines, 0).toLocaleString('fr-FR', { maximumFractionDigits: 0 })}
+            </td>
+            </tr>
     `;
     });
 
@@ -710,8 +716,9 @@ function renderTablesHomePage(items) {
         <table class="promo-table-HomePage" style="margin-top: 30px;">
             <thead class="promo-table-HomePage-header">
                 <tr>
-                    <th>Channel</th>
+                    <th style="width: 150px;">Channel</th>
                     ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
+                    <th class="month-header">Total</th>
                 </tr>
             </thead>
             <tbody>
@@ -722,8 +729,9 @@ function renderTablesHomePage(items) {
         <table class="promo-table-HomePage" style="margin-top: 30px;">
             <thead class="promo-table-HomePage-header">
                 <tr>
-                    <th>UPLIFT</th>
+                    <th class="first-col-header">UPLIFT</th>
                     ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
+                    <th class="month-header">Total</th>
                 </tr>
             </thead>
             <tbody>
