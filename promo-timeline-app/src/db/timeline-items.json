@@ -1,84 +1,34 @@
 [
-    {
-        "channel_tags": [
-            "Cavistes Indépendants",
-            "Cavistes Nationaux"
-        ],
-        "icon": "🎯",
-        "id": "28",
-        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EUXPSWhh5QRJvKkZfzvSIXUBCx-etzoJHzE79X6qeJorJA?e=0KU5z3",
-        "month": "MAY",
-        "promo_budget": [
-            168901
-        ],
-        "MACO": 0,
-        "promo_budget_type": [
-            "Discount"
-        ],
-        "promo_details": [
-            "5+1 discount promotion on TK Leffe",
-            "Ongoing campaign with 3.5K HL objective",
-            "Premium beer focus for spring season"
-        ],
-        "promo_end_date": "2025-06-15",
-        "promo_start_date": "2025-05-01",
-        "promo_title": "Wave 1 - 5+1 - TK Leffe",
-        "promo_type": "Discount",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine": 0,
-        "ROI": "TBC",
-        "table": "none",
-        "year": "2025"
-    },
-    {
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "⚡",
-        "id": "29",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "JUNE",
-        "promo_budget": 0,
-        "MACO": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Intensive 2-day promotion campaign",
-            "Discount offers combined with new product launches",
-            "Targeted at CHR segment"
-        ],
-        "promo_end_date": "2025-06-24",
-        "promo_start_date": "2025-06-23",
-        "promo_title": "COMMANDO : CHR",
-        "promo_type": "Discount",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine": 0,
-        "ROI": 1,
-        "table": "none",
-        "year": "2025"
-    },
+    
     {
         "channel_tags": [
             "Cavistes Indépendants"
         ],
-        "icon": "⚡",
-        "id": "27",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "JUNE",
-        "promo_budget": 0,
-        "MACO": 0,
-        "promo_budget_type": [],
+        "icon": "🎖️",
+        "id": "20",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EWBtUbQXvM1PiMVP267KM68BYQBvAG7T4EtyB10zkV7DdQ?e=ugpj7Y",
+        "month": "SEPTEMBER",
+        "promo_budget": [
+            34619.50,
+            33695.58
+        ],
+        "MACO": 151780.92,
+        "promo_budget_type": [
+            "Sales Pack",
+            "Discount"
+        ],
         "promo_details": [
             "3-day intensive promotion for independent wine merchants",
             "Combined discount and special offer mechanics",
             "Focus on expanding caviste network"
         ],
-        "promo_end_date": "2025-06-27",
-        "promo_start_date": "2025-06-25",
-        "promo_title": "COMMANDO : Cavistes",
+        "promo_end_date": "2025-09-12",
+        "promo_start_date": "2025-09-10",
+        "promo_title": "COMMANDO : Cavistes Indépendants 2026",
         "promo_type": "Discount",
-        "promo_uplift_HL": 0,
+        "promo_uplift_HL": 322,
         "promo_uplift_machine": 0,
-        "ROI": 1,
+        "ROI": 1.22,
         "table": "none",
         "year": "2025"
     },
@@ -758,10 +708,10 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EWBtUbQXvM1PiMVP267KM68BYQBvAG7T4EtyB10zkV7DdQ?e=ugpj7Y",
         "month": "SEPTEMBER",
         "promo_budget": [
-             34619.50,
-             33695.58
+            34619.50,
+            33695.58
         ],
-        "MACO":151780.92,
+        "MACO": 151780.92,
         "promo_budget_type": [
             "Sales Pack",
             "Discount"
@@ -771,8 +721,8 @@
             "Combined discount and special offer mechanics",
             "Focus on expanding caviste network"
         ],
-        "promo_end_date": "2026-09-01",
-        "promo_start_date": "2026-09-03",
+        "promo_end_date": "2026-09-03",
+        "promo_start_date": "2026-09-01",
         "promo_title": "COMMANDO : Cavistes Indépendants 2026",
         "promo_type": "Discount",
         "promo_uplift_HL": 322,
