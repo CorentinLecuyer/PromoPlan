@@ -555,7 +555,7 @@ function renderTablesHomePage(items) {
         // Add year separator if multiple years
         if (uniqueYears.length > 1) {
 
-            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 2}" class="year-marker-cell">${year}</td></tr>`;
         }
 
         // Create data structure for this year
@@ -623,7 +623,7 @@ function renderTablesHomePage(items) {
 
         if (uniqueYears.length > 1) {
 
-            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
+            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 2}" class="year-marker-cell">${year}</td></tr>`;
         }
 
         // Create data structure for this year (just months)
