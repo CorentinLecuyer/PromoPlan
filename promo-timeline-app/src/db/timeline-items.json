@@ -49,8 +49,8 @@
             "Calculer les coûts de l'incentive sell-out Cadoc",
             "Fournir une liste de WHS qui seraient potentiellement intéressés par cette offre"
         ],
-        "promo_end_date": "2025-07-18",
-        "promo_start_date": "2025-07-01",
+        "promo_end_date": "2025-10-31",
+        "promo_start_date": "2025-09-01",
         "promo_title": "5+1 for New DN",
         "promo_type": "Discount",
         "promo_uplift_HL": 0,
@@ -104,32 +104,6 @@
         "promo_start_date": "2025-09-01",
         "promo_title": "Wave 2- Stella 5+1",
         "promo_type": "Discount",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine": 0,
-        "ROI": 1,
-        "table": "none",
-        "year": "2025"
-    },
-    {
-        "channel_tags": [
-            "CHR"
-        ],
-        "icon": "📦",
-        "id": "25",
-        "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
-        "month": "SEPTEMBER",
-        "promo_budget": 0,
-        "MACO": 0,
-        "promo_budget_type": [],
-        "promo_details": [
-            "Chiffrer le nombre potentiel de pack à distribuer et initier la production des différents éléments",
-            "Produire les éléments de visibilité : Tapis de bar (30% PD+Stella / 70% PD+Leffe)",
-            "Sous-bocks PD"
-        ],
-        "promo_end_date": "2025-09-30",
-        "promo_start_date": "2025-09-08",
-        "promo_title": "8 kegs bough = Pack POCM",
-        "promo_type": "Special Offer",
         "promo_uplift_HL": 0,
         "promo_uplift_machine": 0,
         "ROI": 1,
