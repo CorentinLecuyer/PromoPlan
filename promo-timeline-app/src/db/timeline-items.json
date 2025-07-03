@@ -24,12 +24,12 @@
         ],
         "promo_end_date": "2025-09-12",
         "promo_start_date": "2025-09-10",
-        "promo_title": "COMMANDO : Cavistes Indépendants 2026",
+        "promo_title": "COMMANDO : Cavistes Indépendants 2025",
         "promo_type": "Discount",
         "promo_uplift_HL": 322,
         "promo_uplift_machine": 0,
         "ROI": 1.22,
-        "table": "none",
+        "table": "14",
         "year": "2025"
     },
     {
@@ -56,7 +56,7 @@
         "promo_uplift_HL": 0,
         "promo_uplift_machine": 0,
         "ROI": 1,
-        "table": "none",
+        "table": "15",
         "year": "2025"
     },
     {
@@ -94,9 +94,13 @@
         "id": "22",
         "link": "https://www.notion.so/1f98e2b2b0fb80388443d245245496f5?v=1f98e2b2b0fb807fb451000c0584109c&source=copy_link",
         "month": "SEPTEMBER",
-        "promo_budget": 0,
+        "promo_budget": [
+            471088
+        ],
         "MACO": 0,
-        "promo_budget_type": [],
+        "promo_budget_type": [
+            "Discount"
+        ],
         "promo_details": [
             "Décider GO/NO GO sur une offre 5+1 Wave 2"
         ],
@@ -107,7 +111,7 @@
         "promo_uplift_HL": 0,
         "promo_uplift_machine": 0,
         "ROI": 1,
-        "table": "none",
+        "table": "5",
         "year": "2025"
     },
     {

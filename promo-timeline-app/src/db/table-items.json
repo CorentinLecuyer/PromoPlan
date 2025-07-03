@@ -235,5 +235,29 @@
                 "<img style=\"width: 100%; max-width: fit; height: 80%; object-fit: contain;\" src=\"img/Test BF.png\" alt=\"BlackFriday\">"
             ]
         ]
+    },
+    {
+        "id": "14",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: 80%; object-fit: contain;\" src=\"img/Picture2.png\" alt=\"Commando\">"
+            ]
+        ]
+    },
+        {
+        "id": "15",
+        "style": "transparentTable",
+        "table": "",
+        "th": [
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 80%; max-width: fit; height: 10%; object-fit: contain;\" src=\"img/5+1 keg free + cadoc initiative.png\" alt=\"5+1 keg free + cadoc initiative\">"
+            ]
+        ]
     }
 ]
