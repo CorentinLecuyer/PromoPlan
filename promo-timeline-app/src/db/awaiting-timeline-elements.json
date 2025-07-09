@@ -1,0 +1,34 @@
+{
+        "channel_tags": [
+            "CHR"
+        ],
+        "icon": "🎯",
+        "id": "2",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EdChr8Fq4-JNgBzYXnn4WoABTAPZnWmKt3aI55sD-Ot97Q?e=E4bZcI",
+        "month": "JANUARY",
+        "promo_budget": [
+            48494.16, 
+            63844,
+            116080
+        ],
+        "MACO":  293078.78,
+        "promo_budget_type": [
+            "Discount",
+            "Sales Pack",
+            "Sub Machines"
+        ],
+        "promo_details": [
+            "CHR: Flood the prospect to offer a 0,0% line in all prospects",
+            "Cadoc: 40€ cash incentive per new restaurant/hotel/bars/camping account (Limited to 10 000€)",
+            "POCM : small table tents to promote 0% range"
+        ],
+        "promo_end_date": "2026-01-31",
+        "promo_start_date": "2026-01-02",
+        "promo_title": "PerfectDraft 0% - Flooding the Market with 0,0% offer",
+        "promo_type": "Special Offer",
+        "promo_uplift_HL": 1741,
+        "promo_uplift_machine": 1451,
+        "ROI": 1.28,
+        "table": "16",
+        "year": "2026"
+    },

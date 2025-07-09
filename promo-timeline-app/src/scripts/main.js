@@ -185,26 +185,44 @@ function renderTimeline(items) {
         // Check if item has a budget and get table data
         const hasBudget = Array.isArray(item.promo_budget) || item.promo_budget.length > 0
 
+        // Check if item has a bgcolor
+
+        let inlineBgStyle = '';
+        if (Array.isArray(item.bgcolor) && item.bgcolor.length >= 1) {
+            const color1 = item.bgcolor[0];
+            const color2 = item.bgcolor.length > 1 ? item.bgcolor[1] : '#ffffff'; // Default to white if only one color provided
+            inlineBgStyle = `style="background-image: linear-gradient(to bottom right, ${color1}, ${color2}); border-right-color: ${item.bordercolor};  border-left-color: ${item.bordercolor};"`;
+        } else if (typeof item.bgcolor === 'string' && item.bgcolor !== '') {
+            // Fallback for single string bgcolor for backward compatibility or simpler cases
+            inlineBgStyle = `style="background-color: ${item.bgcolor}; border-right-color: ${item.bordercolor}; border-left-color: ${item.bordercolor};"`; 
+        }
+        
+        let theadStyle = '';
+        if (item.bordercolor && item.bordercolor !== '') {
+            theadStyle = `style="background-color:${item.bordercolor}; color: white; border-color: ${item.bordercolor}; "`;
+        }
+
+
         return `
                 ${showYearMarker ? `<div class="year-marker">${YearMarker}</div>` : ""}
               <div class="timeline-item">
                   ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
-                <div class="timeline-content">
+                <div class="timeline-content" ${inlineBgStyle}>
                   <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}">${item.promo_type}</div>
                   <div class="promo-title">${item.promo_title}</div>
                   <div class="promo-date"> ${formattedStartDate} - ${formattedEndDate} </div>
                   <div class="promo-details">
                     ${item.promo_details.map(line => `• ${line}<br>`).join("")}
                   </div>
-                  <div class="channel-tags">
-                    ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
+                  <div class="channel-tags" >
+                    ${item.channel_tags.map(ch => `<span class="channel-tag" ${theadStyle}>${ch}</span>`).join("")}
                   </div>
 
                   ${tablesHTML}
                   ${hasBudget ? `
                     <h3 class="table-title">Budget Details // Financials</h3>
                     <table class="promo-table-budget">
-                        <thead>
+                        <thead ${theadStyle}>
                             <tr>
                                 <th>Budget</th>
                                 <th>Budget Type</th>
