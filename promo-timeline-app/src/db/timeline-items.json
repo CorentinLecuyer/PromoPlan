@@ -1,5 +1,4 @@
 [
-    
     {
         "bgcolor": "",
         "bordercolor": "",
@@ -223,6 +222,7 @@
             "Discount"
         ],
         "promo_details": [
+            "NOTE : AFTER DISCUSSION THIS IS PART OF THE CPVs NEGOCIATED WITH THE WHS",
             "Annual rewards for top-performing venues",
             "Tiered benefit structure",
             "Exclusive access to new products",
@@ -281,7 +281,7 @@
         "promo_budget": [
             9094
         ],
-        "MACO":  43152,
+        "MACO": 43152,
         "promo_budget_type": [
             "Discount"
         ],
@@ -293,14 +293,13 @@
         "promo_end_date": "2026-01-31",
         "promo_start_date": "2026-01-02",
         "promo_title": "PerfectDraft 0% - New Year, New You with Leffe 0.0%",
-        "promo_type":"free-beer",
+        "promo_type": "free-beer",
         "promo_uplift_HL": 149,
         "promo_uplift_machine": 0,
         "ROI": 3.74,
         "table": "none",
         "year": "2026"
     },
-    
     {
         "bgcolor": "",
         "bordercolor": "",
@@ -313,14 +312,18 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EeakmuMZEVRKp_xxwFzpkkoBP2Rue_U-D_XJrlY-3VToDw?e=MfOgeF",
         "month": "JANUARY",
         "promo_budget": [
-            3100
+            3100,
+            3000
         ],
         "MACO": 19233,
         "promo_budget_type": [
-            "SA2"
+            "SA2",
+            "Sales Pack"
         ],
         "promo_details": [
-            "Cavistes: 1 machine bought = 1 keg Leffe 0.0% free",
+            "Cavistes: 1 machine bought = 1 keg Leffe 0.0% free for the consumer",
+            "1 keg offered to the Caviste to compensate for margins lost on the free keg",
+            "Distributed with Posters in stores to promote the offer",
             "Focus: Health-conscious consumers for Dry January"
         ],
         "promo_end_date": "2026-01-31",
@@ -329,7 +332,7 @@
         "promo_type": "Special Offer",
         "promo_uplift_HL": 51,
         "promo_uplift_machine": 375,
-        "ROI": 6.19,
+        "ROI": 6.38,
         "table": "none",
         "year": "2026"
     },
@@ -344,7 +347,7 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EWZuR8X6k1NNsyV3luCqiw0Bo45xTywCcq4JDRPZP-RQcA?e=da5GyA",
         "month": "FEBRUARY",
         "promo_budget": [
-            24000
+            27000
         ],
         "MACO": 43971,
         "promo_budget_type": [
@@ -353,6 +356,7 @@
         "promo_details": [
             "Valentine's Day activation",
             "Buy 2 different beer kegs, get romantic dinner voucher (limited to 1000 vouchers of 30€ TTC (24€HT))",
+            "Distributed with flyers in stores to promote the offer",
             "Focus: Stella + Leffe combo packs"
         ],
         "promo_end_date": "2026-02-16",
@@ -361,12 +365,15 @@
         "promo_type": "Special Offer",
         "promo_uplift_HL": 120,
         "promo_uplift_machine": 0,
-        "ROI": 1.83,
+        "ROI": 1.63,
         "table": "3",
         "year": "2026"
     },
     {
-        "bgcolor": ["#F5EEE3","#f1e1c2"],
+        "bgcolor": [
+            "#F5EEE3",
+            "#f1e1c2"
+        ],
         "bordercolor": "#CE112D",
         "channel_tags": [
             "CHR"
@@ -476,7 +483,7 @@
         "month": "MAY",
         "promo_budget": [
             6830,
-            3000
+            6000
         ],
         "MACO": 21018,
         "promo_budget_type": [
@@ -484,9 +491,11 @@
             "Sales Pack"
         ],
         "promo_details": [
-            "Bundle: Machine + 2 premium kegs + elegant serving set for €229",
-            "Stella with foaming knife + 2 glasses",
-            "Innovation: Small stickers for Mother's day"
+            "Bundle: Machine + 1 premium kegs + elegant serving set for €229",
+            "Serving set : Stella foaming knife + 2 Stella glasses",
+            "1 keg offered to the Caviste to compensate for margins lost on the free keg",
+            "Distributed with Posters in stores to promote the offer",
+            "Innovation: Small stickers for Mother's day ?"
         ],
         "promo_end_date": "2026-05-25",
         "promo_start_date": "2026-05-05",
@@ -539,7 +548,7 @@
         "month": "JUNE",
         "promo_budget": [
             37252,
-            4000
+            7000
         ],
         "MACO": 82700,
         "promo_budget_type": [
@@ -547,9 +556,10 @@
             "Sales Pack"
         ],
         "promo_details": [
-            "Bundle: Machine + 2 Triple kegs for 220€ + 2 glasses",
+            "Bundle: Machine + 1 Triple beer kegs for 220€ + 2 glasses (TK glasses?)",
             "Beer pannel : Kwak Brune, Victoria, Leffe Rituel, Leffe Prestige, Triple Karmeliet",
-            "Posters highlighting the offer"
+            "1 keg offered to the Caviste to compensate for margins lost on the free keg",
+            "Distributed with Posters in stores to promote the offer"
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-06-01",
@@ -562,7 +572,10 @@
         "year": "2026"
     },
     {
-        "bgcolor": ["#fbb92d","#2cb2ba"],
+        "bgcolor": [
+            "#fbb92d",
+            "#2cb2ba"
+        ],
         "bordercolor": "black",
         "channel_tags": [
             "Cavistes Indépendants",
@@ -573,7 +586,7 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EUdFgqIqprlMrpdmgOo91tYB01186lrLdoSH051BKfjPQA?e=887ngs",
         "month": "JUNE",
         "promo_budget": [
-            5000,
+            8000,
             9971
         ],
         "MACO": 29635,
@@ -583,7 +596,8 @@
         ],
         "promo_details": [
             "2 steps deal : <br> - Get a offer for 10 (or more) Television with Versuni partner<br> - Create your bundle Machine + 1 kegs and register to the 'jeu concours' to win a TV",
-            "Beer: any from the PerfectDraft portfolio"
+            "Beer: any from the PerfectDraft portfolio",
+            "Distributed with Posters in stores to promote the offer"
         ],
         "promo_end_date": "2026-06-21",
         "promo_start_date": "2026-05-21",
@@ -596,7 +610,10 @@
         "year": "2026"
     },
     {
-        "bgcolor": ["#ffa585","#ffeda0"],
+        "bgcolor": [
+            "#ffa585",
+            "#ffeda0"
+        ],
         "bordercolor": "black",
         "channel_tags": [
             "CHR"
@@ -606,26 +623,24 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EXSgS482xidKuHZAIVOpzCkBFFe7bu0GXqgGVuWloSO-VA?e=qlf0TK",
         "month": "MAY",
         "promo_budget": [
-            81000
+            10000
         ],
-        "MACO": 253665,
+        "MACO": 82074.1,
         "promo_budget_type": [
             "Sales Pack"
         ],
         "promo_details": [
-            "2 steps deal : <br> - Get a bundle offer for 200 (or more) yearly subscription fees for Canal SPORT EVENEMENT <br> - Propose this offer for a 360 kegs commitment based on sellout data",
-            "Beer: any from the PerfectDraft portfolio",
-            "Focus: CHR venues with high sports viewership",
-            "limited to the number of subscription available in the negociation with Canal+",
-            "1320 HL Incremental"
+            "10 TVs to win between the WHS with this incentive. Calculation made on May 2024 Volumes with 2% incremental volumes generated by the competition",
+            "All kegs can be played",
+            "Goal is to measurate new DN to make it tangible for the WHS Salesforce"
         ],
         "promo_end_date": "2026-06-11",
         "promo_start_date": "2026-05-11",
         "promo_title": "PefectDraft World Cup 2026 - CHR",
         "promo_type": "Special Offer",
-        "promo_uplift_HL": 240,
+        "promo_uplift_HL": 326,
         "promo_uplift_machine": 0,
-        "ROI": 3.13,
+        "ROI": 7.21,
         "table": "8",
         "year": "2026"
     },
@@ -801,14 +816,17 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ESNGkecfx3dHi5ltZYaXifEBiJv8KL972p9tOfxfy6OE6Q?e=wxsOh2",
         "month": "SEPTEMBER",
         "promo_budget": [
+            3000,
             4205
         ],
         "MACO": 5284.69,
         "promo_budget_type": [
+            "Sales Pack",
             "Discount"
         ],
         "promo_details": [
-            "Cavistes: 4+1 back-to-work promotion"
+            "Cavistes: 4+1 back-to-work promotion",
+            "Distributed with Posters in stores to promote the offer"
         ],
         "promo_end_date": "2026-09-30",
         "promo_start_date": "2026-09-01",
@@ -853,7 +871,10 @@
         "year": "2026"
     },
     {
-        "bgcolor": ["#f6f6f6","#FFFFFF"],
+        "bgcolor": [
+            "#f6f6f6",
+            "#FFFFFF"
+        ],
         "bordercolor": "#26B9EF",
         "channel_tags": [
             "Cavistes Indépendants",
@@ -864,7 +885,7 @@
         "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/ET9UX8NqMYVAoOJVDRJXwQ4BULWJXo_W-2DaJ3or-EpNbA?e=anGyTU",
         "month": "OCTOBER",
         "promo_budget": [
-            23000
+            26000
         ],
         "MACO": 50732,
         "promo_budget_type": [
@@ -874,6 +895,7 @@
             "Focus: German-style beers, Franziskaner / Becks / etc.",
             "2 kegs on premium/specialty kegs = 2 glasses",
             "Activation with nice posters + GlassBox on counter...",
+            "Distributed with Posters in stores to promote the offer",
             "Limited to 2388 glassbox"
         ],
         "promo_end_date": "2026-10-31",
