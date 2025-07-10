@@ -206,38 +206,7 @@
         "table": "1",
         "year": "2026"
     },
-    {
-        "bgcolor": "",
-        "bordercolor": "",
-        "channel_tags": [
-            "CHR - Loyalty"
-        ],
-        "icon": "⭐",
-        "id": "4",
-        "link": "https://www.notion.so/1fc8e2b2b0fb802ca24ec5b059239944?v=1fc8e2b2b0fb80269fba000c2d56ce04&source=copy_link",
-        "month": "JANUARY",
-        "promo_budget": 0,
-        "MACO": 0,
-        "promo_budget_type": [
-            "Discount"
-        ],
-        "promo_details": [
-            "NOTE : AFTER DISCUSSION THIS IS PART OF THE CPVs NEGOCIATED WITH THE WHS",
-            "Annual rewards for top-performing venues",
-            "Tiered benefit structure",
-            "Exclusive access to new products",
-            ""
-        ],
-        "promo_end_date": "2026-12-31",
-        "promo_start_date": "2026-01-01",
-        "promo_title": "CHR Excellence Program - Annual",
-        "promo_type": "Loyalty Program",
-        "promo_uplift_HL": 0,
-        "promo_uplift_machine": 0,
-        "ROI": 1,
-        "table": "2",
-        "year": "2026"
-    },
+    
     {
         "bgcolor": "",
         "bordercolor": "",
@@ -939,6 +908,38 @@
         "promo_uplift_machine": 650,
         "ROI": 1.9,
         "table": "13",
+        "year": "2026"
+    },
+    {
+        "bgcolor": ["#E4F2FF", "#A9D8FF"],
+        "bordercolor": "#00B0F0",
+        "channel_tags": [
+            "Cavistes Nationaux"
+        ],
+        "icon": "🥶",
+        "id": "19",
+        "link": "https://anheuserbuschinbev.sharepoint.com/:x:/s/PERFECTDRAFTBUBNFL/EQqihsCOf-REqcw0Jj0raZ4BMdJ72SVQtJ62AsyCEa3xlQ?e=BeE5vC",
+        "month": "NOVEMBER",
+        "promo_budget": [
+            66859.20 
+        ],
+        "MACO": 0,
+        "promo_budget_type": [
+            "Sales Pack"
+        ],
+        "promo_details": [
+            "Set of 90 fridges to place in the Cavistes stores",
+            "Goal: improve the value proposition by having a fresh and attractive display",
+            "Good way of improving the visibility of the PerfectDraft kegs in stores"
+        ],
+        "promo_end_date": "2026-12-31",
+        "promo_start_date": "2026-01-01",
+        "promo_title": "Fresh beer here! - Cavistes Fridges",
+        "promo_type": "New Product",
+        "promo_uplift_HL": 0,
+        "promo_uplift_machine": 0,
+        "ROI": 1,
+        "table": "18",
         "year": "2026"
     }
 ]

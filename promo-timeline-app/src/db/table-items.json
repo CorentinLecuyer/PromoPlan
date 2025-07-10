@@ -290,5 +290,18 @@
                 "<img style=\"width: 80%; max-width: fit; height: 20%; object-fit: contain; margin-left: 30px;border-radius: 10px; border:1px solid rgb(44, 62, 80);\" src=\"img/Cover_Stella_Artois.jpg\" alt=\"Cover_Stella_Artois x RG\">"
             ]
         ]
+    },
+        {
+        "id": "18",
+        "style": "blackTable",
+        "table": "",
+        "th": [
+            "Fridge - Dedicated PerfectDraft racks"
+        ],
+        "tr": [
+            [
+                "<img style=\"width: 100%; max-width: fit; height: auto; object-fit: contain; \" src=\"img/Fridge Solution.png\" alt=\"Fridge concept\">"
+            ]
+        ]
     }
 ]
