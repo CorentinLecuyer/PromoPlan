@@ -5,6 +5,7 @@ import { appState, setSelectedChannels, setSelectedYears, setSelectedStatuses, s
 import { processTimelineItems, processDisplayTables } from './utils.js';
 import { renderTimeline, renderTablesHomePage } from './renderers.js';
 import { initFilterEventListeners, updateCheckboxesFromState, updateSelectedYearText } from './uiHandlers.js';
+import { signOut, getSession } from './supabaseAuth.js'; // Ensure signOut is imported here
 
 /**
  * Loads filter selections from the URL query parameters and updates the appState.
@@ -125,6 +126,19 @@ async function initializeApp() {
     // Ensure the year text is updated on initial load even if no filters change
     updateSelectedYearText(); // Ensure initial display is correct
 
+        // NEW: Logout button event listener
+    if (logoutButton) {
+        logoutButton.addEventListener('click', async () => {
+            const { error } = await signOut();
+            if (!error) {
+                console.log('User signed out.');
+                window.location.href = 'login.html'; // Redirect to login page after logout
+            } else {
+                console.error('Logout failed:', error.message);
+                // Optionally display an error message to the user
+            }
+        });
+    }
     await updateAndRenderContent();
 }
 

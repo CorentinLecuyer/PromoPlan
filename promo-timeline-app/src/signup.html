@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - PerfectDraft</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png">
+</head>
+<body>
+    <div class="login-page-wrapper">
+        <div class="login-image-section">
+            <img src="img/Login_image_people_idea.png" alt="People with Ideas" class="login-illustration">
+        </div>
+        <div class="login-form-section">
+            <div class="login-box">
+                <h1>Sign Up</h1>
+
+                
+                <form id="signUpForm">
+                    <div class="input-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="country">Country</label>
+                        <select id="country" name="country" required>
+                            <option value="">Select Country 🌍</option>
+                            <option value="Belgium">Belgium 🇧🇪</option>
+                            <option value="Netherlands">Netherlands 🇳🇱</option>
+                            <option value="Luxembourg">Luxembourg 🇱🇺</option>
+                            <option value="France">France 🇫🇷</option>
+                            <option value="England">England 🏴󠁧󠁢󠁥󠁮󠁧󠁿</option>
+                            <option value="Northern Ireland">Northern Ireland 🇬🇧</option>
+                            <option value="Switzerland">Switzerland 🇨🇭</option>
+                            <option value="Italy">Italy 🇮🇹</option>
+                            <option value="Czech Republic">Czech Republic 🇨🇿</option>
+                            <option value="Germany">Germany 🇩🇪</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <div class="input-group">
+                        <label for="channel">Channel</label>
+                        <select id="channel" name="channel" required>
+                            <option value="">Select Channel</option>
+                            <option value="Off Trade">Off Trade</option>
+                            <option value="On Trade">On Trade</option>
+                            <option value="PerfectDraft">PerfectDraft</option>
+                        </select>
+                    </div>
+                    <button type="submit" id="submitSignUpButton">Sign Up</button>
+                    <button type="button" id="goToLoginButton">Back to Login</button>
+                </form>
+
+                <p id="authMessage" class="auth-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/signupApp.js"></script>
+</body>
+</html>

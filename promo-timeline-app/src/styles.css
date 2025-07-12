@@ -877,3 +877,188 @@ border-radius: 5px;
   }
 }
 
+/* Wrapper for the entire login page content */
+.login-page-master{
+    background: #fafafa; 
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; 
+    align-items: center;  
+}
+
+.login-page-wrapper {
+    display: flex; /* Use flexbox for the two sections */
+    width: 100%;
+    min-height: 100vh; /* Ensure it takes full height on small screens */
+    flex-direction: column; /* Default to column layout for small screens */
+}
+
+/* Image section */
+.login-image-section {
+    flex: 1; /* Takes available space */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #f0f0f0; /* Light background for the image side */
+}
+
+.login-illustration {
+    max-width: 100%; /* Image responsive */
+    height: auto;
+    max-height: 400px; /* Limit image height on smaller screens */
+    object-fit: contain;
+}
+
+/* Form section */
+/* Existing styles */
+.login-form-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #ffffff;
+}
+
+.login-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    /* Added subtle border for definition */
+    border: 1px solid #e0e0e0; 
+}
+
+.login-box h1 {
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 28px;
+    /* Added some letter spacing for a refined look */
+    letter-spacing: 0.5px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    /* Added a bit more space for labels */
+    font-size: 15px; 
+}
+
+.input-group input,
+.input-group select { /* Combined styles for input and select */
+    width: 100%;
+    padding: 12px; /* Increased padding slightly for more height */
+    border: 1px solid #ccc; /* Slightly lighter border */
+    border-radius: 6px; /* Slightly more rounded corners */
+    font-size: 16px;
+    box-sizing: border-box;
+    /* Added transition for smoother focus */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    /* Ensures background is white for inputs/selects */
+    background-color: #fcfcfc;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #FFCC02; /* Highlight color on focus */
+    box-shadow: 0 0 0 3px rgba(255, 204, 2, 0.3); /* Subtle glow on focus */
+    outline: none; /* Remove default outline */
+}
+
+/* Specific styling for select arrow if desired (more advanced CSS) */
+.input-group select {
+    appearance: none; /* Remove default browser arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 18px;
+    padding-right: 30px; /* Make space for the custom arrow */
+    cursor: pointer;
+}
+
+.login-box button {
+    /* Using your provided gradient as a base */
+    background: linear-gradient(90deg, rgb(25, 25, 24) 0%, rgb(27, 26, 24) 65%, rgb(51, 51, 51) 100%);
+    color: #fff;
+    border: none;
+    padding: 12px 20px; /* Slightly larger padding */
+    font-size: 17px; /* Slightly larger text */
+    font-weight: 600; /* Bolder text */
+    border-radius: 6px; /* Slightly more rounded */
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    width: 100%;
+    margin-top: 15px; /* More space between buttons and form elements */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for buttons */
+}
+
+.login-box button:hover {
+    /* Darker gradient or solid color on hover */
+    background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(10, 10, 10) 65%, rgb(30, 30, 30) 100%);
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-box button:active {
+    transform: scale(0.98);
+    background: rgb(0, 0, 0); /* Solid black on active */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Optional: Different style for a primary/sign-in button */
+#signInButton {
+    background: linear-gradient(90deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
+    color: #333; /* Dark text for golden button */
+    font-weight: 700; /* Even bolder */
+}
+
+#signInButton:hover {
+    background: linear-gradient(90deg, rgba(255, 235, 59, 1) 0%, rgba(240, 205, 50, 1) 65%, rgba(225, 175, 70, 1) 100%);
+    box-shadow: 0 4px 10px rgba(255, 204, 2, 0.3);
+}
+
+#signInButton:active {
+    background: rgba(227, 193, 32, 1);
+}
+
+.auth-message {
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Media query for large screens (e.g., desktops) */
+@media (min-width: 768px) { /* Adjust breakpoint as needed */
+    .login-page-wrapper {
+        flex-direction: row; /* Change to row layout for large screens */
+        min-height: 80vh; /* Make the wrapper take up less than full height if desired, or keep 100vh */
+        max-height: 800px; /* Max height for the split sections on large screens */
+        border-radius: 10px;
+        overflow: hidden; /* For border-radius on child elements */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Add shadow to the whole wrapper */
+    }
+
+    .login-image-section,
+    .login-form-section {
+        flex: 1; /* Each section takes half the width */
+        min-height: 600px; /* Ensure minimum height for both sections */
+    }
+
+    .login-illustration {
+        max-height: 100%; /* Image takes full height of its section */
+    }
+}
