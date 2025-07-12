@@ -1,63 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>- PerfectDraft Calendar</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="icon" href="img/favicon%20small.ico" type="image/png" style="max-width: fit-content;">
+    <link rel="stylesheet" href="styles.css" />
+    <link
+      rel="icon"
+      href="img/favicon%20small.ico"
+      type="image/png"
+      style="max-width: fit-content"
+    />
+  </head>
 
-</head>
-
-<body>
+  <body>
     <div class="header">
-        <div class="logo">
-            <a href="" class="href">
-                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
-            </a>
-        </div>
-        <div class="filter-block">
-            <label for="yearFilter" style="font-weight:600;">Filter by Year:</label>
-            <div class="multiselect-container">
-                <div class="multiselect-header" onclick="toggleYearDropdown()">
-                    <span id="selectedYearText">All Years</span>
-                    <span class="dropdown-arrow" id="yearDropdownArrow">▼</span>
-                </div>
-                <div class="multiselect-dropdown" id="yearDropdown">
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_all" value="all" onchange="handleYearOptionChange(this)"
-                            checked>
-                        <label for="year_all">All</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_2025" value="2025" onchange="handleYearOptionChange(this)">
-                        <label for="year_2025">2025</label>
-                    </div>
-                    <div class="multiselect-option">
-                        <input type="checkbox" id="year_2026" value="2026" onchange="handleYearOptionChange(this)">
-                        <label for="year_2026">2026</label>
-                    </div>
-                </div>
+      <div class="logo">
+        <a href="" class="href">
+          <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo" />
+        </a>
+      </div>
+      <div class="filter-block">
+        <div class="filter-container">
+          <label for="statusFilter" style="font-weight: 600"
+            >Filter by Status:</label
+          >
+          <div class="multiselect-container">
+            <div class="multiselect-header" data-filter-type="status">
+              <span id="selectedStatusText">Public</span>
+              <span class="dropdown-arrow" id="statusDropdownArrow">▼</span>
             </div>
+            <div class="multiselect-dropdown" id="statusDropdown">
+              <div class="multiselect-option">
+                <input
+                  type="checkbox"
+                  id="status_public"
+                  value="public"
+                  checked
+                />
+                <label for="status_public">Public</label>
+              </div>
+              <div class="multiselect-option">
+                <input type="checkbox" id="status_private" value="private" />
+                <label for="status_private">Private</label>
+              </div>
+              <div class="multiselect-option">
+                <input type="checkbox" id="status_draft" value="draft" />
+                <label for="status_draft">Draft</label>
+              </div>
+              <div class="multiselect-option">
+                <input type="checkbox" id="status_all" value="all" />
+                <label for="status_all">All Statuses</label>
+              </div>
+            </div>
+          </div>
         </div>
-
-
-        <div>
-            <a href="PromoTimeline.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
-                <label style="font-weight:400;" class="multiselect-header">Timeline View ↕️</label>
-            </a>
-            <a href="3PP.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
-                <label style="font-weight:400; text-decoration: none;" class="multiselect-header">3PP View 🍺</label>
-            </a>
+        <label for="yearFilter" style="font-weight: 600">Filter by Year:</label>
+        <div class="multiselect-container">
+          <div class="multiselect-header" data-filter-type="year">
+            <span id="selectedYearText">All Years</span>
+            <span class="dropdown-arrow" id="yearDropdownArrow">▼</span>
+          </div>
+          <div class="multiselect-dropdown" id="yearDropdown">
+            <div class="multiselect-option">
+              <input type="checkbox" id="year_all" value="all" />
+              <label for="year_all">All</label>
+            </div>
+            <div class="multiselect-option">
+              <input type="checkbox" id="year_2025" value="2025" />
+              <label for="year_2025">2025</label>
+            </div>
+            <div class="multiselect-option">
+              <input type="checkbox" id="year_2026" value="2026" />
+              <label for="year_2026">2026</label>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <div>
+        <a
+          href="PromoTimeline.html"
+          style="
+            display: inline-block;
+            margin-left: 10px;
+            text-decoration: none;
+          "
+        >
+          <label style="font-weight: 400" class="multiselect-header"
+            >Timeline View ↕️</label
+          >
+        </a>
+        <a
+          href="3PP.html"
+          style="
+            display: inline-block;
+            margin-left: 10px;
+            text-decoration: none;
+          "
+        >
+          <label
+            style="font-weight: 400; text-decoration: none"
+            class="multiselect-header"
+            >3PP View 🍺</label
+          >
+        </a>
+      </div>
     </div>
     <div class="slide">
-
-        <div id="timeline-root-home-page"></div>
-
+      <div id="timeline-root-home-page"></div>
     </div>
 
-    <script src="scripts/main.js"></script>
-</body>
-
+    <script type="module" src="scripts/app.js"></script>
+  </body>
 </html>
