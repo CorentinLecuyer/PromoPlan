@@ -118,27 +118,42 @@ export async function updateAndRenderContent() {
         }
     }
 }
+
+
 async function initializeApp() {
     loadFiltersFromURL();
     updateCheckboxesFromState();
     initFilterEventListeners();
+    updateSelectedYearText();
 
-    // Ensure the year text is updated on initial load even if no filters change
-    updateSelectedYearText(); // Ensure initial display is correct
+    const session = await getSession();
+    const logoutButton = document.getElementById('logoutButton');
 
-        // NEW: Logout button event listener
+    if (session) {
+        if (logoutButton) logoutButton.style.display = 'inline-block';
+        console.log('User is logged in:', session.user.email);
+    } else {
+        if (logoutButton) logoutButton.style.display = 'none';
+        console.log('User is not logged in.');
+        // Redirect to login page if user is not logged in AND not already on login/signup page
+        const currentPage = window.location.pathname.split('/').pop();
+        if (currentPage !== 'login.html' && currentPage !== 'signup.html') {
+             window.location.href = 'login.html';
+        }
+    }
+
     if (logoutButton) {
         logoutButton.addEventListener('click', async () => {
             const { error } = await signOut();
             if (!error) {
                 console.log('User signed out.');
-                window.location.href = 'login.html'; // Redirect to login page after logout
+                window.location.href = 'login.html';
             } else {
                 console.error('Logout failed:', error.message);
-                // Optionally display an error message to the user
             }
         });
     }
+
     await updateAndRenderContent();
 }
 

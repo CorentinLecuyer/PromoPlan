@@ -93,3 +93,17 @@ export async function getUser() {
     }
     return user;
 }
+
+/**
+ * Updates an authenticated user's profile information (email, password, metadata, phone).
+ * Only authenticated users can update their own profile.
+ * @param {object} updates - Object containing fields to update (e.g., { email, password, data: { display_name }, phone }).
+ * @returns {Promise<object>} Supabase auth response (user and session or error).
+ */
+export async function updateUserProfile(updates) {
+    const { data, error } = await supabase.auth.updateUser(updates);
+    if (error) {
+        console.error('Update user profile error:', error.message);
+    }
+    return { data, error };
+}

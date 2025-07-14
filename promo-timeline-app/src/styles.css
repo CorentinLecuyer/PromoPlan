@@ -928,10 +928,23 @@ border-radius: 5px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 400px;
+    max-width: 600px;
     text-align: center;
-    /* Added subtle border for definition */
     border: 1px solid #e0e0e0; 
+
+
+}
+.login-boxes{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+
+}
+.login-box1 {
+    flex: 1;
+}
+.login-box2 {
+    flex: 1;
 }
 
 .login-box h1 {
@@ -959,7 +972,7 @@ border-radius: 5px;
 .input-group input,
 .input-group select { /* Combined styles for input and select */
     width: 100%;
-    padding: 12px; /* Increased padding slightly for more height */
+    padding: 14px; /* Increased padding slightly for more height */
     border: 1px solid #ccc; /* Slightly lighter border */
     border-radius: 6px; /* Slightly more rounded corners */
     font-size: 16px;
@@ -1041,12 +1054,163 @@ border-radius: 5px;
     font-weight: 500;
 }
 
+
+
+/* Rename or adapt login sections for profile context */
+.profile-info-section {
+    /* Inherits from .login-image-section's flex properties */
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f8f8f8; /* Slightly different background if desired */
+    border-right: 1px solid #eee; /* Separator line */
+}
+
+.profile-promos-section {
+    /* Inherits from .login-form-section's flex properties */
+    flex: 2; /* Make promo list wider than info section */
+    justify-content: flex-start;
+    align-items: flex-start; /* Align content to top within this section */
+    padding: 20px;
+    background-color: #ffffff;
+    overflow: scroll;
+}
+
+.profile-box {
+    /* Inherits from .login-box */
+    padding: 25px; /* Slightly less padding to fit more content */
+    box-shadow: none; /* Remove box shadow if part of a larger section */
+    border: none; /* Remove border if part of a larger section */
+    background: transparent; /* Make background transparent to match parent section */
+    text-align: left; /* Align text left for forms/lists */
+    max-width: none; /* Remove max-width so it can expand within its section */
+}
+
+.profile-box h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Avatar styling */
+.profile-avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+/* New style for the emoji avatar span */
+.avatar-emoji {
+    display: flex; /* Use flex to center the emoji */
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #f0f0f0; /* Light background for the emoji circle */
+    border: 3px solid #FFCC02;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    font-size: 60px; /* Make the emoji large */
+    line-height: 1; /* Adjust line height to prevent clipping */
+    overflow: hidden; /* Ensure emoji doesn't spill out */
+    color: #000; /* Default color if emoji has none, or for text fallback */
+}
+
+#emojiPickerContainer {
+    position: absolute; /* Allows positioning relative to first positioned ancestor */
+    z-index: 1000;      /* Ensure it appears above other elements */
+    background-color: white; /* Give it a solid background */
+    border: 1px solid #ddd; /* A border to show its boundaries */
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Add a shadow */
+    padding: 10px; /* Some internal padding */
+    /* Adjust positioning relative to the button if desired. Example for below the button: */
+    top: 100%; /* Position below the button's bottom edge */
+    left: 50%; /* Start from the middle horizontally */
+    transform: translateX(-50%); /* Shift left by half its width to center */
+    /* IMPORTANT: Max-dimensions and overflow for the container */
+    max-width: 95vw; /* Max width relative to viewport */
+    max-height: 80vh; /* Max height relative to viewport */
+    overflow:scroll;
+     /* Crucial: hide any content that exceeds these dimensions */
+}
+
+/* Ensure the <em-emoji-picker> element itself has some size constraints */
+em-emoji-picker {
+    display: block; /* Web Components often need explicit display */
+    width: 100%; /* Take 100% of its parent container's width */
+    height: 100%; /* Take 100% of its parent container's height */
+    max-width: 350px; /* Max width for the picker itself */
+    max-height: 450px; /* Max height for the picker itself */
+    overflow: visible;/* The library usually handles its own internal scrolling */
+}
+
+/* You may need to ensure the parent .profile-avatar-upload is positioned relative */
+.profile-avatar-upload {
+    position: relative; /* Essential for absolute positioning of #emojiPickerContainer */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 30px;
+    text-align: center;
+}
+/* 
+.avatar-preview {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #FFCC02;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.upload-button {
+    padding: 8px 15px !important;
+    font-size: 14px !important;
+    width: auto !important;
+    margin-top: 0px !important;
+    background: #555 !important;
+}
+.upload-button:hover {
+    background: #777 !important;
+}
+
+#avatarInput {
+    display: none; /* Hide the default file input */
+} */
+
+/* Table container for overflow if table is too wide */
+.promo-table-container {
+    width: 100%;
+    overflow-x: auto; /* Enable horizontal scrolling for wide tables */
+    margin-top: 20px;
+}
+
+/* Reuse existing .promo-table-HomePage styles for the table */
+/* Adjust td/th padding if needed for more condensed view */
+#userPromosTable th,
+#userPromosTable td {
+    padding: 8px 12px; /* Adjust as needed */
+    white-space: nowrap; /* Prevent text wrapping in cells if it makes table too wide */
+}
+
+/* Style for action links/buttons in table */
+#userPromosTable .action-link {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+#userPromosTable .action-link:hover {
+    text-decoration: underline;
+}
+
 /* Media query for large screens (e.g., desktops) */
 @media (min-width: 768px) { /* Adjust breakpoint as needed */
     .login-page-wrapper {
         flex-direction: row; /* Change to row layout for large screens */
-        min-height: 80vh; /* Make the wrapper take up less than full height if desired, or keep 100vh */
-        max-height: 800px; /* Max height for the split sections on large screens */
         border-radius: 10px;
         overflow: hidden; /* For border-radius on child elements */
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Add shadow to the whole wrapper */
@@ -1060,5 +1224,8 @@ border-radius: 5px;
 
     .login-illustration {
         max-height: 100%; /* Image takes full height of its section */
+    }
+        .profile-promos-section {
+        align-items: flex-start; /* Align content to top */
     }
 }
