@@ -71,3 +71,88 @@ export async function fetchDisplayTables() {
         return [];
     }
 }
+
+/**
+ * Fetches a single promotional item by its ID.
+ * @param {string} promoId - The ID of the promotion to fetch.
+ * @returns {Promise<object>} A promise that resolves to the promo object or null if not found/no access.
+ */
+export async function fetchPromoById(promoId) {
+    try {
+        const { data, error } = await supabase
+            .from('promo_items')
+            .select('*')
+            .eq('id', promoId)
+            .single(); // Use .single() to expect one row
+
+        if (error) {
+            // RLS might return no data with a null error if user doesn't have access
+            // Or a specific error if the query itself is malformed.
+            if (error.code === 'PGRST116') { // No rows found for .single()
+                return { data: null, error: null }; // Return null data, no error
+            }
+            console.error('Supabase fetchPromoById error:', error.message);
+            return { data: null, error: error };
+        }
+        return { data, error: null };
+    } catch (error) {
+        console.error('Error in fetchPromoById:', error);
+        return { data: null, error: error };
+    }
+}
+
+/**
+ * Updates an existing promotional item.
+ * @param {string} promoId - The ID of the promotion to update.
+ * @param {object} updates - An object containing the fields to update.
+ * @returns {Promise<object>} Supabase response (data/error).
+ */
+export async function updatePromo(promoId, updates) {
+    try {
+        // When updating, ensure you only send fields that are allowed/expected by your RLS
+        // and that the user has permission to update.
+        const { data, error } = await supabase
+            .from('promo_items')
+            .update(updates)
+            .eq('id', promoId)
+            .select(); // Select the updated row to confirm
+
+        if (error) {
+            console.error('Supabase updatePromo error:', error.message);
+        }
+        return { data, error };
+    } catch (error) {
+        console.error('Error in updatePromo:', error);
+        return { data: null, error: error };
+    }
+}
+
+/**
+ * Deletes a promotional item.
+ * @param {string} promoId - The ID of the promotion to delete.
+ * @returns {Promise<object>} Supabase response (data/error).
+ */
+export async function deletePromo(promoId) {
+    try {
+        const { error } = await supabase
+            .from('promo_items')
+            .delete()
+            .eq('id', promoId);
+
+        if (error) {
+            console.error('Supabase deletePromo error:', error.message);
+        }
+        return { error };
+    } catch (error) {
+        console.error('Error in deletePromo:', error);
+        return { error: error };
+    }
+}
+
+export async function fetchAllTableData() { // <--- ADD 'export' HERE
+    const { data, error } = await supabase
+        .from('promoTables_items') // **IMPORTANT: Replace with your actual Supabase table name that stores table definitions**
+        .select('*');
+
+    return { data, error };
+}

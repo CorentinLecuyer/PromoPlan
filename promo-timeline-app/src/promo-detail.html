@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Promotion - PerfectDraft</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css">
+</head>
+
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
+    <script type="module" src="scripts/promoDetailApp.js"></script>
+
+    <div class="header">
+        <div class="logo">
+            <a href="CommandBoard.html" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+        <div class="filter-block"></div>
+        <div>
+            <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
+                <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
+            </a>
+            <a href="3PP.html" style="
+            display: inline-block;
+            margin-left: 10px;
+            text-decoration: none;
+          ">
+                <label style="font-weight: 400; text-decoration: none" class="multiselect-header">3PP View 🍺</label>
+            </a>
+            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+                <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
+            </a>
+            <button id="logoutButton" class="logoutButton" style="margin-left: 10px">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <div class="edit-page-wrapper">
+        <div class="edit-info-section">
+            <div class="profile-box">
+                <h1>Edit Promotion</h1>
+                <p id="promoIdDisplay" style="font-size: 0.9em; color: #666; margin-bottom: 20px;">Editing Promotion ID:
+                    15</p>
+
+                <form id="promoDetailForm">
+                    <div class="form-section">
+                        <h2>Promotion Core Details</h2>
+                        <div class="form-grid-container">
+                            <div class="input-group">
+                                <label for="promoTitle">Promo Title</label>
+                                <input type="text" id="promoTitle" name="promoTitle" required="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="promoType">Promo Type</label>
+                                <select id="promoType" name="promoType">
+                                    <option value="Special Offer">Special Offer</option>
+                                    <option value="Discount">Discount</option>
+                                    <option value="New Product">New Product</option>
+                                    <option value="Loyalty Program">Loyalty Program</option>
+                                    <option value="Free Beer">Free Beer</option>
+                                    <option value="Training">Training</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group full-width">
+                                <label for="promoDetails">Promo Details (comma-separated)</label>
+                                <textarea id="promoDetails" name="promoDetails" rows="4"></textarea>
+                            </div>
+                            <div class="input-group">
+                                <label for="promoStartDate">Start Date</label>
+                                <input type="date" id="promoStartDate" name="promoStartDate">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="promoEndDate">End Date</label>
+                                <input type="date" id="promoEndDate" name="promoEndDate">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>Financial & Impact</h2>
+                        <div class="form-grid-container">
+                            <div class="input-group">
+                                <label for="promoBudget">Promo Budget (comma-separated numbers)</label>
+                                <input type="text" id="promoBudget" name="promoBudget" placeholder="e.g., 10000,500">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="promoBudgetType">Promo Budget Type</label>
+                                <select id="promoBudgetType" name="promoBudgetType" multiple size="3">
+                                    <option value="Sub Machines">Sub Machines</option>
+                                    <option value="Discount">Discount</option>
+                                    <option value="Sales Pack">Sales Pack</option>
+                                    <option value="SA2">SA2</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="promoUpliftHL">Uplift HL</label>
+                                <input type="number" id="promoUpliftHL" name="promoUpliftHL">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="promoUpliftMachine">Uplift Machine</label>
+                                <input type="number" id="promoUpliftMachine" name="promoUpliftMachine">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="roi">ROI</label>
+                                <input type="text" id="roi" name="roi">
+                            </div>
+                            <div class="input-group">
+                                <label for="maco">MACO</label>
+                                <input type="number" id="maco" name="maco">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h2>Categorization & Visuals</h2>
+                        <div class="form-grid-container">
+                            <div class="input-group">
+                                <label for="channelTags">Channel Tags</label>
+                                <select id="channelTags" name="channelTags" multiple size="5">
+                                    <option value="Cavistes Nationaux">Cavistes Nationaux</option>
+                                    <option value="Cavistes Nationaux - Loyalty">Cavistes Nationaux - Loyalty</option>
+                                    <option value="CHR">CHR</option>
+                                    <option value="CHR - Loyalty">CHR - Loyalty</option>
+                                    <option value="Cavistes Indépendants">Cavistes Indépendants</option>
+                                    <option value="Cavistes Indépendants - Loyalty">Cavistes Indépendants - Loyalty
+                                    </option>
+                                    <option value="CHR">DTC</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="icon">Icon</label>
+                                <div class="profile-avatar-upload">
+                                    <span id="promoIconDisplay" class="avatar-emoji"></span>
+
+                                    <button type="button" id="openIconPickerButton" class="multiselect-header">
+                                        Pick Icon
+                                    </button>
+
+                                    <div id="iconPickerContainer" style="display: none; margin-top: 10px"></div>
+                                </div>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="link">Link</label>
+                                <input type="url" id="link" name="link">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="tableName">Table IDs (comma-separated numbers)</label>
+                                <input type="text" id="tableName" name="tableName" placeholder="e.g., 1,2">
+                            </div>
+                            <div class="input-group">
+                                <label for="borderColor">Border Color</label>
+                                <input type="text" id="borderColor" name="borderColor"
+                                    placeholder="#RRGGBB or color name">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="bgColor">Background Colors (comma-separated)</label>
+                                <input type="text" id="bgColor" name="bgColor" placeholder="e.g., #FFCC02,#FFA726">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section admin-info">
+                        <h2>Administrative Information</h2>
+                        <div class="form-grid-container">
+                            <div class="input-group">
+                                <label for="author">Author</label>
+                                <input type="text" id="author" name="author" disabled="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="owner">Owner</label>
+                                <input type="text" id="owner" name="owner" disabled="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="creationDate">Creation Date</label>
+                                <input type="date" id="creationDate" name="creationDate" disabled="">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="status">Status</label>
+                                <select id="status" name="status">
+                                    <option value="public">Public</option>
+                                    <option value="private">Private</option>
+                                    <option value="draft">Draft</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="country">Country</label>
+                                <select id="country" name="country" required>
+                                    <option value="Belgium">Belgium</option>
+                                    <option value="Netherlands">Netherlands</option>
+                                    <option value="Luxembourg">Luxembourg</option>
+                                    <option value="France">France</option>
+                                    <option value="England">England</option>
+                                    <option value="Northern Ireland">Northern Ireland</option>
+                                    <option value="Switzerland">Switzerland</option>
+                                    <option value="Italy">Italy</option>
+                                    <option value="Czech Republic">Czech Republic</option>
+                                    <option value="Germany">Germany</option>
+                                </select>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="bu">BU</label>
+                                <input type="text" id="bu" name="bu" readonly>
+                            </div>
+
+                            <div class="input-group">
+                                <label for="userId">User ID</label>
+                                <input type="text" id="userId" name="userId" disabled="">
+                            </div>
+                            <div class="input-group checkbox-group">
+                                <input type="checkbox" id="fscreen" name="fscreen">
+                                <label for="fscreen">Full Screen</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="button-inline-group">
+                        <button type="submit" id="savePromoButton" class="updateButton">Save Promotion</button>
+                        <button type="button" id="deletePromoButton" class="logoutButton">Delete Promotion</button>
+                    </div>
+                </form>
+                <p id="promoMessage" class="auth-message"></p>
+
+            </div>
+        </div>
+
+        <div class="promo-preview-section">
+            <div class="profile-box">
+                <h2>Promotion Preview</h2>
+                <div id="promoPreview">
+                    <p>Your promotion preview will appear here as you fill out the form.</p>
+                    <p>It could show the title, dates, icon, and other key details.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="module" src="scripts/promoDetailApp.js"></script>
+</body>
+
+</html>

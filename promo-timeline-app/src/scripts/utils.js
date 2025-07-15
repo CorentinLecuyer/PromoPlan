@@ -155,3 +155,41 @@ export function getMonthsBetweenDates(startDate, endDate) {
 
     return months;
 }
+
+/**
+ * Converts a comma-separated string to an array of trimmed strings.
+ * Filters out empty strings.
+ * @param {string} str - The input string (e.g., "tag1, tag2").
+ * @returns {Array<string>} An array of strings.
+ */
+export function stringToArray(str) {
+    if (typeof str !== 'string' || str.trim() === '') {
+        return [];
+    }
+    return str.split(',').map(s => s.trim()).filter(s => s !== '');
+}
+
+/**
+ * Converts a comma-separated string to an array of numbers.
+ * Filters out non-numeric values.
+ * @param {string} str - The input string (e.g., "100,200").
+ * @returns {Array<number>} An array of numbers.
+ */
+export function stringToNumberArray(str) {
+    if (typeof str !== 'string' || str.trim() === '') {
+        return [];
+    }
+    return str.split(',').map(Number).filter(n => !isNaN(n));
+}
+
+/**
+ * Converts an array to a comma-separated string.
+ * @param {Array} arr - The input array.
+ * @returns {string} A comma-separated string.
+ */
+export function arrayToString(arr) {
+    if (!Array.isArray(arr) || arr.length === 0) {
+        return '';
+    }
+    return arr.join(', ');
+}

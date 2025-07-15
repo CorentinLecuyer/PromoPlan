@@ -1,13 +1,35 @@
-// scripts/profileApp.js
+
 
 import { supabase, signOut, getSession, getUser, updateUserProfile as updateAuthUserProfile } from './supabaseAuth.js';
 import { processTimelineItems } from './utils.js';
+
+let emojiMartData = null;
+async function loadEmojiMartData() {
+    try {
+        const response = await fetch('https://cdn.jsdelivr.net/npm/@emoji-mart/data');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        emojiMartData = await response.json();
+
+    } catch (error) {
+
+
+        const promosMessage = document.getElementById('promosMessage');
+        if (promosMessage) {
+            promosMessage.textContent = 'Failed to load emoji data. Picker may not work.';
+            promosMessage.style.color = 'red';
+        }
+    }
+}
+
+loadEmojiMartData();
 
 document.addEventListener('DOMContentLoaded', async () => {
     const profileEmojiAvatar = document.getElementById('profileEmojiAvatar');
     const openEmojiPickerButton = document.getElementById('openEmojiPickerButton');
     const emojiPickerContainer = document.getElementById('emojiPickerContainer');
-    let selectedEmoji = null;
+    let selectedEmoji = '👤'; // Default to a fallback emoji from the start
 
     const profileUpdateForm = document.getElementById('profileUpdateForm');
     const displayNameInput = document.getElementById('displayName');
@@ -51,7 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             displayNameInput.value = currentUser.user_metadata.display_name || '';
             phoneNumberInput.value = currentUser.phone || '';
 
-            selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
+            selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤'; // Initializes selectedEmoji from DB or default
             profileEmojiAvatar.textContent = selectedEmoji;
 
             const { data: profileData, error: profileError } = await supabase
@@ -61,7 +83,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .single();
 
             if (profileError) {
-                console.error('Error fetching user profile:', profileError.message);
+
                 displayMessage('Error loading profile data.', true);
             } else if (profileData) {
                 profileCountryInput.value = profileData.country || '';
@@ -69,20 +91,33 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
         } catch (error) {
-            console.error('Failed to load user profile data:', error);
+
             displayMessage('Failed to load profile data.', true);
         }
     }
 
     let picker = null;
 
+    let emojiMartData = null;
+    try {
+        const response = await fetch('https://cdn.jsdelivr.net/npm/@emoji-mart/data');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        emojiMartData = await response.json();
+
+    } catch (error) {
+
+        displayMessage('Failed to load emoji data. Picker may not work.', true, promosMessage);
+    }
+
+
     openEmojiPickerButton.addEventListener('click', () => {
         if (!picker) {
-            if (window.EmojiMart && window.EmojiMart.Picker) { // Check for Picker after init()
+
+            if (window.EmojiMart && window.EmojiMart.Picker && emojiMartData) { // Check if data is also loaded
                 picker = new window.EmojiMart.Picker({
-                    // No 'data' or 'set' needed here if init() handles it, but providing them as a fallback
-                    // if init() just sets defaults and Picker still needs them.
-                    // Keep 'onEmojiSelect' and 'theme' here.
+                    data: emojiMartData, // Pass the pre-fetched data
                     onEmojiSelect: (emoji) => {
                         selectedEmoji = emoji.native;
                         profileEmojiAvatar.textContent = selectedEmoji;
@@ -90,16 +125,36 @@ document.addEventListener('DOMContentLoaded', async () => {
                         displayMessage('Emoji selected!', false, promosMessage);
                     },
                     theme: 'light',
-                    // The 'set' is implicitly handled by init() if passed there,
-                    // but providing it here too doesn't hurt and acts as a fallback.
-                    set: 'google',
+                    set: 'windows',
                 });
                 emojiPickerContainer.appendChild(picker);
-                console.log('EmojiMart Picker initialized and appended.');
+
+
+                setTimeout(() => {
+                    const navElement = emojiPickerContainer.querySelector('#nav'); // Find the #nav element within the picker
+                    if (navElement) {
+                        navElement.style.display = 'none';
+
+                    } else {
+
+
+                        setTimeout(() => {
+                            const navElementRetry = emojiPickerContainer.querySelector('#nav');
+                            if (navElementRetry) {
+                                navElementRetry.style.display = 'none';
+
+                            } else {
+
+                            }
+                        }, 500); // Try 500ms if 100ms fails
+                    }
+                }, 100);
+
             } else {
                 displayMessage('Emoji picker library or data not loaded. Check console.', true, promosMessage);
-                console.error('window.EmojiMart:', window.EmojiMart);
-                console.error('window.EmojiMart.Picker:', window.EmojiMart ? window.EmojiMart.Picker : 'Not available');
+
+
+
                 return;
             }
         }
@@ -111,11 +166,22 @@ document.addEventListener('DOMContentLoaded', async () => {
             !openEmojiPickerButton.contains(event.target) && !emojiPickerContainer.contains(event.target)) {
             emojiPickerContainer.style.display = 'none';
         }
+
+
+
+
     });
 
-
-    profileUpdateForm.addEventListener('submit', async (event) => {
+    profileUpdateForm.addEventListener('submit', async (event) => { // This listener is effectively dormant now
         event.preventDefault();
+
+    });
+
+    saveProfileButton.addEventListener('click', async (event) => {
+        event.preventDefault(); // This is crucial for the button's click event too
+
+
+
         saveProfileButton.disabled = true;
         displayMessage('Saving changes...', false);
 
@@ -123,7 +189,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         const newPhoneNumber = phoneNumberInput.value;
         const emojiToSave = selectedEmoji;
 
+
+
+
+
+
         try {
+
             const { error: authUpdateError } = await updateAuthUserProfile({
                 data: {
                     display_name: newDisplayName,
@@ -132,20 +204,28 @@ document.addEventListener('DOMContentLoaded', async () => {
                 phone: newPhoneNumber
             });
 
+
             if (authUpdateError) {
-                throw authUpdateError;
+
+                throw authUpdateError; // This re-throws the error to the catch block
             }
 
             profileEmojiAvatar.textContent = emojiToSave || '👤';
 
             displayMessage('Profile updated successfully!', false);
+
+
         } catch (error) {
-            console.error('Profile update failed:', error.message);
+
             displayMessage(`Profile update failed: ${error.message}`, true);
+
+
         } finally {
             saveProfileButton.disabled = false;
+
         }
     });
+
 
 
     async function loadUserPromotions(userId) {
@@ -157,7 +237,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .order('promo_start_date', { descending: false });
 
             if (promosError) {
-                console.error('Error fetching user promotions:', promosError.message);
+
                 promosMessage.textContent = 'Error loading your promotions.';
                 promosMessage.style.color = 'red';
                 return;
@@ -193,21 +273,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             });
 
         } catch (error) {
-            console.error('Failed to load user promotions:', error);
+
             promosMessage.textContent = 'Failed to load your promotions.';
             promosMessage.style.color = 'red';
         }
     }
 
-
-    // Handle Logout
     if (logoutButton) {
         logoutButton.addEventListener('click', async () => {
             const { error } = await signOut();
             if (!error) {
                 window.location.href = 'login.html';
             } else {
-                console.error('Logout failed:', error.message);
+
             }
         });
     }

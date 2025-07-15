@@ -1,26 +1,13 @@
-// scripts/renderers.js
-
 import { appState } from './state.js';
 import { formatDateRange, getMonthsBetweenDates } from './utils.js';
 
-/**
- * Retrieves a table object by its ID from the cached table data in appState.
- * @param {string|number} tableId - The ID of the table to find.
- * @returns {object|undefined} The table object or undefined if not found.
- */
-function getTableDataById(tableId) {
+export function getTableDataById(tableId) {
     return appState.allTableData.find(table => String(table.id) === String(tableId));
 }
 
-/**
- * Generates HTML for a single table object.
- * @param {object} tableObj - The table data object.
- * @returns {string} HTML string for the table.
- */
-function generateTableHTML(tableObj) {
+export function generateTableHTML(tableObj) {
     if (!tableObj) return '';
 
-    // Use table_name from DB as the title
     const tableTitle = tableObj.table_name || '';
     const tableHeaders = tableObj.th || [];
     const tableRows = tableObj.tr || [];
@@ -35,26 +22,26 @@ function generateTableHTML(tableObj) {
                     </tr>
                 </thead>
                 <tbody>
-                    ${tableRows.map(rowArray => {
-                        // rowArray is expected to be an array of cell contents (strings)
-                        return `
+                    ${tableRows.map(rowContent => {
+        let cellsHTML = '';
+        if (Array.isArray(rowContent)) {
+            cellsHTML = rowContent.map(cell => `<td>${cell}</td>`).join('');
+        } else {
+            cellsHTML = `<td colspan="${tableHeaders.length || 1}">${rowContent}</td>`;
+        }
+        return `
                             <tr>
-                                ${rowArray.map(cell => `<td>${cell}</td>`).join('')}
+                                ${cellsHTML}
                             </tr>
                         `;
-                    }).join('')}
+    }).join('')}
                 </tbody>
             </table>
         </div>
     `;
 }
 
-/**
- * Generates HTML for multiple tables given their IDs from a timeline item.
- * @param {string|number|Array<string|number>} tableIds - Single ID or array of IDs.
- * @returns {string} Combined HTML string for all tables.
- */
-function generateMultipleTablesHTML(tableIds) {
+export function generateMultipleTablesHTML(tableIds) {
     if (!tableIds || (Array.isArray(tableIds) && tableIds.length === 0) || tableIds === 'none') return '';
 
     const tableIdArray = Array.isArray(tableIds) ? tableIds : [tableIds];
@@ -76,7 +63,6 @@ function generateMultipleTablesHTML(tableIds) {
 export function renderTimeline() {
     const root = document.getElementById('timeline-root');
     if (!root) {
-        // This page does not have the timeline-root, e.g., CommandBoard.html
         return;
     }
 
@@ -86,7 +72,7 @@ export function renderTimeline() {
     root.innerHTML = `
     <div class="timeline-container">
       <div class="timeline">
-        ${appState.allTimelineItems.map(item => { // Use data from appState
+        ${appState.allTimelineItems.map(item => { // Loop starts here
             const startDate = new Date(item.promo_start_date);
             const formattedDate = formatDateRange(item.promo_start_date, item.promo_end_date);
 
@@ -110,36 +96,40 @@ export function renderTimeline() {
             const hasUpliftMachine = typeof item.promo_uplift_machine === 'number' && item.promo_uplift_machine > 0;
             const hasROI = item.ROI !== null && item.ROI !== undefined && item.ROI !== 0 && item.ROI !== 'TBC' && item.ROI !== 'undefined';
 
-            // ADDED STYLING LOGIC HERE for bgcolor and bordercolor
+            const isFullScreen = item.fscreen;
+            const timelineContentClass = isFullScreen ? 'timeline-content full-width-content' : 'timeline-content';
+            const iconContainerStyle = isFullScreen ? 'left: 96%; transform: translate(-50%, -50%);' : '';
+
             let inlineBgStyle = '';
             if (Array.isArray(item.bgcolor) && item.bgcolor.length >= 1) {
                 const color1 = item.bgcolor[0];
-                const color2 = item.bgcolor.length > 1 ? item.bgcolor[1] : color1; // Default to first color if only one provided for gradient
+                const color2 = item.bgcolor.length > 1 ? item.bgcolor[1] : color1;
                 inlineBgStyle = `background-image: linear-gradient(to bottom right, ${color1}, ${color2});`;
             } else if (typeof item.bgcolor === 'string' && item.bgcolor !== '') {
                 inlineBgStyle = `background-color: ${item.bgcolor};`;
             }
-            
+
             let timelineContentBorderAndBg = '';
             let promoTypeBgColor = '';
             let timelineDotBorder = '';
 
             if (item.bordercolor && item.bordercolor !== '') {
-                timelineContentBorderAndBg = `border-left: 4px solid ${item.bordercolor};`; // Applied to left border
+                timelineContentBorderAndBg = `border-left: 4px solid ${item.bordercolor};`;
                 promoTypeBgColor = `background-color: ${item.bordercolor};`;
                 timelineDotBorder = `border: 3px solid ${item.bordercolor};`;
             }
 
-            // Combine all inline styles into one style attribute for timeline-content
             const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
             const combinedPromoTypeStyle = `style="${promoTypeBgColor}"`;
 
+/*             const sanitizedPromoType = item.promo_type || 'N/A'; // Use 'N/A' or an empty string as a default
+            const promoTypeClass = sanitizedPromoType.toLowerCase().replace(/\s+/g, '-'); // <--- FIX IS HERE */
 
             return `
                     ${showYearMarker ? `<div class="year-marker">${yearMarker}</div>` : ""}
                   <div class="timeline-item">
                       ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
-                    <div class="timeline-content" ${combinedInlineContentStyle}>
+                    <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
                       <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}" ${combinedPromoTypeStyle}>${item.promo_type}</div>
                       <div class="promo-title">${item.promo_title}</div>
                       <div class="promo-date"> ${formattedDate} </div>
@@ -168,7 +158,6 @@ export function renderTimeline() {
                             <tbody>
                             ${item.promo_budget.map((budget, index) => {
                                 const budgetType = item.promo_budget_type[index] || 'N/A';
-                                // Only render ROI, Uplift HL, Uplift Machine, and MACO on the first row of budget
                                 const displayFinancials = index === 0;
                                 return `
                                     <tr>
@@ -211,10 +200,10 @@ export function renderTimeline() {
                         </table>` : ""}
                       </div>
                     <a href="${item.link}" target="_blank">
-                      <div class="icon-container" style="${timelineDotBorder}">
+                      <div class="icon-container" style="${timelineDotBorder} ${iconContainerStyle}">
                         <div class="icon-emoji">${item.icon}</div>
                       </div>
-                      <div class="timeline-dot" style="${timelineDotBorder}"></div>
+                      <div class="timeline-dot" style="${timelineDotBorder} ${iconContainerStyle}"></div>
                     </a>
                   </div>
                 `;
@@ -223,6 +212,7 @@ export function renderTimeline() {
     </div>
   `;
 }
+
 
 // ------------------------------------------------------------------------------------------------------------------------
 
@@ -236,7 +226,7 @@ export function renderTablesHomePage() {
     }
 
     const allChannels = new Set();
-    const allBudgetTypesSet = new Set(); 
+    const allBudgetTypesSet = new Set();
 
     appState.allTimelineItems.forEach(item => {
         item.channel_tags.forEach(channel => allChannels.add(channel));
@@ -245,14 +235,14 @@ export function renderTablesHomePage() {
         }
     });
 
-    allBudgetTypesSet.add("Loyalty Program"); 
-    const uniqueBudgetTypes = Array.from(allBudgetTypesSet).sort(); 
+    allBudgetTypesSet.add("Loyalty Program");
+    const uniqueBudgetTypes = Array.from(allBudgetTypesSet).sort();
 
     const uniqueChannels = Array.from(allChannels).sort();
-    
+
     const allYearsInData = [...new Set(appState.allTimelineItems.map(item => String(item.year)))];
-    const yearsToRender = appState.selectedYears.includes('all') 
-        ? allYearsInData.sort() 
+    const yearsToRender = appState.selectedYears.includes('all')
+        ? allYearsInData.sort()
         : appState.selectedYears.sort();
 
 
@@ -315,7 +305,7 @@ export function renderTablesHomePage() {
                     const endMonthDate = new Date(item.promo_end_date);
                     const endMonthName = endMonthDate.toLocaleString('en-US', { month: 'long' }).toUpperCase(); // Get ONLY month name
                     const endYear = String(endMonthDate.getFullYear());
-                    
+
                     if (endYear === year && yearIconsData[channel] && yearIconsData[channel][endMonthName]) { // Use endMonthName
                         yearIconsData[channel][endMonthName].add(item.icon);
                     }
@@ -354,7 +344,7 @@ export function renderTablesHomePage() {
             const attributionDate = item.promo_type === "Loyalty Program"
                 ? new Date(item.promo_end_date)
                 : new Date(item.promo_start_date);
-            
+
             const attributionMonthFull = attributionDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
             const attributionYear = String(attributionDate.getFullYear());
 
@@ -403,11 +393,11 @@ export function renderTablesHomePage() {
                 <tr class="${className}">
                     <td>${channel}</td>
                     ${months.map((month, index) => {
-                        const iconsSet = yearIconsData[channel][monthNamesFull[index]];
-                        const iconsArray = Array.from(iconsSet);
-                        const iconString = iconsArray.length > 0 ? iconsArray.join('') : '-';
-                        return `<td class="${iconsArray.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
-                    }).join('')}
+                const iconsSet = yearIconsData[channel][monthNamesFull[index]];
+                const iconsArray = Array.from(iconsSet);
+                const iconString = iconsArray.length > 0 ? iconsArray.join('') : '-';
+                return `<td class="${iconsArray.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
+            }).join('')}
                 </tr>
             `;
         });
@@ -418,21 +408,21 @@ export function renderTablesHomePage() {
                 <tr>
                     <td class="channel-header">${budgetType}</td>
                     ${months.map((month, index) => {
-                        const totalBudget = yearBudgetByTypeData[budgetType][monthNamesFull[index]];
-                        const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
-                            style: 'currency',
-                            currency: 'EUR',
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                        }) : '-';
-                        return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
-                    }).join('')}
+                const totalBudget = yearBudgetByTypeData[budgetType][monthNamesFull[index]];
+                const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                }) : '-';
+                return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
+            }).join('')}
                     <td>${budgetTypeTotals[budgetType].toLocaleString('fr-FR', {
-                        style: 'currency',
-                        currency: 'EUR',
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    })}</td>
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            })}</td>
                 </tr>
             `;
         });
@@ -442,51 +432,51 @@ export function renderTablesHomePage() {
             <tr>
                 <td class="channel-header">HL Uplift</td>
                 ${months.map((month, index) => {
-                    const totalHL = yearFinancialData[monthNamesFull[index]].HL;
-                    const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    }) : '-';
-                    return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
-                }).join('')}
+            const totalHL = yearFinancialData[monthNamesFull[index]].HL;
+            const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
+        }).join('')}
                 <td>${grandTotalHL.toLocaleString('fr-FR', {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                })}</td>
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}</td>
             </tr>
             <tr>
                 <td class="channel-header">MACO</td>
                 ${months.map((month, index) => {
-                    const totalMACO = yearFinancialData[monthNamesFull[index]].MACO;
-                    const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
-                            style: 'currency',
-                            currency: 'EUR',
-                            minimumFractionDigits: 0,
-                            maximumFractionDigits: 0
-                    }) : '-';
-                    return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
-                }).join('')}
+            const totalMACO = yearFinancialData[monthNamesFull[index]].MACO;
+            const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
+                style: 'currency',
+                currency: 'EUR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
+        }).join('')}
                 <td>${grandTotalMACO.toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                })}</td>
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}</td>
             </tr>
             <tr>
                 <td class="channel-header">Machines Uplift</td>
                 ${months.map((month, index) => {
-                    const totalMachines = yearFinancialData[monthNamesFull[index]].machines;
-                    const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 0
-                    }) : '-';
-                    return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
-                }).join('')}
+            const totalMachines = yearFinancialData[monthNamesFull[index]].machines;
+            const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }) : '-';
+            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
+        }).join('')}
                 <td>${grandTotalMachines.toLocaleString('fr-FR', {
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                })}</td>
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}</td>
             </tr>
         `;
     });

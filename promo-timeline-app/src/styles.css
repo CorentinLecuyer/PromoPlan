@@ -1,918 +1,746 @@
+/* --- Font Face Declarations --- */
 @font-face {
-  font-family: 'NotoColorEmojiCustom'; /* Unique name for your custom emoji font */
-  src: url('./fonts/Noto_Color_Emoji/NotoColorEmoji-Regular.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap; /* Load font asynchronously, swap when ready */
-
-  /* CRUCIAL: Limit this font to emoji Unicode ranges only */
-  unicode-range: U+0023-002A, U+0030-0039, U+00A9, U+00AE, U+203C, U+2049, U+2122, U+2139, U+2194-2199, U+21A9-21AA, U+231A-231B, U+2328, U+23E9-23F3, U+23F8-23FA, U+24C2, U+25AA-25AB, U+25B6, U+25C0, U+25FB-25FE, U+2600-2605, U+260E, U+2611, U+2614-2615, U+2618, U+2620, U+2622-2623, U+2626, U+262A, U+262E-262F, U+2638-263A, U+2640, U+2642, U+2648-2653, U+2660, U+2663, U+2665-2666, U+2668, U+267B, U+267F, U+2692-2697, U+2699, U+269B-269C, U+26A0-26A1, U+26AA-26AB, U+26B0-26B1, U+26C4-26C5, U+26C8, U+26CF-26D0, U+26D3-26D4, U+26E9-26EA, U+26F0-26F5, U+26F7-26FA, U+26FD, U+2702, U+2705, U+2708-270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733-2734, U+274C, U+274E, U+2753-2755, U+2757, U+2763-2764, U+2795-2797, U+27A1, U+27B0, U+27BF, U+2800-28FF, U+2900-297F, U+2B05-2B07, U+2B1B-2B1C, U+2B50, U+2B55, U+2C60-2C7F, U+2E00-2E7F, U+2F800-2FA1F, U+3030, U+303D, U+3297, U+3299, U+E000-F8FF, U+FE00-FE0F, U+FE10-FE1F, U+FE20-FE2F, U+FE30-FE4F, U+FE50-FE6F, U+FE70-FEFF, U+FF00-FFEF, U+FFF0-FFFF, U+1F000-1F02F, U+1F0A0-1F0FF, U+1F100-1F1FF, U+1F200-1F2FF, U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+1F700-1F77F, U+1F780-1F7FF, U+1F800-1F8FF, U+1F900-1F9FF, U+1FA00-1FA6F, U+1FA70-1FAFF, U+1FAC0-1FACF, U+1FAD0-1FADF, U+1FAE0-1FAEF, U+1FAF0-1FAFF;
-}
-
-
-/* --- Noto Sans JP (Variable Font for modern browsers) --- */
-@font-face {
-  font-family: 'Noto Sans JP Custom'; /* Unique name for your custom main font */
-  src: url('./fonts/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf') format('truetype-variations'); /* For variable font */
-  font-weight: 100 900; /* Defines the range of weights available in the variable font */
-  font-style: normal;
-  font-display: swap;
-}
-
-/* --- Noto Sans JP (Static fonts for broader compatibility if variable fonts are an issue) --- */
-/* It's good practice to include static fonts as fallbacks for older browsers if you use variable fonts.
-   However, for modern web development, the variable font often suffices if well-supported.
-   You might only include the most commonly used weights (e.g., Regular, Bold). */
-
-@font-face {
-  font-family: 'Noto Sans JP Custom';
-  src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Regular.ttf') format('truetype');
-  font-weight: 400; /* Regular weight */
-  font-style: normal;
-  font-display: swap;
+    font-family: 'NotoColorEmojiCustom';
+    src: url('./fonts/Noto_Color_Emoji/NotoColorEmoji-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0023-002A, U+0030-0039, U+00A9, U+00AE, U+203C, U+2049, U+2122, U+2139, U+2194-2199, U+21A9-21AA, U+231A-231B, U+2328, U+23E9-23F3, U+23F8-23FA, U+24C2, U+25AA-25AB, U+25B6, U+25C0, U+25FB-25FE, U+2600-2605, U+260E, U+2611, U+2614-2615, U+2618, U+2620, U+2622-2623, U+2626, U+262A, U+262E-262F, U+2638-263A, U+2640, U+2642, U+2648-2653, U+2660, U+2663, U+2665-2666, U+2668, U+267B, U+267F, U+2692-2697, U+2699, U+269B-269C, U+26A0-26A1, U+26AA-26AB, U+26B0-26B1, U+26C4-26C5, U+26C8, U+26CF-26D0, U+26D3-26D4, U+26E9-26EA, U+26F0-26F5, U+26F7-26FA, U+26FD, U+2702, U+2705, U+2708-270D, U+270F, U+2712, U+2714, U+2716, U+271D, U+2721, U+2728, U+2733-2734, U+274C, U+274E, U+2753-2755, U+2757, U+2763-2764, U+2795-2797, U+27A1, U+27B0, U+27BF, U+2800-28FF, U+2900-297F, U+2B05-2B07, U+2B1B-2B1C, U+2B50, U+2B55, U+2C60-2C7F, U+2E00-2E7F, U+2F800-2FA1F, U+3030, U+303D, U+3297, U+3299, U+E000-F8FF, U+FE00-FE0F, U+FE10-FE1F, U+FE20-FE2F, U+FE30-FE4F, U+FE50-FE6F, U+FE70-FEFF, U+FF00-FFEF, U+FFF0-FFFF, U+1F000-1F02F, U+1F0A0-1F0FF, U+1F100-1F1FF, U+1F200-1F2FF, U+1F300-1F5FF, U+1F600-1F64F, U+1F680-1F6FF, U+1F700-1F77F, U+1F780-1F7FF, U+1F800-1F8FF, U+1F900-1F9FF, U+1FA00-1FA6F, U+1FA70-1FAFF, U+1FAC0-1FACF, U+1FAD0-1FADF, U+1FAE0-1FAEF, U+1FAF0-1FAFF;
 }
 
 @font-face {
-  font-family: 'Noto Sans JP Custom';
-  src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Medium.ttf') format('truetype');
-  font-weight: 500; /* Medium weight */
-  font-style: normal;
-  font-display: swap;
+    font-family: 'Noto Sans JP Custom';
+    src: url('./fonts/Noto_Sans_JP/NotoSansJP-VariableFont_wght.ttf') format('truetype-variations');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Static fonts are only necessary if variable fonts aren't fully supported,
+   or if you specifically need only these weights and want to avoid variable font parsing overhead.
+   For modern browsers, the variable font typically covers these weights.
+   Keeping them as a fallback or explicit declaration for robustness. */
+@font-face {
+    font-family: 'Noto Sans JP Custom';
+    src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
-  font-family: 'Noto Sans JP Custom';
-  src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Bold.ttf') format('truetype');
-  font-weight: 700; /* Bold weight */
-  font-style: normal;
-  font-display: swap;
+    font-family: 'Noto Sans JP Custom';
+    src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
 }
 
-/* You can add more static weights if you specifically use them */
+@font-face {
+    font-family: 'Noto Sans JP Custom';
+    src: url('./fonts/Noto_Sans_JP/static/NotoSansJP-Bold.ttf') format('truetype');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
 
-/* Apply the custom fonts as default throughout your website */
+/* --- Global & Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    /* Prioritize Noto Sans JP for text, then Noto Color Emoji for emojis (due to unicode-range) */
-    /* Fallback to generic sans-serif */
     font-family: 'Noto Sans JP Custom', 'NotoColorEmojiCustom', sans-serif;
     background: #fafafa;
     padding: 10px 20px;
     min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
 }
-* {
-     margin: 0;
-     padding: 0;
-     box-sizing: border-box;
- }
 
- .header {
-     display: flex;
-     justify-content: space-evenly;
-     align-items: center;
-     margin: 10px;
-     min-height: 30px;
- }
+h1 {
+    color: #2c3e50;
+    font-size: 2em;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+}
 
+p {
+    line-height: 1.5;
+}
 
- .logo {
-     left: 5%;
-     z-index: 1000;
-     height: 35px;
- }
+/* --- Header --- */
+.header {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 10px;
+    min-height: 30px;
+}
 
- .logo img {
-     height: 100%;
-     object-fit: contain;
- }
+.logo {
+    left: 5%;
+    z-index: 1000;
+    height: 35px;
+}
 
+.logo img {
+    height: 100%;
+    object-fit: contain;
+}
 
- .black-button {
-     background-color: #000;
-     color: #fff;
-     border: none;
-     padding: 5px 8px;
-     font-size: 16px;
-     font-weight: 200;
-     border-radius: 4px;
-     cursor: pointer;
-     transition: background-color 0.3s ease, transform 0.2s ease;
- }
+/* --- Multi-select Dropdown Styles --- */
+.multiselect-container {
+    position: relative;
+    display: inline-block;
+    min-width: auto;
+}
 
- .black-button:hover {
-     background-color: #222;
+.multiselect-header {
+    background: #333;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: fit-content;
+    font-size: 14px;
+}
 
- }
+.multiselect-header:hover {
+    background: #555;
+}
 
- .black-button:active {
-     transform: scale(0.98);
- }
+.multiselect-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 2px;
+}
 
- /* Multi-select dropdown styles */
- .multiselect-container {
-     position: relative;
-     display: inline-block;
-     min-width: auto;
- }
+.multiselect-dropdown.show {
+    display: block;
+}
 
- .multiselect-header {
-     background: #333;
-     color: white;
-     padding: 8px 12px;
-     border: none;
-     border-radius: 4px;
-     cursor: pointer;
-     display: flex;
-     justify-content: space-between;
-     align-items: center;
-     min-width: fit-content;
-     font-size: 14px;
- }
+.multiselect-option {
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
 
- .multiselect-header:hover {
-     background: #555;
- }
+.multiselect-option:last-child {
+    border-bottom: none;
+}
 
- .multiselect-dropdown {
-     display: none;
-     position: absolute;
-     top: 100%;
-     left: 0;
-     right: 0;
-     background: white;
-     border: 1px solid #ddd;
-     border-radius: 4px;
-     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-     z-index: 1000;
-     max-height: 200px;
-     overflow-y: auto;
-     margin-top: 2px;
- }
+.multiselect-option:hover {
+    background: #f8f9fa;
+}
 
- .multiselect-dropdown.show {
-     display: block;
- }
+.multiselect-option input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
 
- .multiselect-option {
-     padding: 8px 12px;
-     cursor: pointer;
-     display: flex;
-     align-items: center;
-     gap: 8px;
-     border-bottom: 1px solid #f0f0f0;
- }
+.multiselect-option label {
+    cursor: pointer;
+    font-size: 14px;
+    margin: 0;
+    flex-grow: 1;
+}
 
- .multiselect-option:last-child {
-     border-bottom: none;
- }
+.selected-count {
+    background: #FFCC02;
+    color: #333;
+    border-radius: 10px;
+    padding: 2px 6px;
+    font-size: 12px;
+    margin-left: 8px;
+}
 
- .multiselect-option:hover {
-     background: #f8f9fa;
- }
+.dropdown-arrow {
+    margin-left: 15px;
+    transition: transform 0.2s ease;
+    font-size: 12px;
+}
 
- .multiselect-option input[type="checkbox"] {
-     margin: 0;
-     cursor: pointer;
- }
+.dropdown-arrow.rotated {
+    transform: rotate(180deg);
+}
 
- .multiselect-option label {
-     cursor: pointer;
-     font-size: 14px;
-     margin: 0;
-     flex-grow: 1;
- }
+/* --- Filter Section --- */
+.filter-block {
+    padding: 8px;
+    background: linear-gradient(90deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
+    border-radius: 5px;
+}
 
- .selected-count {
-     background: #FFCC02;
-     color: #333;
-     border-radius: 10px;
-     padding: 2px 6px;
-     font-size: 12px;
-     margin-left: 8px;
- }
+.filter-container {
+    margin-right: 5px;
+    margin-left: 5px;
+    display: inline-block;
+}
 
- .dropdown-arrow {
-     margin-left: 15px;
-     transition: transform 0.2s ease;
-     font-size: 12px;
- }
+/* --- Slide (Timeline/Detail View) --- */
+.slide {
+    width: 85%;
+    height: 100%;
+    background: white;
+    margin: 0 auto;
+    padding: 40px;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
 
- .dropdown-arrow.rotated {
-     transform: rotate(180deg);
- }
+.slide::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
+}
 
- /* Make sure the filter containers are properly spaced */
- .filter-block{
-padding: 8px;
-background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
-border-radius: 5px;
- }
-
- .filter-container {
-     margin-right: 5px;
-     margin-left: 5px;
-     display: inline-block;
- }
-
-
- .slide {
-     width: 85%;
-     height: 100%;
-     background: white;
-     margin: 0 auto;
-     padding: 40px;
-     border-radius: 8px;
-
-     position: relative;
-     overflow: hidden;
- }
-
- .slide::before {
-     content: '';
-     position: absolute;
-     top: 0;
-     left: 0;
-     right: 0;
-     height: 6px;
-     background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
- }
-
- h1 {
-     color: #2c3e50;
-     font-size: 32px;
-     font-weight: 600;
-     text-align: center;
-     margin-bottom: 30px;
- }
-
- .timeline-container {
-     position: relative;
-     height: 100%;
-     overflow-y: auto;
- }
-
- .timeline {
-     position: relative;
-     padding: 2px 0px;
- }
-
- .timeline::before {
-     content: '';
-     position: absolute;
-     left: 50%;
-     top: 0;
-     bottom: 0;
-     width: 3px;
-     background: #2c3e50;
-     transform: translateX(-50%);
-     border-radius: 2px;
- }
-
- .timeline-item {
-     position: relative;
-     margin: 20px 0 30px 0;
-     opacity: 0;
-     animation: slideIn 0.6s ease-out forwards;
- }
-
- .timeline-item:nth-child(even) {
-     animation-delay: 0.1s;
- }
-
- .timeline-item:nth-child(odd) {
-     animation-delay: 0.2s;
- }
-
- @keyframes slideIn {
-     from {
-         opacity: 0;
-         transform: translateY(20px);
-     }
-
-     to {
-         opacity: 1;
-         transform: translateY(0);
-     }
- }
-
- .timeline-content {
-     position: relative;
-     width: 45%;
-     padding: 15px 20px;
-     background: #fafafa;
-     border-radius: 8px;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-     border-left: 4px solid #FFCC02;
-     transition: all 0.3s ease;
- }
-
- .timeline-content:hover {
-     transform: translateY(-2px);
-     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-     background: white;
- }
-
- .timeline-item:nth-child(even) .timeline-content {
-     margin-left: 55%;
-     border-left: none;
-     border-right: 4px solid #FFCC02;
- }
-
- .timeline-dot {
-     position: absolute;
-     left: 50%;
-     top: 50%;
-     width: 14px;
-     height: 14px;
-     background: white;
-     border: 3px solid #FFCC02;
-     border-radius: 50%;
-     transform: translate(-50%, -50%);
-     z-index: 10;
-     transition: all 0.3s ease;
- }
-
- .timeline-item:nth-child(even) .timeline-dot {
-     border-color:linear-gradient(180deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
- }
-
- .timeline-item:hover .timeline-dot {
-     transform: translate(-50%, -50%) scale(1.5);
-     box-shadow: 0 0 0 6px rgba(255, 167, 38, 0.2);
- }
-
- .icon-container {
-     position: absolute;
-     left: 50%;
-     top: 50%;
-     width: 60px;
-     height: 60px;
-     background: white;
-     border: 2px solid #333;
-     border-radius: 50%;
-     transform: translate(-50%, -50%);
-     z-index: 15;
-     display: flex;
-     align-items: center;
-     justify-content: center;
-     transition: all 0.3s ease;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
- }
-
- .icon-container:hover {
-     transform: translate(-50%, -50%) scale(1.5);
-     box-shadow: 0 4px 16px rgba(255, 167, 38, 0.3);
- }
-
- .icon-container img {
-     width: 40px;
-     height: 40px;
-     object-fit: contain;
-     border-radius: 4px;
- }
-
- .icon-container .icon-text {
-     font-size: 24px;
-     font-weight: bold;
-     color: #333;
-     text-align: center;
-     line-height: 1;
- }
-
- .icon-container .icon-emoji {
-     font-size: 22px;
-     line-height: 1;
- }
-
- .promo-title {
-     font-size: 16px;
-     font-weight: 600;
-     color: #2c3e50;
-     margin-bottom: 8px;
-     line-height: 1.2;
- }
-
- .promo-date {
-     font-size: 12px;
-     color: #7f8c8d;
-     margin-bottom: 8px;
-     font-weight: 500;
- }
-
- .promo-details {
-     font-size: 11px;
-     color: #34495e;
-     line-height: 1.4;
- }
-
- .channel-tags {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 4px;
-     margin-top: 8px;
- }
-
- .channel-tag {
-     background: #FFCC02;
-     color: #333;
-     padding: 3px 8px;
-     border-radius: 12px;
-     font-size: 9px;
-     font-weight: 500;
-     text-align: center;
-     align-content: center;
- }
-
- .channel-tags-budget {
-     display: flex;
-     flex-wrap: wrap;
-     gap: 4px;
-     align-content: center;
-     justify-content: center;
- }
-
-
-
- .channel-tag-budget {
-     background: #333;
-     color: white;
-     padding: 3px 8px;
-     border-radius: 12px;
-     font-size: 9px;
-     font-weight: 500;
-     overflow: hidden; /* Changed from overflow-y: hidden; */
-    white-space: nowrap; /* Prevents text from wrapping to the next line */
-    text-overflow: ellipsis; 
+/* --- Timeline Styles --- */
+.timeline-container {
+    position: relative;
+    height: 100%;
+    overflow-y: auto;
+    padding-left: 5px;
     
- }
-
- .promo-type {
-     position: absolute;
-     top: -8px;
-     right: 10px;
-     background: #FFCC02;
-     color: white;
-     padding: 4px 8px;
-     border-radius: 4px;
-     font-size: 9px;
-     font-weight: 600;
-     text-transform: uppercase;
- }
-
- .promo-type.special-offer {
-     background: #ff4a02;
-     color: white;
- }
-
- .promo-type.discount {
-     background: #FFCC02;
-     color: #333;
- }
-
- .promo-type.free-beer {
-     background: #0206ff;
-     color: white;
- }
-
- .promo-type.new-product {
-     background: #00c000;
-     color: white;
- }
-
- .promo-type.loyalty-program {
-     background: #ff00f2;
-     color: white;
- }
-
- .promo-type.training {
-     background: #1a1a1a;
-     color: white;
- }
-
- .month-marker {
-     position: absolute;
-     left: 50%;
-     transform: translateX(-50%);
-     background: #333;
-     color: white;
-     padding: 6px 12px;
-     border-radius: 16px;
-     font-size: 11px;
-     font-weight: 600;
-     margin-top: -25px;
-     z-index: 5;
- }
-
- .year-marker {
-     position: relative;
-     width: 200px;
-     left: 50%;
-     transform: translateX(-50%);
-     margin: 10px 0 60px 0;
-     /* Combined margin values */
-
-     background: linear-gradient(90deg,rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
-     color: #333;
-     text-align: center;
-     padding: 9px 6px;
-     border-radius: 6px;
-     font-size: 18px;
-     font-weight: 600;
-     /* z-index: 5; */
- }
-
- .header-container {
-     display: grid;
-     grid-template-columns: 1fr;
-     justify-items: center;
-     align-items: center;
-     margin-bottom: 20px;
-     position: relative;
- }
-
- .tbc-badge {
-     position: absolute;
-     right: 0;
-     rotate: 15deg;
-     background-color: #be0000;
-     color: white;
-     font-weight: bold;
-     padding: 12px 20px;
-     border-radius: 6px;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-     border: 1px solid #333;
-     animation: pulse 2s 2;
-     font-family: sans-serif;
- }
-
- .confirmed-badge {
-     position: absolute;
-     right: 0;
-     rotate: 15deg;
-     background-color: #12b857;
-     color: white;
-     font-weight: bold;
-     padding: 12px 20px;
-     border-radius: 6px;
-     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-     border: 1px solid #333;
-     animation: pulse 2s 2;
-     font-family: sans-serif;
- }
-
- @keyframes pulse {
-     0% {
-         transform: scale(1);
-         opacity: 1;
-     }
-
-     50% {
-         transform: scale(1.04);
-
-     }
-
-     100% {
-         transform: scale(1);
-         opacity: 1;
-     }
- }
-
- .table-title {
-     font-size: 14px;
-     font-weight: 600;
-     color: #2c3e50;
-     margin: 12px 0px 0px 0px;
-     text-decoration: underline;
- }
-
- .table-container.transparentTable {
-     display: flex;
-     justify-content: center;
-     margin-top: 10px;
- }
-
- .promo-tableblackTable {
-     width: 100%;
-     margin-top: 6px;
-     border-collapse: collapse;
-     border-radius: 8px;
-     overflow: hidden;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
- }
-
- .promo-tableblackTable-header {
-     font-size: 14px;
-     font-weight: 600;
-     color: #2c3e50;
-     margin-bottom: 8px;
-     margin-top: 8px;
-
- }
-
- .promo-tableblackTable thead {
-     background-color: #333;
-     color: white;
-     text-align: center;
-     align-items: center;
- }
-
- .promo-tableblackTable th {
-     padding: 10px 12px;
-     text-align: left;
-     font-size: 14px;
-     font-weight: 600;
-     text-transform: uppercase;
-     letter-spacing: 0.5px;
- }
-
- .promo-tableblackTable tbody {
-     background-color: white;
- }
-
- .promo-tableblackTable td {
-     padding: 8px 12px;
-     font-size: 14px;
-     color: #34495e;
-     border-bottom: 1px solid #f1f2f6;
- }
-
- .promo-tableblackTable tr:last-child td {
-     border-bottom: none;
- }
-
- .promo-table-HomePage {
-     width: 100%;
-     margin-top: 6px;
-     border-collapse: collapse;
-     border-radius: 8px;
-     overflow: hidden;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
- }
-
- .promo-table-HomePage-header {
-     font-size: 12px;
-     font-weight: 600;
-     color: #2c3e50;
-     margin-bottom: 8px;
-     margin-top: 8px;
-
- }
-
- .promo-table-HomePage thead {
-     background-color: #333;
-     color: white;
-     text-align: center;
-     align-items: center;
- }
-
- .promo-table-HomePage th {
-     padding: 10px 12px;
-     text-align: left;
-     font-size: 12px;
-     font-weight: 600;
-     text-transform: uppercase;
-     letter-spacing: 0.5px;
-     text-align: center;
- }
-
- .promo-table-HomePage tbody {
-     background-color: white;
- }
-
- .promo-table-HomePage td {
-     padding: 8px 10px;
-     font-size: 14px;
-     color: #34495e;
-     border-bottom: 1px solid #f1f2f6;
-     text-align: center;
- }
-
- .promo-table-HomePage tr:last-child td {
-     border-bottom: none;
- }
-
- .promo-table-HomePage tbody tr:hover {
-     background-color: #f8f9fa;
- }
-
- .channel-header-loyalty{
-    background-color: lightyellow;
- }
-
- .year-marker-cell {
-     background: #FFCC02;
-     color: #333;
-     text-align: center;
-     padding: 9px 6px;
-
-     font-size: 18px;
-     font-weight: 600;
- }
-
- .promo-table-budget {
-     width: 100%;
-     margin-top: 6px;
-     border-collapse: collapse;
-     border-radius: 8px;
-     overflow: hidden;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
- }
-
- .promo-table-budget thead {
-     background-color: #FFCC02;
-     color: #333;
-     text-align: center;
-     align-items: center;
- }
-
- .promo-table-budget th {
-     padding: 6px 10px;
-     text-align: center;
-     font-size: 12px;
-     font-weight: 400;
-     text-transform: uppercase;
-     letter-spacing: 0.5px;
- }
-
- .promo-table-budget tbody {
-
-     text-align: center;
-     background-color: lightyellow;
- }
-
-
-
- .threePP-table {
-    table-layout: fixed;
-     width: 100%;
-     margin-top: 6px;
-     border-collapse: collapse;
-     border-radius: 8px;
-     overflow: hidden;
-     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
- }
-
- .threePP-table-header {
-     font-size: 12px;
-     font-weight: 600;
-     color: #2c3e50;
-     margin-bottom: 8px;
-     margin-top: 8px;
-
- }
-
- .threePP-table thead {
-     background-color: #333;
-     color: white;
-     text-align: center;
-     align-items: center;
- }
-
- .threePP-table th {
-     padding: 10px 12px;
-     text-align: left;
-     font-size: 18px;
-     font-weight: 600;
-     text-transform: uppercase;
-     letter-spacing: 0.5px;
-     text-align: center;
- }
-
- .threePP-table tbody {
-     background-color: white;
- }
-
- .threePP-table td {
-     padding: 8px 10px;
-     font-size: 14px;
-     color: #34495e;
-     border-bottom: 1px solid #f1f2f6;
-     text-align: center;
- }
-
- .threePP-table tr:last-child td {
-     border-bottom: none;
- }
-
- .threePP-table tbody tr:hover {
-     background-color: #f8f9fa;
- }
- .threepplogo {
-     max-height: 100px;
-     height: fit-content;
- }
- .fivelogo {
-     max-height: 160px;
-     height: fit-content;
- }
-.promo-td {
-  position: relative;
-  height: 120px; /* force row height */
-  padding: 0;
 }
 
-.promo-box {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  color: white;
-  background: linear-gradient(90deg, #3dca46, #13c81f);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-radius: 100px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.6s ease-in-out forwards;
-  opacity: 0;
-}  
+.timeline {
+    position: relative;
+    padding: 2px 0px;
+}
 
-.promo-box-red {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  color: white;
-  background: linear-gradient(90deg, #ff0707, #e71313);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-radius: 100px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.6s ease-in-out forwards;
-  opacity: 0;
-} 
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: #2c3e50;
+    transform: translateX(-50%);
+    border-radius: 2px;
+}
 
+.timeline-item {
+    position: relative;
+    margin: 20px 0 30px 0;
+    opacity: 0;
+   
+    
+    animation: slideIn 0.6s ease-out forwards;
+}
+
+.timeline-item:nth-child(even) {
+    animation-delay: 0.1s;
+}
+
+.timeline-item:nth-child(odd) {
+    animation-delay: 0.2s;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.timeline-content {
+    position: relative;
+    width: 45%;
+    padding: 15px 20px;
+    background: #white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-left: 4px solid #FFCC02;
+    transition: all 0.3s ease;
+}
+
+.timeline-content.full-width-content {
+    width: 93%; /* Take full width */
+    /* Remove any margin-left that might push it */
+    margin-left: 0 !important; /* Important to override default even/odd margins if they apply */
+    border-right: none !important; /* Remove right border if it was for even items */
+    border-left: 4px solid var(--timeline-border-color, #FFCC02) !important; /* Ensure left border is always present or dynamic */
+    /* You might need to adjust padding or other styles if it looks too stretched */
+}
+.timeline-content:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    background: white;
+}
+
+.timeline-item:nth-child(even) .timeline-content {
+    margin-left: 55%;
+    border-left: none;
+    border-right: 4px solid #FFCC02;
+}
+
+.timeline-dot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 14px;
+    height: 14px;
+    background: white;
+    border: 3px solid #FFCC02;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    transition: all 0.3s ease;
+}
+
+.timeline-item:nth-child(even) .timeline-dot {
+    /* This rule for border-color seems incorrect, as linear-gradient is not a valid border-color value directly.
+       Assuming you intended to pick a single color from the gradient or just default to the general one.
+       Keeping it as is for "no logic change" but noting it's a potential issue. */
+    border-color: linear-gradient(180deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
+}
+
+.timeline-item:hover .timeline-dot {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 0 0 6px rgba(255, 167, 38, 0.2);
+}
+
+.icon-container {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 60px;
+    height: 60px;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.icon-container:hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    box-shadow: 0 4px 16px rgba(255, 167, 38, 0.3);
+}
+
+.icon-container img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 4px;
+}
+
+.icon-container .icon-text {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    line-height: 1;
+}
+
+.icon-container .icon-emoji {
+    font-size: 22px;
+    line-height: 1;
+}
+
+/* --- Promo Content Styles --- */
+.promo-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    line-height: 1.2;
+    text-align: left;
+}
+
+.promo-date {
+    font-size: 12px;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+    font-weight: 500;
+    text-align: left;
+}
+
+.promo-details {
+    font-size: 11px;
+    color: #34495e;
+    line-height: 1.4;
+    text-align: left;
+}
+
+.channel-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 8px;
+}
+
+.channel-tag {
+    background: #FFCC02;
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 500;
+    text-align: center;
+    align-content: center;
+}
+
+.channel-tags-budget {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-content: center;
+    justify-content: center;
+}
+
+.channel-tag-budget {
+    background: #333;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 500;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.promo-type {
+    position: absolute;
+    top: -8px;
+    right: 10px;
+    background: #FFCC02;
+    color: white; /* Default color if not overridden by specific type */
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Specific promo type colors - ensure these override the default .promo-type */
+.promo-type.special-offer { background: #ff4a02; }
+.promo-type.discount { background: #FFCC02; color: #333; } /* Overrides default color */
+.promo-type.free-beer { background: #0206ff; }
+.promo-type.new-product { background: #00c000; }
+.promo-type.loyalty-program { background: #ff00f2; }
+.promo-type.training { background: #1a1a1a; }
+
+/* --- Markers --- */
+.month-marker {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #333;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 16px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: -25px;
+    z-index: 5;
+}
+
+.year-marker {
+    position: relative;
+    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 10px 0 60px 0;
+    background: linear-gradient(90deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
+    color: #333;
+    text-align: center;
+    padding: 9px 6px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.header-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+/* --- Badges --- */
+.tbc-badge,
+.confirmed-badge {
+    position: absolute;
+    right: 0;
+    rotate: 15deg;
+    color: white;
+    font-weight: bold;
+    padding: 12px 20px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    border: 1px solid #333;
+    animation: pulse 2s 2;
+    font-family: sans-serif;
+}
+
+.tbc-badge {
+    background-color: #be0000;
+}
+
+.confirmed-badge {
+    background-color: #12b857;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.04); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* --- Tables (General) --- */
+.table-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2c3e50;
+    margin: 12px 0px 0px 0px;
+    text-decoration: underline;
+    text-align: left;
+}
+
+.table-container.transparentTable {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+/* Common table styling */
+.promo-tableblackTable,
+.promo-table-HomePage,
+.promo-table-budget,
+.threePP-table {
+    width: 100%;
+    margin-top: 6px;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.promo-table-budget{
+    line-height: 2.5;
+}
+
+
+.promo-tableblackTable-header,
+.promo-table-HomePage-header,
+.threePP-table-header {
+    font-size: 12px; /* Original was 14px for blackTable-header, changed to 12px for consistency here */
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+/* Common table header (thead) styling */
+.promo-tableblackTable thead,
+.promo-table-HomePage thead,
+.threePP-table thead {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    align-items: center;
+}
+
+.promo-table-budget thead { /* Specific header for budget table */
+    background-color: #FFCC02;
+    color: #333;
+    text-align: center;
+    align-items: center;
+}
+
+/* Common table header (th) styling */
+.promo-tableblackTable th,
+.promo-table-HomePage th,
+.threePP-table th {
+    padding: 10px 12px;
+    text-align: left; /* Default alignment, specific tables override */
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Specific th font sizes */
+.promo-tableblackTable th { font-size: 14px; }
+.promo-table-HomePage th { font-size: 12px; text-align: center; } /* Overrides common text-align */
+.threePP-table th { font-size: 18px; text-align: center; } /* Overrides common text-align */
+.promo-table-budget th { font-size: 12px; font-weight: 400; } /* Overrides common font-weight and aligns center */
+
+
+/* Common table body (tbody) styling */
+.promo-tableblackTable tbody,
+.promo-table-HomePage tbody,
+.threePP-table tbody {
+    background-color: white;
+}
+.promo-table-budget tbody { /* Specific body for budget table */
+    text-align: center;
+    background-color: lightyellow;
+}
+
+/* Common table data (td) styling */
+.promo-tableblackTable td,
+.promo-table-HomePage td,
+.threePP-table td {
+    padding: 8px 12px; /* Original was 8px 12px for blackTable, 8px 10px for HomePage/threePP */
+    font-size: 14px;
+    color: #34495e;
+    border-bottom: 1px solid #f1f2f6;
+    text-align: center; /* Default alignment, specific tables override */
+}
+
+/* Specific td padding & alignment */
+.promo-tableblackTable td { text-align: left; } /* Overrides common text-align */
+.promo-table-HomePage td { padding: 8px 10px; }
+.threePP-table td { padding: 8px 10px; }
+
+/* Last row border removal */
+.promo-tableblackTable tr:last-child td,
+.promo-table-HomePage tr:last-child td,
+.promo-table-budget tr:last-child td,
+.threePP-table tr:last-child td {
+    border-bottom: none;
+}
+
+.promo-table-HomePage tbody tr:hover,
+.threePP-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.channel-header-loyalty {
+    background-color: lightyellow;
+}
+
+.year-marker-cell {
+    background: #FFCC02;
+    color: #333;
+    text-align: center;
+    padding: 9px 6px;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.threePP-table {
+    table-layout: fixed;
+}
+
+.threepplogo {
+    max-height: 100px;
+    height: fit-content;
+}
+
+.fivelogo {
+    max-height: 160px;
+    height: fit-content;
+}
+
+/* --- Promo Box Styles (within tables) --- */
+.promo-td {
+    position: relative;
+    height: 120px;
+    padding: 0;
+}
+
+.promo-box,
+.promo-box-red,
 .promo-box-orange {
-  position: relative;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 40%;
-  color: white;
-  background: linear-gradient(90deg, #ff9100, #f19318);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  border-radius: 100px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  animation: fadeIn 0.6s ease-in-out forwards;
-  opacity: 0;
-} 
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 100px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.6s ease-in-out forwards;
+    opacity: 0;
+}
+
+.promo-box { background: linear-gradient(90deg, #3dca46, #13c81f); }
+.promo-box-red { background: linear-gradient(90deg, #ff0707, #e71313); }
+.promo-box-orange { background: linear-gradient(90deg, #ff9100, #f19318); }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
-/* Wrapper for the entire login page content */
-.login-page-master{
-    background: #fafafa; 
+/* --- Login Page Styles --- */
+.login-page-master {
+    background: #fafafa;
     margin: 0;
     padding: 0;
     display: flex;
-    justify-content: center; 
-    align-items: center;  
+    justify-content: center;
+    align-items: center;
 }
 
 .login-page-wrapper {
-    display: flex; /* Use flexbox for the two sections */
+    display: flex;
     width: 100%;
-    min-height: 100vh; /* Ensure it takes full height on small screens */
+    min-height: 100vh;
     flex-direction: column; /* Default to column layout for small screens */
 }
 
-/* Image section */
 .login-image-section {
-    flex: 1; /* Takes available space */
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
-    background-color: #f0f0f0; /* Light background for the image side */
+    background-color: #f0f0f0;
 }
 
 .login-illustration {
-    max-width: 100%; /* Image responsive */
+    max-width: 100%;
     height: auto;
-    max-height: 400px; /* Limit image height on smaller screens */
+    max-height: 400px;
     object-fit: contain;
 }
 
-/* Form section */
-/* Existing styles */
 .login-form-section {
     flex: 1;
     display: flex;
@@ -930,20 +758,16 @@ border-radius: 5px;
     width: 100%;
     max-width: 600px;
     text-align: center;
-    border: 1px solid #e0e0e0; 
-
-
+    border: 1px solid #e0e0e0;
 }
-.login-boxes{
+
+.login-boxes {
     display: flex;
     flex-direction: row;
     gap: 20px;
+}
 
-}
-.login-box1 {
-    flex: 1;
-}
-.login-box2 {
+.login-box1, .login-box2 {
     flex: 1;
 }
 
@@ -951,13 +775,16 @@ border-radius: 5px;
     color: #333;
     margin-bottom: 25px;
     font-size: 28px;
-    /* Added some letter spacing for a refined look */
     letter-spacing: 0.5px;
 }
 
+/* --- Input Group & Form Control Base Styles --- */
 .input-group {
     margin-bottom: 20px;
     text-align: left;
+    display: flex; /* Moved from previous sections, now base input-group */
+    flex-direction: column; /* Label above input by default */
+    position: relative; /* For potential error messages positioning */
 }
 
 .input-group label {
@@ -965,239 +792,384 @@ border-radius: 5px;
     margin-bottom: 8px;
     font-weight: 600;
     color: #555;
-    /* Added a bit more space for labels */
-    font-size: 15px; 
+    font-size: 15px;
 }
 
-.input-group input,
-.input-group select { /* Combined styles for input and select */
+input[type="text"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="date"],
+textarea,
+select {
     width: 100%;
-    padding: 14px; /* Increased padding slightly for more height */
-    border: 1px solid #ccc; /* Slightly lighter border */
-    border-radius: 6px; /* Slightly more rounded corners */
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
     font-size: 16px;
     box-sizing: border-box;
-    /* Added transition for smoother focus */
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    /* Ensures background is white for inputs/selects */
     background-color: #fcfcfc;
+    color: #495057; /* Consistent text color */
 }
 
-.input-group input:focus,
-.input-group select:focus {
-    border-color: #FFCC02; /* Highlight color on focus */
-    box-shadow: 0 0 0 3px rgba(255, 204, 2, 0.3); /* Subtle glow on focus */
-    outline: none; /* Remove default outline */
-}
-
-/* Specific styling for select arrow if desired (more advanced CSS) */
+/* Specific styling for select arrow */
 .input-group select {
-    appearance: none; /* Remove default browser arrow */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     background-repeat: no-repeat;
     background-position: right 8px center;
     background-size: 18px;
-    padding-right: 30px; /* Make space for the custom arrow */
+    padding-right: 30px;
     cursor: pointer;
 }
 
+/* Focus States for all editable inputs */
+input[type="text"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="date"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #FFCC02;
+    box-shadow: 0 0 0 3px rgba(255, 204, 2, 0.3);
+    outline: none;
+}
+
+/* Disabled/Non-Editable Field Styles */
+input[disabled],
+select[disabled],
+textarea[disabled] {
+    background-color: #e9ecef; /* Distinct light gray background */
+    color: #6c757d; /* Muted text color */
+    border-color: #dee2e6; /* Softer border */
+    cursor: not-allowed;
+    opacity: 0.9;
+    box-shadow: none;
+}
+
+input[disabled]:focus,
+select[disabled]:focus,
+textarea[disabled]:focus {
+    box-shadow: none;
+    border-color: #dee2e6;
+}
+
+/* --- Buttons --- */
+.logoutButton,
+.updateButton,
+.upload-button,
 .login-box button {
-    /* Using your provided gradient as a base */
-    background: linear-gradient(90deg, rgb(25, 25, 24) 0%, rgb(27, 26, 24) 65%, rgb(51, 51, 51) 100%);
-    color: #fff;
     border: none;
-    padding: 12px 20px; /* Slightly larger padding */
-    font-size: 17px; /* Slightly larger text */
-    font-weight: 600; /* Bolder text */
-    border-radius: 6px; /* Slightly more rounded */
+    padding: 12px 20px; /* Base padding */
+    font-size: 1em; /* Base font size */
+    font-weight: 600; /* Base font weight */
+    border-radius: 6px;
     cursor: pointer;
-    transition: all 0.3s ease; /* Smooth transition for all properties */
-    width: 100%;
-    margin-top: 15px; /* More space between buttons and form elements */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for buttons */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
-.login-box button:hover {
-    /* Darker gradient or solid color on hover */
-    background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(10, 10, 10) 65%, rgb(30, 30, 30) 100%);
-    transform: translateY(-1px); /* Slight lift effect */
+.logoutButton {
+    background-color: #e74c3c;
+    color: white;
+}
+.logoutButton:hover {
+    background-color: #c0392b !important; /* Kept !important to override the previous generic button hover */
+    transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+.updateButton {
+    background-color: #31d14c;
+    color: white;
+}
+.updateButton:hover {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.upload-button { /* Specific to Icon Picker */
+    background-color: #6c757d;
+    color: white;
+    padding: 8px 15px; /* Smaller padding */
+    font-size: 0.9em; /* Smaller font size */
+    font-weight: normal; /* Normal weight */
+    box-shadow: none; /* No shadow */
+}
+.upload-button:hover {
+    background-color: #5a6268;
+    transform: none; /* No transform */
+    box-shadow: none; /* No shadow */
+}
+
+/* Login Box button general style */
+.login-box button {
+    background: linear-gradient(90deg, rgb(25, 25, 24) 0%, rgb(27, 26, 24) 65%, rgb(51, 51, 51) 100%);
+    color: #fff;
+    font-size: 17px;
+    width: 100%;
+    margin-top: 15px;
+}
+.login-box button:hover {
+    background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(10, 10, 10) 65%, rgb(30, 30, 30) 100%);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 .login-box button:active {
     transform: scale(0.98);
-    background: rgb(0, 0, 0); /* Solid black on active */
+    background: rgb(0, 0, 0);
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-/* Optional: Different style for a primary/sign-in button */
 #signInButton {
     background: linear-gradient(90deg, rgba(245, 223, 2, 1) 0%, rgba(227, 193, 32, 1) 65%, rgba(211, 162, 56, 1) 100%);
-    color: #333; /* Dark text for golden button */
-    font-weight: 700; /* Even bolder */
+    color: #333;
+    font-weight: 700;
 }
-
 #signInButton:hover {
     background: linear-gradient(90deg, rgba(255, 235, 59, 1) 0%, rgba(240, 205, 50, 1) 65%, rgba(225, 175, 70, 1) 100%);
     box-shadow: 0 4px 10px rgba(255, 204, 2, 0.3);
 }
-
 #signInButton:active {
     background: rgba(227, 193, 32, 1);
 }
 
+/* --- Auth Messages --- */
 .auth-message {
     margin-top: 20px;
     font-size: 14px;
     font-weight: 500;
 }
 
-
-
-/* Rename or adapt login sections for profile context */
-.profile-info-section {
-    /* Inherits from .login-image-section's flex properties */
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    background-color: #f8f8f8; /* Slightly different background if desired */
-    border-right: 1px solid #eee; /* Separator line */
+#promoMessage {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    margin-top: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    text-align: center;
 }
 
-.profile-promos-section {
-    /* Inherits from .login-form-section's flex properties */
-    flex: 2; /* Make promo list wider than info section */
-    justify-content: flex-start;
-    align-items: flex-start; /* Align content to top within this section */
-    padding: 20px;
-    background-color: #ffffff;
-    overflow: scroll;
+/* --- Profile/Edit Page Layout --- */
+.edit-page-wrapper {
+    display: flex;
+    width: 100%;
+
+}
+
+.edit-info-section {
+    width: 100%;
+    max-width: 40%;
+    box-shadow: none; /* Removed shadow */
+    border: none; /* Removed border */
+    background: transparent; /* Transparent background */
+    text-align: center;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .profile-box {
-    /* Inherits from .login-box */
-    padding: 25px; /* Slightly less padding to fit more content */
-    box-shadow: none; /* Remove box shadow if part of a larger section */
-    border: none; /* Remove border if part of a larger section */
-    background: transparent; /* Make background transparent to match parent section */
-    text-align: left; /* Align text left for forms/lists */
-    max-width: none; /* Remove max-width so it can expand within its section */
+    padding: 30px 40px; /* More internal space, adjusted from 25px */
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    text-align: center;
+    height: 100%;
+    border-left: #0000001f 1px solid; /* Left border for visual separation */
 }
 
 .profile-box h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 2.2em; /* Restored larger size */
+    color: #212529;
+    margin-bottom: 25px;
+    text-align: center; /* Explicitly centered */
 }
 
-/* Avatar styling */
+#promoIdDisplay {
+    font-size: 0.9em;
+    color: #6c757d;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* --- Avatar & Icon Picker --- */
 .profile-avatar-upload {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-bottom: 30px;
     text-align: center;
+    position: relative; /* Essential for absolute positioning of #emojiPickerContainer */
 }
 
-/* New style for the emoji avatar span */
 .avatar-emoji {
-    display: flex; /* Use flex to center the emoji */
+    display: flex;
     justify-content: center;
     align-items: center;
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    background-color: #f0f0f0; /* Light background for the emoji circle */
-    border: 3px solid #FFCC02;
+    background-color: #ffffff;
+    border: 3px solid #414141;
     margin-bottom: 15px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    font-size: 60px; /* Make the emoji large */
-    line-height: 1; /* Adjust line height to prevent clipping */
-    overflow: hidden; /* Ensure emoji doesn't spill out */
-    color: #000; /* Default color if emoji has none, or for text fallback */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    font-size: 45px;
+    line-height: 1;
+    overflow: hidden;
+    color: #000;
 }
 
-#emojiPickerContainer {
-    position: absolute; /* Allows positioning relative to first positioned ancestor */
-    z-index: 1000;      /* Ensure it appears above other elements */
-    background-color: white; /* Give it a solid background */
-    border: 1px solid #ddd; /* A border to show its boundaries */
+#iconPickerContainer, /* Old ID, keeping for backward compatibility */
+#emojiPickerContainer { /* New, more semantic ID */
+    position: absolute;
+    z-index: 1000;
+    background-color: white;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); /* Add a shadow */
-    padding: 10px; /* Some internal padding */
-    /* Adjust positioning relative to the button if desired. Example for below the button: */
-    top: 100%; /* Position below the button's bottom edge */
-    left: 50%; /* Start from the middle horizontally */
-    transform: translateX(-50%); /* Shift left by half its width to center */
-    /* IMPORTANT: Max-dimensions and overflow for the container */
-    max-width: 95vw; /* Max width relative to viewport */
-    max-height: 80vh; /* Max height relative to viewport */
-    overflow:scroll;
-     /* Crucial: hide any content that exceeds these dimensions */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 10px;
+    top: 100%;
+    left: 100%;
+    transform: translateX(-50%); /* This centers relative to the left of the button */
+    max-width: 95vw;
+    max-height: 80vh;
+    overflow: scroll;
+    display: none; /* Hidden by default, JS toggles */
 }
 
-/* Ensure the <em-emoji-picker> element itself has some size constraints */
 em-emoji-picker {
-    display: block; /* Web Components often need explicit display */
-    width: 100%; /* Take 100% of its parent container's width */
-    height: 100%; /* Take 100% of its parent container's height */
-    max-width: 350px; /* Max width for the picker itself */
-    max-height: 450px; /* Max height for the picker itself */
-    overflow: visible;/* The library usually handles its own internal scrolling */
+    display: block;
+    width: 100%;
+    height: 100%;
+    max-width: 350px;
+    max-height: 450px;
+    overflow: visible;
 }
 
-/* You may need to ensure the parent .profile-avatar-upload is positioned relative */
-.profile-avatar-upload {
-    position: relative; /* Essential for absolute positioning of #emojiPickerContainer */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 30px;
-    text-align: center;
+/* --- Form Detail Specifics (Edit Promotion Page) --- */
+#promoDetailForm {
+    width: 100%;
 }
-/* 
-.avatar-preview {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #FFCC02;
+
+/* Section grouping within the form */
+.form-section {
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #e9ecef;
+}
+.form-section:last-of-type {
+    border-bottom: none;
+    margin-bottom: 20px;
+    padding-bottom: 0;
+}
+.form-section h2 {
+    font-size: 1.4em;
+    color: #495057;
     margin-bottom: 15px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    padding-bottom: 10px;
+    border-bottom: 2px solid #dee2e6;
+    margin-top: 35px;
 }
 
-.upload-button {
-    padding: 8px 15px !important;
-    font-size: 14px !important;
-    width: auto !important;
-    margin-top: 0px !important;
-    background: #555 !important;
-}
-.upload-button:hover {
-    background: #777 !important;
+/* The core responsive grid for form fields */
+.form-grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min item width 280px */
+    gap: 25px; /* Space between grid items */
 }
 
-#avatarInput {
-    display: none; /* Hide the default file input */
-} */
+/* Make specific fields span full width if needed */
+.form-grid-container .full-width {
+    grid-column: 1 / -1; /* Spans all available columns */
+}
 
-/* Table container for overflow if table is too wide */
+/* Input Group Styles specific to #promoDetailForm */
+#promoDetailForm .input-group {
+    margin-bottom: 0; /* Grid gap handles spacing */
+}
+
+#promoDetailForm .input-group label {
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+    font-size: 0.95em; /* From previous response */
+}
+
+#promoDetailForm input[type="text"],
+#promoDetailForm input[type="number"],
+#promoDetailForm input[type="url"],
+#promoDetailForm input[type="date"],
+#promoDetailForm textarea,
+#promoDetailForm select {
+    padding: 8px; /* Slightly less padding for more compact fields */
+    font-size: 14px;
+    border: 1px solid #ddd; /* Lighter border */
+    background-color: #fff; /* Ensure white background */
+}
+
+#promoDetailForm textarea {
+    min-height: 90px;
+}
+
+/* Checkbox specific styling for #promoDetailForm */
+#promoDetailForm .input-group.checkbox-group {
+    flex-direction: row;
+    align-items: center;
+}
+#promoDetailForm .input-group input[type="checkbox"] {
+    width: auto;
+    margin-right: 5px;
+    vertical-align: middle; /* Align checkbox */
+}
+#promoDetailForm .input-group label[for="fscreen"] {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+    font-weight: normal;
+    color: #495057;
+    cursor: pointer;
+}
+
+/* Button Group at bottom of form */
+.button-inline-group {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 30px; /* Space above the buttons */
+}
+
+.button-inline-group button {
+    flex: 1;
+    min-width: 150px;
+    max-width: 250px;
+    padding: 12px 25px; /* Consistent padding */
+    font-size: 1em; /* Consistent font size */
+    font-weight: 600; /* Consistent font weight */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+}
+
+/* --- Promo Table Container --- */
 .promo-table-container {
     width: 100%;
-    overflow-x: auto; /* Enable horizontal scrolling for wide tables */
+    overflow-x: auto;
     margin-top: 20px;
 }
 
-/* Reuse existing .promo-table-HomePage styles for the table */
-/* Adjust td/th padding if needed for more condensed view */
+/* Table specific overrides (to distinguish from login form tables) */
 #userPromosTable th,
 #userPromosTable td {
-    padding: 8px 12px; /* Adjust as needed */
-    white-space: nowrap; /* Prevent text wrapping in cells if it makes table too wide */
+    padding: 8px 12px;
+    white-space: nowrap;
 }
 
-/* Style for action links/buttons in table */
 #userPromosTable .action-link {
     color: #007bff;
     text-decoration: none;
@@ -1207,25 +1179,61 @@ em-emoji-picker {
     text-decoration: underline;
 }
 
-/* Media query for large screens (e.g., desktops) */
-@media (min-width: 768px) { /* Adjust breakpoint as needed */
-    .login-page-wrapper {
-        flex-direction: row; /* Change to row layout for large screens */
-        border-radius: 10px;
-        overflow: hidden; /* For border-radius on child elements */
-        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Add shadow to the whole wrapper */
-    }
+/* Make the promo preview section scrollable if content is too long */
+.promo-preview-section {
+    overflow-y: auto;
+    flex: 2;
+}
 
+/* --- Responsive Adjustments --- */
+@media (min-width: 768px) {
+    .login-page-wrapper {
+        flex-direction: row;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
     .login-image-section,
     .login-form-section {
-        flex: 1; /* Each section takes half the width */
-        min-height: 600px; /* Ensure minimum height for both sections */
+        flex: 1;
+        min-height: 600px;
+    }
+    .login-illustration {
+        max-height: 100%;
+    }
+    .profile-promos-section {
+        align-items: flex-start;
     }
 
-    .login-illustration {
-        max-height: 100%; /* Image takes full height of its section */
+    /* Grid layout for edit form on larger screens (2 columns on iPad, up to 4 on desktop) */
+    .form-grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* At least 2 columns on tablets */
     }
-        .profile-promos-section {
-        align-items: flex-start; /* Align content to top */
+}
+
+@media (min-width: 1080px) { /* Adjust min-width for 4 columns */
+    .form-grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Allows up to 4 columns */
+    }
+}
+
+@media (max-width: 767px) { /* Mobile specific adjustments */
+    .profile-box {
+        padding: 20px;
+    }
+    .form-section h2 {
+        font-size: 1.4em;
+        margin-bottom: 20px;
+    }
+    .form-grid-container {
+        grid-template-columns: 1fr; /* Single column on mobile */
+        gap: 20px;
+    }
+    .button-inline-group {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px;
+    }
+    .button-inline-group button {
+        width: 100%; /* Full width buttons */
     }
 }
