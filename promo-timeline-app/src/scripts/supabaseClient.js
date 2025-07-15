@@ -156,3 +156,60 @@ export async function fetchAllTableData() { // <--- ADD 'export' HERE
 
     return { data, error };
 }
+
+export async function createPromoTableItem(tableData) {
+    const { data, error } = await supabase
+        .from('promoTables_items')
+        .insert([tableData])
+        .select(); // Use .select() to return the inserted data, including its ID
+    return { data, error };
+}
+
+/**
+ * Updates an existing item in the promoTables_items table.
+ * @param {number} tableId - The ID of the table to update.
+ * @param {object} updates - An object with the data to update (e.g., table_name, style, th, tr).
+ * @returns {Promise<object>} Supabase response object { data, error }.
+ */
+export async function updatePromoTableItem(tableId, updates) {
+    const { data, error } = await supabase
+        .from('promoTables_items')
+        .update(updates)
+        .eq('id', tableId)
+        .select(); // Return the updated row
+
+    if (error) {
+        console.error('Supabase updatePromoTableItem error:', error);
+    }
+
+    return { data, error };
+}
+
+/**
+ * Deletes an item from the promoTables_items table.
+ * @param {number} tableId - The ID of the table to delete.
+ * @returns {Promise<object>} Supabase response object { error }.
+ */
+export async function deletePromoTableItem(tableId) {
+    const { error } = await supabase
+        .from('promoTables_items')
+        .delete()
+        .eq('id', tableId);
+
+    if (error) {
+        console.error('Supabase deletePromoTableItem error:', error);
+    }
+
+    return { error };
+}
+
+export async function createPromoTableWithFunction(tableData) {
+  // The RPC call now uses the correct 'p_' prefixed parameter names
+  const { data, error } = await supabase.rpc('create_new_table', {
+    p_name: tableData.table_name,
+    p_style: tableData.style,
+    p_headers: tableData.th,
+    p_rows: tableData.tr
+  });
+  return { data, error };
+}

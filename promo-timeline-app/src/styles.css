@@ -800,6 +800,9 @@ input[type="number"],
 input[type="email"],
 input[type="url"],
 input[type="date"],
+
+input[type="tel"],
+input[type="password"],
 textarea,
 select {
     width: 100%;
@@ -1236,4 +1239,85 @@ em-emoji-picker {
     .button-inline-group button {
         width: 100%; /* Full width buttons */
     }
+}
+
+[x-cloak] {
+    display: none !important;
+}
+
+/* The main overlay that covers the entire screen */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensures it's on top of all other content */
+
+    /* This is the magic property for the blur effect */
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+}
+
+/* The actual modal window containing the content */
+.modal-content {
+    position: relative;
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    max-width: 800px; /* Adjust as needed */
+    width: 90%;
+    max-height: 90vh; /* Limits the height to 90% of the viewport height */
+    overflow-y: auto; /* Adds a scrollbar if the content is too tall */
+}
+
+/* The 'X' button to close the modal */
+.modal-close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #666;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.modal-close-button:hover {
+    color: #000;
+}
+
+/* Spacing and layout for sections within the modal */
+.modal-section {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 1.5rem;
+}
+
+.modal-section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+/* Layout for the final action buttons (Save, Delete) */
+.modal-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.editor.tableStyle{
+    border: #0000001f 1px solid;
+    border-radius: 8px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
 }
