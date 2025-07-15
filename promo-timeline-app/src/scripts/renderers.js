@@ -115,8 +115,8 @@ export function renderTimeline() {
 
             if (item.bordercolor && item.bordercolor !== '') {
                 timelineContentBorderAndBg = `border-left: 4px solid ${item.bordercolor};`;
-                promoTypeBgColor = `background-color: ${item.bordercolor};`;
-                timelineDotBorder = `border: 3px solid ${item.bordercolor};`;
+                promoTypeBgColor = `background-color: ${item.bordercolor};color:white;`;
+                timelineDotBorder = `border: 2px solid ${item.bordercolor};`;
             }
 
             const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
@@ -136,8 +136,8 @@ export function renderTimeline() {
                       <div class="promo-details">
                         ${item.promo_details.map(line => `• ${line}<br>`).join("")}
                       </div>
-                      <div class="channel-tags">
-                        ${item.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")}
+                      <div class="channel-tags" >
+                        ${item.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeBgColor} ">${ch}</span>`).join("")}
                       </div>
 
                       ${tablesHTML}

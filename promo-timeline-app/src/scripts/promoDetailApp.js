@@ -286,7 +286,7 @@ function renderPromoPreview(promo) {
 
     if (promo.bordercolor && promo.bordercolor !== '') {
         timelineContentBorderAndBg = `border-left: 4px solid ${promo.bordercolor};`;
-        promoTypeBgColor = `background-color: ${promo.bordercolor};`;
+        promoTypeBgColor = `background-color: ${promo.bordercolor};color:white;`;
         timelineDotBorder = `border: 3px solid ${promo.bordercolor};`;
     }
     const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
@@ -308,7 +308,7 @@ function renderPromoPreview(promo) {
                         ${(promo.promo_details && promo.promo_details.map(line => `• ${line}<br>`).join("")) || 'No details.'}
                     </div>
                     <div class="channel-tags">
-                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag">${ch}</span>`).join("")) || 'No channels.'}
+                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeBgColor}">${ch}</span>`).join("")) || 'No channels.'}
                     </div>
 
                     ${dynamicTablesHTML}
