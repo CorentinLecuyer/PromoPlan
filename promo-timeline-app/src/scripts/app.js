@@ -1,96 +1,39 @@
 // scripts/app.js
 
-import { fetchPromotionalItems, fetchDisplayTables } from './supabaseClient.js'; // Will revert to single fetchPromotionalItems
-import { appState, setSelectedChannels, setSelectedYears, setSelectedStatuses, setTimelineItems, setTableData } from './state.js'; // NEW IMPORT
+import { fetchPromotionalItems, fetchDisplayTables } from './supabaseClient.js';
+import { appState, setTimelineItems, setTableData } from './state.js';
 import { processTimelineItems, processDisplayTables } from './utils.js';
 import { renderTimeline, renderTablesHomePage } from './renderers.js';
-import { initFilterEventListeners, updateCheckboxesFromState, updateSelectedYearText } from './uiHandlers.js';
-import { signOut, getSession } from './supabaseAuth.js'; // Ensure signOut is imported here
+import { signOut, getSession } from './supabaseAuth.js';
+import { initFilterModal, getSavedFilters } from './shared/filterModal.js'; // Import getSavedFilters
 
 /**
- * Loads filter selections from the URL query parameters and updates the appState.
- */
-function loadFiltersFromURL() {
-    const params = new URLSearchParams(window.location.search);
-
-    const yearsParam = params.get('years');
-    if (yearsParam) {
-        const years = yearsParam.split(',').filter(year => year.trim() !== '');
-        setSelectedYears(years.length === 0 ? ['all'] : years);
-    } else {
-        setSelectedYears(['2026']);
-    }
-
-    const channelsParam = params.get('channels');
-    if (channelsParam) {
-        const channels = channelsParam.split(',').filter(channel => channel.trim() !== '');
-        setSelectedChannels(channels.length === 0 ? ['all'] : channels);
-    } else {
-        setSelectedChannels(['all']);
-    }
-
-    // NEW: Load statuses from URL
-    const statusesParam = params.get('statuses');
-    if (statusesParam) {
-        const statuses = statusesParam.split(',').filter(status => status.trim() !== '');
-        setSelectedStatuses(statuses.length === 0 ? ['public'] : statuses); // Default to 'public' if empty
-    } else {
-        setSelectedStatuses(['public']); // Default to 'public' if no param
-    }
-}
-
-/**
- * Saves current filter selections from the appState to the URL query parameters.
- */
-export function saveFiltersToURL() {
-    const params = new URLSearchParams();
-
-    if (!appState.selectedYears.includes('all') && appState.selectedYears.length > 0) {
-        params.set('years', appState.selectedYears.join(','));
-    }
-    if (!appState.selectedChannels.includes('all') && appState.selectedChannels.length > 0) {
-        params.set('channels', appState.selectedChannels.join(','));
-    }
-    // NEW: Save statuses to URL
-    if (!appState.selectedStatuses.includes('public') || appState.selectedStatuses.length > 1 || appState.selectedStatuses.includes('all')) {
-        params.set('statuses', appState.selectedStatuses.join(','));
-    } else {
-        params.delete('statuses'); // Remove if default 'public' to keep URL clean
-    }
-
-    const newURL = params.toString() ?
-        `${window.location.pathname}?${params.toString()}` :
-        window.location.pathname;
-
-    window.history.replaceState({}, '', newURL);
-}
-
-/**
- * Fetches data from Supabase, processes it, updates the global state, and triggers rendering.
- * This is the core function called when filters change or on initial load.
+ * Fetches data from Supabase based on saved filters, processes it, 
+ * updates the global state, and triggers rendering.
  */
 export async function updateAndRenderContent() {
     try {
-        console.log('App State (before fetch):', appState);
+        console.log('Updating and rendering content...');
 
-        const rawTableData = await fetchDisplayTables();
+        const filters = getSavedFilters(); // Get the filters first
+
+        // Fetch all necessary data in parallel, passing filters to the relevant function
+        const [rawTableData, rawTimelineData] = await Promise.all([
+            fetchDisplayTables(),
+            fetchPromotionalItems(filters) // Pass filters as an argument
+        ]);
+        
         console.log('Raw Table Data fetched:', rawTableData);
         const processedTableData = processDisplayTables(rawTableData);
         setTableData(processedTableData);
         console.log('Processed Table Data stored:', appState.allTableData);
 
-        // NEW: Pass selectedStatuses to fetchPromotionalItems
-        const rawTimelineData = await fetchPromotionalItems(
-            appState.selectedYears,
-            appState.selectedChannels,
-            appState.selectedStatuses // NEW PARAMETER
-        );
         console.log('Raw Timeline Data fetched:', rawTimelineData);
         const processedTimelineData = processTimelineItems(rawTimelineData);
         setTimelineItems(processedTimelineData);
         console.log('Processed Timeline Data stored:', appState.allTimelineItems);
 
-        // ... (rest of updateAndRenderContent remains the same)
+        // Render content based on which root element exists on the current page
         const timelineRoot = document.getElementById('timeline-root');
         const homePageRoot = document.getElementById('timeline-root-home-page');
 
@@ -106,26 +49,18 @@ export async function updateAndRenderContent() {
     } catch (error) {
         console.error('Application Error:', error);
         const errorMessage = '<p style="color:red;">Failed to load data. Please check your internet connection or Supabase configuration.</p>';
-
-        const timelineRootElement = document.getElementById('timeline-root');
-        if (timelineRootElement) {
-            timelineRootElement.innerHTML = errorMessage;
-        }
-
-        const homePageRootElement = document.getElementById('timeline-root-home-page');
-        if (homePageRootElement) {
-            homePageRootElement.innerHTML = errorMessage;
+        const rootElement = document.getElementById('timeline-root') || document.getElementById('timeline-root-home-page');
+        if (rootElement) {
+            rootElement.innerHTML = errorMessage;
         }
     }
 }
 
-
+/**
+ * Initializes the main application logic.
+ */
 async function initializeApp() {
-    loadFiltersFromURL();
-    updateCheckboxesFromState();
-    initFilterEventListeners();
-    updateSelectedYearText();
-
+    // Check user authentication status
     const session = await getSession();
     const logoutButton = document.getElementById('logoutButton');
 
@@ -135,11 +70,11 @@ async function initializeApp() {
     } else {
         if (logoutButton) logoutButton.style.display = 'none';
         console.log('User is not logged in.');
-        // Redirect to login page if user is not logged in AND not already on login/signup page
         const currentPage = window.location.pathname.split('/').pop();
         if (currentPage !== 'login.html' && currentPage !== 'signup.html') {
              window.location.href = 'login.html';
         }
+        return; // Stop initialization if not logged in
     }
 
     if (logoutButton) {
@@ -154,7 +89,18 @@ async function initializeApp() {
         });
     }
 
+    // Initialize the filter modal
+    await initFilterModal();
+
+    // Listen for the custom event from the modal to re-render content
+    document.addEventListener('filtersApplied', async () => {
+        console.log('Filters applied event received, updating content.');
+        await updateAndRenderContent();
+    });
+
+    // Initial render on page load
     await updateAndRenderContent();
 }
 
+// Start the app
 document.addEventListener('DOMContentLoaded', initializeApp);

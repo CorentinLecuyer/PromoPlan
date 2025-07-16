@@ -1,45 +1,115 @@
-// scripts/supabaseClient.js
-
-// Import the already initialized Supabase client from the auth module
-import { supabase } from './supabaseAuth.js'; // NEW IMPORT PATH
-
-// NOTE: SUPABASE_URL and SUPABASE_ANON_KEY are now defined in supabaseAuth.js
-// You can remove their definitions from here if they were still present.
+import { supabase, getUser } from './supabaseAuth.js';
 
 /**
- * Fetches promotional items based on selected years, channels, and statuses.
- * @param {Array<string>} selectedYears - Years to filter by.
- * @param {Array<string>} selectedChannels - Channels to filter by.
- * @param {Array<string>} selectedStatuses - Statuses to filter by.
+ * Ensures the provided value is an array. Handles null, undefined, and single values.
+ * @param {*} value - The value to check.
+ * @returns {Array} An array, guaranteed.
+ */
+function ensureArray(value) {
+    if (Array.isArray(value)) {
+        return value;
+    }
+    if (value) {
+        return [value];
+    }
+    return [];
+}
+
+/**
+ * Fetches promotional items by chaining Supabase filter methods.
+ * This is the correct and robust way to handle multiple, complex filters.
+ * @param {object} filters - An object containing arrays of filter criteria.
+ * @param {object} [options={}] - Additional options like ownPromosOnly.
  * @returns {Promise<Array<object>>} A promise that resolves to an array of raw promotional items.
  */
-export async function fetchPromotionalItems(selectedYears, selectedChannels, selectedStatuses) {
+export async function fetchPromotionalItems(filters = {}, options = {}) {
+    const user = await getUser();
+    // Start the query chain. We will add filters to this.
+    let query = supabase.from('promo_items').select('*');
+
     try {
-        let query = supabase.from('promo_items').select('*');
+        const safeFilters = {
+            year: ensureArray(filters.year),
+            status: ensureArray(filters.status),
+            promo_type: ensureArray(filters.promo_type),
+            country: ensureArray(filters.country),
+            author: ensureArray(filters.author),
+            owner: ensureArray(filters.owner),
+            promo_budget_type: ensureArray(filters.promo_budget_type),
+            channel_tags: ensureArray(filters.channel_tags),
+        };
 
-        if (!selectedStatuses.includes('all') && selectedStatuses.length > 0) {
-            query = query.in('status', selectedStatuses);
+        // --- Chain all filters sequentially ---
+
+        // Filter by user ID if requested (for Profile page)
+        if (options.ownPromosOnly && user) {
+            query = query.eq('user_id', user.id);
         }
 
-        if (!selectedYears.includes('all') && selectedYears.length > 0) {
-            const numericYears = selectedYears.map(Number).filter(year => !isNaN(year));
-            if (numericYears.length > 0) {
-                const minYear = Math.min(...numericYears);
-                const maxYear = Math.max(...numericYears); // CORRECTED: Changed Math.Max to Math.max
-                query = query
-                    .gte('promo_start_date', `${minYear}-01-01`)
-                    .lt('promo_start_date', `${maxYear + 1}-01-01`);
+        // Year Filter
+        if (safeFilters.year.length > 0) {
+            const yearConditions = safeFilters.year.map(y =>
+                `and(promo_start_date.gte.${y}-01-01,promo_start_date.lt.${parseInt(y) + 1}-01-01)`
+            ).join(',');
+            query = query.or(yearConditions);
+        }
+
+        // Status Filter
+        if (safeFilters.status.length > 0) {
+            query = query.in('status', safeFilters.status);
+        }
+
+        // Promo Type Filter
+        if (safeFilters.promo_type.length > 0) {
+            query = query.in('promo_type', safeFilters.promo_type);
+        }
+
+        // Country Filter
+        if (safeFilters.country.length > 0) {
+            query = query.in('country', safeFilters.country);
+        }
+
+        // Author Filter
+        if (safeFilters.author.length > 0) {
+            query = query.in('author', safeFilters.author);
+        }
+
+        // Owner Filter
+        if (safeFilters.owner.length > 0) {
+            query = query.in('owner', safeFilters.owner);
+        }
+
+        // Budget Type Filter (for array columns)
+        if (safeFilters.promo_budget_type.length > 0) {
+            // FIX: Use the .filter() method for the 'contains' operator.
+            // The value needs to be in the format '{item1,item2}'
+            const budgetTypesString = `{${safeFilters.promo_budget_type.join(',')}}`;
+            query = query.filter('promo_budget_type', 'cs', budgetTypesString);
+        }
+
+        // Channel Tags Filter (handles 'mine' logic)
+        const channelTags = safeFilters.channel_tags;
+        const hasMine = channelTags.includes('mine');
+        const otherChannels = channelTags.filter(c => c !== 'mine');
+
+        if (hasMine && user) {
+            if (otherChannels.length > 0) {
+                // This .or() string already uses the correct syntax for 'cs'
+                query = query.or(`owner.eq.${user.id},channel_tags.cs.{${otherChannels.join(',')}}`);
+            } else {
+                query = query.eq('owner', user.id);
             }
+        } else if (otherChannels.length > 0) {
+            // FIX: Use the .filter() method here as well.
+            const channelsString = `{${otherChannels.join(',')}}`;
+            query = query.filter('channel_tags', 'cs', channelsString);
         }
 
-        if (!selectedChannels.includes('all') && selectedChannels.length > 0) {
-            query = query.contains('channel_tags', selectedChannels);
-        }
-
+        // --- Execute the final query ---
         const { data, error } = await query;
 
         if (error) {
-            console.error('Supabase fetchPromotionalItems error:', error.message);
+            console.error('Supabase fetchPromotionalItems error:', error);
             throw new Error('Failed to load promotional data from database.');
         }
 
@@ -49,6 +119,7 @@ export async function fetchPromotionalItems(selectedYears, selectedChannels, sel
         return [];
     }
 }
+
 
 /**
  * Fetches display table data from Supabase.

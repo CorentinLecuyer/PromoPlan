@@ -1,37 +1,10 @@
-
-
 import { supabase, signOut, getSession, getUser, updateUserProfile as updateAuthUserProfile } from './supabaseAuth.js';
-import { processTimelineItems } from './utils.js';
-
-let emojiMartData = null;
-async function loadEmojiMartData() {
-    try {
-        const response = await fetch('https://cdn.jsdelivr.net/npm/@emoji-mart/data');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        emojiMartData = await response.json();
-
-    } catch (error) {
-
-
-        const promosMessage = document.getElementById('promosMessage');
-        if (promosMessage) {
-            promosMessage.textContent = 'Failed to load emoji data. Picker may not work.';
-            promosMessage.style.color = 'red';
-        }
-    }
-}
-
-loadEmojiMartData();
 
 document.addEventListener('DOMContentLoaded', async () => {
+    // --- Page Elements ---
     const profileEmojiAvatar = document.getElementById('profileEmojiAvatar');
     const openEmojiPickerButton = document.getElementById('openEmojiPickerButton');
     const emojiPickerContainer = document.getElementById('emojiPickerContainer');
-    let selectedEmoji = '👤'; // Default to a fallback emoji from the start
-
-    const profileUpdateForm = document.getElementById('profileUpdateForm');
     const displayNameInput = document.getElementById('displayName');
     const profileEmailInput = document.getElementById('profileEmail');
     const profileCountryInput = document.getElementById('profileCountry');
@@ -42,249 +15,181 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userPromosTableBody = document.querySelector('#userPromosTable tbody');
     const noPromosMessage = document.getElementById('noPromosMessage');
     const promosMessage = document.getElementById('promosMessage');
+    
+    let picker;
+    let selectedEmoji = '👤';
+    let allUserPromos = []; // Cache for all fetched promotions
 
-
-    let currentUser = null;
-
-    function displayMessage(message, isError = false, targetElement = profileMessage) {
-        targetElement.textContent = message;
-        targetElement.style.color = isError ? 'red' : 'green';
+    // --- Authentication ---
+    const session = await getSession();
+    if (!session) {
+        window.location.href = 'login.html';
+        return;
+    }
+    const currentUser = await getUser();
+    if (!currentUser) {
+        window.location.href = 'login.html';
+        return;
     }
 
-    async function checkUserSession() {
-        const session = await getSession();
-        if (!session) {
-            window.location.href = 'login.html';
+    // --- Main Logic ---
+
+    // Renders the table with a given set of promotions
+    function renderPromosTable(promos) {
+        userPromosTableBody.innerHTML = '';
+        if (!promos || promos.length === 0) {
+            // If there are active filters, show a different message
+            const hasActiveFilters = document.querySelectorAll('.column-filter').some(input => input.value.trim() !== '');
+            noPromosMessage.textContent = hasActiveFilters ? 'No promotions match your current filter.' : "You haven't created any promotions yet.";
+            noPromosMessage.style.display = 'block';
             return;
         }
-        currentUser = await getUser();
-        if (!currentUser) {
-            window.location.href = 'login.html';
-            return;
-        }
-        await loadUserProfileData(currentUser.id);
-        await loadUserPromotions(currentUser.id);
+        
+        noPromosMessage.style.display = 'none';
+        promos.forEach(promo => {
+            const row = userPromosTableBody.insertRow();
+            row.insertCell(0).textContent = promo.country || 'N/A';
+            row.insertCell(1).textContent = promo.promo_title || 'N/A';
+            row.insertCell(2).textContent = promo.promo_type || 'N/A';
+            row.insertCell(3).textContent = (promo.channel_tags || []).join(', ');
+            row.insertCell(4).textContent = promo.icon || '';
+            row.insertCell(5).textContent = promo.author || 'N/A';
+            row.insertCell(6).textContent = promo.promo_start_date ? new Date(promo.promo_start_date).toLocaleDateString() : 'N/A';
+            row.insertCell(7).textContent = promo.promo_end_date ? new Date(promo.promo_end_date).toLocaleDateString() : 'N/A';
+            
+            const actionCell = row.insertCell(8);
+            const editLink = document.createElement('a');
+            editLink.href = `promo-detail.html?id=${promo.id}`;
+            editLink.textContent = 'Edit';
+            editLink.classList.add('action-link');
+            actionCell.appendChild(editLink);
+
+            row.insertCell(9).textContent = promo.owner || 'N/A';
+            row.insertCell(10).textContent = promo.status || 'N/A';
+        });
     }
 
-    async function loadUserProfileData(userId) {
-        try {
-            profileEmailInput.value = currentUser.email || '';
-            displayNameInput.value = currentUser.user_metadata.display_name || '';
-
-            selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤'; // Initializes selectedEmoji from DB or default
-            profileEmojiAvatar.textContent = selectedEmoji;
-
-            const { data: profileData, error: profileError } = await supabase
-                .from('user_profiles')
-                .select('country, channel')
-                .eq('id', userId)
-                .single();
-
-            if (profileError) {
-
-                displayMessage('Error loading profile data.', true);
-            } else if (profileData) {
-                profileCountryInput.value = profileData.country || '';
-                profileChannelInput.value = profileData.channel || '';
+    // Applies column filters and re-renders the table
+    function applyTableFiltersAndRender() {
+        const filterInputs = document.querySelectorAll('.column-filter');
+        const filterValues = {};
+        filterInputs.forEach(input => {
+            const columnIndex = input.dataset.columnIndex;
+            if (input.value.trim() !== '') {
+                filterValues[columnIndex] = input.value.trim().toLowerCase();
             }
+        });
 
-        } catch (error) {
-
-            displayMessage('Failed to load profile data.', true);
-        }
-    }
-
-    let picker = null;
-
-    let emojiMartData = null;
-    try {
-        const response = await fetch('https://cdn.jsdelivr.net/npm/@emoji-mart/data');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        emojiMartData = await response.json();
-
-    } catch (error) {
-
-        displayMessage('Failed to load emoji data. Picker may not work.', true, promosMessage);
-    }
-
-
-    openEmojiPickerButton.addEventListener('click', () => {
-        if (!picker) {
-
-            if (window.EmojiMart && window.EmojiMart.Picker && emojiMartData) { // Check if data is also loaded
-                picker = new window.EmojiMart.Picker({
-                    data: emojiMartData, // Pass the pre-fetched data
-                    onEmojiSelect: (emoji) => {
-                        selectedEmoji = emoji.native;
-                        profileEmojiAvatar.textContent = selectedEmoji;
-                        emojiPickerContainer.style.display = 'none';
-                        displayMessage('Emoji selected!', false, promosMessage);
-                    },
-                    theme: 'light',
-                    set: 'windows',
-                });
-                emojiPickerContainer.appendChild(picker);
-
-
-                setTimeout(() => {
-                    const navElement = emojiPickerContainer.querySelector('#nav'); // Find the #nav element within the picker
-                    if (navElement) {
-                        navElement.style.display = 'none';
-
-                    } else {
-
-
-                        setTimeout(() => {
-                            const navElementRetry = emojiPickerContainer.querySelector('#nav');
-                            if (navElementRetry) {
-                                navElementRetry.style.display = 'none';
-
-                            } else {
-
-                            }
-                        }, 500); // Try 500ms if 100ms fails
-                    }
-                }, 100);
-
-            } else {
-                displayMessage('Emoji picker library or data not loaded. Check console.', true, promosMessage);
-
-
-
-                return;
-            }
-        }
-        emojiPickerContainer.style.display = emojiPickerContainer.style.display === 'none' ? 'block' : 'none';
-    });
-
-    document.addEventListener('click', (event) => {
-        if (picker && emojiPickerContainer.style.display === 'block' &&
-            !openEmojiPickerButton.contains(event.target) && !emojiPickerContainer.contains(event.target)) {
-            emojiPickerContainer.style.display = 'none';
-        }
-
-
-
-
-    });
-
-    profileUpdateForm.addEventListener('submit', async (event) => { // This listener is effectively dormant now
-        event.preventDefault();
-
-    });
-
-    saveProfileButton.addEventListener('click', async (event) => {
-        event.preventDefault(); // This is crucial for the button's click event too
-
-
-
-        saveProfileButton.disabled = true;
-        displayMessage('Saving changes...', false);
-
-        const newDisplayName = displayNameInput.value;
-        const emojiToSave = selectedEmoji;
-
-
-
-
-
-
-        try {
-
-            const { error: authUpdateError } = await updateAuthUserProfile({
-                data: {
-                    display_name: newDisplayName,
-                    avatar_emoji: emojiToSave
-                },
+        const filteredPromos = allUserPromos.filter(promo => {
+            return Object.keys(filterValues).every(columnIndex => {
+                let cellValue = '';
+                // Map columnIndex to the corresponding promo property
+                switch(parseInt(columnIndex)) {
+                    case 0: cellValue = promo.country || ''; break;
+                    case 1: cellValue = promo.promo_title || ''; break;
+                    case 2: cellValue = promo.promo_type || ''; break;
+                    case 3: cellValue = (promo.channel_tags || []).join(', '); break;
+                    case 4: cellValue = promo.icon || ''; break;
+                    case 5: cellValue = promo.author || ''; break;
+                    case 6: cellValue = promo.promo_start_date ? new Date(promo.promo_start_date).toLocaleDateString() : ''; break;
+                    case 7: cellValue = promo.promo_end_date ? new Date(promo.promo_end_date).toLocaleDateString() : ''; break;
+                    case 9: cellValue = promo.owner || ''; break;
+                    case 10: cellValue = promo.status || ''; break;
+                }
+                return cellValue.toLowerCase().includes(filterValues[columnIndex]);
             });
+        });
 
+        renderPromosTable(filteredPromos);
+    }
 
-            if (authUpdateError) {
-
-                throw authUpdateError; // This re-throws the error to the catch block
-            }
-
-            profileEmojiAvatar.textContent = emojiToSave || '👤';
-
-            displayMessage('Profile updated successfully!', false);
-
-
-        } catch (error) {
-
-            displayMessage(`Profile update failed: ${error.message}`, true);
-
-
-        } finally {
-            saveProfileButton.disabled = false;
-
-        }
-    });
-
-
-
+    // Fetches all promotions for the user from the database
     async function loadUserPromotions(userId) {
         try {
             const { data: userPromos, error: promosError } = await supabase
                 .from('promo_items')
-                .select('country, promo_title, promo_type, channel_tags, icon, owner, user_id, status, id, promo_start_date, promo_end_date')
+                .select('id, country, promo_title, promo_type, channel_tags, icon, author, owner, status, promo_start_date, promo_end_date')
                 .eq('user_id', userId)
                 .order('promo_start_date', { descending: false });
 
             if (promosError) {
-
                 promosMessage.textContent = 'Error loading your promotions.';
                 promosMessage.style.color = 'red';
                 return;
             }
-
-            userPromosTableBody.innerHTML = '';
-            if (userPromos.length === 0) {
-                noPromosMessage.style.display = 'block';
-                return;
-            } else {
-                noPromosMessage.style.display = 'none';
-            }
-
-            userPromos.forEach(promo => {
-                const row = userPromosTableBody.insertRow();
-                row.insertCell(0).textContent = promo.country || 'N/A';
-                row.insertCell(1).textContent = promo.promo_title || 'N/A';
-                row.insertCell(2).textContent = promo.promo_type || 'N/A';
-                row.insertCell(3).textContent = (promo.channel_tags && promo.channel_tags.join(', ')) || 'N/A';
-                row.insertCell(4).textContent = promo.icon || '';
-                row.insertCell(5).textContent = promo.owner || 'N/A';
-                row.insertCell(6).textContent = promo.promo_start_date ? new Date(promo.promo_start_date).toLocaleDateString() : 'N/A';
-                row.insertCell(7).textContent = promo.promo_end_date ? new Date(promo.promo_end_date).toLocaleDateString() : 'N/A'
-                row.insertCell(8).textContent = promo.user_id === userId ? 'Me' : 'Other';
-                row.insertCell(9).textContent = promo.status || 'N/A';
-
-                const actionCell = row.insertCell(8);
-                const editLink = document.createElement('a');
-                editLink.href = `promo-detail.html?id=${promo.id}`;
-                editLink.textContent = 'Edit';
-                editLink.classList.add('action-link');
-                actionCell.appendChild(editLink);
-            });
+            
+            allUserPromos = userPromos || []; // Cache the full list
+            applyTableFiltersAndRender(); // Render the table with the full list initially
 
         } catch (error) {
-
             promosMessage.textContent = 'Failed to load your promotions.';
             promosMessage.style.color = 'red';
         }
     }
 
-    if (logoutButton) {
-        logoutButton.addEventListener('click', async () => {
-            const { error } = await signOut();
-            if (!error) {
-                window.location.href = 'login.html';
-            } else {
+    // Loads the user's profile data into the form
+    async function loadUserProfileData(userId) {
+        profileEmailInput.value = currentUser.email || '';
+        displayNameInput.value = currentUser.user_metadata.display_name || '';
+        selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
+        profileEmojiAvatar.textContent = selectedEmoji;
 
-            }
-        });
+        const { data: profileData } = await supabase
+            .from('user_profiles')
+            .select('country, channel')
+            .eq('id', userId)
+            .single();
+        
+        if (profileData) {
+            profileCountryInput.value = profileData.country || '';
+            profileChannelInput.value = profileData.channel || '';
+        }
     }
 
-    checkUserSession();
+    // --- Event Listeners ---
+    logoutButton.addEventListener('click', async () => {
+        await signOut();
+        window.location.href = 'login.html';
+    });
+
+    saveProfileButton.addEventListener('click', async (event) => {
+        event.preventDefault();
+        saveProfileButton.disabled = true;
+        profileMessage.textContent = 'Saving...';
+
+        const { error } = await updateAuthUserProfile({
+            data: {
+                display_name: displayNameInput.value,
+                avatar_emoji: selectedEmoji
+            },
+        });
+
+        if (error) {
+            profileMessage.textContent = `Update failed: ${error.message}`;
+            profileMessage.style.color = 'red';
+        } else {
+            profileMessage.textContent = 'Profile updated successfully!';
+            profileMessage.style.color = 'green';
+        }
+        saveProfileButton.disabled = false;
+    });
+
+    // Setup for in-table filtering
+    document.querySelectorAll('.filter-icon').forEach(icon => {
+        icon.addEventListener('click', () => {
+            const filterRow = document.querySelector('.filter-row');
+            if (filterRow) {
+                const isVisible = filterRow.style.display !== 'none';
+                filterRow.style.display = isVisible ? 'none' : 'table-row';
+            }
+        });
+    });
+
+    document.querySelectorAll('.column-filter').forEach(input => {
+        input.addEventListener('keyup', applyTableFiltersAndRender);
+    });
+
+    // --- Initialization ---
+    await loadUserProfileData(currentUser.id);
+    await loadUserPromotions(currentUser.id);
 });

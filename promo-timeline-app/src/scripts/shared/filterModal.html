@@ -1,0 +1,113 @@
+<div id="filterModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <button id="closeFilterModalBtn" class="modal-close-button">&times;</button>
+        <h2>Advanced Filters</h2>
+        <form id="filterForm">
+            <div class="form-grid-container">
+
+                <div class="input-group">
+                    <label>Year</label>
+                    <div class="custom-multiselect" data-filter-key="year" data-placeholder="Select Year(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Year(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Status</label>
+                    <div class="custom-multiselect" data-filter-key="status" data-placeholder="Select Status(es)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Status(es)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Promo Type</label>
+                    <div class="custom-multiselect" data-filter-key="promo_type" data-placeholder="Select Type(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Type(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Channel</label>
+                    <div class="custom-multiselect" data-filter-key="channel_tags" data-placeholder="Select Channel(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Channel(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options">
+                             <div class="option-item">
+                                <input type="checkbox" value="mine" id="channel_tags-mine">
+                                <label for="channel_tags-mine">Mine</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Country</label>
+                    <div class="custom-multiselect" data-filter-key="country" data-placeholder="Select Country(ies)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Country(ies)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="filterBU">Business Unit (Auto)</label>
+                    <input type="text" id="filterBU" name="BU" readonly placeholder="Select a single country">
+                </div>
+
+                <div class="input-group">
+                    <label>Author</label>
+                    <div class="custom-multiselect" data-filter-key="author" data-placeholder="Select Author(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Author(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label>Owner</label>
+                    <div class="custom-multiselect" data-filter-key="owner" data-placeholder="Select Owner(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Owner(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+
+                 <div class="input-group full-width">
+                    <label>Promo Budget Type</label>
+                    <div class="custom-multiselect" data-filter-key="promo_budget_type" data-placeholder="Select Budget Type(s)">
+                        <div class="select-box">
+                            <span class="selected-text">Select Budget Type(s)</span>
+                            <span class="dropdown-arrow">▼</span>
+                        </div>
+                        <div class="dropdown-options"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-actions" style="margin-top: 2rem;">
+                <button type="button" id="resetFiltersBtn" class="logoutButton">Reset</button>
+                <button type="submit" class="updateButton">Apply Filters</button>
+            </div>
+        </form>
+    </div>
+</div>

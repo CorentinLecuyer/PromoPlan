@@ -182,6 +182,10 @@ const bgColorInput = document.getElementById('bgColor');
 const userIdInput = document.getElementById('userId');
 const promoPreviewDiv = document.getElementById('promoPreview');
 
+const borderTextColorInput = document.getElementById('borderTextColor');
+const titleTextColorInput = document.getElementById('TitleTextColor');
+const dateTextColorInput = document.getElementById('dateTextColor');
+const detailsTextColorInput = document.getElementById('detailsTextColor');
 // =================================================================
 // 4. APPLICATION LOGIC (HELPER FUNCTIONS)
 // =================================================================
@@ -219,6 +223,10 @@ function populateForm(promo) {
     borderColorInput.value = promo.bordercolor || '';
     bgColorInput.value = arrayToString(promo.bgcolor);
     userIdInput.value = promo.user_id || '';
+    borderTextColorInput.value = promo.bordertextcolor || '';
+    titleTextColorInput.value = promo.titletextcolor || '';
+    dateTextColorInput.value = promo.datetextcolor || '';
+    detailsTextColorInput.value = promo.detailtextcolor || '';
 }
 
 function getPromoDataFromForm() {
@@ -250,6 +258,10 @@ function getPromoDataFromForm() {
         BU: BU_final,
         bordercolor: borderColorInput.value,
         bgcolor: stringToArray(bgColorInput.value),
+        bordertextcolor: borderTextColorInput.value,
+        titletextcolor: titleTextColorInput.value,
+        datetextcolor: dateTextColorInput.value,
+        detailtextcolor: detailsTextColorInput.value,
     };
 }
 
@@ -283,17 +295,30 @@ function renderPromoPreview(promo) {
         inlineBgStyle = `background-color: ${promo.bgcolor};`;
     }
 
-    let timelineContentBorderAndBg = '';
-    let promoTypeBgColor = '';
-    let timelineDotBorder = '';
+    let timelineContentBorderStyle = '';
+    let promoTypeStyle = '';
+    let timelineDotBorderStyle = '';
 
     if (promo.bordercolor && promo.bordercolor !== '') {
-        timelineContentBorderAndBg = `border-left: 4px solid ${promo.bordercolor};`;
-        promoTypeBgColor = `background-color: ${promo.bordercolor};color:white;`;
-        timelineDotBorder = `border: 3px solid ${promo.bordercolor};`;
+        timelineContentBorderStyle = `border-left: 4px solid ${promo.bordercolor};`;
+        promoTypeStyle = `background-color: ${promo.bordercolor};`;
+        timelineDotBorderStyle = `border: 3px solid ${promo.bordercolor};`;
     }
-    const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
-    const combinedPromoTypeStyle = `style="${promoTypeBgColor}"`;
+    
+    // Add text color for the promo type badge
+    if (promo.bordertextcolor && promo.bordertextcolor !== '') {
+        promoTypeStyle += `color: ${promo.bordertextcolor};`;
+    } else {
+        promoTypeStyle += `color: white;`; // Default to white if not specified
+    }
+
+    const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderStyle}"`;
+    const combinedPromoTypeStyle = `style="${promoTypeStyle}"`;
+    
+    // Styles for other text elements
+    const titleStyle = promo.titletextcolor ? `style="color: ${promo.titletextcolor};"` : '';
+    const dateStyle = promo.datetextcolor ? `style="color: ${promo.datetextcolor};"` : '';
+    const detailsStyle = promo.detailtextcolor ? `style="color: ${promo.detailtextcolor};"` : '';
 
     // --- Dynamic Table Loading ---
     const dynamicTablesHTML = generateMultipleTablesHTML(promo.table_name);
@@ -303,13 +328,13 @@ function renderPromoPreview(promo) {
             <div class="timeline-item">
                 <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
                     <div class="promo-type ${promo.promo_type ? promo.promo_type.toLowerCase().replace(/\s+/g, '-') : ''}" ${combinedPromoTypeStyle}>${promo.promo_type || 'N/A'}</div>
-                    <div class="promo-title">${promo.promo_title || 'New Promo'}</div>
-                    <div class="promo-date"> ${formattedDate || 'No Date'} </div>
-                    <div class="promo-details">
+                    <div class="promo-title" ${titleStyle}>${promo.promo_title || 'New Promo'}</div>
+                    <div class="promo-date" ${dateStyle}> ${formattedDate || 'No Date'} </div>
+                    <div class="promo-details" ${detailsStyle}>
                         ${(promo.promo_details && promo.promo_details.map(line => `• ${line}<br>`).join("")) || 'No details.'}
                     </div>
                     <div class="channel-tags">
-                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeBgColor}">${ch}</span>`).join("")) || 'No channels.'}
+                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeStyle}">${ch}</span>`).join("")) || 'No channels.'}
                     </div>
 
                     ${dynamicTablesHTML}
@@ -317,7 +342,7 @@ function renderPromoPreview(promo) {
                     ${(hasBudget || hasMACO || hasUpliftHL || hasUpliftMachine || hasROI) ? `
                         <h3 class="table-title" style="margin-top: 10px;">Budget Details / Financials</h3>
                         <table class="promo-table-budget" style="font-size: 0.8em; width: 100%;">
-                            <thead>
+                            <thead ${combinedPromoTypeStyle}>
                                 <tr>
                                     <th>Budget</th>
                                     <th>Budget Type</th>
@@ -329,31 +354,31 @@ function renderPromoPreview(promo) {
                             </thead>
                             <tbody>
                             ${(promo.promo_budget && promo.promo_budget.length > 0) ? promo.promo_budget.map((budget, index) => {
-        const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
-        const displayFinancials = index === 0;
-        return `
+                                const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
+                                const displayFinancials = index === 0;
+                                return `
                                     <tr>
                                         <th>${budget.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</th>
+                                            style: 'currency',
+                                            currency: 'EUR',
+                                            minimumFractionDigits: 0,
+                                            maximumFractionDigits: 0
+                                        })}</th>
                                         <th><span class="channel-tag-budget">${budgetType}</span></th>
                                         ${displayFinancials ?
-                `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
+                                            `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_machine || 0} Machines</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.ROI || 'TBC'}</th>
                                             <th rowspan="${promo.promo_budget.length}">${(promo.MACO || 0).toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                })}</th>`
-                : ''}
+                                                style: 'currency',
+                                                currency: 'EUR',
+                                                minimumFractionDigits: 0,
+                                                maximumFractionDigits: 0
+                                            })}</th>`
+                                            : ''}
                                     </tr>
                                 `;
-    }).join("") : `
+                            }).join("") : `
                                 <tr>
                                     <th>-</th>
                                     <th>-</th>
@@ -361,17 +386,17 @@ function renderPromoPreview(promo) {
                                     <th>${promo.promo_uplift_machine || 0} Machines</th>
                                     <th>${promo.ROI || 'TBC'}</th>
                                     <th>${(promo.MACO || 0).toLocaleString('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    })}</th>
+                                        style: 'currency',
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 0,
+                                        maximumFractionDigits: 0
+                                    })}</th>
                                 </tr>`}
                             </tbody>
                         </table>` : ""}
                 </div>
                 <a href="${promo.link || '#'}" target="_blank" style="text-decoration: none;">
-                    <div class="icon-container" style="${timelineDotBorder}${iconContainerStyle}"">
+                    <div class="icon-container" style="${timelineDotBorderStyle}${iconContainerStyle}">
                         <div class="icon-emoji">${promo.icon || '❓'}</div>
                     </div>
                 </a>

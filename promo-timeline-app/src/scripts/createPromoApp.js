@@ -7,7 +7,7 @@ import { supabase, signOut } from './supabaseAuth.js';
 import { createPromo, createPromoTableWithFunction } from './supabaseClient.js';
 import { stringToArray, stringToNumberArray, arrayToString, formatDateRange } from './utils.js';
 import { generateMultipleTablesHTML, getTableDataById } // getTableDataById is used by the modal
-from './renderers.js';
+    from './renderers.js';
 
 // =================================================================
 // 2. ALPINE COMPONENT FOR TABLE MODAL
@@ -153,6 +153,11 @@ const borderColorInput = document.getElementById('borderColor');
 const bgColorInput = document.getElementById('bgColor');
 const promoPreviewDiv = document.getElementById('promoPreview');
 
+const borderTextColorInput = document.getElementById('borderTextColor');
+const titleTextColorInput = document.getElementById('TitleTextColor');
+const dateTextColorInput = document.getElementById('dateTextColor');
+const detailsTextColorInput = document.getElementById('detailsTextColor');
+
 let emojiMartData = null;
 let picker = null;
 
@@ -196,6 +201,11 @@ function getPromoDataFromForm() {
         BU: buValue,
         bordercolor: borderColorInput.value,
         bgcolor: stringToArray(bgColorInput.value),
+        bordertextcolor: borderTextColorInput.value,
+        titletextcolor: titleTextColorInput.value,
+        datetextcolor: dateTextColorInput.value,
+        detailtextcolor: detailsTextColorInput.value,
+
     };
 }
 
@@ -239,8 +249,24 @@ function renderPromoPreview(promo) {
         promoTypeBgColor = `background-color: ${promo.bordercolor};color:white;`;
         timelineDotBorder = `border: 3px solid ${promo.bordercolor};`;
     }
+
+        // Add text color for the promo type badge
+    if (promo.bordertextcolor && promo.bordertextcolor !== '') {
+        promoTypeStyle += `color: ${promo.bordertextcolor};`;
+    } else {
+        promoTypeStyle += `color: white;`; // Default to white if not specified
+    }
+
+
     const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
     const combinedPromoTypeStyle = `style="${promoTypeBgColor}"`;
+
+
+        // Styles for other text elements
+    const titleStyle = promo.titletextcolor ? `style="color: ${promo.titletextcolor};"` : '';
+    const dateStyle = promo.datetextcolor ? `style="color: ${promo.datetextcolor};"` : '';
+    const detailsStyle = promo.detailtextcolor ? `style="color: ${promo.detailtextcolor};"` : '';
+
 
     // --- Dynamic Table Loading ---
     const dynamicTablesHTML = generateMultipleTablesHTML(promo.table_name);
@@ -250,9 +276,9 @@ function renderPromoPreview(promo) {
             <div class="timeline-item">
                 <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
                     <div class="promo-type ${promo.promo_type ? promo.promo_type.toLowerCase().replace(/\s+/g, '-') : ''}" ${combinedPromoTypeStyle}>${promo.promo_type || 'N/A'}</div>
-                    <div class="promo-title">${promo.promo_title || 'New Promo'}</div>
-                    <div class="promo-date"> ${formattedDate || 'No Date'} </div>
-                    <div class="promo-details">
+                    <div class="promo-title" ${titleStyle}>${promo.promo_title || 'New Promo'}</div>
+                    <div class="promo-date" ${dateStyle}> ${formattedDate || 'No Date'} </div>
+                    <div class="promo-details" ${detailsStyle}>
                         ${(promo.promo_details && promo.promo_details.map(line => `• ${line}<br>`).join("")) || 'No details.'}
                     </div>
                     <div class="channel-tags">
@@ -264,7 +290,7 @@ function renderPromoPreview(promo) {
                     ${(hasBudget || hasMACO || hasUpliftHL || hasUpliftMachine || hasROI) ? `
                         <h3 class="table-title" style="margin-top: 10px;">Budget Details / Financials</h3>
                         <table class="promo-table-budget" style="font-size: 0.8em; width: 100%;">
-                            <thead>
+                            <thead ${combinedPromoTypeStyle}>
                                 <tr>
                                     <th>Budget</th>
                                     <th>Budget Type</th>

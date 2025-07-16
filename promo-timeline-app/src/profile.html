@@ -8,6 +8,43 @@
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="img/favicon%20small.ico" type="image/png" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css">
+
+    <!-- Styles for the new in-table filter UI -->
+    <style>
+        #userPromosTable th {
+            position: relative;
+        }
+
+        input[type="text"],
+        textarea,
+        select {
+            padding: 4px;
+        }
+
+        .filter-icon {
+            cursor: pointer;
+            font-size: 14px;
+            margin-left: 12px;
+            display: inline-block;
+        }
+
+        .filter-row td {
+            background-color: #f8f9fa;
+        }
+
+        .column-filter {
+            width: 100%;
+            border-radius: 4px;
+            font-size: 7px;
+        }
+        .create-button:hover{
+            background-color: #27ae60;
+        }
+        .create-button{
+            background-color: #31d14c; 
+            text-decoration: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -18,28 +55,25 @@
                 <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
             </a>
         </div>
-        <div class="filter-block"></div>
 
         <div>
-        <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
-          <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
-        </a>
-                    <a href="PromoTimeline.html" style="
+            <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
+                <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
+            </a>
+            <a href="PromoTimeline.html" style="
             display: inline-block;
             margin-left: 10px;
             text-decoration: none;
           ">
                 <label style="font-weight: 400" class="multiselect-header">Timeline View ↕️</label>
             </a>
-        <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
                 <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
             </a>
-        <button id="logoutButton" class="logoutButton" style="margin-left: 10px; display: inline-block;">
-          Logout
-        </button>
-      </div>
-
-
+            <button id="logoutButton" class="logoutButton" style="margin-left: 10px; display: inline-block;">
+                Logout
+            </button>
+        </div>
     </div>
 
     <div class="login-page-wrapper profile-page-wrapper">
@@ -48,19 +82,14 @@
                 <h1>My Profile</h1>
 
                 <div class="profile-avatar-upload">
-
                     <div class="input-group" style="width: 100%; margin-top: 15px">
-
                         <div class="profile-avatar-upload">
                             <span id="profileEmojiAvatar" class="avatar-emoji"></span>
-
                             <button type="button" id="openEmojiPickerButton" class="multiselect-header">
                                 Pick Emoji
                             </button>
-
                             <div id="emojiPickerContainer" style="display: none; margin-top: 10px"></div>
                         </div>
-
                         <form id="profileUpdateForm"></form>
                     </div>
                 </div>
@@ -74,7 +103,6 @@
                         <label for="profileEmail">Email</label>
                         <input type="email" id="profileEmail" name="profileEmail" disabled />
                     </div>
-
                     <div class="input-group">
                         <label for="profileCountry">Country</label>
                         <input type="text" id="profileCountry" name="profileCountry" disabled />
@@ -93,10 +121,12 @@
             <div class="profile-box">
                 <div class="header-promo">
                     <h1 style="">My Promotions</h1>
-                    <a href="create-promo.html"
-                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
-                        <button class="updateButton">➕ New Promo</button>
-                    </a>
+                    <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                        <button class="multiselect-header filter-icon">Find in table<span>🔍</span></button>
+                        <a href="create-promo.html" class="create-button"
+                            >➕ New Promo
+                        </a>
+                    </div>
                 </div>
                 <div class="promo-table-container">
                     <table id="userPromosTable" class="promo-table-HomePage">
@@ -108,11 +138,24 @@
                                 <th>Channels</th>
                                 <th>Icon</th>
                                 <th>Author</th>
-                                <th>Promo start date</th>
-                                <th>Promo end date</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                                 <th>Actions</th>
                                 <th>Owner</th>
                                 <th>Status</th>
+                            </tr>
+                            <tr class="filter-row" style="display: none;">
+                                <td><input type="text" class="column-filter" data-column-index="0"></td>
+                                <td><input type="text" class="column-filter" data-column-index="1"></td>
+                                <td><input type="text" class="column-filter" data-column-index="2"></td>
+                                <td><input type="text" class="column-filter" data-column-index="3"></td>
+                                <td><input type="text" class="column-filter" data-column-index="4"></td>
+                                <td><input type="text" class="column-filter" data-column-index="5"></td>
+                                <td><input type="text" class="column-filter" data-column-index="6"></td>
+                                <td><input type="text" class="column-filter" data-column-index="7"></td>
+                                <td><!-- No filter for Actions --></td>
+                                <td><input type="text" class="column-filter" data-column-index="9"></td>
+                                <td><input type="text" class="column-filter" data-column-index="10"></td>
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -126,8 +169,8 @@
         </div>
     </div>
 
-
     <script type="module" src="scripts/profileApp.js"></script>
+    <!-- The filter modal is not used on this page for table filtering -->
 </body>
 
 </html>

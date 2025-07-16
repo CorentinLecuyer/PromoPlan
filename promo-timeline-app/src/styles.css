@@ -81,7 +81,7 @@ p {
     width: 85%;
     margin-left: 7.5%;
     min-height: 30px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
 }
 
 .logo {
@@ -965,11 +965,11 @@ textarea[disabled]:focus {
 .login-box button {
     border: none;
     padding: 12px 20px;
-    /* Base padding */
+
     font-size: 1em;
-    /* Base font size */
+
     font-weight: 600;
-    /* Base font weight */
+
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -999,7 +999,8 @@ textarea[disabled]:focus {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.upload-button {
+.upload-button,
+.create-button {
     /* Specific to Icon Picker */
     background-color: #6c757d;
     color: white;
@@ -1010,7 +1011,20 @@ textarea[disabled]:focus {
     font-weight: normal;
     /* Normal weight */
     box-shadow: none;
+    border-radius: 4px;
     /* No shadow */
+}
+
+.create-Button {
+    background-color: #31d14c;
+    color: white;
+
+}
+
+.create-Button:hover {
+    background-color: #27ae60;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .upload-button:hover {
@@ -1104,6 +1118,7 @@ textarea[disabled]:focus {
     /* Subtle shadow */
     text-align: center;
     height: 100%;
+   
     border-left: #0000001f 1px solid;
     /* Left border for visual separation */
 }
@@ -1112,6 +1127,7 @@ textarea[disabled]:focus {
     font-size: 2.2em;
     /* Restored larger size */
     color: #212529;
+    margin-bottom: 10px;
     text-align: center;
     /* Explicitly centered */
 }
@@ -1128,7 +1144,7 @@ textarea[disabled]:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     text-align: center;
     position: relative;
     /* Essential for absolute positioning of #emojiPickerContainer */
@@ -1355,6 +1371,7 @@ em-emoji-picker {
 
     .profile-promos-section {
         align-items: flex-start;
+        overflow-y: scroll;
     }
 
     /* Grid layout for edit form on larger screens (2 columns on iPad, up to 4 on desktop) */
@@ -1492,4 +1509,86 @@ em-emoji-picker {
 .header-promo {
     position: relative;
     text-align: center;
+}
+
+.custom-multiselect {
+    position: relative;
+    user-select: none;
+}
+
+.custom-multiselect .select-box {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-multiselect .select-box:hover {
+    border-color: #aaa;
+}
+
+.custom-multiselect .select-box.open {
+    border-color: #FFCC02;
+    box-shadow: 0 0 0 3px rgba(255, 204, 2, 0.3);
+}
+
+.custom-multiselect .selected-text {
+    color: #495057;
+    font-size: 14px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.custom-multiselect .dropdown-options {
+    display: none;
+    position: absolute;
+    top: 105%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    /* Above modal content */
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.custom-multiselect .dropdown-options.show {
+    display: block;
+}
+
+.custom-multiselect .option-item {
+    padding: 10px 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.custom-multiselect .option-item:hover {
+    background-color: #f5f5f5;
+}
+
+.custom-multiselect .option-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.custom-multiselect .option-item label {
+    margin: 0;
+    font-size: 14px;
+    font-weight: normal;
+    color: #333;
+    cursor: pointer;
+    flex-grow: 1;
 }
