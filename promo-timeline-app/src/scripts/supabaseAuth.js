@@ -96,51 +96,72 @@ export async function getUser() {
 
 /**
  * Updates the current user's profile data and authentication details.
- * @param {object} profileUpdates - An object containing profile data like { username, avatar_url, phone }.
+ * @param {object} profileUpdates - An object containing profile data like { first_name, last_name, phone, etc. }.
+ * @returns {Promise<object>} Supabase response object { data, error }.
+ */
+
+
+
+/**
+ * Updates the current user's profile data and authentication details.
+ * @param {object} profileUpdates - An object containing profile data like { data: { display_name, avatar_emoji }, first_name, etc. }.
  * @returns {Promise<object>} Supabase response object { data, error }.
  */
 export async function updateUserProfile(profileUpdates) {
     try {
-        // --- This is the new, safer logic ---
-        const updateData = {};
-        const profileData = {};
+        // This will be the final payload for supabase.auth.updateUser()
+        const authUpdatePayload = {};
+        // This will be the final payload for the 'user_profiles' table
+        const profileTablePayload = {};
 
-        // Separate auth fields (like phone) from profile table fields (like username)
-        if (profileUpdates.username) {
-            profileData.username = profileUpdates.username;
+        // --- Correctly map the incoming data ---
+
+        // 1. Handle metadata fields, which are passed inside a 'data' object.
+        if (profileUpdates.data) {
+            authUpdatePayload.data = profileUpdates.data;
         }
-        if (profileUpdates.avatar_url) {
-            profileData.avatar_url = profileUpdates.avatar_url;
+        
+        // 2. Handle fields for the custom 'user_profiles' table
+        if (profileUpdates.first_name) {
+            profileTablePayload.first_name = profileUpdates.first_name;
         }
-
-        // IMPORTANT: Only add the phone number to the auth update object
-        // if it's a non-empty string.
-        if (profileUpdates.phone && profileUpdates.phone.trim() !== '') {
-            updateData.phone = profileUpdates.phone;
+        if (profileUpdates.last_name) {
+            profileTablePayload.last_name = profileUpdates.last_name;
         }
-        // --- End of new logic ---
-
-
-        // First, update the user's authentication data (e.g., phone number)
-        // This will only send the phone field if it was provided.
-        const { data: authData, error: authError } = await supabase.auth.updateUser(updateData);
-
-        if (authError) {
-            // Re-throw the error to be caught by the calling function
-            throw authError;
+        if (profileUpdates.country) {
+            profileTablePayload.country = profileUpdates.country;
+        }
+        if (profileUpdates.channel) {
+            profileTablePayload.channel = profileUpdates.channel;
         }
 
-        // Next, update the user's public profile in the 'profiles' table
-        const user = authData.user;
-        const { error: profileError } = await supabase
-            .from('profiles') // Assuming your profile table is named 'profiles'
-            .update(profileData)
-            .eq('id', user.id);
+        // --- Perform the updates ---
 
-        if (profileError) {
-            throw profileError;
+        // Get the current user to know their ID for the profile table update
+        const { data: { user }, error: userError } = await supabase.auth.getUser();
+        if (userError || !user) {
+            throw userError || new Error("User not found and is required for updates.");
         }
 
+        // A. Update the auth user's data (metadata)
+        // Only call the update function if there's something to update.
+        if (Object.keys(authUpdatePayload).length > 0) {
+            const { error: authError } = await supabase.auth.updateUser(authUpdatePayload);
+            if (authError) throw authError;
+        }
+
+        // B. Update the separate user_profiles table
+        // Only call the update function if there's something to update.
+        if (Object.keys(profileTablePayload).length > 0) {
+            const { error: profileError } = await supabase
+                .from('user_profiles')
+                .update(profileTablePayload)
+                .eq('id', user.id);
+            if (profileError) throw profileError;
+        }
+
+        // If we reach here, the operations were successful.
+        // Return the latest user data.
         return { data: user, error: null };
 
     } catch (error) {
@@ -148,3 +169,4 @@ export async function updateUserProfile(profileUpdates) {
         return { data: null, error };
     }
 }
+

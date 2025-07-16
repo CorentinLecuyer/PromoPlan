@@ -34,7 +34,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     const profileUpdateForm = document.getElementById('profileUpdateForm');
     const displayNameInput = document.getElementById('displayName');
     const profileEmailInput = document.getElementById('profileEmail');
-    const phoneNumberInput = document.getElementById('phoneNumber');
     const profileCountryInput = document.getElementById('profileCountry');
     const profileChannelInput = document.getElementById('profileChannel');
     const saveProfileButton = document.getElementById('saveProfileButton');
@@ -71,7 +70,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         try {
             profileEmailInput.value = currentUser.email || '';
             displayNameInput.value = currentUser.user_metadata.display_name || '';
-            phoneNumberInput.value = currentUser.phone || '';
 
             selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤'; // Initializes selectedEmoji from DB or default
             profileEmojiAvatar.textContent = selectedEmoji;
@@ -186,7 +184,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayMessage('Saving changes...', false);
 
         const newDisplayName = displayNameInput.value;
-        const newPhoneNumber = phoneNumberInput.value;
         const emojiToSave = selectedEmoji;
 
 
@@ -201,7 +198,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                     display_name: newDisplayName,
                     avatar_emoji: emojiToSave
                 },
-                phone: newPhoneNumber
             });
 
 
