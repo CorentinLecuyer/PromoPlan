@@ -10,15 +10,20 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
- * Signs up a new user with email and password.
+ * Signs up a new user with email, password, and metadata.
  * @param {string} email - User's email.
  * @param {string} password - User's password.
- * @returns {Promise<object>} Supabase auth response (user and session or error).
+ * @param {object} metadata - An object containing data like { first_name, last_name }.
+ * @returns {Promise<object>} Supabase auth response.
  */
-export async function signUp(email, password) {
+export async function signUp(email, password, metadata) {
     const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
+        options: {
+            // This 'data' object is passed to the trigger that creates the user profile
+            data: metadata
+        }
     });
     if (error) {
         console.error('Sign up error:', error.message);
