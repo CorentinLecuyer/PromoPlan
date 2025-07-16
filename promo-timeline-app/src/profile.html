@@ -19,31 +19,27 @@
             </a>
         </div>
         <div class="filter-block"></div>
+
         <div>
-            <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
-                <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
-            </a>
-            <a href="PromoTimeline.html" style="
+        <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
+          <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
+        </a>
+                    <a href="PromoTimeline.html" style="
             display: inline-block;
             margin-left: 10px;
             text-decoration: none;
           ">
                 <label style="font-weight: 400" class="multiselect-header">Timeline View ↕️</label>
             </a>
-            <a href="3PP.html" style="
-            display: inline-block;
-            margin-left: 10px;
-            text-decoration: none;
-          ">
-                <label style="font-weight: 400; text-decoration: none" class="multiselect-header">3PP View 🍺</label>
-            </a>
-            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+        <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
                 <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
             </a>
-            <button id="logoutButton" class="logoutButton" style="margin-left: 10px">
-                Logout
-            </button>
-        </div>
+        <button id="logoutButton" class="logoutButton" style="margin-left: 10px; display: inline-block;">
+          Logout
+        </button>
+      </div>
+
+
     </div>
 
     <div class="login-page-wrapper profile-page-wrapper">
@@ -98,7 +94,13 @@
 
         <div class="profile-promos-section">
             <div class="profile-box">
-                <h1>My Promotions</h1>
+                <div class="header-promo">
+                    <h1 style="">My Promotions</h1>
+                    <a href="create-promo.html"
+                        style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
+                        <button class="updateButton">➕ New Promo</button>
+                    </a>
+                </div>
                 <div class="promo-table-container">
                     <table id="userPromosTable" class="promo-table-HomePage">
                         <thead>

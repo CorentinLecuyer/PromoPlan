@@ -72,6 +72,30 @@ export async function fetchDisplayTables() {
     }
 }
 
+
+/**
+ * Creates a new promotional item in the database.
+ * @param {object} promoData - An object containing the new promotion's details.
+ * @returns {Promise<object>} Supabase response object { data, error }.
+ */
+export async function createPromo(promoData) {
+    // Remove the 'id' field as the database will generate it automatically
+    const { id, ...newPromoData } = promoData;
+
+    const { data, error } = await supabase
+        .from('promo_items')
+        .insert([newPromoData])
+        .select() // Use .select() to return the newly created row, including its new ID
+        .single(); // Expect a single object back
+
+    if (error) {
+        console.error('Supabase createPromo error:', error.message);
+    }
+    return { data, error };
+}
+
+
+
 /**
  * Fetches a single promotional item by its ID.
  * @param {string} promoId - The ID of the promotion to fetch.
@@ -100,6 +124,8 @@ export async function fetchPromoById(promoId) {
         return { data: null, error: error };
     }
 }
+
+
 
 /**
  * Updates an existing promotional item.

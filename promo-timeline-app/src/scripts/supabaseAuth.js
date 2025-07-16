@@ -95,15 +95,56 @@ export async function getUser() {
 }
 
 /**
- * Updates an authenticated user's profile information (email, password, metadata, phone).
- * Only authenticated users can update their own profile.
- * @param {object} updates - Object containing fields to update (e.g., { email, password, data: { display_name }, phone }).
- * @returns {Promise<object>} Supabase auth response (user and session or error).
+ * Updates the current user's profile data and authentication details.
+ * @param {object} profileUpdates - An object containing profile data like { username, avatar_url, phone }.
+ * @returns {Promise<object>} Supabase response object { data, error }.
  */
-export async function updateUserProfile(updates) {
-    const { data, error } = await supabase.auth.updateUser(updates);
-    if (error) {
+export async function updateUserProfile(profileUpdates) {
+    try {
+        // --- This is the new, safer logic ---
+        const updateData = {};
+        const profileData = {};
+
+        // Separate auth fields (like phone) from profile table fields (like username)
+        if (profileUpdates.username) {
+            profileData.username = profileUpdates.username;
+        }
+        if (profileUpdates.avatar_url) {
+            profileData.avatar_url = profileUpdates.avatar_url;
+        }
+
+        // IMPORTANT: Only add the phone number to the auth update object
+        // if it's a non-empty string.
+        if (profileUpdates.phone && profileUpdates.phone.trim() !== '') {
+            updateData.phone = profileUpdates.phone;
+        }
+        // --- End of new logic ---
+
+
+        // First, update the user's authentication data (e.g., phone number)
+        // This will only send the phone field if it was provided.
+        const { data: authData, error: authError } = await supabase.auth.updateUser(updateData);
+
+        if (authError) {
+            // Re-throw the error to be caught by the calling function
+            throw authError;
+        }
+
+        // Next, update the user's public profile in the 'profiles' table
+        const user = authData.user;
+        const { error: profileError } = await supabase
+            .from('profiles') // Assuming your profile table is named 'profiles'
+            .update(profileData)
+            .eq('id', user.id);
+
+        if (profileError) {
+            throw profileError;
+        }
+
+        return { data: user, error: null };
+
+    } catch (error) {
         console.error('Update user profile error:', error.message);
+        return { data: null, error };
     }
-    return { data, error };
 }

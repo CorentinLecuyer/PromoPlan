@@ -75,10 +75,13 @@ p {
 /* --- Header --- */
 .header {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    margin: 10px;
+    position: relative;
+    width: 85%;
+    margin-left: 7.5%;
     min-height: 30px;
+    margin-bottom: 5px;
 }
 
 .logo {
@@ -226,7 +229,7 @@ p {
     height: 100%;
     overflow-y: auto;
     padding-left: 5px;
-    
+
 }
 
 .timeline {
@@ -250,8 +253,8 @@ p {
     position: relative;
     margin: 20px 0 30px 0;
     opacity: 0;
-   
-    
+
+
     animation: slideIn 0.6s ease-out forwards;
 }
 
@@ -268,6 +271,7 @@ p {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -286,13 +290,18 @@ p {
 }
 
 .timeline-content.full-width-content {
-    width: 93%; /* Take full width */
+    width: 93%;
+    /* Take full width */
     /* Remove any margin-left that might push it */
-    margin-left: 0 !important; /* Important to override default even/odd margins if they apply */
-    border-right: none !important; /* Remove right border if it was for even items */
-    border-left: 4px solid var(--timeline-border-color, #FFCC02) !important; /* Ensure left border is always present or dynamic */
+    margin-left: 0 !important;
+    /* Important to override default even/odd margins if they apply */
+    border-right: none !important;
+    /* Remove right border if it was for even items */
+    border-left: 4px solid var(--timeline-border-color, #FFCC02) !important;
+    /* Ensure left border is always present or dynamic */
     /* You might need to adjust padding or other styles if it looks too stretched */
 }
+
 .timeline-content:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
@@ -442,7 +451,8 @@ p {
     top: -8px;
     right: 10px;
     background: #FFCC02;
-    color: white; /* Default color if not overridden by specific type */
+    color: white;
+    /* Default color if not overridden by specific type */
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 9px;
@@ -451,12 +461,31 @@ p {
 }
 
 /* Specific promo type colors - ensure these override the default .promo-type */
-.promo-type.special-offer { background: #ff4a02; }
-.promo-type.discount { background: #FFCC02; color: #333; } /* Overrides default color */
-.promo-type.free-beer { background: #0206ff; }
-.promo-type.new-product { background: #00c000; }
-.promo-type.loyalty-program { background: #ff00f2; }
-.promo-type.training { background: #1a1a1a; }
+.promo-type.special-offer {
+    background: #ff4a02;
+}
+
+.promo-type.discount {
+    background: #FFCC02;
+    color: #333;
+}
+
+/* Overrides default color */
+.promo-type.free-beer {
+    background: #0206ff;
+}
+
+.promo-type.new-product {
+    background: #00c000;
+}
+
+.promo-type.loyalty-program {
+    background: #ff00f2;
+}
+
+.promo-type.training {
+    background: #1a1a1a;
+}
 
 /* --- Markers --- */
 .month-marker {
@@ -522,9 +551,19 @@ p {
 }
 
 @keyframes pulse {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.04); }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    50% {
+        transform: scale(1.04);
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 /* --- Tables (General) --- */
@@ -556,7 +595,7 @@ p {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.promo-table-budget{
+.promo-table-budget {
     line-height: 2.5;
 }
 
@@ -564,7 +603,8 @@ p {
 .promo-tableblackTable-header,
 .promo-table-HomePage-header,
 .threePP-table-header {
-    font-size: 12px; /* Original was 14px for blackTable-header, changed to 12px for consistency here */
+    font-size: 12px;
+    /* Original was 14px for blackTable-header, changed to 12px for consistency here */
     font-weight: 600;
     color: #2c3e50;
     margin-bottom: 8px;
@@ -581,7 +621,8 @@ p {
     align-items: center;
 }
 
-.promo-table-budget thead { /* Specific header for budget table */
+.promo-table-budget thead {
+    /* Specific header for budget table */
     background-color: #FFCC02;
     color: #333;
     text-align: center;
@@ -593,17 +634,36 @@ p {
 .promo-table-HomePage th,
 .threePP-table th {
     padding: 10px 12px;
-    text-align: left; /* Default alignment, specific tables override */
+    text-align: left;
+    /* Default alignment, specific tables override */
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 /* Specific th font sizes */
-.promo-tableblackTable th { font-size: 14px; }
-.promo-table-HomePage th { font-size: 12px; text-align: center; } /* Overrides common text-align */
-.threePP-table th { font-size: 18px; text-align: center; } /* Overrides common text-align */
-.promo-table-budget th { font-size: 12px; font-weight: 400; } /* Overrides common font-weight and aligns center */
+.promo-tableblackTable th {
+    font-size: 14px;
+}
+
+.promo-table-HomePage th {
+    font-size: 12px;
+    text-align: center;
+}
+
+/* Overrides common text-align */
+.threePP-table th {
+    font-size: 18px;
+    text-align: center;
+}
+
+/* Overrides common text-align */
+.promo-table-budget th {
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Overrides common font-weight and aligns center */
 
 
 /* Common table body (tbody) styling */
@@ -612,7 +672,9 @@ p {
 .threePP-table tbody {
     background-color: white;
 }
-.promo-table-budget tbody { /* Specific body for budget table */
+
+.promo-table-budget tbody {
+    /* Specific body for budget table */
     text-align: center;
     background-color: lightyellow;
 }
@@ -621,17 +683,28 @@ p {
 .promo-tableblackTable td,
 .promo-table-HomePage td,
 .threePP-table td {
-    padding: 8px 12px; /* Original was 8px 12px for blackTable, 8px 10px for HomePage/threePP */
+    padding: 8px 12px;
+    /* Original was 8px 12px for blackTable, 8px 10px for HomePage/threePP */
     font-size: 14px;
     color: #34495e;
     border-bottom: 1px solid #f1f2f6;
-    text-align: center; /* Default alignment, specific tables override */
+    text-align: center;
+    /* Default alignment, specific tables override */
 }
 
 /* Specific td padding & alignment */
-.promo-tableblackTable td { text-align: left; } /* Overrides common text-align */
-.promo-table-HomePage td { padding: 8px 10px; }
-.threePP-table td { padding: 8px 10px; }
+.promo-tableblackTable td {
+    text-align: left;
+}
+
+/* Overrides common text-align */
+.promo-table-HomePage td {
+    padding: 8px 10px;
+}
+
+.threePP-table td {
+    padding: 8px 10px;
+}
 
 /* Last row border removal */
 .promo-tableblackTable tr:last-child td,
@@ -699,13 +772,28 @@ p {
     opacity: 0;
 }
 
-.promo-box { background: linear-gradient(90deg, #3dca46, #13c81f); }
-.promo-box-red { background: linear-gradient(90deg, #ff0707, #e71313); }
-.promo-box-orange { background: linear-gradient(90deg, #ff9100, #f19318); }
+.promo-box {
+    background: linear-gradient(90deg, #3dca46, #13c81f);
+}
+
+.promo-box-red {
+    background: linear-gradient(90deg, #ff0707, #e71313);
+}
+
+.promo-box-orange {
+    background: linear-gradient(90deg, #ff9100, #f19318);
+}
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- Login Page Styles --- */
@@ -722,7 +810,8 @@ p {
     display: flex;
     width: 100%;
     min-height: 100vh;
-    flex-direction: column; /* Default to column layout for small screens */
+    flex-direction: column;
+    /* Default to column layout for small screens */
 }
 
 .login-image-section {
@@ -767,7 +856,8 @@ p {
     gap: 20px;
 }
 
-.login-box1, .login-box2 {
+.login-box1,
+.login-box2 {
     flex: 1;
 }
 
@@ -782,9 +872,12 @@ p {
 .input-group {
     margin-bottom: 20px;
     text-align: left;
-    display: flex; /* Moved from previous sections, now base input-group */
-    flex-direction: column; /* Label above input by default */
-    position: relative; /* For potential error messages positioning */
+    display: flex;
+    /* Moved from previous sections, now base input-group */
+    flex-direction: column;
+    /* Label above input by default */
+    position: relative;
+    /* For potential error messages positioning */
 }
 
 .input-group label {
@@ -813,7 +906,8 @@ select {
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
     background-color: #fcfcfc;
-    color: #495057; /* Consistent text color */
+    color: #495057;
+    /* Consistent text color */
 }
 
 /* Specific styling for select arrow */
@@ -846,9 +940,12 @@ select:focus {
 input[disabled],
 select[disabled],
 textarea[disabled] {
-    background-color: #e9ecef; /* Distinct light gray background */
-    color: #6c757d; /* Muted text color */
-    border-color: #dee2e6; /* Softer border */
+    background-color: #e9ecef;
+    /* Distinct light gray background */
+    color: #6c757d;
+    /* Muted text color */
+    border-color: #dee2e6;
+    /* Softer border */
     cursor: not-allowed;
     opacity: 0.9;
     box-shadow: none;
@@ -867,9 +964,12 @@ textarea[disabled]:focus {
 .upload-button,
 .login-box button {
     border: none;
-    padding: 12px 20px; /* Base padding */
-    font-size: 1em; /* Base font size */
-    font-weight: 600; /* Base font weight */
+    padding: 12px 20px;
+    /* Base padding */
+    font-size: 1em;
+    /* Base font size */
+    font-weight: 600;
+    /* Base font weight */
     border-radius: 6px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -880,8 +980,10 @@ textarea[disabled]:focus {
     background-color: #e74c3c;
     color: white;
 }
+
 .logoutButton:hover {
-    background-color: #c0392b !important; /* Kept !important to override the previous generic button hover */
+    background-color: #c0392b !important;
+    /* Kept !important to override the previous generic button hover */
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
@@ -890,24 +992,33 @@ textarea[disabled]:focus {
     background-color: #31d14c;
     color: white;
 }
+
 .updateButton:hover {
     background-color: #27ae60;
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.upload-button { /* Specific to Icon Picker */
+.upload-button {
+    /* Specific to Icon Picker */
     background-color: #6c757d;
     color: white;
-    padding: 8px 15px; /* Smaller padding */
-    font-size: 0.9em; /* Smaller font size */
-    font-weight: normal; /* Normal weight */
-    box-shadow: none; /* No shadow */
+    padding: 8px 15px;
+    /* Smaller padding */
+    font-size: 0.9em;
+    /* Smaller font size */
+    font-weight: normal;
+    /* Normal weight */
+    box-shadow: none;
+    /* No shadow */
 }
+
 .upload-button:hover {
     background-color: #5a6268;
-    transform: none; /* No transform */
-    box-shadow: none; /* No shadow */
+    transform: none;
+    /* No transform */
+    box-shadow: none;
+    /* No shadow */
 }
 
 /* Login Box button general style */
@@ -918,11 +1029,13 @@ textarea[disabled]:focus {
     width: 100%;
     margin-top: 15px;
 }
+
 .login-box button:hover {
     background: linear-gradient(90deg, rgb(0, 0, 0) 0%, rgb(10, 10, 10) 65%, rgb(30, 30, 30) 100%);
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 .login-box button:active {
     transform: scale(0.98);
     background: rgb(0, 0, 0);
@@ -934,10 +1047,12 @@ textarea[disabled]:focus {
     color: #333;
     font-weight: 700;
 }
+
 #signInButton:hover {
     background: linear-gradient(90deg, rgba(255, 235, 59, 1) 0%, rgba(240, 205, 50, 1) 65%, rgba(225, 175, 70, 1) 100%);
     box-shadow: 0 4px 10px rgba(255, 204, 2, 0.3);
 }
+
 #signInButton:active {
     background: rgba(227, 193, 32, 1);
 }
@@ -970,28 +1085,35 @@ textarea[disabled]:focus {
 .edit-info-section {
     width: 100%;
     max-width: 40%;
-    box-shadow: none; /* Removed shadow */
-    border: none; /* Removed border */
-    background: transparent; /* Transparent background */
+    box-shadow: none;
+    /* Removed shadow */
+    border: none;
+    /* Removed border */
+    background: transparent;
+    /* Transparent background */
     text-align: center;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
 }
 
 .profile-box {
-    padding: 30px 40px; /* More internal space, adjusted from 25px */
+    padding: 30px 40px;
+    /* More internal space, adjusted from 25px */
     background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* Subtle shadow */
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+    /* Subtle shadow */
     text-align: center;
     height: 100%;
-    border-left: #0000001f 1px solid; /* Left border for visual separation */
+    border-left: #0000001f 1px solid;
+    /* Left border for visual separation */
 }
 
 .profile-box h1 {
-    font-size: 2.2em; /* Restored larger size */
+    font-size: 2.2em;
+    /* Restored larger size */
     color: #212529;
-    margin-bottom: 25px;
-    text-align: center; /* Explicitly centered */
+    text-align: center;
+    /* Explicitly centered */
 }
 
 #promoIdDisplay {
@@ -1008,7 +1130,8 @@ textarea[disabled]:focus {
     align-items: center;
     margin-bottom: 30px;
     text-align: center;
-    position: relative; /* Essential for absolute positioning of #emojiPickerContainer */
+    position: relative;
+    /* Essential for absolute positioning of #emojiPickerContainer */
 }
 
 .avatar-emoji {
@@ -1028,8 +1151,10 @@ textarea[disabled]:focus {
     color: #000;
 }
 
-#iconPickerContainer, /* Old ID, keeping for backward compatibility */
-#emojiPickerContainer { /* New, more semantic ID */
+#iconPickerContainer,
+/* Old ID, keeping for backward compatibility */
+#emojiPickerContainer {
+    /* New, more semantic ID */
     position: absolute;
     z-index: 1000;
     background-color: white;
@@ -1039,11 +1164,13 @@ textarea[disabled]:focus {
     padding: 10px;
     top: 100%;
     left: 100%;
-    transform: translateX(-50%); /* This centers relative to the left of the button */
+    transform: translateX(-50%);
+    /* This centers relative to the left of the button */
     max-width: 95vw;
     max-height: 80vh;
     overflow: scroll;
-    display: none; /* Hidden by default, JS toggles */
+    display: none;
+    /* Hidden by default, JS toggles */
 }
 
 em-emoji-picker {
@@ -1066,11 +1193,13 @@ em-emoji-picker {
     padding-bottom: 20px;
     border-bottom: 1px solid #e9ecef;
 }
+
 .form-section:last-of-type {
     border-bottom: none;
     margin-bottom: 20px;
     padding-bottom: 0;
 }
+
 .form-section h2 {
     font-size: 1.4em;
     color: #495057;
@@ -1083,25 +1212,30 @@ em-emoji-picker {
 /* The core responsive grid for form fields */
 .form-grid-container {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Min item width 280px */
-    gap: 25px; /* Space between grid items */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    /* Min item width 280px */
+    gap: 25px;
+    /* Space between grid items */
 }
 
 /* Make specific fields span full width if needed */
 .form-grid-container .full-width {
-    grid-column: 1 / -1; /* Spans all available columns */
+    grid-column: 1 / -1;
+    /* Spans all available columns */
 }
 
 /* Input Group Styles specific to #promoDetailForm */
 #promoDetailForm .input-group {
-    margin-bottom: 0; /* Grid gap handles spacing */
+    margin-bottom: 0;
+    /* Grid gap handles spacing */
 }
 
 #promoDetailForm .input-group label {
     margin-bottom: 8px;
     font-weight: 600;
     color: #555;
-    font-size: 0.95em; /* From previous response */
+    font-size: 0.95em;
+    /* From previous response */
 }
 
 #promoDetailForm input[type="text"],
@@ -1110,10 +1244,13 @@ em-emoji-picker {
 #promoDetailForm input[type="date"],
 #promoDetailForm textarea,
 #promoDetailForm select {
-    padding: 8px; /* Slightly less padding for more compact fields */
+    padding: 8px;
+    /* Slightly less padding for more compact fields */
     font-size: 14px;
-    border: 1px solid #ddd; /* Lighter border */
-    background-color: #fff; /* Ensure white background */
+    border: 1px solid #ddd;
+    /* Lighter border */
+    background-color: #fff;
+    /* Ensure white background */
 }
 
 #promoDetailForm textarea {
@@ -1125,11 +1262,14 @@ em-emoji-picker {
     flex-direction: row;
     align-items: center;
 }
+
 #promoDetailForm .input-group input[type="checkbox"] {
     width: auto;
     margin-right: 5px;
-    vertical-align: middle; /* Align checkbox */
+    vertical-align: middle;
+    /* Align checkbox */
 }
+
 #promoDetailForm .input-group label[for="fscreen"] {
     display: inline-block;
     margin-bottom: 0;
@@ -1146,17 +1286,22 @@ em-emoji-picker {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    margin-top: 30px; /* Space above the buttons */
+    margin-top: 30px;
+    /* Space above the buttons */
 }
 
 .button-inline-group button {
     flex: 1;
     min-width: 150px;
     max-width: 250px;
-    padding: 12px 25px; /* Consistent padding */
-    font-size: 1em; /* Consistent font size */
-    font-weight: 600; /* Consistent font weight */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Consistent shadow */
+    padding: 12px 25px;
+    /* Consistent padding */
+    font-size: 1em;
+    /* Consistent font size */
+    font-weight: 600;
+    /* Consistent font weight */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    /* Consistent shadow */
 }
 
 /* --- Promo Table Container --- */
@@ -1178,6 +1323,7 @@ em-emoji-picker {
     text-decoration: none;
     font-weight: 500;
 }
+
 #userPromosTable .action-link:hover {
     text-decoration: underline;
 }
@@ -1196,48 +1342,64 @@ em-emoji-picker {
         overflow: hidden;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
+
     .login-image-section,
     .login-form-section {
         flex: 1;
         min-height: 600px;
     }
+
     .login-illustration {
         max-height: 100%;
     }
+
     .profile-promos-section {
         align-items: flex-start;
     }
 
     /* Grid layout for edit form on larger screens (2 columns on iPad, up to 4 on desktop) */
     .form-grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* At least 2 columns on tablets */
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        /* At least 2 columns on tablets */
     }
 }
 
-@media (min-width: 1080px) { /* Adjust min-width for 4 columns */
+@media (min-width: 1080px) {
+
+    /* Adjust min-width for 4 columns */
     .form-grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Allows up to 4 columns */
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        /* Allows up to 4 columns */
     }
 }
 
-@media (max-width: 767px) { /* Mobile specific adjustments */
+@media (max-width: 767px) {
+
+    /* Mobile specific adjustments */
     .profile-box {
         padding: 20px;
     }
+
     .form-section h2 {
         font-size: 1.4em;
         margin-bottom: 20px;
     }
+
     .form-grid-container {
-        grid-template-columns: 1fr; /* Single column on mobile */
+        grid-template-columns: 1fr;
+        /* Single column on mobile */
         gap: 20px;
     }
+
     .button-inline-group {
-        flex-direction: column; /* Stack buttons vertically */
+        flex-direction: column;
+        /* Stack buttons vertically */
         gap: 10px;
     }
+
     .button-inline-group button {
-        width: 100%; /* Full width buttons */
+        width: 100%;
+        /* Full width buttons */
     }
 }
 
@@ -1252,11 +1414,13 @@ em-emoji-picker {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.5);
+    /* Semi-transparent black background */
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000; /* Ensures it's on top of all other content */
+    z-index: 1000;
+    /* Ensures it's on top of all other content */
 
     /* This is the magic property for the blur effect */
     -webkit-backdrop-filter: blur(8px);
@@ -1270,10 +1434,13 @@ em-emoji-picker {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-width: 800px; /* Adjust as needed */
+    max-width: 800px;
+    /* Adjust as needed */
     width: 90%;
-    max-height: 90vh; /* Limits the height to 90% of the viewport height */
-    overflow-y: auto; /* Adds a scrollbar if the content is too tall */
+    max-height: 90vh;
+    /* Limits the height to 90% of the viewport height */
+    overflow-y: auto;
+    /* Adds a scrollbar if the content is too tall */
 }
 
 /* The 'X' button to close the modal */
@@ -1315,9 +1482,14 @@ em-emoji-picker {
     gap: 1rem;
 }
 
-.editor.tableStyle{
+.editor.tableStyle {
     border: #0000001f 1px solid;
-    border-radius: 8px; 
+    border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 100%;
+}
+
+.header-promo {
+    position: relative;
+    text-align: center;
 }
