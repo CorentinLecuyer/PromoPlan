@@ -124,7 +124,7 @@ export function renderTimeline() {
         if (item.bordertextcolor && item.bordertextcolor !== '') {
             promoTypeStyle += `color: ${item.bordertextcolor};`;
         } else {
-            promoTypeStyle += `color: white;`; // Default to white if not specified
+            promoTypeStyle; // Default to white if not specified
         }
 
         const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderStyle}"`;
