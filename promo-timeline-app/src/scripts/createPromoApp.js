@@ -3,10 +3,10 @@
 // =================================================================
 import Alpine from 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/module.esm.js';
 import { appState } from './state.js';
-import { supabase, signOut } from './supabaseAuth.js';
+import { supabase, signOut, getUser } from './supabaseAuth.js'; // Added getUser
 import { createPromo, createPromoTableWithFunction } from './supabaseClient.js';
 import { stringToArray, stringToNumberArray, arrayToString, formatDateRange } from './utils.js';
-import { generateMultipleTablesHTML, getTableDataById } // getTableDataById is used by the modal
+import { generateMultipleTablesHTML, getTableDataById } 
     from './renderers.js';
 
 // =================================================================
@@ -14,7 +14,7 @@ import { generateMultipleTablesHTML, getTableDataById } // getTableDataById is u
 // =================================================================
 Alpine.data('tableManager', () => ({
     isModalOpen: false,
-    linkedTableIds: [], // Will hold temporary client-side IDs like 'temp_12345'
+    linkedTableIds: [], 
     selectedTableId: null,
     editor: {
         tableName: '',
@@ -25,9 +25,7 @@ Alpine.data('tableManager', () => ({
     },
     message: { text: '', isError: false },
 
-    // --- Modal Controls ---
     openModal() {
-        // Load temporary tables from appState into the modal's list
         this.linkedTableIds = appState.tempTables.map(t => t.tempId);
         this.startNewTable();
         this.isModalOpen = true;
@@ -36,8 +34,6 @@ Alpine.data('tableManager', () => ({
         this.isModalOpen = false;
         this.message.text = '';
     },
-
-    // --- Editor Data Handling ---
     startNewTable() {
         this.selectedTableId = null;
         this.editor.tableName = '';
@@ -48,7 +44,6 @@ Alpine.data('tableManager', () => ({
         this.message.isError = false;
     },
     loadTableForEditing(tableId) {
-        // On this page, we only load from the temporary appState
         const tableData = appState.tempTables.find(t => t.tempId === tableId);
         if (!tableData) {
             this.message = { text: `Error: Temporary table ${tableId} not found.`, isError: true };
@@ -58,13 +53,9 @@ Alpine.data('tableManager', () => ({
         this.editor.tableName = tableData.table_name || '';
         this.editor.tableStyle = tableData.style || 'blackTable';
         this.editor.headers = [...(tableData.th || [])];
-        // The rows are already in the correct format in our temp state
         this.editor.rows = tableData.tr.map(row => [...row]);
         this.message = { text: `Editing Temporary Table: ${tableData.table_name || tableId}`, isError: false };
     },
-
-    // --- Editor UI Actions (addColumn, addRow, etc.) ---
-    // These are the same as in promoDetailApp.js
     addColumn() {
         if (this.editor.headers.length >= this.editor.columnLimit) return;
         this.editor.headers.push(`Column ${this.editor.headers.length + 1}`);
@@ -83,38 +74,31 @@ Alpine.data('tableManager', () => ({
         if (this.editor.rows.length === 0) return;
         this.editor.rows.pop();
     },
-
-    // --- MODIFIED SAVE/DELETE LOGIC FOR THIS PAGE ---
     saveTable() {
-        // This function now only saves to the temporary client-side array
         const payload = {
             table_name: this.editor.tableName,
             style: this.editor.tableStyle,
             th: this.editor.headers,
-            tr: this.editor.rows, // Keep as arrays, don't stringify yet
+            tr: this.editor.rows, 
         };
 
         if (this.selectedTableId) {
-            // Update existing temporary table
             const index = appState.tempTables.findIndex(t => t.tempId === this.selectedTableId);
             if (index !== -1) {
                 appState.tempTables[index] = { ...appState.tempTables[index], ...payload };
             }
             this.message = { text: 'Temporary table updated.', isError: false };
         } else {
-            // Create new temporary table
             const tempId = `temp_${Date.now()}`;
             appState.tempTables.push({ tempId, ...payload });
             this.linkedTableIds.push(tempId);
             this.selectedTableId = tempId;
             this.message = { text: 'Temporary table created.', isError: false };
         }
-        // Update the main page preview to show the temp tables
         updatePreviewFromForm();
     },
     deleteTable() {
         if (!this.selectedTableId) return;
-        // Remove from the temporary array
         appState.tempTables = appState.tempTables.filter(t => t.tempId !== this.selectedTableId);
         this.linkedTableIds = this.linkedTableIds.filter(id => id !== this.selectedTableId);
         this.message = { text: 'Temporary table removed.', isError: false };
@@ -153,6 +137,7 @@ const borderColorInput = document.getElementById('borderColor');
 const bgColorInput = document.getElementById('bgColor');
 const promoPreviewDiv = document.getElementById('promoPreview');
 
+// New visual element definitions
 const borderTextColorInput = document.getElementById('borderTextColor');
 const titleTextColorInput = document.getElementById('TitleTextColor');
 const dateTextColorInput = document.getElementById('dateTextColor');
@@ -172,7 +157,12 @@ function displayMessage(message, isError = false) {
     }
 }
 
-function getPromoDataFromForm() {
+/**
+ * Gathers all data from the form fields.
+ * @param {string} userName - The full name of the current user.
+ * @returns {object} An object containing all promotion data.
+ */
+function getPromoDataFromForm(userName) {
     let buValue = '';
     const selectedCountry = countryInput.value;
     if (['Belgium', 'France', 'Luxembourg', 'Netherlands'].includes(selectedCountry)) buValue = 'BNFL';
@@ -205,17 +195,20 @@ function getPromoDataFromForm() {
         titletextcolor: titleTextColorInput.value,
         datetextcolor: dateTextColorInput.value,
         detailtextcolor: detailsTextColorInput.value,
-
+        // --- NEWLY ADDED FIELDS ---
+        author: userName,
+        owner: userName,
+        creation_date: new Date().toISOString(),
     };
 }
 
 function updatePreviewFromForm() {
     if (!promoDetailForm) return;
-    const previewPromo = getPromoDataFromForm();
+    // Pass a dummy name for preview purposes, the real name will be used on save.
+    const previewPromo = getPromoDataFromForm('Current User');
     renderPromoPreview(previewPromo);
 }
 
-// This function now also renders the temporary tables from appState
 function renderPromoPreview(promo) {
     if (!promoPreviewDiv) return;
 
@@ -230,7 +223,6 @@ function renderPromoPreview(promo) {
     const timelineContentClass = isFullScreen ? 'timeline-content full-width-content' : 'timeline-content';
     const iconContainerStyle = isFullScreen ? 'left: 96%; transform: translate(-50%, -50%);' : '';
 
-    // --- Styling Logic ---
     let inlineBgStyle = '';
     if (Array.isArray(promo.bgcolor) && promo.bgcolor.length >= 1) {
         const color1 = promo.bgcolor[0];
@@ -240,35 +232,28 @@ function renderPromoPreview(promo) {
         inlineBgStyle = `background-color: ${promo.bgcolor};`;
     }
 
-    let timelineContentBorderAndBg = '';
-    let promoTypeBgColor = '';
-    let timelineDotBorder = '';
+    let promoTypeStyle = '';
+    let timelineContentBorderStyle = '';
+    let timelineDotBorderStyle = '';
 
     if (promo.bordercolor && promo.bordercolor !== '') {
-        timelineContentBorderAndBg = `border-left: 4px solid ${promo.bordercolor};`;
-        promoTypeBgColor = `background-color: ${promo.bordercolor};color:white;`;
-        timelineDotBorder = `border: 3px solid ${promo.bordercolor};`;
+        timelineContentBorderStyle = `border-left: 4px solid ${promo.bordercolor};`;
+        promoTypeStyle += `background-color: ${promo.bordercolor};`;
+        timelineDotBorderStyle = `border: 3px solid ${promo.bordercolor};`;
     }
 
-        // Add text color for the promo type badge
     if (promo.bordertextcolor && promo.bordertextcolor !== '') {
         promoTypeStyle += `color: ${promo.bordertextcolor};`;
     } else {
-        promoTypeStyle += `color: white;`; // Default to white if not specified
+        promoTypeStyle += `color: white;`;
     }
 
-
-    const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderAndBg}"`;
-    const combinedPromoTypeStyle = `style="${promoTypeBgColor}"`;
-
-
-        // Styles for other text elements
+    const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderStyle}"`;
+    const combinedPromoTypeStyle = `style="${promoTypeStyle}"`;
     const titleStyle = promo.titletextcolor ? `style="color: ${promo.titletextcolor};"` : '';
     const dateStyle = promo.datetextcolor ? `style="color: ${promo.datetextcolor};"` : '';
     const detailsStyle = promo.detailtextcolor ? `style="color: ${promo.detailtextcolor};"` : '';
-
-
-    // --- Dynamic Table Loading ---
+    
     const dynamicTablesHTML = generateMultipleTablesHTML(promo.table_name);
 
     let previewHTML = `
@@ -282,69 +267,46 @@ function renderPromoPreview(promo) {
                         ${(promo.promo_details && promo.promo_details.map(line => `• ${line}<br>`).join("")) || 'No details.'}
                     </div>
                     <div class="channel-tags">
-                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeBgColor}">${ch}</span>`).join("")) || 'No channels.'}
+                        ${(promo.channel_tags && promo.channel_tags.map(ch => `<span class="channel-tag" style="${promoTypeStyle}">${ch}</span>`).join("")) || 'No channels.'}
                     </div>
-
                     ${dynamicTablesHTML}
-
                     ${(hasBudget || hasMACO || hasUpliftHL || hasUpliftMachine || hasROI) ? `
                         <h3 class="table-title" style="margin-top: 10px;">Budget Details / Financials</h3>
                         <table class="promo-table-budget" style="font-size: 0.8em; width: 100%;">
-                            <thead ${combinedPromoTypeStyle}>
+                            <thead>
                                 <tr>
-                                    <th>Budget</th>
-                                    <th>Budget Type</th>
-                                    <th>Uplift HL</th>
-                                    <th>Uplift Machine</th>
-                                    <th>ROI</th>
-                                    <th>MACO</th>
+                                    <th>Budget</th><th>Budget Type</th><th>Uplift HL</th><th>Uplift Machine</th><th>ROI</th><th>MACO</th>
                                 </tr>
                             </thead>
                             <tbody>
                             ${(promo.promo_budget && promo.promo_budget.length > 0) ? promo.promo_budget.map((budget, index) => {
-        const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
-        const displayFinancials = index === 0;
-        return `
+                                const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
+                                const displayFinancials = index === 0;
+                                return `
                                     <tr>
-                                        <th>${budget.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</th>
+                                        <th>${budget.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</th>
                                         <th><span class="channel-tag-budget">${budgetType}</span></th>
                                         ${displayFinancials ?
-                `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
+                                            `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_machine || 0} Machines</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.ROI || 'TBC'}</th>
-                                            <th rowspan="${promo.promo_budget.length}">${(promo.MACO || 0).toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                })}</th>`
-                : ''}
+                                            <th rowspan="${promo.promo_budget.length}">${(promo.MACO || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</th>`
+                                            : ''}
                                     </tr>
                                 `;
-    }).join("") : `
+                            }).join("") : `
                                 <tr>
-                                    <th>-</th>
-                                    <th>-</th>
+                                    <th>-</th><th>-</th>
                                     <th>${promo.promo_uplift_HL || 0} HL</th>
                                     <th>${promo.promo_uplift_machine || 0} Machines</th>
                                     <th>${promo.ROI || 'TBC'}</th>
-                                    <th>${(promo.MACO || 0).toLocaleString('fr-FR', {
-        style: 'currency',
-        currency: 'EUR',
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 0
-    })}</th>
+                                    <th>${(promo.MACO || 0).toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 })}</th>
                                 </tr>`}
                             </tbody>
                         </table>` : ""}
                 </div>
                 <a href="${promo.link || '#'}" target="_blank" style="text-decoration: none;">
-                    <div class="icon-container" style="${timelineDotBorder}${iconContainerStyle}"">
+                    <div class="icon-container" style="${timelineDotBorderStyle}${iconContainerStyle}">
                         <div class="icon-emoji">${promo.icon || '❓'}</div>
                     </div>
                 </a>
@@ -357,11 +319,29 @@ function renderPromoPreview(promo) {
 // =================================================================
 // 5. MAIN PAGE INITIALIZATION & EVENT LISTENERS
 // =================================================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Initialize the temporary table storage
+document.addEventListener('DOMContentLoaded', async () => {
     appState.tempTables = [];
+    let currentUserFullName = 'System'; // Fallback name
 
-    // --- Attach Event Listeners ---
+    // Fetch the current user's full name from their profile
+    try {
+        const user = await getUser();
+        if (user) {
+            const { data: profile, error } = await supabase
+                .from('user_profiles')
+                .select('first_name, last_name')
+                .eq('id', user.id)
+                .single();
+            if (error) throw error;
+            if (profile) {
+                currentUserFullName = `${profile.first_name} ${profile.last_name}`.trim();
+            }
+        }
+    } catch (error) {
+        console.error("Could not fetch user's profile name:", error.message);
+        displayMessage("Could not fetch user's profile name, 'System' will be used as author.", true);
+    }
+
     if (promoDetailForm) {
         promoDetailForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -369,12 +349,10 @@ document.addEventListener('DOMContentLoaded', () => {
             displayMessage('Processing...', false);
 
             try {
-                // Step 1: Save all temporary tables to the database
                 const finalTableIds = [];
                 if (appState.tempTables.length > 0) {
                     displayMessage('Saving custom tables...', false);
                     for (const tempTable of appState.tempTables) {
-                        // Stringify the rows just before sending
                         const payload = { ...tempTable, tr: tempTable.tr.map(row => JSON.stringify(row)) };
                         const { data: newId, error } = await createPromoTableWithFunction(payload);
                         if (error) throw new Error(`Failed to save table "${tempTable.table_name}": ${error.message}`);
@@ -382,15 +360,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                // Step 2: Create the main promotion with the new table IDs
                 displayMessage('Saving promotion...', false);
-                const newPromoData = getPromoDataFromForm();
-                newPromoData.table_name = finalTableIds; // Assign the real IDs
+                // Pass the fetched user name when creating the promo data object
+                const newPromoData = getPromoDataFromForm(currentUserFullName);
+                newPromoData.table_name = finalTableIds;
 
                 const { data: createdPromo, error: createPromoError } = await createPromo(newPromoData);
                 if (createPromoError) throw createPromoError;
 
-                // Step 3: Success and redirect
                 displayMessage('Promotion created successfully! Redirecting...', false);
                 setTimeout(() => {
                     window.location.href = `promo-detail.html?id=${createdPromo.id}`;
@@ -413,7 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // --- Emoji Mart Setup ---
     if (openIconPickerButton) {
         openIconPickerButton.addEventListener('click', async () => {
             if (!picker) {

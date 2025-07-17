@@ -139,18 +139,44 @@
                                 </div>
                             </div>
                             <div class="input-group">
-                                <label for="link">Link</label>
-                                <input type="url" id="link" name="link">
-                            </div>
-                            <div class="input-group">
                                 <label for="borderColor">Border Color</label>
                                 <input type="text" id="borderColor" name="borderColor"
                                     placeholder="#RRGGBB or color name">
                             </div>
+
+                            <div class="input-group">
+                                <label for="borderTextColor">Text Border Color</label>
+                                <input type="text" id="borderTextColor" name="borderTextColor"
+                                    placeholder="#RRGGBB or color name">
+                            </div>
+
                             <div class="input-group">
                                 <label for="bgColor">Background Colors (comma-separated)</label>
                                 <input type="text" id="bgColor" name="bgColor" placeholder="e.g., #FFCC02,#FFA726">
                             </div>
+
+                            <div class="input-group">
+                                <label for="TitleTextColor">Title Text Colors</label>
+                                <input type="text" id="TitleTextColor" name="TitleTextColor"
+                                    placeholder="#RRGGBB or color name">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="dateTextColor">Date Text Colors</label>
+                                <input type="text" id="dateTextColor" name="dateTextColor"
+                                    placeholder="#RRGGBB or color name">
+                            </div>
+
+                            <div class="input-group">
+                                <label for="detailsTextColor">Details Text Colors</label>
+                                <input type="text" id="detailsTextColor" name="detailsTextColor"
+                                    placeholder="#RRGGBB or color name">
+                            </div>
+                            <div class="input-group">
+                                <label for="link">Link</label>
+                                <input type="url" id="link" name="link">
+                            </div>
+
                         </div>
                     </div>
 
@@ -215,7 +241,7 @@
             </div>
         </div>
     </div>
-<div x-data="tableManager()" @keydown.escape.window="closeModal()" x-show="isModalOpen" x-cloak
+    <div x-data="tableManager()" @keydown.escape.window="closeModal()" x-show="isModalOpen" x-cloak
         @open-table-modal.window="openModal()" class="modal-overlay">
         <div class="modal-content" @click.outside="closeModal()">
             <button @click="closeModal()" class="modal-close-button">&times;</button>
@@ -270,7 +296,9 @@
                             <template x-for="(row, rowIndex) in editor.rows" :key="rowIndex">
                                 <tr>
                                     <template x-for="(cell, colIndex) in row" :key="colIndex">
-                                        <td contenteditable="true" @blur="editor.rows[rowIndex][colIndex] = $event.target.innerHTML" x-html="cell"></td>
+                                        <td contenteditable="true"
+                                            @blur="editor.rows[rowIndex][colIndex] = $event.target.innerHTML"
+                                            x-html="cell"></td>
 
                                     </template>
                                 </tr>
