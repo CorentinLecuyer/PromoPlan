@@ -584,6 +584,7 @@ p {
 
 /* Common table styling */
 .promo-tableblackTable,
+.dynamic-custom-table,
 .promo-table-HomePage,
 .promo-table-budget,
 .threePP-table {
@@ -601,6 +602,7 @@ p {
 
 
 .promo-tableblackTable-header,
+.dynamic-custom-table blackTable,
 .promo-table-HomePage-header,
 .threePP-table-header {
     font-size: 12px;
@@ -614,6 +616,7 @@ p {
 /* Common table header (thead) styling */
 .promo-tableblackTable thead,
 .promo-table-HomePage thead,
+.dynamic-custom-table thead,
 .threePP-table thead {
     background-color: #333;
     color: white;
@@ -631,6 +634,7 @@ p {
 
 /* Common table header (th) styling */
 .promo-tableblackTable th,
+.dynamic-custom-table th,
 .promo-table-HomePage th,
 .threePP-table th {
     padding: 10px 12px;
@@ -668,6 +672,7 @@ p {
 
 /* Common table body (tbody) styling */
 .promo-tableblackTable tbody,
+.dynamic-custom-table tbody
 .promo-table-HomePage tbody,
 .threePP-table tbody {
     background-color: white;
@@ -681,6 +686,7 @@ p {
 
 /* Common table data (td) styling */
 .promo-tableblackTable td,
+.dynamic-custom-table td,
 .promo-table-HomePage td,
 .threePP-table td {
     padding: 8px 12px;
@@ -1460,7 +1466,7 @@ em-emoji-picker {
     /* Adds a scrollbar if the content is too tall */
 }
 
-/* The 'X' button to close the modal */
+
 .modal-close-button {
     position: absolute;
     top: 10px;
@@ -1478,9 +1484,10 @@ em-emoji-picker {
     color: #000;
 }
 
+
 /* Spacing and layout for sections within the modal */
 .modal-section {
-    margin-bottom: 2rem;
+    margin-bottom: 10px;
     border-bottom: 1px solid #eee;
     padding-bottom: 1.5rem;
 }
@@ -1591,4 +1598,43 @@ em-emoji-picker {
     color: #333;
     cursor: pointer;
     flex-grow: 1;
+}
+
+
+.table-selection-list button{
+    background-color: rgb(206, 206, 206);
+    color: #333;
+    padding: 6px;
+    border-radius: 6px;
+    margin-left: 10px;
+    margin-top: 10px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+
+}
+
+.table-controls button{
+    background-color: rgb(206, 206, 206);
+    color: #333;
+    padding: 6px;
+    border-radius: 6px;
+    margin-left: 10px;
+    margin-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+
+}
+.table-controls button:hover,
+.table-selection-list button:hover{
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    background: rgb(216, 216, 216);
+}
+
+.dynamic-custom-table {
+    border: #000 1px;
+    border-radius: 3px;
+    padding: 10px;
 }

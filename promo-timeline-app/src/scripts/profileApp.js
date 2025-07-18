@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userPromosTableBody = document.querySelector('#userPromosTable tbody');
     const noPromosMessage = document.getElementById('noPromosMessage');
     const promosMessage = document.getElementById('promosMessage');
-    
+
     let picker;
     let selectedEmoji = '👤';
     let allUserPromos = []; // Cache for all fetched promotions
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             noPromosMessage.style.display = 'block';
             return;
         }
-        
+
         noPromosMessage.style.display = 'none';
         promos.forEach(promo => {
             const row = userPromosTableBody.insertRow();
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             row.insertCell(5).textContent = promo.author || 'N/A';
             row.insertCell(6).textContent = promo.promo_start_date ? new Date(promo.promo_start_date).toLocaleDateString() : 'N/A';
             row.insertCell(7).textContent = promo.promo_end_date ? new Date(promo.promo_end_date).toLocaleDateString() : 'N/A';
-            
+
             const actionCell = row.insertCell(8);
             const editLink = document.createElement('a');
             editLink.href = `promo-detail.html?id=${promo.id}`;
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return Object.keys(filterValues).every(columnIndex => {
                 let cellValue = '';
                 // Map columnIndex to the corresponding promo property
-                switch(parseInt(columnIndex)) {
+                switch (parseInt(columnIndex)) {
                     case 0: cellValue = promo.country || ''; break;
                     case 1: cellValue = promo.promo_title || ''; break;
                     case 2: cellValue = promo.promo_type || ''; break;
@@ -117,7 +117,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 promosMessage.style.color = 'red';
                 return;
             }
-            
+
             allUserPromos = userPromos || []; // Cache the full list
             applyTableFiltersAndRender(); // Render the table with the full list initially
 
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             .select('country, channel')
             .eq('id', userId)
             .single();
-        
+
         if (profileData) {
             profileCountryInput.value = profileData.country || '';
             profileChannelInput.value = profileData.channel || '';
@@ -147,6 +147,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // --- Event Listeners ---
+
+    openEmojiPickerButton.addEventListener('click', () => {
+        // Toggle the visibility of the emoji picker container
+        const isVisible = emojiPickerContainer.style.display !== 'none';
+        emojiPickerContainer.style.display = isVisible ? 'none' : 'block';
+
+        // Initialize the picker only once to avoid re-creating it on every click
+        if (!picker) {
+            picker = new EmojiMart.Picker({
+                data: async () => {
+                    const response = await fetch(
+                        'https://cdn.jsdelivr.net/npm/@emoji-mart/data'
+                    );
+                    return response.json();
+                },
+                parent: emojiPickerContainer, // Render the picker inside this container
+                onEmojiSelect: (emoji) => {
+                    // When an emoji is selected, update the UI and hide the picker
+                    selectedEmoji = emoji.native;
+                    profileEmojiAvatar.textContent = selectedEmoji;
+                    emojiPickerContainer.style.display = 'none';
+                }
+            });
+        }
+    });
+
     logoutButton.addEventListener('click', async () => {
         await signOut();
         window.location.href = 'login.html';
