@@ -99,13 +99,6 @@ export async function getUser() {
     return user;
 }
 
-/**
- * Updates the current user's profile data and authentication details.
- * @param {object} profileUpdates - An object containing profile data like { first_name, last_name, phone, etc. }.
- * @returns {Promise<object>} Supabase response object { data, error }.
- */
-
-
 
 /**
  * Updates the current user's profile data and authentication details.

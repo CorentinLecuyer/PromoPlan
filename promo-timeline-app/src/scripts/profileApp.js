@@ -6,6 +6,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     const openEmojiPickerButton = document.getElementById('openEmojiPickerButton');
     const emojiPickerContainer = document.getElementById('emojiPickerContainer');
     const displayNameInput = document.getElementById('displayName');
+
+    const displayRoleInput = document.getElementById('displayRole');
+    const displayTeamInput = document.getElementById('displayTeam');
+
     const profileEmailInput = document.getElementById('profileEmail');
     const profileCountryInput = document.getElementById('profileCountry');
     const profileChannelInput = document.getElementById('profileChannel');
@@ -134,15 +138,47 @@ document.addEventListener('DOMContentLoaded', async () => {
         selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
         profileEmojiAvatar.textContent = selectedEmoji;
 
-        const { data: profileData } = await supabase
+        const { data, error      } = await supabase
             .from('user_profiles')
-            .select('country, channel')
+            .select(`
+            country,
+            channel,
+            team_members (
+                role,
+                teams (
+                    name,
+                    created_at
+                )
+            )
+        `)
             .eq('id', userId)
             .single();
 
-        if (profileData) {
-            profileCountryInput.value = profileData.country || '';
-            profileChannelInput.value = profileData.channel || '';
+        if (error) {
+            console.error('Error loading user profile:', error);
+            return;
+        }
+
+        if (data) {
+            // Set profile data
+            profileCountryInput.value = data.country || '';
+            profileChannelInput.value = data.channel || '';
+
+            // The 'team_members' property is now an array,
+            // as a user can be on multiple teams.
+            console.log(data.team_members);
+
+            // Example: Display the first team the user belongs to
+            if (data.team_members && data.team_members.length > 0) {
+                const firstTeamMembership = data.team_members[0];
+                displayRoleInput.value = firstTeamMembership.role || '';
+                // Note the nested structure to get the team name
+                displayTeamInput.value = firstTeamMembership.teams.name || '';
+            } else {
+                // Handle case where user is not on any team
+                displayRoleInput.value = 'No role';
+                displayTeamInput.value = 'No team';
+            }
         }
     }
 

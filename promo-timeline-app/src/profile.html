@@ -100,6 +100,14 @@
                         <input type="text" id="displayName" name="displayName" />
                     </div>
                     <div class="input-group">
+                        <label for="displayTeam">Display Team</label>
+                        <input type="text" id="displayTeam" name="displayTeam" disabled/>
+                    </div>
+                    <div class="input-group">
+                        <label for="displayRole">Display Role</label>
+                        <input type="text" id="displayRole" name="displayRole" disabled/>
+                    </div>
+                    <div class="input-group">
                         <label for="profileEmail">Email</label>
                         <input type="email" id="profileEmail" name="profileEmail" disabled />
                     </div>
@@ -111,7 +119,9 @@
                         <label for="profileChannel">Channel</label>
                         <input type="text" id="profileChannel" name="profileChannel" disabled />
                     </div>
-                    <button type="submit" id="saveProfileButton" class="updateButton">Save Changes</button>
+                    <button type="submit" id="saveProfileButton" class="updateButton" style="width:80%;">Save Changes</button>
+                    <button id="saveProfileButton" class="AccessYellowButton" style="width:80%;">Manage my team</button>
+                    <button id="" class="upload-button" style="width:80%;"></button>
                 </form>
                 <p id="profileMessage" class="auth-message"></p>
             </div>
@@ -121,8 +131,8 @@
             <div class="profile-box">
                 <div class="header-promo">
                     <h1 style="">My Promotions</h1>
-                    <div style="position: absolute; right: 0; top: 50%; transform: translateY(-50%);">
-                        <button class="multiselect-header filter-icon">Find in table<span>🔍</span></button>
+                    <div style="display:flex;flex-direction: row;/* justify-content: space-around; */align-items: center;min-width:fit-content;">
+                        <button class="multiselect-header filter-icon">Find in table   <span> 🔍</span></button>
                         <a href="create-promo.html" class="create-button"
                             >➕ New Promo
                         </a>
