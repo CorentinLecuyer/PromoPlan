@@ -20,6 +20,7 @@
             <button id="openFilterModalBtn" class="multiselect-header">Advanced Filters ⚙️</button>
         </div>
 
+
         <div>
             <a href="PromoTimeline.html" style="
             display: inline-block;
@@ -43,11 +44,22 @@
         </div>
     </div>
     <div class="slide">
+                    <div class="view-switcher" id="viewSwitcher">
+                <input type="radio" id="monthlyView" name="calendarView" value="monthly" checked>
+                <label for="monthlyView">Monthly</label>
+
+                <input type="radio" id="weeklyView" name="calendarView" value="weekly">
+                <label for="weeklyView">Weekly</label>
+
+                <input type="radio" id="dailyView" name="calendarView" value="daily">
+                <label for="dailyView">Daily</label>
+            </div>
         <div id="timeline-root-home-page"></div>
     </div>
 
     <script type="module" src="scripts/app.js"></script>
     <script type="module" src="scripts/shared/filterModal.js"></script>
+    
 </body>
 
 </html>

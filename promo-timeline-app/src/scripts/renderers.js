@@ -1,6 +1,6 @@
 import { appState } from './state.js';
 import { formatDateRange, getMonthsBetweenDates } from './utils.js';
-import { getSavedFilters } from './shared/filterModal.js'; // FIX: Added the missing import
+import { getSavedFilters } from './shared/filterModal.js'; 
 
 export function getTableDataById(tableId) {
     return appState.allTableData.find(table => String(table.id) === String(tableId));
@@ -234,308 +234,222 @@ export function renderTimeline() {
  */
 export function renderTablesHomePage() {
     const root = document.getElementById('timeline-root-home-page');
-    if (!root) {
-        return;
-    }
+    if (!root) return;
 
-    // Get the current filters from the modal's state
+    const view = document.querySelector('input[name="calendarView"]:checked')?.value || 'monthly';
     const filters = getSavedFilters();
-
-    const allChannels = new Set();
-    const allBudgetTypesSet = new Set();
-
-    // The items are already filtered by the time they get here.
-    // We just need to collect all unique channels/types from the filtered data.
-    appState.allTimelineItems.forEach(item => {
-        (item.channel_tags || []).forEach(channel => allChannels.add(channel));
-        if (Array.isArray(item.promo_budget_type)) {
-            item.promo_budget_type.forEach(type => allBudgetTypesSet.add(type));
-        }
-    });
-
-    allBudgetTypesSet.add("Loyalty Program");
-    const uniqueBudgetTypes = Array.from(allBudgetTypesSet).sort();
-    const uniqueChannels = Array.from(allChannels).sort();
-
-    // Determine which years to render based on the active filter or the data itself.
-    const allYearsInFilteredData = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
-    const yearsToRender = (filters.year && filters.year.length > 0)
-        ? filters.year.sort()
-        : allYearsInFilteredData;
 
     if (appState.allTimelineItems.length === 0) {
         root.innerHTML = '<h1>No promotions found for the selected filters.</h1>';
         return;
     }
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    const monthNamesFull = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
-
-    // Update title logic to use the new filter state
-    let h1TitleCalendar = '';
-    if (!filters.year || filters.year.length !== 1) {
-        h1TitleCalendar = 'Promotional Calendar - Icons by Channel and Month';
-    } else {
-        h1TitleCalendar = `Promotional Calendar ${filters.year[0]} - Icons by Channel and Month`;
-    }
-
-    let h1TitleBudget = '';
-    if (!filters.year || filters.year.length !== 1) {
-        h1TitleBudget = 'Budget Calendar by Channel and Month';
-    } else {
-        h1TitleBudget = `Budget Calendar ${filters.year[0]} by Channel and Month`;
-    }
-
-    let tableHTMLcalendar = '';
-    let tableHTMLBudget = '';
-    let tableHTMLUplift = '';
-
-    yearsToRender.forEach(year => {
-        const itemsRelevantForThisYearBlock = appState.allTimelineItems.filter(item => {
-            const promoStartYear = new Date(item.promo_start_date).getFullYear();
-            const promoEndYear = new Date(item.promo_end_date).getFullYear();
-            const currentRenderYear = parseInt(year);
-            return (promoStartYear <= currentRenderYear && promoEndYear >= currentRenderYear);
-        });
-
-        const itemsForFinancialAggregation = appState.allTimelineItems.filter(item => String(new Date(item.promo_start_date).getFullYear()) === year);
-
-        if (yearsToRender.length > 1) {
-            tableHTMLcalendar += `<tr class="year-marker-row"><td colspan="${months.length + 1}" class="year-marker-cell">${year}</td></tr>`;
-            tableHTMLBudget += `<tr class="year-marker-row"><td colspan="${months.length + 2}" class="year-marker-cell">${year}</td></tr>`;
-            tableHTMLUplift += `<tr class="year-marker-row"><td colspan="${months.length + 2}" class="year-marker-cell">${year}</td></tr>`;
+    // --- Collect Channels and Budget Types ---
+    const allChannels = new Set();
+    const allBudgetTypesSet = new Set();
+    appState.allTimelineItems.forEach(item => {
+        (item.channel_tags || []).forEach(channel => allChannels.add(channel));
+        if (Array.isArray(item.promo_budget_type)) {
+            item.promo_budget_type.forEach(type => allBudgetTypesSet.add(type));
         }
+    });
+    allBudgetTypesSet.add("Loyalty Program");
+    const uniqueBudgetTypes = Array.from(allBudgetTypesSet).sort();
+    const uniqueChannels = Array.from(allChannels).sort();
 
-        // Calendar Icons Data Aggregation
-        const yearIconsData = {};
-        uniqueChannels.forEach(channel => {
-            yearIconsData[channel] = {};
-            monthNamesFull.forEach(month => yearIconsData[channel][month] = new Set());
-        });
+    // --- Determine Years and Date Range ---
+    const allYearsInFilteredData = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
+    const yearsToRender = (filters.year && filters.year.length > 0) ? filters.year.sort() : allYearsInFilteredData;
 
-        itemsRelevantForThisYearBlock.forEach(item => {
-            const startDate = new Date(item.promo_start_date);
-            const endDate = new Date(item.promo_end_date);
-            const promoMonthsSpanned = getMonthsBetweenDates(startDate, endDate);
+    // --- Generate Time Columns based on View ---
+    const timeColumns = [];
+    const getWeek = (date) => {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+    };
 
-            (item.channel_tags || []).forEach(channel => {
-                if (item.promo_type === "Loyalty Program") {
-                    const endMonthDate = new Date(item.promo_end_date);
-                    const endMonthName = endMonthDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
-                    const endYear = String(endMonthDate.getFullYear());
-
-                    if (endYear === year && yearIconsData[channel] && yearIconsData[channel][endMonthName]) {
-                        yearIconsData[channel][endMonthName].add(item.icon);
-                    }
-                } else {
-                    promoMonthsSpanned.forEach(monthObj => {
-                        if (monthObj.year === year && monthObj.month && yearIconsData[channel] && yearIconsData[channel][monthObj.month]) {
-                            yearIconsData[channel][monthObj.month].add(item.icon);
-                        }
-                    });
-                }
+    if (view === 'monthly') {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        yearsToRender.forEach(year => {
+            months.forEach((month, index) => {
+                timeColumns.push({
+                    key: `${year}-${String(index + 1).padStart(2, '0')}`,
+                    label: month, // MODIFIED: Label is just month name now
+                    year: year,
+                });
             });
         });
+    } else {
+        let currentDate = new Date(yearsToRender[0], 0, 1);
+        const lastDate = new Date(yearsToRender[yearsToRender.length - 1], 11, 31);
 
-        // Financial Data Aggregation
-        const yearFinancialData = {};
-        monthNamesFull.forEach(month => {
-            yearFinancialData[month] = { HL: 0, machines: 0, MACO: 0 };
-        });
-        const monthTotals = {};
-        monthNamesFull.forEach(month => {
-            monthTotals[month] = { HL: 0, machines: 0, MACO: 0 };
-        });
-
-        const yearBudgetByTypeData = {};
-        const budgetTypeTotals = {};
-        uniqueBudgetTypes.forEach(type => {
-            yearBudgetByTypeData[type] = {};
-            monthNamesFull.forEach(month => yearBudgetByTypeData[type][month] = 0);
-            budgetTypeTotals[type] = 0;
-        });
-
-        itemsForFinancialAggregation.forEach(item => {
-            const attributionDate = item.promo_type === "Loyalty Program"
-                ? new Date(item.promo_end_date)
-                : new Date(item.promo_start_date);
-
-            const attributionMonthFull = attributionDate.toLocaleString('en-US', { month: 'long' }).toUpperCase();
-            const attributionYear = String(attributionDate.getFullYear());
-
-            if (attributionYear === year && attributionMonthFull && yearFinancialData[attributionMonthFull]) {
-                yearFinancialData[attributionMonthFull].HL += item.promo_uplift_HL || 0;
-                yearFinancialData[attributionMonthFull].machines += item.promo_uplift_machine || 0;
-                yearFinancialData[attributionMonthFull].MACO += item.MACO || 0;
-
-                monthTotals[attributionMonthFull].HL += item.promo_uplift_HL || 0;
-                monthTotals[attributionMonthFull].machines += item.promo_uplift_machine || 0;
-                monthTotals[attributionMonthFull].MACO += item.MACO || 0;
-            }
-
-            if (item.promo_type === "Loyalty Program") {
-                const loyaltyBudgetValue = (item.promo_budget && item.promo_budget.length > 0) ? item.promo_budget[0] : 0;
-                const loyaltyBudgetType = "Loyalty Program";
-
-                if (attributionYear === year && attributionMonthFull && yearBudgetByTypeData[loyaltyBudgetType] && yearBudgetByTypeData[loyaltyBudgetType][attributionMonthFull] !== undefined) {
-                    yearBudgetByTypeData[loyaltyBudgetType][attributionMonthFull] += loyaltyBudgetValue;
-                    budgetTypeTotals[loyaltyBudgetType] += loyaltyBudgetValue;
-                }
-            } else if (Array.isArray(item.promo_budget_type)) {
-                (item.promo_budget || []).forEach((budgetValue, index) => {
-                    const type = item.promo_budget_type[index];
-                    if (attributionYear === year && attributionMonthFull && yearBudgetByTypeData[type] && yearBudgetByTypeData[type][attributionMonthFull] !== undefined) {
-                        yearBudgetByTypeData[type][attributionMonthFull] += budgetValue || 0;
-                        budgetTypeTotals[type] += budgetValue || 0;
+        while (currentDate <= lastDate) {
+            const year = String(currentDate.getFullYear());
+            if (yearsToRender.includes(year)) {
+                if (view === 'weekly') {
+                    const week = getWeek(currentDate);
+                    const weekKey = `${year}-W${String(week).padStart(2, '0')}`;
+                    if (!timeColumns.some(c => c.key === weekKey)) {
+                        timeColumns.push({ key: weekKey, label: `W${week}`, year: year });
                     }
+                    currentDate.setDate(currentDate.getDate() + 7);
+                } else { // Daily
+                    timeColumns.push({
+                        key: `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+                        label: `${currentDate.toLocaleString('en-US', { month: 'short' })} ${currentDate.getDate()}`,
+                        year: year,
+                    });
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            } else {
+                currentDate.setFullYear(parseInt(year) + 1, 0, 1);
+            }
+        }
+    }
+
+
+    // --- Data Aggregation (remains the same) ---
+    const iconsData = {};
+    const budgetData = {};
+    const upliftData = { HL: {}, machines: {}, MACO: {} };
+    uniqueChannels.forEach(ch => iconsData[ch] = {});
+    uniqueBudgetTypes.forEach(bt => budgetData[bt] = {});
+    Object.keys(upliftData).forEach(metric => { timeColumns.forEach(col => { upliftData[metric][col.key] = 0; }); });
+    appState.allTimelineItems.forEach(item => {
+        const startDate = new Date(item.promo_start_date);
+        const endDate = new Date(item.promo_end_date);
+        const attributionDate = item.promo_type === "Loyalty Program" ? endDate : startDate;
+        const year = String(attributionDate.getFullYear());
+        let financialKey;
+        if (view === 'monthly') financialKey = `${year}-${String(attributionDate.getMonth() + 1).padStart(2, '0')}`;
+        else if (view === 'weekly') financialKey = `${year}-W${String(getWeek(attributionDate)).padStart(2, '0')}`;
+        else financialKey = `${year}-${String(attributionDate.getMonth() + 1).padStart(2, '0')}-${String(attributionDate.getDate()).padStart(2, '0')}`;
+        if (timeColumns.some(c => c.key === financialKey)) {
+            upliftData.HL[financialKey] = (upliftData.HL[financialKey] || 0) + (item.promo_uplift_HL || 0);
+            upliftData.machines[financialKey] = (upliftData.machines[financialKey] || 0) + (item.promo_uplift_machine || 0);
+            upliftData.MACO[financialKey] = (upliftData.MACO[financialKey] || 0) + (item.MACO || 0);
+            if (item.promo_type === "Loyalty Program") {
+                const budgetVal = (item.promo_budget && item.promo_budget.length > 0) ? item.promo_budget[0] : 0;
+                if (!budgetData["Loyalty Program"]) budgetData["Loyalty Program"] = {};
+                budgetData["Loyalty Program"][financialKey] = (budgetData["Loyalty Program"][financialKey] || 0) + budgetVal;
+            } else if (Array.isArray(item.promo_budget_type)) {
+                (item.promo_budget || []).forEach((val, i) => {
+                    const type = item.promo_budget_type[i];
+                    if (!budgetData[type]) budgetData[type] = {};
+                    budgetData[type][financialKey] = (budgetData[type][financialKey] || 0) + (val || 0);
                 });
             }
-        });
-
-        const grandTotalHL = Object.values(monthTotals).reduce((sum, month) => sum + month.HL, 0);
-        const grandTotalMACO = Object.values(monthTotals).reduce((sum, month) => sum + month.MACO, 0);
-        const grandTotalMachines = Object.values(monthTotals).reduce((sum, month) => sum + month.machines, 0);
-
-        // Generate Calendar HTML for this year
-        uniqueChannels.forEach(channel => {
-            const className = channel.includes("Loyalty") ? "channel-header-loyalty" : "channel-header";
-            tableHTMLcalendar += `
-                <tr class="${className}">
-                    <td>${channel}</td>
-                    ${months.map((month, index) => {
-                const iconsSet = yearIconsData[channel][monthNamesFull[index]];
-                const iconsArray = Array.from(iconsSet);
-                const iconString = iconsArray.length > 0 ? iconsArray.join('') : '-';
-                return `<td class="${iconsArray.length > 0 ? 'icon-cell' : 'empty-cell'}">${iconString}</td>`;
-            }).join('')}
-                </tr>
-            `;
-        });
-
-        // Generate Budget HTML for this year
-        uniqueBudgetTypes.forEach(budgetType => {
-            tableHTMLBudget += `
-                <tr>
-                    <td class="channel-header">${budgetType}</td>
-                    ${months.map((month, index) => {
-                const totalBudget = yearBudgetByTypeData[budgetType][monthNamesFull[index]];
-                const budgetString = totalBudget > 0 ? totalBudget.toLocaleString('fr-FR', {
-                    style: 'currency',
-                    currency: 'EUR',
-                    minimumFractionDigits: 0,
-                    maximumFractionDigits: 0
-                }) : '-';
-                return `<td class="${totalBudget > 0 ? 'data-cell' : 'empty-cell'}">${budgetString}</td>`;
-            }).join('')}
-                    <td>${(budgetTypeTotals[budgetType] || 0).toLocaleString('fr-FR', {
-                style: 'currency',
-                currency: 'EUR',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            })}</td>
-                </tr>
-            `;
-        });
-
-        // Generate Uplift HTML for this year
-        tableHTMLUplift += `
-            <tr>
-                <td class="channel-header">HL Uplift</td>
-                ${months.map((month, index) => {
-            const totalHL = yearFinancialData[monthNamesFull[index]].HL;
-            const hlString = totalHL > 0 ? totalHL.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalHL > 0 ? 'data-cell' : 'empty-cell'}">${hlString}</td>`;
-        }).join('')}
-                <td>${grandTotalHL.toLocaleString('fr-FR', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</td>
-            </tr>
-            <tr>
-                <td class="channel-header">MACO</td>
-                ${months.map((month, index) => {
-            const totalMACO = yearFinancialData[monthNamesFull[index]].MACO;
-            const MACOString = totalMACO > 0 ? totalMACO.toLocaleString('fr-FR', {
-                style: 'currency',
-                currency: 'EUR',
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMACO > 0 ? 'data-cell' : 'empty-cell'}">${MACOString}</td>`;
-        }).join('')}
-                <td>${grandTotalMACO.toLocaleString('fr-FR', {
-            style: 'currency',
-            currency: 'EUR',
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</td>
-            </tr>
-            <tr>
-                <td class="channel-header">Machines Uplift</td>
-                ${months.map((month, index) => {
-            const totalMachines = yearFinancialData[monthNamesFull[index]].machines;
-            const machinesString = totalMachines > 0 ? totalMachines.toLocaleString('fr-FR', {
-                minimumFractionDigits: 0,
-                maximumFractionDigits: 0
-            }) : '-';
-            return `<td class="${totalMachines > 0 ? 'data-cell' : 'empty-cell'}">${machinesString}</td>`;
-        }).join('')}
-                <td>${grandTotalMachines.toLocaleString('fr-FR', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 0
-        })}</td>
-            </tr>
-        `;
+        }
+        let currentDate = new Date(startDate);
+        while (currentDate <= endDate) {
+            const currentYear = String(currentDate.getFullYear());
+            let iconKey;
+            if (view === 'monthly') iconKey = `${currentYear}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+            else if (view === 'weekly') iconKey = `${currentYear}-W${String(getWeek(currentDate)).padStart(2, '0')}`;
+            else iconKey = `${currentYear}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`;
+            if (timeColumns.some(c => c.key === iconKey)) {
+                (item.channel_tags || []).forEach(channel => {
+                    if (!iconsData[channel][iconKey]) iconsData[channel][iconKey] = new Set();
+                    iconsData[channel][iconKey].add(item.icon);
+                });
+            }
+            if (view === 'monthly') {
+                currentDate.setDate(1); // Ensure we are at the start of the month before incrementing
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            } else {
+                currentDate.setDate(currentDate.getDate() + 1);
+            }
+        }
     });
+
+    // --- HTML Generation ---
+    const formatCurrency = (value) => value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    const formatNumber = (value) => value.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
+    // MODIFIED: This function now generates rows for a specific year
+    const generateYearlyRows = (year, titles, dataAccessor, isCurrency = false, isIcon = false) => {
+        let yearHTML = '';
+        const yearColumns = timeColumns.filter(c => c.year === year);
+        if (yearsToRender.length > 1) {
+            const colspan = isIcon ? yearColumns.length + 1 : yearColumns.length + 2;
+            yearHTML += `<tr class="year-marker-row"><td colspan="${colspan}" class="year-marker-cell">${year}</td></tr>`;
+        }
+        titles.forEach(title => {
+            let total = 0;
+            const data = dataAccessor(title);
+            const cells = yearColumns.map(col => {
+                const value = data[col.key] || (isIcon ? new Set() : 0);
+                if (!isIcon) total += value;
+                let displayValue = '-';
+                if (isIcon) {
+                    displayValue = value.size > 0 ? Array.from(value).join('') : '-';
+                } else if (value) {
+                    displayValue = isCurrency ? formatCurrency(value) : formatNumber(value);
+                }
+                return `<td class="${value && (isIcon ? value.size > 0 : value) ? (isIcon ? 'icon-cell' : 'data-cell') : 'empty-cell'}">${displayValue}</td>`;
+            }).join('');
+            const totalCell = isIcon ? '' : `<td>${isCurrency ? formatCurrency(total) : formatNumber(total)}</td>`;
+            yearHTML += `<tr><td class="channel-header">${title}</td>${cells}${totalCell}</tr>`;
+        });
+        return yearHTML;
+    };
+
+    const viewTitle = view.charAt(0).toUpperCase() + view.slice(1);
+    const tableHeaders = (year) => {
+        const yearColumns = timeColumns.filter(c => c.year === year);
+        return `<thead class="promo-table-HomePage-header"><tr><th>${viewTitle}</th>${yearColumns.map(c => `<th class="month-header">${c.label}</th>`).join('')}<th>Total</th></tr></thead>`;
+    };
+    const iconTableHeaders = (year) => {
+        const yearColumns = timeColumns.filter(c => c.year === year);
+        return `<thead class="promo-table-HomePage-header"><tr><th>Channel</th>${yearColumns.map(c => `<th class="month-header">${c.label}</th>`).join('')}</tr></thead>`;
+    };
+    
+    // NEW: Build table bodies year by year
+    const fullIconTable = yearsToRender.map(year => `
+        ${iconTableHeaders(year)}
+        <tbody>
+            ${generateYearlyRows(year, uniqueChannels, (title) => iconsData[title], false, true)}
+        </tbody>
+    `).join('');
+
+    const fullBudgetTable = yearsToRender.map(year => `
+        ${tableHeaders(year)}
+        <tbody>
+            ${generateYearlyRows(year, uniqueBudgetTypes, (title) => budgetData[title] || {}, true)}
+        </tbody>
+    `).join('');
+    
+    const fullUpliftTable = yearsToRender.map(year => `
+        ${tableHeaders(year)}
+        <tbody>
+            ${generateYearlyRows(year, ['HL Uplift'], () => upliftData.HL)}
+            ${generateYearlyRows(year, ['MACO'], () => upliftData.MACO, true)}
+            ${generateYearlyRows(year, ['Machines Uplift'], () => upliftData.machines)}
+        </tbody>
+    `).join('');
 
 
     root.innerHTML = `
-        <h1>${h1TitleCalendar}</h1>
-        <table class="promo-table-HomePage">
-            <thead class="promo-table-HomePage-header">
-                <tr>
-                    <th>Channel</th>
-                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
-                </tr>
-            </thead>
-            <tbody>
-                ${tableHTMLcalendar}
-            </tbody>
-        </table>
+        <h1>Promotional Calendar ${yearsToRender.join(', ')} - Icons (${viewTitle})</h1>
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage">${fullIconTable}</table>
+        </div>
         <div style="margin-top: 20px; font-size: 12px; color: #666;">
-            <p><strong>Legend:</strong> Each icon represents a promotional campaign. Multiple icons in the same cell
-                indicate multiple campaigns running in that month for that channel.</p>
-            <p><strong>Note:</strong> Icons represent all months spanned (for non-Loyalty). Financials are attributed to the start month only (for non-Loyalty). For Loyalty Programs, both icon and financials are attributed to the END month.</p>
+            <p><strong>Note:</strong> Icons represent all time periods spanned by a promotion. Financials are attributed to the start date (or end date for Loyalty Programs).</p>
         </div>
 
-        <h1 style="margin-top: 50px;">${h1TitleBudget}</h1>
-        <table class="promo-table-HomePage" style="margin-top: 30px;">
-            <thead class="promo-table-HomePage-header">
-                <tr>
-                    <th>Budget Type</th>
-                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${tableHTMLBudget}
-            </tbody>
-        </table>
+        <h1 style="margin-top: 50px;">Budget Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage" style="margin-top: 30px;">${fullBudgetTable}</table>
+        </div>
 
-        <table class="promo-table-HomePage" style="margin-top: 30px;">
-            <thead class="promo-table-HomePage-header">
-                <tr>
-                    <th>UPLIFT / MACO</th>
-                    ${months.map(month => `<th class="month-header">${month}</th>`).join('')}
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${tableHTMLUplift}
-            </tbody>
-        </table>
+        <h1 style="margin-top: 50px;">Uplift / MACO Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage" style="margin-top: 30px;">${fullUpliftTable}</table>
+        </div>
     `;
 }
+    

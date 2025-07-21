@@ -653,6 +653,7 @@ p {
 .promo-table-HomePage th {
     font-size: 12px;
     text-align: center;
+    min-width: 60px;
 }
 
 /* Overrides common text-align */
@@ -1638,3 +1639,36 @@ em-emoji-picker {
     border-radius: 3px;
     padding: 10px;
 }
+
+.view-switcher {
+            display: inline-block;
+            background-color: #f2f2f2;
+            border-radius: 20px;
+            padding: 4px;
+            margin-left: 15px;
+        }
+
+        .view-switcher label {
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        .view-switcher input[type="radio"] {
+            display: none;
+        }
+
+        .view-switcher input[type="radio"]:checked+label {
+            background-color: #007bff;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .table-scroll-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+        }

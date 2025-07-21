@@ -56,6 +56,15 @@ export async function updateAndRenderContent() {
     }
 }
 
+
+const viewSwitcher = document.getElementById('viewSwitcher');
+if (viewSwitcher) {
+    viewSwitcher.addEventListener('change', () => {
+        // Now, this will call the actual function to re-render the tables
+        renderTablesHomePage();
+    });
+}
+
 /**
  * Initializes the main application logic.
  */
