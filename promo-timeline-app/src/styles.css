@@ -1113,6 +1113,7 @@ textarea[disabled]:focus {
 /* --- Profile/Edit Page Layout --- */
 .edit-page-wrapper {
     display: flex;
+    align-items: flex-start;
     width: 100%;
 
 }
@@ -1367,8 +1368,11 @@ em-emoji-picker {
 
 /* Make the promo preview section scrollable if content is too long */
 .promo-preview-section {
-    overflow-y: auto;
-    flex: 2;
+    flex: 2; /* This column will be narrower */
+  position: -webkit-sticky; /* Safari compatibility */
+  position: sticky;
+  /* This tells the browser to "stick" this element 20px from the top of the viewport when you scroll */
+  Top: 0px;
 }
 
 /* --- Responsive Adjustments --- */

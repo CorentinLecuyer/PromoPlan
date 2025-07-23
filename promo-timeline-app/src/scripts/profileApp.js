@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
         profileEmojiAvatar.textContent = selectedEmoji;
 
-        const { data, error      } = await supabase
+        const { data, error } = await supabase
             .from('user_profiles')
             .select(`
             country,

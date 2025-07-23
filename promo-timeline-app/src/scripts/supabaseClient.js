@@ -402,3 +402,54 @@ export async function updateUserProfileFields(userId, updates) {
     if (error) console.error('Error updating user profile fields:', error);
     return { data, error };
 }
+
+/**
+ * Updates a user's full profile, including data in the 'user_profiles' table
+ * and the metadata in the 'auth.users' table.
+ * @param {string} userId - The ID of the user to update.
+ * @param {object} updates - An object containing all fields to update.
+ * @returns {Promise<object>} An object containing { data, error }.
+ */
+export async function updateFullUserProfile(userId, updates) {
+    try {
+        // 1. Separate the updates for each table
+        const profileTableUpdates = {
+            first_name: updates.first_name,
+            last_name: updates.last_name,
+            country: updates.country,
+            channel: updates.channel,
+            manager_id: updates.manager_id
+        };
+
+        const authMetadataUpdates = {
+            data: { // Auth updates must be nested under 'data'
+                display_name: updates.display_name,
+                avatar_emoji: updates.avatar_emoji
+            }
+        };
+
+        // 2. Perform the update on the user_profiles table
+        const { error: profileError } = await supabase
+            .from('user_profiles')
+            .update(profileTableUpdates)
+            .eq('id', userId);
+
+        if (profileError) throw profileError;
+
+        // 3. Perform the update on the auth.users table using the special admin client
+        // This requires calling a special Edge Function for security reasons.
+        // We will create this in the next step. For now, let's assume it exists.
+        const { data: authData, error: authError } = await supabase.auth.admin.updateUserById(
+            userId,
+            authMetadataUpdates
+        );
+
+        if (authError) throw authError;
+
+        return { data: authData.user, error: null };
+
+    } catch (error) {
+        console.error('Error updating full user profile:', error);
+        return { data: null, error };
+    }
+}

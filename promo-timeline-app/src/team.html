@@ -40,7 +40,7 @@
                     <h2>My Reporting Line</h2>
                     <div id="managers-list" class="user-list"></div>
                 </div>
-                 <div class="profile-box" style="margin-top: 20px;">
+                <div class="profile-box" style="margin-top: 20px;">
                     <h2>My Peers</h2>
                     <div id="peers-list" class="user-list"></div>
                 </div>
@@ -59,23 +59,22 @@
             <div class="profile-box">
                 <form id="detail-form">
                     <input type="hidden" id="detailUserId">
-
                     <div id="detail-panel-content">
                         <p>Select a team member to see their details.</p>
                     </div>
-                    
                     <div id="detail-form-actions"></div>
                 </form>
-
                 <p id="managementMessage" class="auth-message"></p>
             </div>
         </div>
     </div>
 
     <style>
-        .user-list, .user-list-management {
+        .user-list,
+        .user-list-management {
             margin-top: 20px;
         }
+
         .user-card {
             display: flex;
             align-items: center;
@@ -86,27 +85,34 @@
             margin-bottom: 15px;
             gap: 15px;
         }
+
         .user-card-details {
             flex-grow: 1;
         }
+
         .user-card-details p {
             margin: 0;
             font-weight: 600;
         }
+
         .user-card-actions {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .user-card-actions select {
             min-width: 150px;
-            padding: 8px; /* Override from styles.css for a better fit */
+            padding: 8px;
+            /* Override from styles.css for a better fit */
         }
+
         .user-card-actions button {
             padding: 8px 12px;
             font-size: 0.9em;
             width: auto;
         }
+
         .level-indicator {
             font-size: 0.8em;
             color: #6c757d;
@@ -115,4 +121,5 @@
 
     <script type="module" src="scripts/teamApp.js"></script>
 </body>
+
 </html>

@@ -6,7 +6,7 @@ import {
     fetchSubordinates, 
     fetchManagers,
     fetchPeers,
-    updateUserSingleField as updateUserProfileFields // Renamed for clarity
+    updateUserProfileFields // Renamed for clarity
 } from './supabaseClient.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -78,15 +78,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Generate the form fields HTML
         detailPanelContent.innerHTML = `
-            <h2><span class="avatar-emoji">${user.avatar_emoji || '👤'}</span>Editing User</h2>
+            <h2><span class="avatar-emoji">${user.avatar_emoji || '👤'}</span>${user.first_name} ${user.last_name}</h2>
             <div class="form-grid-container">
                 <div class="input-group">
                     <label for="detailFirstName">First Name</label>
-                    <input type="text" id="detailFirstName" value="${user.first_name || ''}">
+                    <input type="text" id="detailFirstName" value="${user.first_name || ''}" disabled>
                 </div>
                 <div class="input-group">
                     <label for="detailLastName">Last Name</label>
-                    <input type="text" id="detailLastName" value="${user.last_name || ''}">
+                    <input type="text" id="detailLastName" value="${user.last_name || ''}" disabled>
                 </div>
                 <div class="input-group">
                     <label for="detailCountry">Country</label>
