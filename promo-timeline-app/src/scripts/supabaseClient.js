@@ -310,3 +310,95 @@ export async function createPromoTableWithFunction(tableData) {
   });
   return { data, error };
 }
+
+
+
+// TEAM MANAGEMENT
+
+// ===================================================================
+// Team Management Functions
+// ===================================================================
+
+async function fetchAllUserProfiles() {
+    const { data, error } = await supabase.rpc('get_all_user_profiles');
+    if (error) {
+        console.error('Error fetching all user profiles:', error);
+        return [];
+    }
+    return data;
+}
+
+/**
+ * Fetches all users to populate manager selection dropdowns.
+ * This now uses the central fetch function.
+ */
+export async function fetchAllUsers() {
+    const data = await fetchAllUserProfiles();
+    return { data, error: null };
+}
+
+/**
+ * Fetches all subordinates for a given manager.
+ */
+export async function fetchSubordinates(managerId) {
+    const { data: subordinateIds, error: rpcError } = await supabase.rpc('get_all_subordinates', {
+        manager_id_input: managerId
+    });
+
+    if (rpcError || !subordinateIds || subordinateIds.length === 0) {
+        return { data: [], error: rpcError };
+    }
+
+    const allProfiles = await fetchAllUserProfiles();
+    const idsToFind = new Set(subordinateIds.map(s => s.subordinate_id));
+    const data = allProfiles.filter(p => idsToFind.has(p.id));
+    
+    return { data, error: null };
+}
+
+/**
+ * Fetches the entire management chain above a given user.
+ */
+export async function fetchManagers(userId) {
+    const { data: managerIds, error: rpcError } = await supabase.rpc('get_all_managers', {
+        user_id_input: userId
+    });
+
+    if (rpcError || !managerIds || managerIds.length === 0) {
+        return { data: [], error: rpcError };
+    }
+
+    const allProfiles = await fetchAllUserProfiles();
+    const orderedData = managerIds
+        .sort((a, b) => a.level - b.level)
+        .map(m => allProfiles.find(p => p.id === m.manager_id))
+        .filter(Boolean); 
+
+    return { data: orderedData, error: null };
+}
+
+/**
+ * Fetches peers (users with the same manager).
+ */
+export async function fetchPeers(userId, managerId) {
+    if (!managerId) return { data: [], error: null };
+    
+    const allProfiles = await fetchAllUserProfiles();
+    const data = allProfiles.filter(p => p.manager_id === managerId && p.id !== userId);
+
+    return { data, error: null };
+}
+
+/**
+ * Updates a specific user's single field, like manager_id.
+ */
+export async function updateUserProfileFields(userId, updates) {
+    const { data, error } = await supabase
+        .from('user_profiles')
+        .update(updates)
+        .eq('id', userId)
+        .select();
+
+    if (error) console.error('Error updating user profile fields:', error);
+    return { data, error };
+}

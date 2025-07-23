@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Team Management - PerfectDraft</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png" />
+</head>
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="CommandBoard.html" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+
+        <div>
+            <a href="CommandBoard.html" style="display: inline-block; text-decoration: none">
+                <label style="font-weight: 400" class="multiselect-header">Calendar View 📅</label>
+            </a>
+            <a href="PromoTimeline.html" style="display: inline-block; margin-left: 10px; text-decoration: none;">
+                <label style="font-weight: 400" class="multiselect-header">Timeline View ↕️</label>
+            </a>
+            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+                <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
+            </a>
+            <button id="logoutButton" class="logoutButton" style="margin-left: 10px; display: inline-block;">
+                Logout
+            </button>
+        </div>
+    </div>
+
+    <div class="login-page-wrapper team-management-grid">
+        <div class="team-main-content">
+            <div class="profile-info-section">
+                <div class="profile-box">
+                    <h2>My Reporting Line</h2>
+                    <div id="managers-list" class="user-list"></div>
+                </div>
+                 <div class="profile-box" style="margin-top: 20px;">
+                    <h2>My Peers</h2>
+                    <div id="peers-list" class="user-list"></div>
+                </div>
+            </div>
+
+            <div class="profile-promos-section">
+                <div class="profile-box">
+                    <h1>Manage My Team</h1>
+                    <p style="font-size: 0.9em; color: #555;">Select a user to view and edit their details.</p>
+                    <div id="subordinates-list" class="user-list-management"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="detail-panel" class="team-detail-content is-hidden">
+            <div class="profile-box">
+                <form id="detail-form">
+                    <input type="hidden" id="detailUserId">
+
+                    <div id="detail-panel-content">
+                        <p>Select a team member to see their details.</p>
+                    </div>
+                    
+                    <div id="detail-form-actions"></div>
+                </form>
+
+                <p id="managementMessage" class="auth-message"></p>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .user-list, .user-list-management {
+            margin-top: 20px;
+        }
+        .user-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            background-color: #fafafa;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            gap: 15px;
+        }
+        .user-card-details {
+            flex-grow: 1;
+        }
+        .user-card-details p {
+            margin: 0;
+            font-weight: 600;
+        }
+        .user-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-card-actions select {
+            min-width: 150px;
+            padding: 8px; /* Override from styles.css for a better fit */
+        }
+        .user-card-actions button {
+            padding: 8px 12px;
+            font-size: 0.9em;
+            width: auto;
+        }
+        .level-indicator {
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+    </style>
+
+    <script type="module" src="scripts/teamApp.js"></script>
+</body>
+</html>
