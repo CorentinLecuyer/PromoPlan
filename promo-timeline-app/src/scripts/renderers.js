@@ -1,6 +1,6 @@
 import { appState } from './state.js';
 import { formatDateRange, getMonthsBetweenDates } from './utils.js';
-import { getSavedFilters } from './shared/filterModal.js'; 
+import { getSavedFilters } from './shared/filterModal.js';
 
 export function getTableDataById(tableId) {
     return appState.allTableData.find(table => String(table.id) === String(tableId));
@@ -124,7 +124,7 @@ export function renderTimeline() {
         if (item.bordertextcolor && item.bordertextcolor !== '') {
             promoTypeStyle += `color: ${item.bordertextcolor};`;
         } else {
-            promoTypeStyle; // Default to white if not specified
+            promoTypeStyle += `color: white;`; // Default to white if not specified
         }
 
         const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderStyle}"`;
@@ -406,7 +406,7 @@ export function renderTablesHomePage() {
         const yearColumns = timeColumns.filter(c => c.year === year);
         return `<thead class="promo-table-HomePage-header"><tr><th>Channel</th>${yearColumns.map(c => `<th class="month-header">${c.label}</th>`).join('')}</tr></thead>`;
     };
-    
+
     // NEW: Build table bodies year by year
     const fullIconTable = yearsToRender.map(year => `
         ${iconTableHeaders(year)}
@@ -421,7 +421,7 @@ export function renderTablesHomePage() {
             ${generateYearlyRows(year, uniqueBudgetTypes, (title) => budgetData[title] || {}, true)}
         </tbody>
     `).join('');
-    
+
     const fullUpliftTable = yearsToRender.map(year => `
         ${tableHeaders(year)}
         <tbody>
@@ -452,4 +452,3 @@ export function renderTablesHomePage() {
         </div>
     `;
 }
-    

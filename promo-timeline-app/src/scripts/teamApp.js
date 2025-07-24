@@ -1,19 +1,16 @@
-// scripts/teamApp.js (Refactored for Detail Form)
-
+// scripts/teamApp.js (Corrected and Final Version)
 import { supabase, signOut, getSession, getUser } from './supabaseAuth.js';
-import { 
-    fetchAllUsers, 
-    fetchSubordinates, 
-    fetchManagers,
-    fetchPeers,
-    updateUserProfileFields // Renamed for clarity
+import {
+    fetchAllUsers,
+    fetchSubordinates,
+    updateFullUserProfile,
+    fetchCountries,
+    fetchChannels
 } from './supabaseClient.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- Page Elements ---
-    const managersListDiv = document.getElementById('managers-list');
     const subordinatesListDiv = document.getElementById('subordinates-list');
-    const peersListDiv = document.getElementById('peers-list');
     const detailPanel = document.getElementById('detail-panel');
     const detailPanelContent = document.getElementById('detail-panel-content');
     const detailForm = document.getElementById('detail-form');
@@ -24,33 +21,14 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Authentication ---
     const session = await getSession();
-    if (!session) {
-        window.location.href = 'login.html';
-        return;
-    }
+    if (!session) { window.location.href = 'login.html'; return; }
     const currentUser = await getUser();
 
-    let allUsers = []; // Cache for all users
+    let allUsers = [];
+    let allCountries = [];
+    let allChannels = [];
 
     // --- RENDER FUNCTIONS ---
-    
-    // Renders simple, non-interactive lists (Managers, Peers)
-    function renderSimpleList(container, users, message) {
-        if (!users || users.length === 0) {
-            container.innerHTML = `<p>${message}</p>`;
-            return;
-        }
-        container.innerHTML = users.map(user => `
-            <div class="user-card" data-user-id="${user.id}">
-                <span class="avatar-emoji">${user.avatar_emoji || '👤'}</span>
-                <div class="user-card-details">
-                    <p>${user.first_name} ${user.last_name}</p>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    // Renders the list of subordinates (for selection only)
     function renderSubordinates(subordinates) {
         if (!subordinates || subordinates.length === 0) {
             subordinatesListDiv.innerHTML = `<p>You have no subordinates in your chain of command.</p>`;
@@ -66,135 +44,117 @@ document.addEventListener('DOMContentLoaded', async () => {
         `).join('');
     }
 
-    // --- NEW: Detail Form Logic ---
-
-    // Populates the detail form with the selected user's data
+    // --- DETAIL FORM LOGIC ---
     function showUserDetailsInForm(userId) {
         const user = allUsers.find(u => u.id === userId);
         if (!user) return;
 
-        // Store the user ID in the hidden input
         detailUserIdInput.value = user.id;
 
-        // Generate the form fields HTML
+        // Dynamically create the entire form content
         detailPanelContent.innerHTML = `
-            <h2><span class="avatar-emoji">${user.avatar_emoji || '👤'}</span>${user.first_name} ${user.last_name}</h2>
+            <div class="profile-avatar-upload">
+                <span id="profileEmojiAvatar" class="avatar-emoji">${user.avatar_emoji || '👤'}</span>
+                <h2>${user.first_name} ${user.last_name}</h2>
+            </div>
             <div class="form-grid-container">
-                <div class="input-group">
-                    <label for="detailFirstName">First Name</label>
-                    <input type="text" id="detailFirstName" value="${user.first_name || ''}" disabled>
-                </div>
-                <div class="input-group">
-                    <label for="detailLastName">Last Name</label>
-                    <input type="text" id="detailLastName" value="${user.last_name || ''}" disabled>
-                </div>
-                <div class="input-group">
-                    <label for="detailCountry">Country</label>
-                    <input type="text" id="detailCountry" value="${user.country || ''}">
-                </div>
-                <div class="input-group">
-                    <label for="detailChannel">Channel</label>
-                    <input type="text" id="detailChannel" value="${user.channel || ''}">
-                </div>
-                <div class="input-group full-width">
-                    <label for="detailManager">Manager</label>
-                    <select id="detailManager">
-                        <option value="">(Unassigned)</option>
-                        ${allUsers.map(u => `<option value="${u.id}" ${u.id === user.manager_id ? 'selected' : ''}>${u.first_name} ${u.last_name}</option>`).join('')}
-                    </select>
-                </div>
+                <div class="input-group"><label for="detailDisplayName">Display Name</label><input type="text" id="detailDisplayName" value="${user.display_name || ''}"></div>
+                <div class="input-group"><label for="detailJobTitle">Job Title</label><input type="text" id="detailJobTitle" value="${user.job_title || ''}"></div>
+                <div class="input-group"><label for="detailFirstName">First Name</label><input type="text" id="detailFirstName" value="${user.first_name || ''}"></div>
+                <div class="input-group"><label for="detailLastName">Last Name</label><input type="text" id="detailLastName" value="${user.last_name || ''}"></div>
+                <div class="input-group"><label for="detailEmployeeId">Employee ID</label><input type="text" id="detailEmployeeId" value="${user.employee_id || ''}"></div>
+                <div class="input-group"><label for="detailAppRole">Application Role</label><select id="detailAppRole"><option value="user">User</option><option value="admin">Admin</option></select></div>
+                <div class="input-group"><label for="detailCountry">Country</label><select id="detailCountry"></select></div>
+                <div class="input-group"><label for="detailChannel">Channel</label><select id="detailChannel"></select></div>
+                <div class="input-group full-width"><label for="detailManager">Manager</label><select id="detailManager"></select></div>
             </div>
         `;
-        
-        // Add the save button to the actions container
-        detailFormActions.innerHTML = `<button type="submit" class="updateButton" style="width: 100%; margin-top: 20px;">Save Changes</button>`;
 
-        // Make the panel visible
+        // Correctly populate all dropdowns after the HTML is created
+        document.getElementById('detailAppRole').value = user.app_role || 'user';
+
+        const countrySelect = document.getElementById('detailCountry');
+        countrySelect.innerHTML = allCountries.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        countrySelect.value = user.country_id || '';
+
+        const channelSelect = document.getElementById('detailChannel');
+        channelSelect.innerHTML = allChannels.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        channelSelect.value = user.channel_id || '';
+        
+        const managerSelect = document.getElementById('detailManager');
+        managerSelect.innerHTML = allUsers.map(u => `<option value="${u.id}">${u.first_name} ${u.last_name}</option>`).join('');
+        managerSelect.insertAdjacentHTML('afterbegin', '<option value="">(Unassigned)</option>');
+        managerSelect.value = user.manager_id || '';
+        
+        detailFormActions.innerHTML = `<button type="submit" class="updateButton" style="width: 100%; max-width:300px; margin-top: 20px;">Save All Changes</button>`;
         detailPanel.classList.remove('is-hidden');
     }
 
     // --- EVENT HANDLERS ---
-    
-    // Listen for clicks on the main container
     document.querySelector('.login-page-wrapper').addEventListener('click', (event) => {
         const userCard = event.target.closest('.user-card');
         if (userCard) {
             document.querySelectorAll('.user-card.is-active').forEach(card => card.classList.remove('is-active'));
             userCard.classList.add('is-active');
-            const userId = userCard.dataset.userId;
-            showUserDetailsInForm(userId);
+            showUserDetailsInForm(userCard.dataset.userId);
         }
     });
 
-    // Listen for the form submission
     detailForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent default form submission
-        
+        event.preventDefault();
         const button = detailForm.querySelector('button[type="submit"]');
         button.textContent = 'Saving...';
         button.disabled = true;
 
         const userIdToUpdate = detailUserIdInput.value;
 
-        // Collect all the updated data from the form
+        // Collect data from all form fields, ensuring IDs are sent for country and channel
         const updates = {
             first_name: document.getElementById('detailFirstName').value,
             last_name: document.getElementById('detailLastName').value,
-            country: document.getElementById('detailCountry').value,
-            channel: document.getElementById('detailChannel').value,
+            country_id: parseInt(document.getElementById('detailCountry').value), // Use country_id
+            channel_id: parseInt(document.getElementById('detailChannel').value), // Use channel_id
             manager_id: document.getElementById('detailManager').value || null,
+            display_name: document.getElementById('detailDisplayName').value,
+            avatar_emoji: allUsers.find(u => u.id === userIdToUpdate)?.avatar_emoji || '👤', // Use existing emoji
+            employee_id: document.getElementById('detailEmployeeId').value,
+            job_title: document.getElementById('detailJobTitle').value,
+            app_role: document.getElementById('detailAppRole').value
         };
 
-        const { error } = await updateUserProfileFields(userIdToUpdate, updates);
+        const { error } = await updateFullUserProfile(userIdToUpdate, updates);
 
         if (error) {
             managementMessage.textContent = `Error updating profile: ${error.message}`;
             managementMessage.style.color = 'red';
-            button.textContent = 'Save Changes';
-            button.disabled = false;
         } else {
             managementMessage.textContent = 'Profile updated successfully!';
             managementMessage.style.color = 'green';
             setTimeout(() => { managementMessage.textContent = '' }, 3000);
-            
-            button.textContent = 'Save Changes';
-            button.disabled = false;
-            
-            // Reload all data to reflect the changes everywhere on the page
-            loadDashboard();
+            loadDashboard(); // Reload data to reflect changes
         }
+        button.textContent = 'Save All Changes';
+        button.disabled = false;
     });
 
     // --- MAIN LOAD FUNCTION ---
-
     async function loadDashboard() {
-        const { data: userProfile } = await supabase.from('user_profiles').select('id, manager_id').eq('id', currentUser.id).single();
-        if (!userProfile) return;
-
-        const [
-            allUsersRes,
-            subordinatesRes, 
-            managersRes,
-            peersRes
-        ] = await Promise.all([
+        // Fetch everything in parallel, including countries and channels
+        const [allUsersRes, subordinatesRes, countriesRes, channelsRes] = await Promise.all([
             fetchAllUsers(),
             fetchSubordinates(currentUser.id),
-            fetchManagers(currentUser.id),
-            fetchPeers(currentUser.id, userProfile.manager_id),
+            fetchCountries(),
+            fetchChannels()
         ]);
 
         allUsers = allUsersRes.data || [];
+        allCountries = countriesRes.data || [];
+        allChannels = channelsRes.data || [];
 
-        renderSimpleList(managersListDiv, managersRes.data, 'You have no managers.');
-        renderSimpleList(peersListDiv, peersRes.data, 'You have no peers.');
         renderSubordinates(subordinatesRes.data);
     }
 
     // --- INITIALIZATION ---
-    logoutButton.addEventListener('click', async () => {
-        await signOut();
-        window.location.href = 'login.html';
-    });
-
+    logoutButton.addEventListener('click', () => { signOut(); window.location.href = 'login.html'; });
     loadDashboard();
 });

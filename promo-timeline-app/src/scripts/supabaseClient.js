@@ -389,9 +389,7 @@ export async function fetchPeers(userId, managerId) {
     return { data, error: null };
 }
 
-/**
- * Updates a specific user's single field, like manager_id.
- */
+
 export async function updateUserProfileFields(userId, updates) {
     const { data, error } = await supabase
         .from('user_profiles')
@@ -403,53 +401,56 @@ export async function updateUserProfileFields(userId, updates) {
     return { data, error };
 }
 
+
+export async function fetchCountries() {
+    const { data, error } = await supabase.from('countries').select('id, name, bu');
+    if (error) console.error('Error fetching countries:', error);
+    return { data, error };
+}
+
+export async function fetchChannels() {
+    const { data, error } = await supabase.from('channels').select('id, name');
+    if (error) console.error('Error fetching channels:', error);
+    return { data, error };
+}
+
 /**
- * Updates a user's full profile, including data in the 'user_profiles' table
- * and the metadata in the 'auth.users' table.
+ * Calls a secure Edge Function to update a user's full profile.
  * @param {string} userId - The ID of the user to update.
  * @param {object} updates - An object containing all fields to update.
- * @returns {Promise<object>} An object containing { data, error }.
+ * @returns {Promise<object>} An object containing { error }.
  */
 export async function updateFullUserProfile(userId, updates) {
-    try {
-        // 1. Separate the updates for each table
-        const profileTableUpdates = {
-            first_name: updates.first_name,
-            last_name: updates.last_name,
-            country: updates.country,
-            channel: updates.channel,
-            manager_id: updates.manager_id
-        };
+    const { error } = await supabase.rpc('update_user_details', {
+        user_id_to_update: userId,
+        new_first_name: updates.first_name,
+        new_last_name: updates.last_name,
+        new_country_id: updates.country_id, // Changed from country
+        new_channel_id: updates.channel_id, // Changed from channel
+        new_manager_id: updates.manager_id,
+        new_display_name: updates.display_name,
+        new_avatar_emoji: updates.avatar_emoji,
+        new_employee_id: updates.employee_id,
+        new_job_title: updates.job_title,
+        new_app_role: updates.app_role
+    });
 
-        const authMetadataUpdates = {
-            data: { // Auth updates must be nested under 'data'
-                display_name: updates.display_name,
-                avatar_emoji: updates.avatar_emoji
-            }
-        };
+    if (error) console.error('Error updating full user profile:', error);
+    return { error };
+}
 
-        // 2. Perform the update on the user_profiles table
-        const { error: profileError } = await supabase
-            .from('user_profiles')
-            .update(profileTableUpdates)
-            .eq('id', userId);
-
-        if (profileError) throw profileError;
-
-        // 3. Perform the update on the auth.users table using the special admin client
-        // This requires calling a special Edge Function for security reasons.
-        // We will create this in the next step. For now, let's assume it exists.
-        const { data: authData, error: authError } = await supabase.auth.admin.updateUserById(
-            userId,
-            authMetadataUpdates
-        );
-
-        if (authError) throw authError;
-
-        return { data: authData.user, error: null };
-
-    } catch (error) {
-        console.error('Error updating full user profile:', error);
-        return { data: null, error };
+export async function fetchTeams(channelId) {
+    // If no channelId is provided, return an empty array.
+    if (!channelId) {
+        return { data: [], error: null };
     }
+
+    // Fetch teams where the 'channel_id' column matches the selected channel.
+    const { data, error } = await supabase
+        .from('teams')
+        .select('id, name')
+        .eq('channel_id', channelId); // This .eq() is the filter
+
+    if (error) console.error('Error fetching teams:', error);
+    return { data, error };
 }

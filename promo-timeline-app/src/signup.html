@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/favicon%20small.ico" type="image/png">
 </head>
+
 <body>
     <div class="login-page-wrapper">
         <div class="login-image-section">
@@ -14,67 +16,57 @@
         </div>
         <div class="login-form-section">
             <div class="login-box">
-                <h1>Sign Up</h1>
-
-                <div class="login-boxes">
-                <div class="login-box1">
-                <form id="signUpForm">
-                    <div class="input-group">
-                        <label for="firstName">First Name</label>
-                        <input type="text" id="firstName" name="firstName" required>
+                <h2>Create New Team Member Account</h2>
+                <p style="margin-bottom: 30px;">An invitation will be sent to the user to set their password.</p>
+                <form id="createSubordinateForm">
+                    <div class="form-grid-container">
+                        <div class="input-group">
+                            <label for="newFirstName">First Name</label>
+                            <input type="text" id="newFirstName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newLastName">Last Name</label>
+                            <input type="text" id="newLastName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newJobTitle">Job Title</label>
+                            <input type="text" id="newJobTitle" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newEmployeeId">Employee ID</label>
+                            <input type="text" id="newEmployeeId">
+                        </div>
+                        <div class="input-group">
+                            <label for="newEmail">Email</label>
+                            <input type="email" id="newEmail" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="newCountry">Country</label>
+                            <select id="newCountry" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="newChannel">Channel</label>
+                            <select id="newChannel" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="newTeam">Team</label>
+                            <select id="newTeam" required>
+                                <option value="">Loading...</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="input-group">
-                        <label for="lastName">Last Name</label>
-                        <input type="text" id="lastName" name="lastName" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="country">Country</label>
-                        <select id="country" name="country" required>
-                            <option value="">Select Country 🌍</option>
-                            <option value="Belgium">Belgium</option>
-                            <option value="Netherlands">Netherlands</option>
-                            <option value="Luxembourg">Luxembourg</option>
-                            <option value="France">France</option>
-                            <option value="England">England</option>
-                            <option value="Northern Ireland">Northern Ireland</option>
-                            <option value="Switzerland">Switzerland</option>
-                            <option value="Italy">Italy</option>
-                            <option value="Czech Republic">Czech Republic</option>
-                            <option value="Germany">Germany</option>
-                        </select>
-                    </div>
-                </div>
-                    <div class="login-box2">
-                    <div class="input-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" required>
-                    </div>
-                    
-                    <div class="input-group">
-                        <label for="channel">Channel</label>
-                        <select id="channel" name="channel" required>
-                            <option value="">Select Channel</option>
-                            <option value="Off Trade">Off Trade</option>
-                            <option value="On Trade">On Trade</option>
-                            <option value="PerfectDraft">PerfectDraft</option>
-                        </select>
-                    </div>
-                    </div>
-                </div>
-                    <button type="submit" id="submitSignUpButton">Sign Up</button>
-                    <button type="button" id="goToLoginButton">Back to Login</button>
+                    <button type="submit" id="createSubordinateButton">Send Invitation</button>
+                    <p id="createMessage" class="auth-message"></p>
                 </form>
-            
-
                 <p id="authMessage" class="auth-message"></p>
             </div>
         </div>
     </div>
-
-    <script type="module" src="scripts/signupApp.js"></script>
+    <script type="module" src="scripts/teammanagement.js"></script>
 </body>
+
 </html>

@@ -18,5 +18,8 @@
   "dependencies": {
     "fs": "^0.0.1-security",
     "htmlparser2": "^6.0.0"
+  },
+  "devDependencies": {
+    "supabase": "^2.31.8"
   }
 }

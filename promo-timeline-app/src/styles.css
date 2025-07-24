@@ -56,6 +56,7 @@ body {
     background: #fafafa;
     padding: 10px 20px;
     min-height: 100vh;
+    max-height: 100vh;
     color: #333;
     line-height: 1.6;
 }
@@ -816,7 +817,7 @@ p {
     display: flex;
     width: 100%;
     padding: 10px;
-    min-height: 100vh;
+    max-height: 100vh;
     flex-direction: column;
     /* Default to column layout for small screens */
 }
@@ -852,20 +853,22 @@ p {
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     width: 100%;
-    max-width: 600px;
+    max-width: 700px;
     text-align: center;
     border: 1px solid #e0e0e0;
 }
 
 .login-boxes {
     display: flex;
-    flex-direction: row;
-    gap: 20px;
+    flex-direction: column;
+    min-width: 600px;
+    gap: 10px;
 }
 
 .login-box1,
 .login-box2 {
-    flex: 1;
+    display: grid;
+
 }
 
 .login-box h1 {
@@ -900,7 +903,6 @@ input[type="number"],
 input[type="email"],
 input[type="url"],
 input[type="date"],
-
 input[type="tel"],
 input[type="password"],
 textarea,
@@ -1252,10 +1254,12 @@ em-emoji-picker {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     /* Min item width 280px */
-    gap: 25px;
+    gap: 10px;
     /* Space between grid items */
 }
-
+.form-grid-container .input-group {
+    margin-bottom: 5px;
+}
 /* Make specific fields span full width if needed */
 .form-grid-container .full-width {
     grid-column: 1 / -1;
@@ -1283,12 +1287,10 @@ em-emoji-picker {
 #promoDetailForm textarea,
 #promoDetailForm select {
     padding: 8px;
-    /* Slightly less padding for more compact fields */
     font-size: 14px;
     border: 1px solid #ddd;
-    /* Lighter border */
     background-color: #fff;
-    /* Ensure white background */
+
 }
 
 #promoDetailForm textarea {
@@ -1724,10 +1726,33 @@ em-emoji-picker {
     gap: 10px;
 }
 
+.profile-team-section{
+  display: flex;    
+  min-width: 300px;      /* Make the sections themselves flex containers */
+  flex-direction: column;
+   align-items: stretch;
+   position: relative;
+}
+
+.updateTeamButton{
+    position: absolute;
+    top: 40px; /* Distance from the top */
+    right: 40px; /* Distance from the right */
+    background-color: #fbe62a;; /* Example styling */
+    padding: 10px 15px; /* Example styling */
+    border-radius: 5px; /* Example styling */
+}
+
+.updateTeamButton:hover {
+    background-color: #ddcf4d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
 
 .profile-info-section,
 .profile-promos-section {
-  display: flex;          /* Make the sections themselves flex containers */
+  display: flex;    
+  min-width: 300px;      /* Make the sections themselves flex containers */
   flex-direction: column;
    align-items: stretch;/* Stack their children (the .profile-box) vertically */
 }
