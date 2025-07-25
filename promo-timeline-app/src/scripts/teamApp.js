@@ -1,26 +1,34 @@
 // scripts/teamApp.js (Corrected and Final Version)
-import { supabase, signOut, getSession, getUser } from './supabaseAuth.js';
+import { supabase, signOut, getUser } from './supabaseAuth.js';
 import {
     fetchAllUsers,
     fetchSubordinates,
     updateFullUserProfile,
     fetchCountries,
     fetchChannels,
+    fetchTeams,
     fetchPeers,
-    fetchManagers
+    fetchManagers,
+    updateUserTeamMembership,
+    fetchUserTeamMembership
 } from './supabaseClient.js';
 
 
 function createUserCard(user, isClickable = false) {
+
+    console.log(user)
     const avatar = user.avatar_emoji || '👤';
-    const cardClass = isClickable ? 'user-card' : 'display-only-card'; // Use a different class for non-clickable cards
+    const cardClass = isClickable ? 'user-card' : 'display-only-card';
     const dataIdAttribute = isClickable ? `data-user-id="${user.id}"` : '';
+    const teamInfo = user.team_members;
+    const teamName = teamInfo ? teamInfo.teams.name : 'No Team';
 
     return `
         <div class="${cardClass}" ${dataIdAttribute}>
             <span class="avatar-emoji">${avatar}</span>
             <div class="user-card-details">
-                <p>${user.first_name} ${user.last_name}</p>
+                <p class="user-card-name">${user.first_name} ${user.last_name}</p>
+                <p class="user-card-team">${teamName}</p>
             </div>
         </div>
     `;
@@ -39,11 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const peersListDiv = document.getElementById('peers-list');
     const managersListDiv = document.getElementById('managers-list');
 
-
-
     // --- Authentication ---
-    const session = await getSession();
-    if (!session) { window.location.href = 'login.html'; return; }
     const currentUser = await getUser();
     if (!currentUser) { window.location.href = 'login.html'; return; }
 
@@ -55,33 +59,33 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderSubordinates(subordinates) {
         if (!subordinates || subordinates.length === 0) {
             subordinatesListDiv.innerHTML = `<p>You have no subordinates in your chain of command.</p>`;
-            return;
+        } else {
+            subordinatesListDiv.innerHTML = subordinates.map(sub => createUserCard(sub, true)).join('');
         }
-        subordinatesListDiv.innerHTML = subordinates.map(sub => createUserCard(sub, true)).join('');
     }
 
     function renderPeers(peers) {
         if (!peers || peers.length === 0) {
             peersListDiv.innerHTML = `<p>You have no peers to display.</p>`;
-            return;
+        } else {
+            peersListDiv.innerHTML = peers.map(peer => createUserCard(peer, false)).join('');
         }
-        peersListDiv.innerHTML = peers.map(peer => createUserCard(peer, false)).join('');
     }
 
     function renderManagers(managers) {
         if (!managers || managers.length === 0) {
             managersListDiv.innerHTML = `<p>You have no managers in your chain of command.</p>`;
-            return;
+        } else {
+            managersListDiv.innerHTML = managers.map(manager => createUserCard(manager, false)).join('');
         }
-        managersListDiv.innerHTML = managers.map(manager => createUserCard(manager, false)).join('');
     }
 
     // --- DETAIL FORM LOGIC ---
-    function showUserDetailsInForm(userId) {
+    async function showUserDetailsInForm(userId) {
         const user = allUsers.find(u => u.id === userId);
         if (!user) return;
 
-        detailUserIdInput.value = user.id;
+        document.getElementById('detailUserId').value = user.id;
 
         // Dynamically create the entire form content
         detailPanelContent.innerHTML = `
@@ -95,30 +99,66 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <div class="input-group"><label for="detailFirstName">First Name</label><input type="text" id="detailFirstName" value="${user.first_name || ''}"></div>
                 <div class="input-group"><label for="detailLastName">Last Name</label><input type="text" id="detailLastName" value="${user.last_name || ''}"></div>
                 <div class="input-group"><label for="detailEmployeeId">Employee ID</label><input type="text" id="detailEmployeeId" value="${user.employee_id || ''}"></div>
-                <div class="input-group"><label for="detailAppRole">Application Role</label><select id="detailAppRole"><option value="user">User</option><option value="admin">Admin</option></select></div>
                 <div class="input-group"><label for="detailCountry">Country</label><select id="detailCountry"></select></div>
                 <div class="input-group"><label for="detailChannel">Channel</label><select id="detailChannel"></select></div>
+                <div class="input-group"><label for="detailTeam">Team</label><select id="detailTeam"></select></div>
+                <div class="input-group"><label for="detailTeamRole">Team Role</label>
+                    <select id="detailTeamRole">
+                        <option value="member">Member</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
                 <div class="input-group full-width"><label for="detailManager">Manager</label><select id="detailManager"></select></div>
             </div>
         `;
 
-        // Correctly populate all dropdowns after the HTML is created
-        document.getElementById('detailAppRole').value = user.app_role || 'user';
-
+        // Populate and set static dropdowns
         const countrySelect = document.getElementById('detailCountry');
-        countrySelect.innerHTML = allCountries.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
-        countrySelect.value = user.country_id || '';
-
+        const managerSelect = document.getElementById('detailManager');
         const channelSelect = document.getElementById('detailChannel');
+        const teamSelect  = document.getElementById('detailTeam');
+        const teamRoleSelect = document.getElementById('detailTeamRole')
+
+        countrySelect.innerHTML = allCountries.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+        managerSelect.innerHTML = allUsers.map(u => `<option value="${u.id}">${u.first_name} ${u.last_name}</option>`).join('');
+        managerSelect.insertAdjacentHTML('afterbegin', '<option value="">(Unassigned)</option>');
+        countrySelect.value = user.country_id || '';
+        managerSelect.value = user.manager_id || '';
         channelSelect.innerHTML = allChannels.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
         channelSelect.value = user.channel_id || '';
 
-        const managerSelect = document.getElementById('detailManager');
-        managerSelect.innerHTML = allUsers.map(u => `<option value="${u.id}">${u.first_name} ${u.last_name}</option>`).join('');
-        managerSelect.insertAdjacentHTML('afterbegin', '<option value="">(Unassigned)</option>');
-        managerSelect.value = user.manager_id || '';
+        // 1. Get the user's current team and role from the data we already fetched
+        const membership = user.team_members; // FIX: It's now a direct object or null
+const currentTeamId = membership ? membership.teams?.id : null; 
+const currentTeamRole = membership ? membership.role : 'member';
 
-        detailFormActions.innerHTML = `<button type="submit" class="updateButton" style="width: 100%; max-width:300px; margin-top: 20px;">Save All Changes</button>`;
+        const updateTeamDropdown = async () => {
+            const selectedChannelId = channelSelect.value;
+            if (selectedChannelId) {
+                teamSelect.disabled = false;
+                const { data: teams } = await fetchTeams(selectedChannelId);
+                teamSelect.innerHTML = '<option value="">Select a team</option>';
+                if (teams && teams.length > 0) {
+                    teams.forEach(t => teamSelect.innerHTML += `<option value="${t.id}">${t.name}</option>`);
+                }
+                // AFTER populating, set the value
+                teamSelect.value = currentTeamId;
+            } else {
+                teamSelect.innerHTML = '<option value="">Select a channel first</option>';
+                teamSelect.disabled = true;
+            }
+        };
+
+
+        // 3. Attach the event listener for future clicks
+        channelSelect.addEventListener('change', updateTeamDropdown);
+        await updateTeamDropdown();
+
+        // 5. Set the role dropdown's value
+        teamSelect.value = currentTeamId;
+        teamRoleSelect.value = currentTeamRole;
+
+        document.getElementById('detail-form-actions').innerHTML = `<button type="submit" class="updateButton">Save All Changes</button>`;
         detailPanel.classList.remove('is-hidden');
     }
 
@@ -134,30 +174,41 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     detailForm.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const button = detailForm.querySelector('button[type="submit"]');
+        const button = event.target.querySelector('button');
         button.textContent = 'Saving...';
         button.disabled = true;
 
         const userIdToUpdate = detailUserIdInput.value;
+        const teamId = document.getElementById('detailTeam').value;
+        const teamRole = document.getElementById('detailTeamRole').value;
 
-        // Collect data from all form fields, ensuring IDs are sent for country and channel
-        const updates = {
+        // First, update the team membership
+        const { error: teamError } = await updateUserTeamMembership(userIdToUpdate, teamId, teamRole);
+
+        if (teamError) {
+            managementMessage.textContent = `Error updating team: ${teamError.message}`;
+            managementMessage.style.color = 'red';
+            button.textContent = 'Save All Changes';
+            button.disabled = false;
+            return;
+        }
+
+        // Then, update the rest of the user's profile info
+        const profileUpdates = {
             first_name: document.getElementById('detailFirstName').value,
             last_name: document.getElementById('detailLastName').value,
-            country_id: parseInt(document.getElementById('detailCountry').value), // Use country_id
-            channel_id: parseInt(document.getElementById('detailChannel').value), // Use channel_id
+            country_id: parseInt(document.getElementById('detailCountry').value),
+            channel_id: parseInt(document.getElementById('detailChannel').value),
             manager_id: document.getElementById('detailManager').value || null,
             display_name: document.getElementById('detailDisplayName').value,
-            avatar_emoji: allUsers.find(u => u.id === userIdToUpdate)?.avatar_emoji || '👤', // Use existing emoji
             employee_id: document.getElementById('detailEmployeeId').value,
             job_title: document.getElementById('detailJobTitle').value,
-            app_role: document.getElementById('detailAppRole').value
         };
 
-        const { error } = await updateFullUserProfile(userIdToUpdate, updates);
+        const { error: profileError } = await updateFullUserProfile(userIdToUpdate, profileUpdates);
 
-        if (error) {
-            managementMessage.textContent = `Error updating profile: ${error.message}`;
+        if (profileError) {
+            managementMessage.textContent = `Error updating profile: ${profileError.message}`;
             managementMessage.style.color = 'red';
         } else {
             managementMessage.textContent = 'Profile updated successfully!';
@@ -171,7 +222,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- MAIN LOAD FUNCTION ---
     async function loadDashboard() {
-        // Fetch everything in parallel, including countries and channels
         const [allUsersRes, subordinatesRes, managersRes, countriesRes, channelsRes] = await Promise.all([
             fetchAllUsers(),
             fetchSubordinates(currentUser.id),
@@ -180,18 +230,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             fetchChannels(),
         ]);
 
-        // Assign fetched data to the cache variables
         allUsers = allUsersRes.data || [];
         allCountries = countriesRes.data || [];
         allChannels = channelsRes.data || [];
 
-        // CRITICAL FIX: Find the current user's profile to get their manager_id
         const currentUserProfile = allUsers.find(u => u.id === currentUser.id);
 
         let peers = [];
         // Only fetch peers if we successfully found the user's profile and they have a manager
         if (currentUserProfile && currentUserProfile.manager_id) {
-            const peersRes = await fetchPeers(currentUser.id, currentUserProfile.manager_id);
+            // Pass the allUsers cache to the function for efficiency
+            const peersRes = await fetchPeers(currentUser.id, currentUserProfile.manager_id, allUsers);
             peers = peersRes.data || [];
         }
 

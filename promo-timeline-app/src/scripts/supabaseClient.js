@@ -319,7 +319,7 @@ export async function createPromoTableWithFunction(tableData) {
 // Team Management Functions
 // ===================================================================
 
-async function fetchAllUserProfiles() {
+/* async function fetchAllUserProfiles() {
     const { data, error } = await supabase.rpc('get_all_user_profiles');
     if (error) {
         console.error('Error fetching all user profiles:', error);
@@ -327,37 +327,55 @@ async function fetchAllUserProfiles() {
     }
     return data;
 }
+ */
+// In supabaseClient.js
+
+// ===================================================================
+// TEAM MANAGEMENT FUNCTIONS (CORRECTED AND FINAL)
+// ===================================================================
 
 /**
- * Fetches all users to populate manager selection dropdowns.
- * This now uses the central fetch function.
+ * Fetches all user profiles directly from the table, including their team data.
+ * This is the single source of truth for user data.
  */
 export async function fetchAllUsers() {
-    const data = await fetchAllUserProfiles();
-    return { data, error: null };
+        const { data, error } = await supabase
+        .from('user_profiles')
+        .select(`
+            *,
+            team_members (
+                role,
+                teams (id, name)
+            )
+        `)
+
+
+    if (error) {
+        console.error('Error fetching all user profiles:', error);
+    }
+    return { data, error };
 }
 
-/**
- * Fetches all subordinates for a given manager.
- */
+// This version now also fetches team data for each subordinate.
 export async function fetchSubordinates(managerId) {
-    const { data: subordinateIds, error: rpcError } = await supabase.rpc('get_all_subordinates', {
-        manager_id_input: managerId
-    });
-
-    if (rpcError || !subordinateIds || subordinateIds.length === 0) {
-        return { data: [], error: rpcError };
-    }
-
-    const allProfiles = await fetchAllUserProfiles();
-    const idsToFind = new Set(subordinateIds.map(s => s.subordinate_id));
-    const data = allProfiles.filter(p => idsToFind.has(p.id));
+    const { data, error } = await supabase
+        .from('user_profiles')
+        .select(`
+            *,
+            team_members (
+                role,
+                teams (id, name)
+            )
+        `)
+        .eq('manager_id', managerId);
     
-    return { data, error: null };
+    if (error) console.error('Error fetching subordinates:', error);
+    return { data, error };
 }
 
 /**
  * Fetches the entire management chain above a given user.
+ * This version is self-contained and more efficient.
  */
 export async function fetchManagers(userId) {
     const { data: managerIds, error: rpcError } = await supabase.rpc('get_all_managers', {
@@ -368,27 +386,68 @@ export async function fetchManagers(userId) {
         return { data: [], error: rpcError };
     }
 
-    const allProfiles = await fetchAllUserProfiles();
-    const orderedData = managerIds
-        .sort((a, b) => a.level - b.level)
-        .map(m => allProfiles.find(p => p.id === m.manager_id))
-        .filter(Boolean); 
+    const idsToFetch = managerIds.map(m => m.manager_id);
+    if (idsToFetch.length === 0) {
+        return { data: [], error: null };
+    }
 
-    return { data: orderedData, error: null };
+    const { data: profiles, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .in('id', idsToFetch);
+
+    // Sort the full profiles based on the level from the RPC call
+    const sortedData = managerIds
+        .sort((a, b) => a.level - b.level)
+        .map(m => profiles.find(p => p.id === m.manager_id))
+        .filter(Boolean);
+
+    return { data: sortedData, error: profileError };
 }
 
 /**
- * Fetches peers (users with the same manager).
+ * Finds peers from a pre-fetched list of all users. This is very efficient.
  */
-export async function fetchPeers(userId, managerId) {
-    if (!managerId) return { data: [], error: null };
-    
-    const allProfiles = await fetchAllUserProfiles();
-    const data = allProfiles.filter(p => p.manager_id === managerId && p.id !== userId);
-
-    return { data, error: null };
+export async function fetchPeers(userId, managerId, allProfiles) {
+    if (!managerId || !allProfiles) {
+        return { data: [], error: null };
+    }
+    const peers = allProfiles.filter(p => p.manager_id === managerId && p.id !== userId);
+    return { data: peers, error: null };
 }
 
+export async function fetchUserTeamMembership(userId) {
+    const { data, error } = await supabase
+        .from('team_members')
+        .select('team_id, role')
+        .eq('user_id', userId);
+
+    if (error || !data || data.length === 0) {
+        if (error && error.code !== 'PGRST116') {
+             console.error('Error fetching team membership:', error);
+        }
+        return { data: null, error };
+    }
+    // If we found memberships, return the FIRST one.
+    return { data: data[0], error: null };
+}
+
+/**
+ * Updates or creates a user's team membership.
+ */
+export async function updateUserTeamMembership(userId, teamId, role) {
+    const { data, error } = await supabase
+        .from('team_members')
+        .upsert({
+            user_id: userId,
+            team_id: teamId,
+            role: role
+        }, { onConflict: 'user_id' })
+        .select();
+    
+    if (error) console.error('Error updating team membership:', error);
+    return { data, error };
+}
 
 export async function updateUserProfileFields(userId, updates) {
     const { data, error } = await supabase
@@ -454,3 +513,6 @@ export async function fetchTeams(channelId) {
     if (error) console.error('Error fetching teams:', error);
     return { data, error };
 }
+
+
+

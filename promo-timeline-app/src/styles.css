@@ -817,7 +817,6 @@ p {
     display: flex;
     width: 100%;
     padding: 10px;
-    max-height: 100vh;
     flex-direction: column;
     /* Default to column layout for small screens */
 }
