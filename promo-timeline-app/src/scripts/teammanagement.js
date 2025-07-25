@@ -1,7 +1,6 @@
-// In scripts/teamManagement.js
+// In scripts/teamManagement.js - CORRECTED VERSION
 
 import { supabase } from './supabaseAuth.js';
-// We now need fetchTeams with its new functionality
 import { fetchCountries, fetchChannels, fetchTeams } from './supabaseClient.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -11,7 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const teamSelect = document.getElementById('newTeam');
     const createMessage = document.getElementById('createMessage');
 
-    // --- Step 1: Initial Population & Disabling Team Select ---
+    // This function populates the initial dropdowns
     async function populateInitialDropdowns() {
         const [{ data: countries }, { data: channels }] = await Promise.all([
             fetchCountries(),
@@ -27,56 +26,52 @@ document.addEventListener('DOMContentLoaded', async () => {
             channels.forEach(ch => channelSelect.innerHTML += `<option value="${ch.id}">${ch.name}</option>`);
         }
         
-        // Initially, the team dropdown is disabled.
         teamSelect.innerHTML = '<option value="">Select a channel first</option>';
         teamSelect.disabled = true;
     }
 
-    // --- Step 2: Event Listener for Channel Selection ---
+    // This function populates the teams dropdown when a channel is selected
     channelSelect.addEventListener('change', async () => {
         const selectedChannelId = channelSelect.value;
 
-        // If a valid channel is selected...
         if (selectedChannelId) {
             teamSelect.disabled = false;
             teamSelect.innerHTML = '<option value="">Loading teams...</option>';
-            
-            // Fetch only the teams for the selected channel
             const { data: teams } = await fetchTeams(selectedChannelId);
             
             teamSelect.innerHTML = '<option value="">Select a team</option>';
             if (teams && teams.length > 0) {
-                teams.forEach(t => {
-                    teamSelect.innerHTML += `<option value="${t.id}">${t.name}</option>`;
-                });
+                teams.forEach(t => teamSelect.innerHTML += `<option value="${t.id}">${t.name}</option>`);
             } else {
-                teamSelect.innerHTML = '<option value="">No teams found for this channel</option>';
+                teamSelect.innerHTML = '<option value="">No teams found</option>';
             }
         } else {
-            // If no channel is selected, disable the team dropdown
             teamSelect.innerHTML = '<option value="">Select a channel first</option>';
             teamSelect.disabled = true;
         }
     });
     
-    // --- Step 3: Form Submission (your existing code is fine) ---
+    // This handles the form submission with the corrected logic
     createForm.addEventListener('submit', async (event) => {
-        // This part remains the same as your current code
         event.preventDefault();
         const createButton = document.getElementById('createSubordinateButton');
         createMessage.textContent = '';
         createButton.disabled = true;
 
-        const countryId = parseInt(countrySelect.value);
-        const channelId = parseInt(channelSelect.value);
-        const teamId = parseInt(teamSelect.value);
+        // --- THIS IS THE FIX ---
+        // We get the raw string value for the UUID, not parseInt()
+        const countryId = countrySelect.value;
+        const channelId = channelSelect.value;
+        const teamId = teamSelect.value; // teamId is a UUID string
 
-        if (isNaN(countryId) || isNaN(channelId) || isNaN(teamId) || countryId <= 0 || channelId <= 0 || teamId <= 0) {
+        // Corrected validation: just check if a value was selected
+        if (!countryId || !channelId || !teamId) {
             createMessage.textContent = 'Please select a valid Country, Channel, and Team.';
             createMessage.style.color = 'red';
             createButton.disabled = false;
             return;
         }
+        // --- END OF FIX ---
 
         const newUserPayload = {
             email: document.getElementById('newEmail').value,
@@ -84,9 +79,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             last_name: document.getElementById('newLastName').value,
             job_title: document.getElementById('newJobTitle').value,
             employee_id: document.getElementById('newEmployeeId').value,
-            country_id: countryId,
-            channel_id: channelId,
-            team_id: teamId
+            country_id: parseInt(countryId), // countryId is an integer, so parseInt is correct here
+            channel_id: parseInt(channelId), // channelId is an integer, so parseInt is correct here
+            team_id: teamId // Pass the correct UUID string
         };
 
         const { data, error } = await supabase.functions.invoke('create-subordinate-user', {
@@ -102,6 +97,5 @@ document.addEventListener('DOMContentLoaded', async () => {
         createButton.disabled = false;
     });
     
-    // --- Initialize ---
     await populateInitialDropdowns();
 });

@@ -1257,9 +1257,11 @@ em-emoji-picker {
     gap: 10px;
     /* Space between grid items */
 }
+
 .form-grid-container .input-group {
     margin-bottom: 5px;
 }
+
 /* Make specific fields span full width if needed */
 .form-grid-container .full-width {
     grid-column: 1 / -1;
@@ -1370,11 +1372,13 @@ em-emoji-picker {
 
 /* Make the promo preview section scrollable if content is too long */
 .promo-preview-section {
-    flex: 2; /* This column will be narrower */
-  position: -webkit-sticky; /* Safari compatibility */
-  position: sticky;
-  /* This tells the browser to "stick" this element 20px from the top of the viewport when you scroll */
-  Top: 0px;
+    flex: 2;
+    /* This column will be narrower */
+    position: -webkit-sticky;
+    /* Safari compatibility */
+    position: sticky;
+    /* This tells the browser to "stick" this element 20px from the top of the viewport when you scroll */
+    Top: 0px;
 }
 
 /* --- Responsive Adjustments --- */
@@ -1699,7 +1703,7 @@ em-emoji-picker {
 .team-management-grid {
     display: grid;
     grid-template-columns: 2fr 1fr;
-    grid-row:auto;
+    grid-row: auto;
     /* 2/3 for main content, 1/3 for detail panel */
     gap: 20px;
     align-items: stretch;
@@ -1707,7 +1711,7 @@ em-emoji-picker {
 
 .team-main-content {
     display: contents;
-    
+
     /* Allows children to participate in the parent grid */
 }
 
@@ -1726,21 +1730,32 @@ em-emoji-picker {
     gap: 10px;
 }
 
-.profile-team-section{
-  display: flex;    
-  min-width: 300px;      /* Make the sections themselves flex containers */
-  flex-direction: column;
-   align-items: stretch;
-   position: relative;
+.profile-team-section {
+    display: flex;
+    min-width: 300px;
+    /* Make the sections themselves flex containers */
+    flex-direction: column;
+    align-items: stretch;
+    position: relative;
 }
 
-.updateTeamButton{
-    position: absolute;
-    top: 40px; /* Distance from the top */
-    right: 40px; /* Distance from the right */
-    background-color: #fbe62a;; /* Example styling */
-    padding: 10px 15px; /* Example styling */
-    border-radius: 5px; /* Example styling */
+.myTeamHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.updateTeamButton {
+
+
+    background-color: #fbe62a;
+    ;
+    /* Example styling */
+    padding: 10px 15px;
+    /* Example styling */
+    border-radius: 5px;
+    /* Example styling */
 }
 
 .updateTeamButton:hover {
@@ -1751,18 +1766,20 @@ em-emoji-picker {
 
 .profile-info-section,
 .profile-promos-section {
-  display: flex;    
-  min-width: 300px;      /* Make the sections themselves flex containers */
-  flex-direction: column;
-   align-items: stretch;/* Stack their children (the .profile-box) vertically */
+    display: flex;
+    min-width: 300px;
+    /* Make the sections themselves flex containers */
+    flex-direction: column;
+    align-items: stretch;
+    /* Stack their children (the .profile-box) vertically */
 }
 
 .profile-info-section .profile-box,
 .profile-promos-section .profile-box {
-  flex-grow: 1;
+    flex-grow: 1;
 }
 
-#detail-panel{
+#detail-panel {
     grid-column: 1 / -1;
 }
 
@@ -1791,6 +1808,11 @@ em-emoji-picker {
     background-color: #eef2ff;
 }
 
+.display-only-card.is-active {
+    border-color: #4338ca;
+    background-color: #eef2ff;
+}
+
 /* On smaller screens, stack the layout */
 @media (max-width: 1024px) {
     .team-management-grid {
@@ -1800,4 +1822,63 @@ em-emoji-picker {
     .team-detail-content {
         margin-top: 20px;
     }
+}
+
+.user-list,
+.user-list-management {
+    margin-top: 20px;
+}
+
+.user-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.display-only-card {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    background-color: #fafafa;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    gap: 15px;
+}
+
+.user-card-details {
+    flex-grow: 1;
+}
+
+.user-card-details p {
+    margin: 0;
+    font-weight: 600;
+}
+
+.user-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-card-actions select {
+    min-width: 150px;
+    padding: 8px;
+    /* Override from styles.css for a better fit */
+}
+
+.user-card-actions button {
+    padding: 8px 12px;
+    font-size: 0.9em;
+    width: auto;
+}
+
+.level-indicator {
+    font-size: 0.8em;
+    color: #6c757d;
 }

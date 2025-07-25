@@ -47,15 +47,18 @@
             </div>
 
             <div class="profile-team-section">
-                <div class="updateTeamButton">
-                    <a href="signup.html" style="text-decoration:none; color:#333">➕ New team Member</a>
-                </div>
+
 
                 <div class="profile-box">
-                    <div style="text-align: left;">
-                        <div>
+                    <div class="myTeamHeader"style="text-align: left;">
+
+                        <div style="padding-left: 30px;">
                             <h1 style="text-align: start;">Manage My Team</h1>
-                            <p style="font-size: 0.9em; color: #555;">Select a user to view and edit their details.</p>
+
+                            <p style="padding-left: 5px; font-size: 0.9em;margin-top: -10px; color: #555;">Select a user to view and edit their details.</p>
+                        </div>
+                        <div class="updateTeamButton">
+                            <a href="signup.html" style="text-decoration:none; color:#333">➕ New team Member</a>
                         </div>
                     </div>
                     <div id="subordinates-list" class="user-list-management"></div>
@@ -79,53 +82,7 @@
     </div>
 
     <style>
-        .user-list,
-        .user-list-management {
-            margin-top: 20px;
-        }
-
-        .user-card {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            background-color: #fafafa;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            gap: 15px;
-        }
-
-        .user-card-details {
-            flex-grow: 1;
-        }
-
-        .user-card-details p {
-            margin: 0;
-            font-weight: 600;
-        }
-
-        .user-card-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .user-card-actions select {
-            min-width: 150px;
-            padding: 8px;
-            /* Override from styles.css for a better fit */
-        }
-
-        .user-card-actions button {
-            padding: 8px 12px;
-            font-size: 0.9em;
-            width: auto;
-        }
-
-        .level-indicator {
-            font-size: 0.8em;
-            color: #6c757d;
-        }
+        
     </style>
 
     <script type="module" src="scripts/teamApp.js"></script>
