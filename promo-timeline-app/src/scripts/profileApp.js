@@ -131,53 +131,59 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 
+
+
+    function capitalizeFirstLetter(string) {
+        return [...string][0].toUpperCase() + [...string].slice(1).join('')
+    }
     // Loads the user's profile data into the form
     async function loadUserProfileData(userId) {
-    // This top part is fine
-    profileEmailInput.value = currentUser.email || '';
-    displayNameInput.value = currentUser.user_metadata.display_name || '';
-    selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
-    profileEmojiAvatar.textContent = selectedEmoji;
+        // This top part is fine
+        profileEmailInput.value = currentUser.email || '';
+        displayNameInput.value = currentUser.user_metadata.display_name || '';
+        selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
+        profileEmojiAvatar.textContent = selectedEmoji;
 
-    const { data: profile, error } = await supabase
-        .from('user_profiles')
-        .select(`
+        const { data: profile, error } = await supabase
+            .from('user_profiles')
+            .select(`
             *,
             country:countries(name),
             channel:channels(name),
-            team_members:team_members(
+            team_members (
                 role,
-                teams(name)
+                teams (id, name)
             )
         `)
-        .eq('id', userId)
-        .single();
-        
-    if (error) {
-        console.error('Error loading user profile:', error);
-        profileMessage.textContent = 'Could not load profile details.';
-        profileMessage.style.color = 'red';
-        return;
-    }
-    
-    if (profile) {
-        // Use profile.country.name and profile.channel.name
-        profileCountryInput.value = profile.country ? profile.country.name : 'N/A';
-        profileChannelInput.value = profile.channel ? profile.channel.name : 'N/A';
+            .eq('id', userId)
+            .single();
 
-        // Use profile.team_members
-        if (profile.team_members && profile.team_members.length > 0) {
-            const firstTeamMembership = profile.team_members[0];
-            displayRoleInput.value = firstTeamMembership.role || '';
-            // Note the nested structure to get the team name
-            displayTeamInput.value = firstTeamMembership.teams.name || '';
-        } else {
-            // Handle case where user is not on any team
-            displayRoleInput.value = 'No role assigned';
-            displayTeamInput.value = 'Not on a team';
+        if (error) {
+            console.error('Error loading user profile:', error);
+            profileMessage.textContent = 'Could not load profile details.';
+            profileMessage.style.color = 'red';
+            return;
+        }
+
+        if (profile) {
+            // Use profile.country.name and profile.channel.name
+            profileCountryInput.value = profile.country ? profile.country.name : 'N/A';
+            profileChannelInput.value = profile.channel ? profile.channel.name : 'N/A';
+
+            console.log(profile.team_members)
+
+            // Use profile.team_members
+            if (profile.team_members) {
+                displayRoleInput.value = capitalizeFirstLetter(profile.team_members.role || '');
+                // Note the nested structure to get the team name
+                displayTeamInput.value = profile.team_members.teams.name || '';
+            } else {
+                // Handle case where user is not on any team
+                displayRoleInput.value = 'No role assigned';
+                displayTeamInput.value = 'Not on a team';
+            }
         }
     }
-}
 
     // --- Event Listeners ---
 

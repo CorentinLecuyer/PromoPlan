@@ -1021,32 +1021,34 @@ textarea[disabled]:focus {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
-.upload-button,
-.create-button {
+.upload-button{
     color: white;
     padding: 8px 15px;
-    /* Smaller padding */
     font-size: 0.9em;
-    /* Smaller font size */
     font-weight: normal;
-    /* Normal weight */
     box-shadow: none;
     border-radius: 4px;
 }
 
-.create-Button {
-    background-color: #31d14c;
+.create-button {
+    background-color: #28a745; /* A vibrant green */
     color: white;
-    display: inline-block;
-
-
-
+    padding: 8px 18px; /* Adjusted padding */
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
+    text-decoration: none; /* Removes underline from the <a> tag */
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.create-Button:hover {
-    background-color: #27ae60;
+.create-button:hover {
+    background-color: #218838; /* Darker green on hover */
     transform: translateY(-1px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .upload-button:hover {
@@ -1540,8 +1542,9 @@ em-emoji-picker {
 .header-promo {
     position: relative;
     text-align: center;
-    display: grid;
-    grid-template-columns: 4fr 1fr;
+    display: flex; 
+    justify-content: space-around;
+    
 }
 
 .custom-multiselect {
@@ -1762,16 +1765,25 @@ em-emoji-picker {
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
-
-.profile-info-section,
-.profile-promos-section {
+.promo-controls-container {
+    display: flex;
+    gap: 12px; /* Adds space between the buttons */
+    align-items: center;
+}
+.profile-info-section {
     display: flex;
     min-width: 300px;
     /* Make the sections themselves flex containers */
     flex-direction: column;
     align-items: stretch;
+    flex: 0 0 400px;
     /* Stack their children (the .profile-box) vertically */
 }
+
+.profile-promos-section{
+    flex-grow: 1;
+}
+
 
 .profile-info-section .profile-box,
 .profile-promos-section .profile-box {
@@ -1800,6 +1812,32 @@ em-emoji-picker {
     padding: 10px;
     border-radius: 6px;
     margin: 0;
+}
+
+.filter-icon {
+    background-color: #f8f9fa; /* Light grey background */
+    color: #343a40; /* Darker text for contrast */
+    border: 1px solid #dee2e6; /* Subtle border */
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex; /* Aligns icon and text nicely */
+    align-items: center;
+    gap: 8px; /* Space between text and icon */
+}
+
+.filter-icon:hover {
+    background-color: #e9ecef; /* Darker on hover */
+    border-color: #ced4da;
+    transform: translateY(-1px); /* Slight lift effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+}
+
+.filter-icon span {
+    font-size: 1.1em; /* Makes the emoji slightly larger */
 }
 
 .user-card.is-active {

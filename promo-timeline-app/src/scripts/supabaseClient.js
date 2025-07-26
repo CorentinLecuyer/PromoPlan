@@ -312,32 +312,10 @@ export async function createPromoTableWithFunction(tableData) {
 }
 
 
-
-// TEAM MANAGEMENT
-
 // ===================================================================
 // Team Management Functions
 // ===================================================================
 
-/* async function fetchAllUserProfiles() {
-    const { data, error } = await supabase.rpc('get_all_user_profiles');
-    if (error) {
-        console.error('Error fetching all user profiles:', error);
-        return [];
-    }
-    return data;
-}
- */
-// In supabaseClient.js
-
-// ===================================================================
-// TEAM MANAGEMENT FUNCTIONS (CORRECTED AND FINAL)
-// ===================================================================
-
-/**
- * Fetches all user profiles directly from the table, including their team data.
- * This is the single source of truth for user data.
- */
 export async function fetchAllUsers() {
         const { data, error } = await supabase
         .from('user_profiles')
