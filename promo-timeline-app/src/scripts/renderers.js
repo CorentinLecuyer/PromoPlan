@@ -73,7 +73,7 @@ export function renderTimeline() {
     root.innerHTML = `
     <div class="timeline-container">
       <div class="timeline">
-        ${appState.allTimelineItems.map(item => { // Loop starts here
+        ${appState.allTimelineItems.map((item, index) => { // Loop starts here
         const startDate = new Date(item.promo_start_date);
         const formattedDate = formatDateRange(item.promo_start_date, item.promo_end_date);
 
@@ -114,8 +114,17 @@ export function renderTimeline() {
         let promoTypeStyle = '';
         let timelineDotBorderStyle = '';
 
+
         if (item.bordercolor && item.bordercolor !== '') {
-            timelineContentBorderStyle = `border-left: 4px solid ${item.bordercolor};`;
+            const isEven = (index + 1) % 2 === 0;
+            if (isEven) {
+                // Apply border-right for even items
+                timelineContentBorderStyle = `border-left: 4px solid ${item.bordercolor};`;
+            } else {
+                // Apply border-left for odd items
+                timelineContentBorderStyle = `border-right: 4px solid ${item.bordercolor};`;
+            }
+
             promoTypeStyle = `background-color: ${item.bordercolor};`;
             timelineDotBorderStyle = `border: 3px solid ${item.bordercolor};`;
         }
