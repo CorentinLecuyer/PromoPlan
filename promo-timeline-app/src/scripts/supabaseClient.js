@@ -365,7 +365,8 @@ export async function fetchSubordinates(managerId) {
             team_members (
                 role,
                 teams (id, name)
-            )
+            ),
+            channel:channels (name)
         `)
         .eq('manager_id', managerId);
     
@@ -393,7 +394,14 @@ export async function fetchManagers(userId) {
 
     const { data: profiles, error: profileError } = await supabase
         .from('user_profiles')
-        .select('*')
+        .select(`
+            *,
+            team_members (
+                role,
+                teams (id, name)
+            ),
+            channel:channels (name)
+        `)
         .in('id', idsToFetch);
 
     // Sort the full profiles based on the level from the RPC call
@@ -408,28 +416,30 @@ export async function fetchManagers(userId) {
 /**
  * Finds peers from a pre-fetched list of all users. This is very efficient.
  */
-export async function fetchPeers(userId, managerId, allProfiles) {
-    if (!managerId || !allProfiles) {
+export async function fetchPeers(userId, managerId) {
+    // A user needs a manager to have peers.
+    if (!managerId) {
         return { data: [], error: null };
     }
-    const peers = allProfiles.filter(p => p.manager_id === managerId && p.id !== userId);
-    return { data: peers, error: null };
-}
 
-export async function fetchUserTeamMembership(userId) {
     const { data, error } = await supabase
-        .from('team_members')
-        .select('team_id, role')
-        .eq('user_id', userId);
+        .from('user_profiles')
+        .select(`
+            *,
+            team_members (
+                role,
+                teams (id, name)
+            ),
+            channel:channels (name)
+        `)
+        // Find users with the same manager...
+        .eq('manager_id', managerId)
+        // ...but exclude the user themselves from the list.
+        .neq('id', userId);
 
-    if (error || !data || data.length === 0) {
-        if (error && error.code !== 'PGRST116') {
-             console.error('Error fetching team membership:', error);
-        }
-        return { data: null, error };
-    }
-    // If we found memberships, return the FIRST one.
-    return { data: data[0], error: null };
+    if (error) console.error('Error fetching peers:', error);
+
+    return { data, error };
 }
 
 /**

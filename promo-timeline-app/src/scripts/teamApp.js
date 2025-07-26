@@ -9,27 +9,34 @@ import {
     fetchTeams,
     fetchPeers,
     fetchManagers,
-    updateUserTeamMembership,
-    fetchUserTeamMembership
+    updateUserTeamMembership
 } from './supabaseClient.js';
 
 
 function createUserCard(user, isClickable = false) {
 
-    console.log(user)
     const avatar = user.avatar_emoji || '👤';
     const cardClass = isClickable ? 'user-card' : 'display-only-card';
     const dataIdAttribute = isClickable ? `data-user-id="${user.id}"` : '';
     const teamInfo = user.team_members;
     const teamName = teamInfo ? teamInfo.teams.name : 'No Team';
+    const channelInfo = user.channel;
+    const channelName = channelInfo ? channelInfo.name : 'No Team';
 
     return `
         <div class="${cardClass}" ${dataIdAttribute}>
             <span class="avatar-emoji">${avatar}</span>
-            <div class="user-card-details">
-                <p class="user-card-name">${user.first_name} ${user.last_name}</p>
-                <p class="user-card-team">${teamName}</p>
+
+            <div style="display:flex;text-align:start;">
+                <div class="user-card-details">
+                    <p class="user-card-name" style="text-transform: uppercase;text-decoration: underline; margin-bottom:6px">${user.first_name} </p>
+                    <p class="user-card-name">${channelName} </p>
+                    <p class="user-card-team">${teamName}</p>
+                    <p class="user-card-role">${user.job_title}</p>
+                </div>
+
             </div>
+            
         </div>
     `;
 }
@@ -193,6 +200,9 @@ const currentTeamRole = membership ? membership.role : 'member';
             return;
         }
 
+        const userToUpdate = allUsers.find(u => u.id === userIdToUpdate);
+
+
         // Then, update the rest of the user's profile info
         const profileUpdates = {
             first_name: document.getElementById('detailFirstName').value,
@@ -203,6 +213,8 @@ const currentTeamRole = membership ? membership.role : 'member';
             display_name: document.getElementById('detailDisplayName').value,
             employee_id: document.getElementById('detailEmployeeId').value,
             job_title: document.getElementById('detailJobTitle').value,
+            app_role: userToUpdate.app_role,
+            avatar_emoji: userToUpdate.avatar_emoji
         };
 
         const { error: profileError } = await updateFullUserProfile(userIdToUpdate, profileUpdates);

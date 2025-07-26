@@ -1839,6 +1839,11 @@ em-emoji-picker {
     gap: 15px;
 }
 
+.user-card .avatar-emoji {
+    margin-bottom: 0px;
+    margin-right: 30px;
+}
+
 .display-only-card {
     display: flex;
     align-items: center;
