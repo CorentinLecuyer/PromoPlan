@@ -3,8 +3,8 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 
 // Supabase Configuration (replace with your actual URL and Key)
-const SUPABASE_URL = 'https://wbvfmgyaudfkhridkhep.supabase.co'; 
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidmZtZ3lhdWRma2hyaWRraGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzNjM0ODQsImV4cCI6MjA2NTkzOTQ4NH0.ycacnokvGqBRAKCBAOaWJMjafiFGB3KuAp3gQYGJLrc'; 
+const SUPABASE_URL = 'https://wbvfmgyaudfkhridkhep.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndidmZtZ3lhdWRma2hyaWRraGVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTAzNjM0ODQsImV4cCI6MjA2NTkzOTQ4NH0.ycacnokvGqBRAKCBAOaWJMjafiFGB3KuAp3gQYGJLrc';
 
 // Initialize Supabase Client
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -66,8 +66,10 @@ export async function signOut() {
  * @returns {Promise<object>} Supabase auth response (error if any).
  */
 export async function resetPassword(email) {
+    const redirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
+
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        // redirectTo: 'https://your-domain.com/update-password' // Optional: URL for password update page
+        redirectTo: redirectURL
     });
     if (error) {
         console.error('Password reset error:', error.message);
@@ -118,7 +120,7 @@ export async function updateUserProfile(profileUpdates) {
         if (profileUpdates.data) {
             authUpdatePayload.data = profileUpdates.data;
         }
-        
+
         // 2. Handle fields for the custom 'user_profiles' table
         if (profileUpdates.first_name) {
             profileTablePayload.first_name = profileUpdates.first_name;

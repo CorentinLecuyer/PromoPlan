@@ -1,13 +1,12 @@
 // scripts/loginApp.js
 
-import { signIn, signUp, resetPassword, supabase } from './supabaseAuth.js'; // Import auth functions and supabase instance
+import { signIn, resetPassword, supabase } from './supabaseAuth.js'; // Import auth functions and supabase instance
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
     const emailInput = document.getElementById('email');
     const passwordInput = document.getElementById('password');
     const signInButton = document.getElementById('signInButton');
-    const signUpButton = document.getElementById('signUpButton');
     const resetPasswordButton = document.getElementById('resetPasswordButton');
     const authMessage = document.getElementById('authMessage');
 
@@ -30,16 +29,10 @@ document.addEventListener('DOMContentLoaded', () => {
             displayMessage(`Sign In Failed: ${error.message}`, true);
         } else if (data.user && data.session) {
             displayMessage('Sign In Successful! Redirecting...', false);
-            // Optional: Redirect to a dashboard or main page after successful login
-            window.location.href = 'CommandBoard.html'; 
+            window.location.href = 'profile.html'; 
         } else {
              displayMessage('Sign In Failed: Check your credentials.', true);
         }
-    });
-
-    // Handle Sign Up
-    goToSignUpButton.addEventListener('click', () => {
-        window.location.href = 'signup.html';
     });
 
     // Handle Password Reset
