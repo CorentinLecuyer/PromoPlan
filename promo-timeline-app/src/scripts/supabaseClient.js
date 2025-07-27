@@ -321,6 +321,7 @@ export async function fetchAllUsers() {
         .from('user_profiles')
         .select(`
             *,
+            channel:channels ( name ),
             team_members (
                 role,
                 teams (id, name)
@@ -479,7 +480,9 @@ export async function updateFullUserProfile(userId, updates) {
         new_avatar_emoji: updates.avatar_emoji,
         new_employee_id: updates.employee_id,
         new_job_title: updates.job_title,
-        new_app_role: updates.app_role
+        new_app_role: updates.app_role,
+        new_can_manage_catalog: updates.can_manage_catalog
+
     });
 
     if (error) console.error('Error updating full user profile:', error);

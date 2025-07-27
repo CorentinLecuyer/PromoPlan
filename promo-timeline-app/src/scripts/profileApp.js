@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const userPromosTableBody = document.querySelector('#userPromosTable tbody');
     const noPromosMessage = document.getElementById('noPromosMessage');
     const promosMessage = document.getElementById('promosMessage');
+    const manageBrandsButton = document.getElementById('Managebrands')
 
     let picker;
     let selectedEmoji = '👤';
@@ -126,8 +127,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             applyTableFiltersAndRender(); // Render the table with the full list initially
 
         } catch (error) {
-            promosMessage.textContent = 'Failed to load your promotions.';
-            promosMessage.style.color = 'red';
+            promosMessage.textContent = 'Failed to load your promotions or no promotions exist under your profile.';
+            promosMessage.style.color = 'grey';
         }
     }
 
@@ -143,6 +144,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayNameInput.value = currentUser.user_metadata.display_name || '';
         selectedEmoji = currentUser.user_metadata.avatar_emoji || '👤';
         profileEmojiAvatar.textContent = selectedEmoji;
+
 
         const { data: profile, error } = await supabase
             .from('user_profiles')
@@ -163,6 +165,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             profileMessage.textContent = 'Could not load profile details.';
             profileMessage.style.color = 'red';
             return;
+        }
+
+        
+        if (profile.can_manage_catalog === true) {
+            manageBrandsButton.style.display = 'inline-block'; // Or 'inline-block' etc.
+        } else {
+            manageBrandsButton.style.display = 'none';
         }
 
         if (profile) {

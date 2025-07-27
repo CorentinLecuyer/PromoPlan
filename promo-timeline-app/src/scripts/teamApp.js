@@ -61,6 +61,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     let allUsers = [];
     let allCountries = [];
     let allChannels = [];
+    let currentUserProfile = null;
+
+
 
     // --- RENDER FUNCTIONS ---
     function renderSubordinates(subordinates) {
@@ -115,6 +118,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                         <option value="admin">Admin</option>
                     </select>
                 </div>
+                <div class="input-group checkbox-group" id="catalogManagementPermissionGroup" style="display: none;">
+                    <input type="checkbox" id="detailCanManageCatalog">
+                    <label for="detailCanManageCatalog">Can Manage Catalog (Brands/Products)</label>
+                </div>
                 <div class="input-group full-width"><label for="detailManager">Manager</label><select id="detailManager"></select></div>
             </div>
         `;
@@ -123,8 +130,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         const countrySelect = document.getElementById('detailCountry');
         const managerSelect = document.getElementById('detailManager');
         const channelSelect = document.getElementById('detailChannel');
-        const teamSelect  = document.getElementById('detailTeam');
+        const teamSelect = document.getElementById('detailTeam');
         const teamRoleSelect = document.getElementById('detailTeamRole')
+
+
 
         countrySelect.innerHTML = allCountries.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
         managerSelect.innerHTML = allUsers.map(u => `<option value="${u.id}">${u.first_name} ${u.last_name}</option>`).join('');
@@ -135,9 +144,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         channelSelect.value = user.channel_id || '';
 
         // 1. Get the user's current team and role from the data we already fetched
+
         const membership = user.team_members; // FIX: It's now a direct object or null
-const currentTeamId = membership ? membership.teams?.id : null; 
-const currentTeamRole = membership ? membership.role : 'member';
+        const currentTeamId = membership ? membership.teams?.id : null;
+        const currentTeamRole = membership ? membership.role : 'member';
 
         const updateTeamDropdown = async () => {
             const selectedChannelId = channelSelect.value;
@@ -156,6 +166,13 @@ const currentTeamRole = membership ? membership.role : 'member';
             }
         };
 
+        const currentUserProfile = allUsers.find(u => u.id === currentUser.id);
+        if (currentUserProfile && currentUserProfile.app_role === 'admin') {
+            const permissionGroup = document.getElementById('catalogManagementPermissionGroup');
+            const permissionCheckbox = document.getElementById('detailCanManageCatalog');
+            permissionGroup.style = 'display: flex;flex-direction: column-reverse;align-items: center;flex-wrap: wrap;';
+            permissionCheckbox.checked = user.can_manage_catalog === true;
+        }
 
         // 3. Attach the event listener for future clicks
         channelSelect.addEventListener('change', updateTeamDropdown);
@@ -167,6 +184,8 @@ const currentTeamRole = membership ? membership.role : 'member';
 
         document.getElementById('detail-form-actions').innerHTML = `<button type="submit" class="updateButton">Save All Changes</button>`;
         detailPanel.classList.remove('is-hidden');
+
+
     }
 
     // --- EVENT HANDLERS ---
@@ -185,6 +204,7 @@ const currentTeamRole = membership ? membership.role : 'member';
         button.textContent = 'Saving...';
         button.disabled = true;
 
+        const currentUserProfile = allUsers.find(u => u.id === currentUser.id);
         const userIdToUpdate = detailUserIdInput.value;
         const teamId = document.getElementById('detailTeam').value;
         const teamRole = document.getElementById('detailTeamRole').value;
@@ -202,7 +222,6 @@ const currentTeamRole = membership ? membership.role : 'member';
 
         const userToUpdate = allUsers.find(u => u.id === userIdToUpdate);
 
-
         // Then, update the rest of the user's profile info
         const profileUpdates = {
             first_name: document.getElementById('detailFirstName').value,
@@ -215,7 +234,34 @@ const currentTeamRole = membership ? membership.role : 'member';
             job_title: document.getElementById('detailJobTitle').value,
             app_role: userToUpdate.app_role,
             avatar_emoji: userToUpdate.avatar_emoji
-        };
+            
+ 
+
+      };
+
+        console.log("--- Starting Profile Update ---");
+        console.log("User to update:", userToUpdate);
+        console.log("Current admin profile:", currentUserProfile);
+        
+        let canManageCatalogValue = userToUpdate.can_manage_catalog;
+        console.log("Original can_manage_catalog value:", canManageCatalogValue);
+
+        if (currentUserProfile && currentUserProfile.app_role === 'admin') {
+            const permissionCheckbox = document.getElementById('detailCanManageCatalog');
+            console.log("Current user is an admin.");
+            if (permissionCheckbox) {
+                canManageCatalogValue = permissionCheckbox.checked;
+                console.log("Checkbox found. New value is:", canManageCatalogValue);
+            } else {
+                console.warn("Permission checkbox element was not found in the DOM.");
+            }
+        } else {
+             console.log("Current user is NOT an admin. Using original value.");
+        }
+        
+        profileUpdates.can_manage_catalog = canManageCatalogValue;
+        console.log("Final payload to be sent:", profileUpdates);
+
 
         const { error: profileError } = await updateFullUserProfile(userIdToUpdate, profileUpdates);
 
@@ -247,7 +293,6 @@ const currentTeamRole = membership ? membership.role : 'member';
         allChannels = channelsRes.data || [];
 
         const currentUserProfile = allUsers.find(u => u.id === currentUser.id);
-
         let peers = [];
         // Only fetch peers if we successfully found the user's profile and they have a manager
         if (currentUserProfile && currentUserProfile.manager_id) {
