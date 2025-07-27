@@ -1944,3 +1944,20 @@ em-emoji-picker {
     border-radius: 8px; 
     object-fit: contain;
 }
+
+#productsSection.is-hidden {
+    display: none;
+}
+
+.catalog-management-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Default to single column on small screens */
+    gap: 30px;
+}
+
+@media (min-width: 1024px) {
+    .catalog-management-grid {
+        /* 40% for brands, 60% for products on larger screens */
+        grid-template-columns: 4fr 6fr;
+    }
+}

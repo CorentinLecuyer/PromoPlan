@@ -1,0 +1,110 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Brand Management - PerfectDraft</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png" />
+</head>
+
+
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="CommandBoard.html" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+        <div>
+            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+                <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
+            </a>
+            <button id="logoutButton" class="logoutButton" style="margin-left: 10px;">Logout</button>
+        </div>
+    </div>
+
+    <div class="login-page-wrapper catalog-management-grid">
+        <!-- Left Column: Brands Management -->
+        <div class="profile-promos-section" id="brandsSection">
+            <div class="profile-box">
+                <h1>Manage Brands</h1>
+                <p style="font-size: 0.9em; color: #555;">Add a new brand or select one to manage its products.</p>
+
+                <form id="brandForm" class="form-section">
+                    <input type="hidden" id="brandId">
+                    <h2>Brand Details</h2>
+                    <div class="form-grid-container" style="grid-template-columns: 1fr;">
+                        <div class="input-group">
+                            <label for="brandName">Brand Name</label>
+                            <input type="text" id="brandName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="brandLogo">Brand Logo (Upload New)</label>
+                            <input type="file" id="brandLogo" accept="image/png, image/jpeg, image/svg+xml">
+                        </div>
+                    </div>
+                     <div id="existingLogoPreview" class="input-group" style="display: none; margin-top: 10px;">
+                        <label>Current Logo</label>
+                        <img id="logoPreviewImage" src="" alt="Logo Preview" style="max-width: 80px; max-height: 80px; border-radius: 8px;">
+                    </div>
+                    <div class="button-inline-group" style="margin-top: 20px;">
+                        <button type="submit" class="updateButton">Save Brand</button>
+                        <button type="button" id="clearBrandFormButton" class="logoutButton">Clear</button>
+                    </div>
+                    <p id="brandFormMessage" class="auth-message"></p>
+                </form>
+
+                <div class="form-section">
+                    <h2>Existing Brands</h2>
+                    <div id="brandsList" class="user-list-management">
+                        <p>Loading brands...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Column: Products Management -->
+        <div class="profile-promos-section is-hidden" id="productsSection">
+            <div class="profile-box">
+                <h1 id="productsHeader">Select a Brand</h1>
+                <p id="productsSubHeader" style="font-size: 0.9em; color: #555;">Add, edit, or remove products for the selected brand.</p>
+
+                <form id="productForm" class="form-section">
+                    <input type="hidden" id="productId">
+                    <h2>Product Details</h2>
+                    <div class="form-grid-container">
+                        <div class="input-group">
+                            <label for="productName">Product Name</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="productPackaging">Packaging</label>
+                            <input type="text" id="productPackaging" placeholder="e.g., 6L Keg">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="productHl">Hectoliters (HL) per Product</label>
+                            <input type="number" id="productHl" step="0.01">
+                        </div>
+                    </div>
+                    <div class="button-inline-group" style="margin-top: 20px;">
+                        <button type="submit" class="updateButton">Save Product</button>
+                        <button type="button" id="clearProductFormButton" class="logoutButton">Clear</button>
+                    </div>
+                    <p id="productFormMessage" class="auth-message"></p>
+                </form>
+
+                <div class="form-section">
+                    <h2 id="existingProductsHeader">Existing Products</h2>
+                    <div id="productsList" class="user-list-management">
+                        <p>Select a brand from the list on the left.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/catalogApp.js"></script>
+</body>
+</html>
