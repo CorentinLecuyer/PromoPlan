@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Product Management - PerfectDraft</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="icon" href="img/favicon%20small.ico" type="image/png" />
+</head>
+<body>
+    <div class="header">
+        <div class="logo">
+            <a href="CommandBoard.html" class="href">
+                <img src="img/PerfectDraft-Logo_300dpi.png" alt="PerfectDraft Logo">
+            </a>
+        </div>
+        <div>
+            <!-- Add other navigation links here as needed -->
+             <a href="brands.html" style="display: inline-block; margin-left: 10px; text-decoration: none;">
+                <label style="font-weight:400;" class="multiselect-header">Brands 🏷️</label>
+            </a>
+            <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
+                <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
+            </a>
+            <button id="logoutButton" class="logoutButton" style="margin-left: 10px;">Logout</button>
+        </div>
+    </div>
+
+    <div class="login-page-wrapper">
+        <div class="profile-promos-section" style="width: 100%; max-width: 1200px; margin: auto;">
+            <div class="profile-box">
+                <h1>Manage Products</h1>
+                <p style="font-size: 0.9em; color: #555;">Add, edit, or remove products from the system.</p>
+
+                <!-- Form for Creating/Editing Products -->
+                <form id="productForm" class="form-section">
+                    <input type="hidden" id="productId">
+                    <h2>Product Details</h2>
+                    <div class="form-grid-container">
+                        <div class="input-group">
+                            <label for="productName">Product Name</label>
+                            <input type="text" id="productName" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="productBrand">Brand</label>
+                            <select id="productBrand" required>
+                                <option value="">Loading brands...</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="productPackaging">Packaging</label>
+                            <input type="text" id="productPackaging" placeholder="e.g., 6L Keg, 330ml Bottle">
+                        </div>
+                        <div class="input-group">
+                            <label for="productHl">Hectoliters (HL) per Product</label>
+                            <input type="number" id="productHl" step="0.01">
+                        </div>
+                    </div>
+                    <div class="button-inline-group" style="margin-top: 20px;">
+                        <button type="submit" class="updateButton">Save Product</button>
+                        <button type="button" id="clearFormButton" class="logoutButton">Clear Form</button>
+                    </div>
+                    <p id="formMessage" class="auth-message"></p>
+                </form>
+
+                <!-- List of Existing Products -->
+                <div class="form-section">
+                    <h2>Existing Products</h2>
+                    <div id="productsList" class="user-list-management">
+                        <!-- Products will be dynamically rendered here -->
+                        <p>Loading products...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="scripts/productsApp.js"></script>
+</body>
+</html>

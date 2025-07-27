@@ -1023,20 +1023,21 @@ textarea[disabled]:focus {
 
 .upload-button{
     color: white;
-    padding: 8px 15px;
-    font-size: 0.9em;
-    font-weight: normal;
-    box-shadow: none;
-    border-radius: 4px;
+    background-color:#5a6268;
+    margin-top: 10px;
+    text-align: center;
 }
 
 .create-button {
     background-color: #28a745; /* A vibrant green */
     color: white;
-    padding: 8px 18px; /* Adjusted padding */
+    padding: 8px 15px; /* Adjusted padding */
     border-radius: 6px;
+    border: 1px solid #dee2e6;
     font-weight: 600;
     font-size: 0.9em;
+    cursor: pointer;
+    transition: all 0.2s ease;
     text-decoration: none; /* Removes underline from the <a> tag */
     display: inline-flex;
     align-items: center;
@@ -1052,11 +1053,10 @@ textarea[disabled]:focus {
 }
 
 .upload-button:hover {
-    background-color: #5a6268;
-    transform: none;
-    /* No transform */
-    box-shadow: none;
-    /* No shadow */
+    background-color: #a2a2a2;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 /* Login Box button general style */
@@ -1673,7 +1673,6 @@ em-emoji-picker {
     display: inline-block;
     background-color: #f2f2f2;
     border-radius: 20px;
-    padding: 4px;
     margin-left: 15px;
 }
 
@@ -1814,6 +1813,18 @@ em-emoji-picker {
     margin: 0;
 }
 
+.column-filter {
+    width: 100%;
+    border-radius: 4px;
+    font-size: 7px;
+    height: fit-content;
+    padding: 4px !important; 
+}
+
+.filter-row td{
+    margin-top: 0px !important; 
+}
+
 .filter-icon {
     background-color: #f8f9fa; /* Light grey background */
     color: #343a40; /* Darker text for contrast */
@@ -1828,6 +1839,8 @@ em-emoji-picker {
     align-items: center;
     gap: 8px; /* Space between text and icon */
 }
+
+
 
 .filter-icon:hover {
     background-color: #e9ecef; /* Darker on hover */
@@ -1923,4 +1936,11 @@ em-emoji-picker {
 .level-indicator {
     font-size: 0.8em;
     color: #6c757d;
+}
+
+.brand-logo{
+    width: auto; 
+    height: 160px; 
+    border-radius: 8px; 
+    object-fit: contain;
 }
