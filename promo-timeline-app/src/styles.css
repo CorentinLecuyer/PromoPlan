@@ -1387,7 +1387,6 @@ em-emoji-picker {
     .login-page-wrapper {
         flex-direction: row;
         border-radius: 10px;
-        overflow: hidden;
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
 
@@ -1748,15 +1747,9 @@ em-emoji-picker {
 }
 
 .updateTeamButton {
-
-
     background-color: #fbe62a;
-    ;
-    /* Example styling */
     padding: 10px 15px;
-    /* Example styling */
     border-radius: 5px;
-    /* Example styling */
 }
 
 .updateTeamButton:hover {
@@ -1764,6 +1757,7 @@ em-emoji-picker {
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 .promo-controls-container {
     display: flex;
     gap: 12px; /* Adds space between the buttons */
@@ -1945,7 +1939,18 @@ em-emoji-picker {
     object-fit: contain;
 }
 
+.sub-brand-logo{
+    width: auto; 
+    height: 80px; 
+    border-radius: 8px; 
+    object-fit: contain;
+}
+
 #productsSection.is-hidden {
+    display: none;
+}
+
+#subBrandsSection.is-hidden {
     display: none;
 }
 
@@ -1957,6 +1962,84 @@ em-emoji-picker {
 
 @media (min-width: 1024px) {
     .catalog-management-grid {
-        grid-template-columns: 3fr 3fr 3fr; 
+        grid-template-columns: 1fr 1fr 1fr; 
+    }
+}
+
+.edit-button {
+    background-color: #fbe62a;
+    color: #333;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.edit-button:hover {
+    background-color: #ddcf4d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.delete-button {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c0392b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* --- Toast Notification Styles --- */
+#toast-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 2000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: auto;
+    max-width: 320px;
+}
+
+.toast {
+    padding: 10px 15px;
+    border-radius: 8px;
+    color: white;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    opacity: 0; /* Start hidden */
+    animation: slideInAndFadeOut 6s forwards;
+}
+
+/* Different colors for different message types */
+.toast.success { background-color: #28a745; }
+.toast.error { background-color: #e74c3c; }
+.toast.info { background-color: #17a2b8; }
+
+/* The animation keyframes */
+@keyframes slideInAndFadeOut {
+    0% {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+    10%, 85% { /* Slide in and stay visible */
+        opacity: 1;
+        transform: translateX(0);
+    }
+    100% { /* Fade and slide out */
+        opacity: 0;
+        transform: translateX(100%);
     }
 }
