@@ -7,6 +7,9 @@
     <title>Brand Management - PerfectDraft</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="img/favicon%20small.ico" type="image/png" />
+
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+
 </head>
 
 
@@ -65,6 +68,39 @@
             </div>
         </div>
 
+                <!-- center Column: sub brands Management -->
+
+        <div class="profile-box">
+        <h1 id="subBrandsHeader">Select a Brand</h1>
+        <p style="font-size: 0.9em; color: #555;">Manage sub-brands for the selected brand.</p>
+
+        <form id="subBrandForm" class="form-section">
+            <input type="hidden" id="subBrandId">
+            <h2>Sub-Brand Details</h2>
+            <div class="form-grid-container" style="grid-template-columns: 1fr;">
+                <div class="input-group">
+                    <label for="subBrandName">Sub-Brand Name</label>
+                    <input type="text" id="subBrandName" required>
+                </div>
+                <div class="input-group">
+                    <label for="subBrandLogo">Sub-Brand Logo</label>
+                    <input type="file" id="subBrandLogo" accept="image/*">
+                </div>
+            </div>
+            <div class="button-inline-group" style="margin-top: 20px;">
+                <button type="submit" class="updateButton">Save Sub-Brand</button>
+                <button type="button" id="clearSubBrandFormButton" class="logoutButton">Clear</button>
+            </div>
+            <p id="subBrandFormMessage" class="auth-message"></p>
+        </form>
+
+        <div class="form-section">
+            <h2>Existing Sub-Brands</h2>
+            <div id="subBrandsList" class="user-list-management">
+                <p>Select a brand to see its sub-brands.</p>
+            </div>
+        </div>
+    </div>
         <!-- Right Column: Products Management -->
         <div class="profile-promos-section is-hidden" id="productsSection">
             <div class="profile-box">

@@ -1957,7 +1957,6 @@ em-emoji-picker {
 
 @media (min-width: 1024px) {
     .catalog-management-grid {
-        /* 40% for brands, 60% for products on larger screens */
-        grid-template-columns: 4fr 6fr;
+        grid-template-columns: 3fr 3fr 3fr; 
     }
 }

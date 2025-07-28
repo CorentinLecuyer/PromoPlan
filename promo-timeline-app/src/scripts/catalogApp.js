@@ -22,6 +22,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     const existingLogoPreview = document.getElementById('existingLogoPreview');
     const logoPreviewImage = document.getElementById('logoPreviewImage');
 
+    const subBrandForm = document.getElementById('subBrandForm');
+    const subBrandIdInput = document.getElementById('subBrandId');
+    const subBrandNameInput = document.getElementById('subBrandName');
+    const subBrandLogoInput = document.getElementById('subBrandLogo');
+    const subBrandFormMessage = document.getElementById('subBrandFormMessage');
+    const subBrandsListDiv = document.getElementById('subBrandsList');
+    const clearSubBrandFormButton = document.getElementById('clearSubBrandFormButton');
+    const existingSubLogoPreview = document.getElementById('existingSubLogoPreview');
+    const subLogoPreviewImage = document.getElementById('subLogoPreviewImage');
+
     // Product elements
     const productsSection = document.getElementById('productsSection');
     const productsHeader = document.getElementById('productsHeader');
@@ -39,9 +49,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- State ---
     let allBrands = [];
+    let allSubBrands = [];
     let allProducts = [];
     let selectedBrandId = null;
-
+    let selectedSubBrandId = null;
     // --- RENDER FUNCTIONS ---
     const renderBrands = () => {
         if (allBrands.length === 0) {
@@ -61,8 +72,35 @@ document.addEventListener('DOMContentLoaded', async () => {
         `).join('');
     };
 
+    const renderSubBrands = () => {
+        
+         if (!selectedBrandId) {
+            subBrandsListDiv.innerHTML = `<p>Select a brand from the list on the left.</p>`;
+            return;
+        }
+
+        const filteredSubBrands = allSubBrands.filter(sb => sb.brand_id === selectedBrandId);
+    // ... (rest of the rendering logic similar to renderBrands)
+        if (filteredSubBrands.length === 0) {
+            subBrandsListDiv.innerHTML = `<p>No sub brands found for this brand. Add one using the form above.</p>`;
+            return;
+        }
+
+        subBrandsListDiv.innerHTML = filteredSubBrands.map(subBrands => `
+            <div class="user-card sub-card" data-brand-id="${subBrands.id}">
+                <img src="${subBrands.logo_medium_url || 'https://placehold.co/60x60/EEE/31343C?text=Logo'}" alt="${subBrands.name} Logo" style="width: 60px; height: 60px; border-radius: 8px; object-fit: contain;">
+                <div class="user-card-details">
+                    <p>${subBrands.name}</p>
+                </div>
+                <div class="user-card-actions">
+                    <button class="updateButton" data-action="edit-brand" data-id="${brand.id}">Edit</button>
+                </div>
+            </div>
+        `).join('');
+    };
+
     const renderProducts = () => {
-        if (!selectedBrandId) {
+        if (!selectedSubBrandId) {
             productsListDiv.innerHTML = `<p>Select a brand from the list on the left.</p>`;
             return;
         }
@@ -90,15 +128,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- DATA FETCHING ---
     const fetchAllData = async () => {
-        const [{ data: brandsData, error: brandsError }, { data: productsData, error: productsError }] = await Promise.all([
+        const [{ data: brandsData, error: brandsError },{data: subBrandsData, error:subBrandsError}, { data: productsData, error: productsError }] = await Promise.all([
             supabase.from('brands').select('*').order('name'),
+            supabase.from('sub_brands').select('*').order('name'),
             supabase.from('products').select('*').order('name')
         ]);
 
         if (brandsError) console.error('Error fetching brands:', brandsError);
         if (productsError) console.error('Error fetching products:', productsError);
+        if (subBrandsError) console.error('Error fetching products:', subBrandsError);
 
         allBrands = brandsData || [];
+        allSubBrands = subBrandsData || []; 
         allProducts = productsData || [];
 
         renderBrands();
@@ -119,14 +160,40 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         let logoUrl = null;
         if (logoFile) {
-            const filePath = `public/${Date.now()}-${logoFile.name}`;
-            const { error: uploadError } = await supabase.storage.from('brand-logos').upload(filePath, logoFile);
+        brandFormMessage.textContent = 'Compressing image...';
+        brandFormMessage.style.color = '#333';
+
+        const options = {
+            maxSizeMB: 0.4, // Set max size to 400KB
+            maxWidthOrHeight: 1024, // Optional: resize based on dimensions
+            useWebWorker: true, // Optional: for better performance
+        };
+
+        try {
+            // Compress the image file
+            const compressedFile = await imageCompression(logoFile, options);
+            console.log(`Original size: ${(logoFile.size / 1024).toFixed(2)} KB`);
+            console.log(`Compressed size: ${(compressedFile.size / 1024).toFixed(2)} KB`);
+            
+            brandFormMessage.textContent = 'Uploading logo...';
+
+            // Upload the compressed file instead of the original
+            const filePath = `public/${Date.now()}-${compressedFile.name}`;
+            const { error: uploadError } = await supabase.storage.from('brand-logos').upload(filePath, compressedFile);
+
             if (uploadError) {
-                brandFormMessage.textContent = 'Failed to upload logo.'; return;
+                throw uploadError; // Let the main catch block handle it
             }
+
             const { data: urlData } = supabase.storage.from('brand-logos').getPublicUrl(filePath);
             logoUrl = urlData.publicUrl;
+
+        } catch (error) {
+            brandFormMessage.textContent = `Failed to process logo: ${error.message}`;
+            brandFormMessage.style.color = 'red';
+            return;
         }
+    }
 
         const brandData = { name: brandName };
         if (logoUrl) {
