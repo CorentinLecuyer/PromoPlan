@@ -1,6 +1,7 @@
 // scripts/loginApp.js
 
 import { signIn, resetPassword, supabase } from './supabaseAuth.js'; // Import auth functions and supabase instance
+import { showToast } from './shared/toast.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
@@ -8,13 +9,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const signInButton = document.getElementById('signInButton');
     const resetPasswordButton = document.getElementById('resetPasswordButton');
-    const authMessage = document.getElementById('authMessage');
 
-    // Function to display messages to the user
-    function displayMessage(message, isError = false) {
-        authMessage.textContent = message;
-        authMessage.style.color = isError ? 'red' : 'green';
-    }
+
+
 
     // Handle Sign In
     loginForm.addEventListener('submit', async (event) => {
@@ -22,16 +19,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value;
         const password = passwordInput.value;
 
-        displayMessage('Signing in...', false);
+        showToast('Signing in...', 'info');
         const { data, error } = await signIn(email, password);
 
         if (error) {
-            displayMessage(`Sign In Failed: ${error.message}`, true);
+            showToast(`Sign In Failed: ${error.message}`, 'error');
         } else if (data.user && data.session) {
-            displayMessage('Sign In Successful! Redirecting...', false);
+            showToast('Sign In Successful! Redirecting...', 'success');
             window.location.href = 'profile.html'; 
         } else {
-             displayMessage('Sign In Failed: Check your credentials.', true);
+             showToast('Sign In Failed: Check your credentials.', 'error');
         }
     });
 
@@ -40,17 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const email = emailInput.value;
 
         if (!email) {
-            displayMessage('Please enter your email to reset password.', true);
+            showToast('Please enter your email to reset password.', 'info');
             return;
         }
 
-        displayMessage('Sending password reset email...', false);
+        showToast('Sending password reset email...', 'info');
         const { error } = await resetPassword(email);
 
         if (error) {
-            displayMessage(`Password Reset Failed: ${error.message}`, true);
+            showToast(`Password Reset Failed: ${error.message}`, 'error');
         } else {
-            displayMessage('Password reset email sent! Check your inbox.', false);
+            showToast('Password reset email sent! Check your inbox.', 'success');
         }
     });
 
@@ -58,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     async function checkSession() {
         const session = await supabase.auth.getSession();
         if (session && session.data.session) {
-            displayMessage('Already logged in. Redirecting...', false);
+            showToast('Already logged in. Redirecting...', 'info');
             window.location.href = 'CommandBoard.html';
         }
     }

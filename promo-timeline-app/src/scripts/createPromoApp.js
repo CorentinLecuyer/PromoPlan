@@ -6,8 +6,8 @@ import { appState } from './state.js';
 import { supabase, signOut, getUser } from './supabaseAuth.js'; // Added getUser
 import { createPromo, createPromoTableWithFunction } from './supabaseClient.js';
 import { stringToArray, stringToNumberArray, arrayToString, formatDateRange } from './utils.js';
-import { generateMultipleTablesHTML, getTableDataById } 
-    from './renderers.js';
+import { generateMultipleTablesHTML, getTableDataById } from './renderers.js';
+import { showToast } from './shared/toast.js';
 
 // =================================================================
 // 2. ALPINE COMPONENT FOR TABLE MODAL
@@ -148,14 +148,6 @@ let picker = null;
 
 // =================================================================
 // 4. APPLICATION LOGIC (HELPER FUNCTIONS)
-// =================================================================
-
-function displayMessage(message, isError = false) {
-    if (promoMessage) {
-        promoMessage.textContent = message;
-        promoMessage.style.color = isError ? 'red' : 'green';
-    }
-}
 
 /**
  * Gathers all data from the form fields.

@@ -1,4 +1,5 @@
 import { supabase, signOut, getSession, getUser, updateUserProfile as updateAuthUserProfile } from './supabaseAuth.js';
+import { showToast } from './shared/toast.js'; 
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- Page Elements ---
@@ -14,11 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const profileCountryInput = document.getElementById('profileCountry');
     const profileChannelInput = document.getElementById('profileChannel');
     const saveProfileButton = document.getElementById('saveProfileButton');
-    const profileMessage = document.getElementById('profileMessage');
     const logoutButton = document.getElementById('logoutButton');
     const userPromosTableBody = document.querySelector('#userPromosTable tbody');
-    const noPromosMessage = document.getElementById('noPromosMessage');
-    const promosMessage = document.getElementById('promosMessage');
     const manageBrandsButton = document.getElementById('Managebrands')
 
     let picker;
@@ -43,14 +41,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     function renderPromosTable(promos) {
         userPromosTableBody.innerHTML = '';
         if (!promos || promos.length === 0) {
-            // If there are active filters, show a different message
             const hasActiveFilters = document.querySelectorAll('.column-filter').some(input => input.value.trim() !== '');
-            noPromosMessage.textContent = hasActiveFilters ? 'No promotions match your current filter.' : "You haven't created any promotions yet.";
-            noPromosMessage.style.display = 'block';
+            hasActiveFilters ? showToast ('No promotions match your current filter.', 'info') : showToast ("You haven't created any promotions yet.", 'info');
             return;
         }
 
-        noPromosMessage.style.display = 'none';
         promos.forEach(promo => {
             const row = userPromosTableBody.insertRow();
             row.insertCell(0).textContent = promo.country || 'N/A';
@@ -118,8 +113,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 .order('promo_start_date', { descending: false });
 
             if (promosError) {
-                promosMessage.textContent = 'Error loading your promotions.';
-                promosMessage.style.color = 'red';
+                showToast('Error loading your promotions.', 'error')
                 return;
             }
 
@@ -127,8 +121,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             applyTableFiltersAndRender(); // Render the table with the full list initially
 
         } catch (error) {
-            promosMessage.textContent = 'Failed to load your promotions or no promotions exist under your profile.';
-            promosMessage.style.color = 'grey';
+            showToast('Failed to load your promotions or no promotions exist under your profile.', 'info');
         }
     }
 
@@ -162,8 +155,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (error) {
             console.error('Error loading user profile:', error);
-            profileMessage.textContent = 'Could not load profile details.';
-            profileMessage.style.color = 'red';
+            showToast('Could not load profile details.', 'error');
             return;
         }
 
@@ -229,7 +221,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     saveProfileButton.addEventListener('click', async (event) => {
         event.preventDefault();
         saveProfileButton.disabled = true;
-        profileMessage.textContent = 'Saving...';
+        showToast('Saving...', 'info');
 
         const { error } = await updateAuthUserProfile({
             data: {
@@ -239,11 +231,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
         if (error) {
-            profileMessage.textContent = `Update failed: ${error.message}`;
-            profileMessage.style.color = 'red';
+            showToast(`Update failed: ${error.message}`, 'error');
+            
         } else {
-            profileMessage.textContent = 'Profile updated successfully!';
-            profileMessage.style.color = 'green';
+            showToast('Profile updated successfully!','success');
         }
         saveProfileButton.disabled = false;
     });
