@@ -506,4 +506,28 @@ export async function fetchTeams(channelId) {
 }
 
 
+    export async function fetchAllCatalogData() {
+        try {
+            const [brandsRes, subBrandsRes, productsRes] = await Promise.all([
+                supabase.from('brands').select('*'),
+                supabase.from('sub_brands').select('*'),
+                supabase.from('products').select('*')
+            ]);
 
+            if (brandsRes.error) throw brandsRes.error;
+            if (subBrandsRes.error) throw subBrandsRes.error;
+            if (productsRes.error) throw productsRes.error;
+
+            return {
+                data: {
+                    brands: brandsRes.data || [],
+                    subBrands: subBrandsRes.data || [],
+                    products: productsRes.data || [],
+                },
+                error: null
+            };
+        } catch (error) {
+            console.error('Error fetching catalog data:', error);
+            return { data: { brands: [], subBrands: [], products: [] }, error };
+        }
+    }

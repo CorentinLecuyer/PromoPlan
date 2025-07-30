@@ -3,7 +3,12 @@
 // Centralized state for filters and fetched data
 export const appState = {
     allTimelineItems: [], // Processed timeline data
-    allTableData: [],     // Processed table data
+    allTableData: [], 
+    catalogData: { 
+            brands: [],
+            subBrands: [],
+            products: []
+        },    
     selectedChannels: ['all'], 
     selectedYears: ['2026'],
     selectedStatuses: ['public']   
@@ -48,3 +53,7 @@ export function setTableData(tables) {
 export function setSelectedStatuses(statuses) {
     appState.selectedStatuses = statuses;
 }
+
+export function setCatalogData(data) { // <-- ADD THIS FUNCTION 
+    appState.catalogData = data;
+    }

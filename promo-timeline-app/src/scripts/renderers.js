@@ -85,6 +85,19 @@ export function renderTimeline() {
         const showMonthMarker = monthMarker !== lastMonthMarker;
         lastMonthMarker = monthMarker;
 
+        const brandTagsHTML = (item.brand_ids || [])
+            .map(brandId => {
+                // Find the full brand object from our global state
+                const brand = appState.catalogData.brands.find(b => b.id === brandId);
+                if (!brand || !brand.logo_medium_url) return '';
+                return `
+                    <div class="brand-tag">
+                        <img src="${brand.logo_medium_url}" alt="${brand.name} Logo">
+                    </div>
+                `;
+            })
+            .join('');
+
         const yearMarker = String(startDate.getFullYear());
         const showYearMarker = yearMarker !== lastYearMarker;
         lastYearMarker = yearMarker;
@@ -143,7 +156,12 @@ export function renderTimeline() {
         const titleStyle = item.titletextcolor ? `style="color: ${item.titletextcolor};"` : '';
         const dateStyle = item.datetextcolor ? `style="color: ${item.datetextcolor};"` : '';
         const detailsStyle = item.detailtextcolor ? `style="color: ${item.detailtextcolor};"` : '';
+        
+        const editLink = document.createElement('a');
+        editLink.href = `promo-detail.html?id=${item.id}`;
+        editLink.textContent = '🖊️';
 
+        
         // --- Dynamic Table Loading ---
         const dynamicTablesHTML = generateMultipleTablesHTML(item.table_name);
 
@@ -151,8 +169,12 @@ export function renderTimeline() {
                     ${showYearMarker ? `<div class="year-marker">${yearMarker}</div>` : ""}
                   <div class="timeline-item">
                       ${showMonthMarker ? `<div class="month-marker">${monthMarker}</div>` : ""}
+                    
                     <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
-                      <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}" ${combinedPromoTypeStyle}>${item.promo_type}</div>
+                    <div class="brand-tag-container">${brandTagsHTML}</div>
+                    
+
+                    <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}" ${combinedPromoTypeStyle}>${item.promo_type}</div>
                     <div class="promo-title" ${titleStyle}>${item.promo_title || 'New Promo'}</div>
                     <div class="promo-date" ${dateStyle}> ${formattedDate || 'No Date'} </div>
                     <div class="promo-details" ${detailsStyle}>
@@ -220,6 +242,10 @@ export function renderTimeline() {
                                 </tr>` : ''}
                             </tbody>
                         </table>` : ""}
+
+                        <div class="editLinkDiv">
+                            ${editLink}
+                        </div>
                       </div>
                     <a href="${item.link}" target="_blank">
                       <div class="icon-container" style="${timelineDotBorderStyle} ${iconContainerStyle}">

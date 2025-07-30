@@ -12,8 +12,10 @@ import {
     createPromoTableItem,
     updatePromoTableItem,
     deletePromoTableItem,
-    createPromoTableWithFunction
+    createPromoTableWithFunction,
+    fetchAllCatalogData
 } from './supabaseClient.js';
+import { showToast } from './shared/toast.js';
 import { stringToArray, stringToNumberArray, arrayToString, formatDateRange } from './utils.js';
 import { getTableDataById, generateMultipleTablesHTML } from './renderers.js';
 
@@ -146,10 +148,11 @@ Alpine.data('tableManager', () => ({
 let currentPromoId = null;
 let emojiMartData = null;
 let picker = null;
+let catalog = { brands: [], subBrands: [], products: [] }; // <-- Global catalog variable
+
 
 const promoDetailForm = document.getElementById('promoDetailForm');
 const promoIdDisplay = document.getElementById('promoIdDisplay');
-const promoMessage = document.getElementById('promoMessage');
 const savePromoButton = document.getElementById('savePromoButton');
 const deletePromoButton = document.getElementById('deletePromoButton');
 const logoutButton = document.getElementById('logoutButton');
@@ -181,20 +184,43 @@ const borderColorInput = document.getElementById('borderColor');
 const bgColorInput = document.getElementById('bgColor');
 const userIdInput = document.getElementById('userId');
 const promoPreviewDiv = document.getElementById('promoPreview');
-
 const borderTextColorInput = document.getElementById('borderTextColor');
 const titleTextColorInput = document.getElementById('TitleTextColor');
 const dateTextColorInput = document.getElementById('dateTextColor');
 const detailsTextColorInput = document.getElementById('detailsTextColor');
+const promoBrandsSelect = document.getElementById('promoBrands');
+const promoSubBrandsSelect = document.getElementById('promoSubBrands');
+const promoProductsSelect = document.getElementById('promoProducts');
+
 // =================================================================
 // 4. APPLICATION LOGIC (HELPER FUNCTIONS)
 // =================================================================
 
-function displayMessage(message, isError = false) {
-    if (promoMessage) {
-        promoMessage.textContent = message;
-        promoMessage.style.color = isError ? 'red' : 'green';
-    }
+function populateSelect(selectElement, items, selectedIds = []) {
+    const safeSelectedIds = selectedIds || []; // FIX: Ensure selectedIds is always an array
+    selectElement.innerHTML = '';
+    items.forEach(item => {
+        const option = document.createElement('option');
+        option.value = item.id;
+        option.textContent = item.name;
+        if (safeSelectedIds.includes(item.id)) {
+            option.selected = true;
+        }
+        selectElement.appendChild(option);
+    });
+}
+
+function updateProductSelect(promo) {
+    const selectedSubBrandIds = Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
+    const availableProducts = catalog.products.filter(p => selectedSubBrandIds.includes(p.sub_brand_id));
+    populateSelect(promoProductsSelect, availableProducts, promo.product_ids);
+}
+
+function updateSubBrandSelect(promo) {
+    const selectedBrandIds = Array.from(promoBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
+    const availableSubBrands = catalog.subBrands.filter(sb => selectedBrandIds.includes(sb.brand_id));
+    populateSelect(promoSubBrandsSelect, availableSubBrands, promo.sub_brand_ids);
+    updateProductSelect(promo);
 }
 
 function populateForm(promo) {
@@ -227,6 +253,8 @@ function populateForm(promo) {
     titleTextColorInput.value = promo.titletextcolor || '';
     dateTextColorInput.value = promo.datetextcolor || '';
     detailsTextColorInput.value = promo.detailtextcolor || '';
+    populateSelect(promoBrandsSelect, catalog.brands, promo.brand_ids);
+    updateSubBrandSelect(promo);
 }
 
 function getPromoDataFromForm() {
@@ -262,6 +290,9 @@ function getPromoDataFromForm() {
         titletextcolor: titleTextColorInput.value,
         datetextcolor: dateTextColorInput.value,
         detailtextcolor: detailsTextColorInput.value,
+        brand_ids: Array.from(promoBrandsSelect.selectedOptions).map(opt => parseInt(opt.value)),
+        sub_brand_ids: Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value)),
+        product_ids: Array.from(promoProductsSelect.selectedOptions).map(opt => parseInt(opt.value)),
     };
 }
 
@@ -273,6 +304,14 @@ function updatePreviewFromForm() {
 
 function renderPromoPreview(promo) {
     if (!promoPreviewDiv) return;
+
+    const brandTagsHTML = (promo.brand_ids || [])
+        .map(brandId => {
+            const brand = catalog.brands.find(b => b.id === brandId);
+            if (!brand || !brand.logo_medium_url) return '';
+            return `<div class="brand-tag"><img src="${brand.logo_medium_url}" alt="${brand.name} Logo"></div>`;
+        })
+        .join('');
 
     const formattedDate = formatDateRange(promo.promo_start_date, promo.promo_end_date);
     const hasBudget = Array.isArray(promo.promo_budget) && promo.promo_budget.length > 0 && promo.promo_budget.some(b => b > 0);
@@ -294,17 +333,15 @@ function renderPromoPreview(promo) {
     } else if (typeof promo.bgcolor === 'string' && promo.bgcolor !== '') {
         inlineBgStyle = `background-color: ${promo.bgcolor};`;
     }
-
-    let timelineContentBorderStyle = '';
     let promoTypeStyle = '';
+    let timelineContentBorderStyle = '';
     let timelineDotBorderStyle = '';
-
     if (promo.bordercolor && promo.bordercolor !== '') {
         timelineContentBorderStyle = `border-left: 4px solid ${promo.bordercolor};`;
         promoTypeStyle = `background-color: ${promo.bordercolor};`;
         timelineDotBorderStyle = `border: 3px solid ${promo.bordercolor};`;
     }
-    
+
     // Add text color for the promo type badge
     if (promo.bordertextcolor && promo.bordertextcolor !== '') {
         promoTypeStyle += `color: ${promo.bordertextcolor};`;
@@ -314,7 +351,7 @@ function renderPromoPreview(promo) {
 
     const combinedInlineContentStyle = `style="${inlineBgStyle} ${timelineContentBorderStyle}"`;
     const combinedPromoTypeStyle = `style="${promoTypeStyle}"`;
-    
+
     // Styles for other text elements
     const titleStyle = promo.titletextcolor ? `style="color: ${promo.titletextcolor};"` : '';
     const dateStyle = promo.datetextcolor ? `style="color: ${promo.datetextcolor};"` : '';
@@ -323,10 +360,11 @@ function renderPromoPreview(promo) {
     // --- Dynamic Table Loading ---
     const dynamicTablesHTML = generateMultipleTablesHTML(promo.table_name);
 
-    let previewHTML = `
+    promoPreviewDiv.innerHTML = `
         <div class="timeline">
             <div class="timeline-item">
                 <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
+                    <div class="brand-tag-container">${brandTagsHTML}</div>
                     <div class="promo-type ${promo.promo_type ? promo.promo_type.toLowerCase().replace(/\s+/g, '-') : ''}" ${combinedPromoTypeStyle}>${promo.promo_type || 'N/A'}</div>
                     <div class="promo-title" ${titleStyle}>${promo.promo_title || 'New Promo'}</div>
                     <div class="promo-date" ${dateStyle}> ${formattedDate || 'No Date'} </div>
@@ -354,31 +392,31 @@ function renderPromoPreview(promo) {
                             </thead>
                             <tbody>
                             ${(promo.promo_budget && promo.promo_budget.length > 0) ? promo.promo_budget.map((budget, index) => {
-                                const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
-                                const displayFinancials = index === 0;
-                                return `
+        const budgetType = (promo.promo_budget_type && promo.promo_budget_type[index]) || 'N/A';
+        const displayFinancials = index === 0;
+        return `
                                     <tr>
                                         <th>${budget.toLocaleString('fr-FR', {
-                                            style: 'currency',
-                                            currency: 'EUR',
-                                            minimumFractionDigits: 0,
-                                            maximumFractionDigits: 0
-                                        })}</th>
+            style: 'currency',
+            currency: 'EUR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        })}</th>
                                         <th><span class="channel-tag-budget">${budgetType}</span></th>
                                         ${displayFinancials ?
-                                            `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
+                `<th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_HL || 0} HL</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.promo_uplift_machine || 0} Machines</th>
                                             <th rowspan="${promo.promo_budget.length}">${promo.ROI || 'TBC'}</th>
                                             <th rowspan="${promo.promo_budget.length}">${(promo.MACO || 0).toLocaleString('fr-FR', {
-                                                style: 'currency',
-                                                currency: 'EUR',
-                                                minimumFractionDigits: 0,
-                                                maximumFractionDigits: 0
-                                            })}</th>`
-                                            : ''}
+                    style: 'currency',
+                    currency: 'EUR',
+                    minimumFractionDigits: 0,
+                    maximumFractionDigits: 0
+                })}</th>`
+                : ''}
                                     </tr>
                                 `;
-                            }).join("") : `
+    }).join("") : `
                                 <tr>
                                     <th>-</th>
                                     <th>-</th>
@@ -386,11 +424,11 @@ function renderPromoPreview(promo) {
                                     <th>${promo.promo_uplift_machine || 0} Machines</th>
                                     <th>${promo.ROI || 'TBC'}</th>
                                     <th>${(promo.MACO || 0).toLocaleString('fr-FR', {
-                                        style: 'currency',
-                                        currency: 'EUR',
-                                        minimumFractionDigits: 0,
-                                        maximumFractionDigits: 0
-                                    })}</th>
+        style: 'currency',
+        currency: 'EUR',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    })}</th>
                                 </tr>`}
                             </tbody>
                         </table>` : ""}
@@ -403,7 +441,7 @@ function renderPromoPreview(promo) {
             </div>
         </div>
     `;
-    promoPreviewDiv.innerHTML = previewHTML;
+
 }
 
 
@@ -412,19 +450,65 @@ function renderPromoPreview(promo) {
 // =================================================================
 document.addEventListener('DOMContentLoaded', async () => {
 
+    const urlParams = new URLSearchParams(window.location.search);
+    currentPromoId = urlParams.get('id');
+
+    if (currentPromoId) {
+        promoIdDisplay.textContent = `Editing Promotion ID: ${currentPromoId}`;
+        showToast('Loading promotion details...', 'info');
+        const { data, error } = await fetchPromoById(currentPromoId);
+        if (error || !data) {
+            showToast('Promotion not found or you do not have access.', 'info');
+            if (promoDetailForm) promoDetailForm.style.display = 'none';
+        } else {
+            populateForm(data);
+            showToast('Promotion details loaded.', 'success');
+            updatePreviewFromForm();
+        }
+    } else {
+        showToast('No promotion ID found in URL.', 'error');
+        if (promoDetailForm) promoDetailForm.style.display = 'none';
+    }
+    
+    function populateSelect(selectElement, items, selectedIds = []) {
+        selectElement.innerHTML = '';
+        items.forEach(item => {
+            const option = document.createElement('option');
+            option.value = item.id;
+            option.textContent = item.name;
+            if (selectedIds.includes(item.id)) {
+                option.selected = true;
+            }
+            selectElement.appendChild(option);
+        });
+    }
+
+    function updateProductSelect(promo) {
+        const selectedSubBrandIds = Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
+        const availableProducts = catalog.products.filter(p => selectedSubBrandIds.includes(p.sub_brand_id));
+        populateSelect(promoProductsSelect, availableProducts, promo.product_ids);
+    }
+
+    function updateSubBrandSelect(promo) {
+        const selectedBrandIds = Array.from(promoBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
+        const availableSubBrands = catalog.subBrands.filter(sb => selectedBrandIds.includes(sb.brand_id));
+        populateSelect(promoSubBrandsSelect, availableSubBrands, promo.sub_brand_ids);
+        updateProductSelect(promo);
+    }
+
     // --- Attach Event Listeners ---
     if (promoDetailForm) {
         promoDetailForm.addEventListener('submit', async (event) => {
             event.preventDefault();
             savePromoButton.disabled = true;
-            displayMessage('Saving promotion...', false);
+            showToast('Saving promotion...', 'info');
             const updatedPromo = getPromoDataFromForm();
             try {
                 const { error } = await updatePromo(currentPromoId, updatedPromo);
                 if (error) throw error;
-                displayMessage('Promotion updated successfully!', false);
+                showToast('Promotion updated successfully!', 'success');
             } catch (error) {
-                displayMessage(`Failed to update promotion: ${error.message}`, true);
+                showToast(`Failed to update promotion: ${error.message}`, 'error');
             } finally {
                 savePromoButton.disabled = false;
             }
@@ -437,14 +521,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         deletePromoButton.addEventListener('click', async () => {
             if (!confirm('Are you sure you want to delete this promotion?')) return;
             deletePromoButton.disabled = true;
-            displayMessage('Deleting promotion...', false);
+            showToast('Deleting promotion...', 'info');
             try {
                 const { error } = await deletePromo(currentPromoId);
                 if (error) throw error;
-                displayMessage('Promotion deleted successfully! Redirecting...', false);
+                showToast('Promotion deleted successfully! Redirecting...', 'success');
                 setTimeout(() => { window.location.href = 'profile.html'; }, 1500);
             } catch (error) {
-                displayMessage(`Failed to delete promotion: ${error.message}`, true);
+                showToast(`Failed to delete promotion: ${error.message}`, 'error');
             } finally {
                 deletePromoButton.disabled = false;
             }
@@ -486,7 +570,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                     if (iconPickerContainer) iconPickerContainer.appendChild(picker);
 
                 } catch (error) {
-                    displayMessage('Failed to load emoji data. Picker may not work.', true);
+                    showToast('Failed to load emoji data. Picker may not work.', 'error');
                 }
             }
             if (iconPickerContainer) {
@@ -501,28 +585,43 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (error) throw error;
         appState.allTableData = data;
     } catch (error) {
-        displayMessage(`Failed to load table data: ${error.message}`, true);
+        showToast(`Failed to load table data: ${error.message}`, 'error');
     }
 
-    const urlParams = new URLSearchParams(window.location.search);
-    currentPromoId = urlParams.get('id');
+    try {
+        // Fetch promotion and catalog data in parallel for faster loading
+        const [promoRes, catalogRes, tablesRes] = await Promise.all([
+            fetchPromoById(currentPromoId),
+            fetchAllCatalogData(),
+            fetchAllTableData()
+        ]);
 
-    if (currentPromoId) {
-        promoIdDisplay.textContent = `Editing Promotion ID: ${currentPromoId}`;
-        displayMessage('Loading promotion details...', false);
-        const { data, error } = await fetchPromoById(currentPromoId);
-        if (error || !data) {
-            displayMessage('Promotion not found or you do not have access.', true);
-            if (promoDetailForm) promoDetailForm.style.display = 'none';
-        } else {
-            populateForm(data);
-            displayMessage('Promotion details loaded.', false);
-            updatePreviewFromForm();
+        if (catalogRes.error) throw new Error('Could not load catalog data.');
+        catalog = catalogRes.data;
+
+        if (tablesRes.error) throw new Error('Could not load table definitions.');
+        appState.allTableData = tablesRes.data;
+
+        if (promoRes.error || !promoRes.data) {
+            throw new Error('Promotion not found or you do not have access.');
         }
-    } else {
-        displayMessage('No promotion ID found in URL.', true);
+
+        const promoData = promoRes.data;
+        populateForm(promoData);
+
+        // Setup cascading dropdown listeners AFTER data is loaded
+        promoBrandsSelect.addEventListener('change', () => updateSubBrandSelect(getPromoDataFromForm()));
+        promoSubBrandsSelect.addEventListener('change', () => updateProductSelect(getPromoDataFromForm()));
+
+        showToast('Promotion details loaded.', 'success');
+        updatePreviewFromForm();
+    } catch (error) {
+        showToast(error.message, 'error');
         if (promoDetailForm) promoDetailForm.style.display = 'none';
     }
+
+
+    
 });
 
 // =================================================================

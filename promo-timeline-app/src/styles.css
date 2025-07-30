@@ -282,12 +282,13 @@ p {
 .timeline-content {
     position: relative;
     width: 45%;
-    padding: 15px 20px;
+    padding: 30px 20px 15px;
     background: white;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
     border-left: 4px solid #FFCC02;
     transition: all 0.3s ease;
+    transform-style: preserve-3d;
 }
 
 .timeline-content.full-width-content {
@@ -459,6 +460,42 @@ p {
     font-size: 9px;
     font-weight: 600;
     text-transform: uppercase;
+}
+
+.brand-tag-container {
+    position: absolute;
+    top: -25px;
+    left: 10px;
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    background-color: white;
+    border-radius: 4px;
+    padding: 3px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.brand-tag {
+    height: 40px;
+    width: auto;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background-color: #fff;
+    padding: 2px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.brand-tag img {
+    max-height: 100%;
+    height: auto;
+    width: auto;
+    max-width: 40px; /* Prevent wide logos from taking too much space */
+    object-fit: contain;
 }
 
 /* Specific promo type colors - ensure these override the default .promo-type */

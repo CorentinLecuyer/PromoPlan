@@ -1,7 +1,7 @@
 // scripts/app.js
 
-import { fetchPromotionalItems, fetchDisplayTables } from './supabaseClient.js';
-import { appState, setTimelineItems, setTableData } from './state.js';
+import { fetchPromotionalItems, fetchDisplayTables, fetchAllCatalogData } from './supabaseClient.js';
+import { appState, setTimelineItems, setTableData, setCatalogData} from './state.js';
 import { processTimelineItems, processDisplayTables } from './utils.js';
 import { renderTimeline, renderTablesHomePage } from './renderers.js';
 import { signOut, getSession } from './supabaseAuth.js';
@@ -14,15 +14,18 @@ import { initFilterModal, getSavedFilters } from './shared/filterModal.js'; // I
 export async function updateAndRenderContent() {
     try {
         console.log('Updating and rendering content...');
-
         const filters = getSavedFilters(); // Get the filters first
 
         // Fetch all necessary data in parallel, passing filters to the relevant function
-        const [rawTableData, rawTimelineData] = await Promise.all([
+        const [rawTableData, rawTimelineData, catalogData] = await Promise.all([
             fetchDisplayTables(),
-            fetchPromotionalItems(filters) // Pass filters as an argument
+            fetchPromotionalItems(filters),
+            fetchAllCatalogData()
         ]);
         
+        setCatalogData(catalogData.data); // <-- STORE CATALOG DATA
+        console.log('Catalog Data stored:', appState.catalogData);
+
         console.log('Raw Table Data fetched:', rawTableData);
         const processedTableData = processDisplayTables(rawTableData);
         setTableData(processedTableData);
