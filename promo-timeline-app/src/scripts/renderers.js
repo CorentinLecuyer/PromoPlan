@@ -173,8 +173,11 @@ export function renderTimeline() {
                     <div class="${timelineContentClass}" ${combinedInlineContentStyle}>
                     <div class="brand-tag-container">${brandTagsHTML}</div>
                     
-
-                    <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}" ${combinedPromoTypeStyle}>${item.promo_type}</div>
+                    <a href="${editLink}">
+                        <div>
+                            <div class="promo-type ${item.promo_type.toLowerCase().replace(/\s+/g, '-')}" ${combinedPromoTypeStyle}>${item.promo_type}</div>
+                        </div>
+                    </a>
                     <div class="promo-title" ${titleStyle}>${item.promo_title || 'New Promo'}</div>
                     <div class="promo-date" ${dateStyle}> ${formattedDate || 'No Date'} </div>
                     <div class="promo-details" ${detailsStyle}>
@@ -243,9 +246,7 @@ export function renderTimeline() {
                             </tbody>
                         </table>` : ""}
 
-                        <div class="editLinkDiv">
-                            ${editLink}
-                        </div>
+        
                       </div>
                     <a href="${item.link}" target="_blank">
                       <div class="icon-container" style="${timelineDotBorderStyle} ${iconContainerStyle}">
@@ -264,11 +265,61 @@ export function renderTimeline() {
 
 // ------------------------------------------------------------------------------------------------------------------------
 
-/**
- * Renders the home page calendar tables (icons, budget, uplift) into the DOM.
- */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export function renderTablesHomePage() {
-    const root = document.getElementById('timeline-root-home-page');
+    const standardContainer = document.getElementById('standard-reports-container');
+    const interactiveContainer = document.getElementById('interactive-pivot-container');
+    const reportSwitcher = document.getElementById('reportTypeSwitcher');
+    const calendarSwitcher = document.getElementById('viewSwitcher');
+
+    if (!standardContainer || !interactiveContainer || !reportSwitcher) {
+        console.error("Error: renderers.js cannot find the required containers in CommandBoard.html. Ensure IDs like 'standard-reports-container' exist.");
+        return;
+    }
+
+    function updateView() {
+        const selectedView = document.querySelector('input[name="reportType"]:checked').value;
+        console.log(selectedView)
+        if (selectedView === 'standard') {
+            standardContainer.classList.remove('hidden-view');
+            interactiveContainer.classList.add('hidden-view');
+            renderStandardReports();
+        } else {
+            standardContainer.classList.add('hidden-view');
+            interactiveContainer.classList.remove('hidden-view');
+            renderInteractivePivot();
+        }
+    }
+
+    reportSwitcher.addEventListener('change', updateView);
+    calendarSwitcher.addEventListener('change', renderStandardReports);
+    updateView();
+}
+
+
+// =================================================================
+// VIEW 1: STANDARD REPORTS (Icons, Budget, Uplift)
+// =================================================================
+
+function renderStandardReports() {
+    const root = document.getElementById('standard-reports-root');
     if (!root) return;
 
     const view = document.querySelector('input[name="calendarView"]:checked')?.value || 'monthly';
@@ -278,8 +329,7 @@ export function renderTablesHomePage() {
         root.innerHTML = '<h1>No promotions found for the selected filters.</h1>';
         return;
     }
-
-    // --- Collect Channels and Budget Types ---
+    
     const allChannels = new Set();
     const allBudgetTypesSet = new Set();
     appState.allTimelineItems.forEach(item => {
@@ -291,62 +341,10 @@ export function renderTablesHomePage() {
     allBudgetTypesSet.add("Loyalty Program");
     const uniqueBudgetTypes = Array.from(allBudgetTypesSet).sort();
     const uniqueChannels = Array.from(allChannels).sort();
-
-    // --- Determine Years and Date Range ---
     const allYearsInFilteredData = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
     const yearsToRender = (filters.year && filters.year.length > 0) ? filters.year.sort() : allYearsInFilteredData;
-
-    // --- Generate Time Columns based on View ---
-    const timeColumns = [];
-    const getWeek = (date) => {
-        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
-        const dayNum = d.getUTCDay() || 7;
-        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
-        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
-        return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
-    };
-
-    if (view === 'monthly') {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        yearsToRender.forEach(year => {
-            months.forEach((month, index) => {
-                timeColumns.push({
-                    key: `${year}-${String(index + 1).padStart(2, '0')}`,
-                    label: month, // MODIFIED: Label is just month name now
-                    year: year,
-                });
-            });
-        });
-    } else {
-        let currentDate = new Date(yearsToRender[0], 0, 1);
-        const lastDate = new Date(yearsToRender[yearsToRender.length - 1], 11, 31);
-
-        while (currentDate <= lastDate) {
-            const year = String(currentDate.getFullYear());
-            if (yearsToRender.includes(year)) {
-                if (view === 'weekly') {
-                    const week = getWeek(currentDate);
-                    const weekKey = `${year}-W${String(week).padStart(2, '0')}`;
-                    if (!timeColumns.some(c => c.key === weekKey)) {
-                        timeColumns.push({ key: weekKey, label: `W${week}`, year: year });
-                    }
-                    currentDate.setDate(currentDate.getDate() + 7);
-                } else { // Daily
-                    timeColumns.push({
-                        key: `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
-                        label: `${currentDate.toLocaleString('en-US', { month: 'short' })} ${currentDate.getDate()}`,
-                        year: year,
-                    });
-                    currentDate.setDate(currentDate.getDate() + 1);
-                }
-            } else {
-                currentDate.setFullYear(parseInt(year) + 1, 0, 1);
-            }
-        }
-    }
-
-
-    // --- Data Aggregation (remains the same) ---
+    const timeColumns = getTimeColumns(view, yearsToRender);
+    
     const iconsData = {};
     const budgetData = {};
     const upliftData = { HL: {}, machines: {}, MACO: {} };
@@ -392,7 +390,6 @@ export function renderTablesHomePage() {
                 });
             }
             if (view === 'monthly') {
-                currentDate.setDate(1); // Ensure we are at the start of the month before incrementing
                 currentDate.setMonth(currentDate.getMonth() + 1);
             } else {
                 currentDate.setDate(currentDate.getDate() + 1);
@@ -400,11 +397,8 @@ export function renderTablesHomePage() {
         }
     });
 
-    // --- HTML Generation ---
     const formatCurrency = (value) => value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0, maximumFractionDigits: 0 });
     const formatNumber = (value) => value.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-
-    // MODIFIED: This function now generates rows for a specific year
     const generateYearlyRows = (year, titles, dataAccessor, isCurrency = false, isIcon = false) => {
         let yearHTML = '';
         const yearColumns = timeColumns.filter(c => c.year === year);
@@ -431,7 +425,6 @@ export function renderTablesHomePage() {
         });
         return yearHTML;
     };
-
     const viewTitle = view.charAt(0).toUpperCase() + view.slice(1);
     const tableHeaders = (year) => {
         const yearColumns = timeColumns.filter(c => c.year === year);
@@ -441,49 +434,269 @@ export function renderTablesHomePage() {
         const yearColumns = timeColumns.filter(c => c.year === year);
         return `<thead class="promo-table-HomePage-header"><tr><th>Channel</th>${yearColumns.map(c => `<th class="month-header">${c.label}</th>`).join('')}</tr></thead>`;
     };
-
-    // NEW: Build table bodies year by year
-    const fullIconTable = yearsToRender.map(year => `
-        ${iconTableHeaders(year)}
-        <tbody>
-            ${generateYearlyRows(year, uniqueChannels, (title) => iconsData[title], false, true)}
-        </tbody>
-    `).join('');
-
-    const fullBudgetTable = yearsToRender.map(year => `
-        ${tableHeaders(year)}
-        <tbody>
-            ${generateYearlyRows(year, uniqueBudgetTypes, (title) => budgetData[title] || {}, true)}
-        </tbody>
-    `).join('');
-
-    const fullUpliftTable = yearsToRender.map(year => `
-        ${tableHeaders(year)}
-        <tbody>
-            ${generateYearlyRows(year, ['HL Uplift'], () => upliftData.HL)}
-            ${generateYearlyRows(year, ['MACO'], () => upliftData.MACO, true)}
-            ${generateYearlyRows(year, ['Machines Uplift'], () => upliftData.machines)}
-        </tbody>
-    `).join('');
-
+    const fullIconTable = yearsToRender.map(year => `${iconTableHeaders(year)}<tbody>${generateYearlyRows(year, uniqueChannels, (title) => iconsData[title], false, true)}</tbody>`).join('');
+    const fullBudgetTable = yearsToRender.map(year => `${tableHeaders(year)}<tbody>${generateYearlyRows(year, uniqueBudgetTypes, (title) => budgetData[title] || {}, true)}</tbody>`).join('');
+    const fullUpliftTable = yearsToRender.map(year => `${tableHeaders(year)}<tbody>${generateYearlyRows(year, ['HL Uplift'], () => upliftData.HL)}${generateYearlyRows(year, ['MACO'], () => upliftData.MACO, true)}${generateYearlyRows(year, ['Machines Uplift'], () => upliftData.machines)}</tbody>`).join('');
 
     root.innerHTML = `
         <h1>Promotional Calendar ${yearsToRender.join(', ')} - Icons (${viewTitle})</h1>
-        <div class="table-scroll-wrapper">
-            <table class="promo-table-HomePage">${fullIconTable}</table>
-        </div>
-        <div style="margin-top: 20px; font-size: 12px; color: #666;">
-            <p><strong>Note:</strong> Icons represent all time periods spanned by a promotion. Financials are attributed to the start date (or end date for Loyalty Programs).</p>
-        </div>
-
+        <div class="table-scroll-wrapper"><table class="promo-table-HomePage">${fullIconTable}</table></div>
+        <div style="margin-top: 20px; font-size: 12px; color: #666;"><p><strong>Note:</strong> Icons represent all time periods spanned by a promotion. Financials are attributed to the start date (or end date for Loyalty Programs).</p></div>
         <h1 style="margin-top: 50px;">Budget Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
-        <div class="table-scroll-wrapper">
-            <table class="promo-table-HomePage" style="margin-top: 30px;">${fullBudgetTable}</table>
-        </div>
-
+        <div class="table-scroll-wrapper"><table class="promo-table-HomePage" style="margin-top: 30px;">${fullBudgetTable}</table></div>
         <h1 style="margin-top: 50px;">Uplift / MACO Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
-        <div class="table-scroll-wrapper">
-            <table class="promo-table-HomePage" style="margin-top: 30px;">${fullUpliftTable}</table>
-        </div>
+        <div class="table-scroll-wrapper"><table class="promo-table-HomePage" style="margin-top: 30px;">${fullUpliftTable}</table></div>
     `;
 }
+
+
+// =================================================================
+// VIEW 2: INTERACTIVE PIVOT TABLE
+// =================================================================
+
+const ALL_DIMENSIONS = [
+    { id: 'promo_type', name: 'Promo Type' },
+    { id: 'country', name: 'Country' },
+    { id: 'channel_tags', name: 'Channel' },
+    { id: 'status', name: 'Status' },
+    { id: 'brand', name: 'Brand' }
+];
+const LOCAL_STORAGE_KEY = 'pivotConfig';
+
+function renderInteractivePivot() {
+    const savedConfig = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
+    const rowDimensions = savedConfig || [{ id: 'channel_tags', name: 'Channel' }];
+
+    renderPivotBuilder(rowDimensions);
+    initDragAndDrop(rerender);
+    rerender();
+
+    function rerender() {
+        const currentConfig = Array.from(document.querySelectorAll('#row-drop-zone .dimension-item'))
+            .map(el => ({ id: el.dataset.id, name: el.textContent }));
+        
+        if (currentConfig.length > 3) {
+            showToast('You can select a maximum of 3 row categories.', 'error');
+            renderInteractivePivot(); 
+            return;
+        }
+        
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentConfig));
+        renderPivotBuilder(currentConfig);
+        const pivotData = buildPivotData(currentConfig);
+        renderPivotTable(pivotData, currentConfig);
+    }
+}
+
+function renderPivotBuilder(rowDimensions) {
+    const pool = document.getElementById('dimension-pool');
+    const rows = document.getElementById('row-drop-zone');
+    if (!pool || !rows) return;
+
+    const usedIds = new Set(rowDimensions.map(d => d.id));
+    const availableDimensions = ALL_DIMENSIONS.filter(d => !usedIds.has(d.id));
+
+    pool.innerHTML = availableDimensions.map(d => `<div class="dimension-item" data-id="${d.id}">${d.name}</div>`).join('');
+    rows.innerHTML = rowDimensions.map(d => `<div class="dimension-item" data-id="${d.id}">${d.name}</div>`).join('');
+}
+
+function initDragAndDrop(onUpdateCallback) {
+    const pool = document.getElementById('dimension-pool');
+    const rows = document.getElementById('row-drop-zone');
+    if (!pool || !rows) return;
+
+    if (pool.sortable) pool.sortable.destroy();
+    if (rows.sortable) rows.sortable.destroy();
+
+    pool.sortable = new Sortable(pool, {
+        group: 'pivot-builder',
+        animation: 150,
+        sort: false,
+    });
+
+    rows.sortable = new Sortable(rows, {
+        group: 'pivot-builder',
+        animation: 150,
+        onAdd: onUpdateCallback,
+        onUpdate: onUpdateCallback,
+        onRemove: onUpdateCallback,
+    });
+}
+
+function buildPivotData(rowConfig) {
+    if (rowConfig.length === 0) return { children: {}, count: 0 };
+
+    const items = appState.allTimelineItems.map(item => {
+        const brand = appState.catalogData.brands.find(b => b.id === (item.brand_ids ? item.brand_ids[0] : null));
+        return { ...item, brand: brand ? brand.name : 'N/A' };
+    });
+
+    function groupData(data, dimensions) {
+        if (dimensions.length === 0) {
+            return {
+                values: aggregateTimeData(data),
+                count: 1
+            };
+        }
+
+        const [currentDim, ...restDims] = dimensions;
+        const grouped = {};
+        let totalCount = 0;
+        
+        for (const item of data) {
+            const keys = Array.isArray(item[currentDim.id]) ? item[currentDim.id] : [item[currentDim.id] || 'N/A'];
+            for (const key of keys) {
+                if (!grouped[key]) grouped[key] = [];
+                grouped[key].push(item);
+            }
+        }
+
+        for (const key in grouped) {
+            const childrenResult = groupData(grouped[key], restDims);
+            grouped[key] = childrenResult;
+            totalCount += childrenResult.count;
+        }
+        
+        return { children: grouped, count: totalCount };
+    }
+
+    return groupData(items, rowConfig);
+}
+
+function aggregateTimeData(items) {
+    const view = 'monthly';
+    const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
+    const timeColumns = getTimeColumns(view, yearsToRender);
+    const aggregated = {};
+
+    items.forEach(item => {
+        const startDate = new Date(item.promo_start_date);
+        const endDate = new Date(item.promo_end_date);
+        let currentDate = new Date(startDate);
+
+        while (currentDate <= endDate) {
+            const year = String(currentDate.getFullYear());
+            const key = `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+            
+            if (timeColumns.some(c => c.key === key)) {
+                if (!aggregated[key]) aggregated[key] = new Set();
+                aggregated[key].add(item.icon);
+            }
+            
+            currentDate.setMonth(currentDate.getMonth() + 1);
+        }
+    });
+    return aggregated;
+}
+
+function renderPivotTable(pivotData, rowConfig) {
+    const root = document.getElementById('pivot-table-root');
+     if (!root) {
+        console.error('[Debug] Critical Error: The element with id="pivot-table-root" was not found.');
+        return;
+    }
+    const view = 'monthly';
+    const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
+    const timeColumns = getTimeColumns(view, yearsToRender);
+    
+    let tableHTML = '<div class="table-scroll-wrapper"><table class="promo-table-HomePage">';
+    
+    tableHTML += `<thead><tr>`;
+    rowConfig.forEach(dim => {
+        tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`;
+    });
+    timeColumns.forEach(col => {
+        tableHTML += `<th class="month-header">${col.label}</th>`;
+    });
+    tableHTML += `</tr></thead>`;
+
+    tableHTML += `<tbody>`;
+    tableHTML += generatePivotRows(pivotData, timeColumns);
+    tableHTML += `</tbody></table></div>`;
+
+    root.innerHTML = tableHTML;
+}
+
+function generatePivotRows(node, timeColumns, headers = []) {
+    if (!node || !node.children) {
+        return '';
+    }
+
+    let html = '';
+    const sortedKeys = Object.keys(node.children).sort();
+
+    sortedKeys.forEach(key => {
+        const childNode = node.children[key];
+        const newHeaders = [...headers, key];
+
+        if (childNode.values) {
+            html += '<tr>';
+            newHeaders.forEach(header => {
+                html += `<td class="icon-cell">${header}</td>`;
+            });
+            timeColumns.forEach(col => {
+                const icons = childNode.values[col.key];
+                const cellContent = icons ? Array.from(icons).join('') : '-';
+                html += `<td class="${icons ? 'icon-cell' : 'empty-cell'}">${cellContent}</td>`;
+            });
+            html += '</tr>';
+        } else {
+            html += generatePivotRows(childNode, timeColumns, newHeaders);
+        }
+    });
+
+    return html;
+}
+
+// --- Utility Functions ---
+function getTimeColumns(view, yearsToRender) {
+    const timeColumns = [];
+    if (yearsToRender.length === 0) return [];
+
+    if (view === 'monthly') {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        yearsToRender.forEach(year => {
+            months.forEach((month, index) => {
+                timeColumns.push({
+                    key: `${year}-${String(index + 1).padStart(2, '0')}`,
+                    label: `${month} ${year.slice(-2)}`,
+                    year: year
+                });
+            });
+        });
+    } else {
+        let currentDate = new Date(yearsToRender[0], 0, 1);
+        const lastDate = new Date(yearsToRender[yearsToRender.length - 1], 11, 31);
+        while (currentDate <= lastDate) {
+            const year = String(currentDate.getFullYear());
+            if (yearsToRender.includes(year)) {
+                if (view === 'weekly') {
+                    const week = getWeek(currentDate);
+                    const weekKey = `${year}-W${String(week).padStart(2, '0')}`;
+                    if (!timeColumns.some(c => c.key === weekKey)) {
+                        timeColumns.push({ key: weekKey, label: `W${week}`, year: year });
+                    }
+                    currentDate.setDate(currentDate.getDate() + 7);
+                } else { // Daily
+                    timeColumns.push({
+                        key: `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}-${String(currentDate.getDate()).padStart(2, '0')}`,
+                        label: `${currentDate.toLocaleString('en-US', { month: 'short' })} ${currentDate.getDate()}`,
+                        year: year,
+                    });
+                    currentDate.setDate(currentDate.getDate() + 1);
+                }
+            } else {
+                currentDate.setFullYear(parseInt(year) + 1, 0, 1);
+            }
+        }
+    }
+    return timeColumns;
+}
+
+const getWeek = (date) => {
+    const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+    const dayNum = d.getUTCDay() || 7;
+    d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+    const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+    return Math.ceil((((d - yearStart) / 86400000) + 1) / 7);
+};

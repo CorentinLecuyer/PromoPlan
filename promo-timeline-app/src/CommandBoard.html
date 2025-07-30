@@ -6,6 +6,8 @@
     <title>- PerfectDraft Calendar</title>
     <link rel="stylesheet" href="styles.css" />
     <link rel="icon" href="img/favicon%20small.ico" type="image/png" style="max-width: fit-content" />
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
 
 </head>
 
@@ -29,7 +31,7 @@
           ">
                 <label style="font-weight: 400" class="multiselect-header">Timeline View ↕️</label>
             </a>
-            
+
             <a href="profile.html" style="display: inline-block;margin-left: 10px; text-decoration: none;">
                 <label style="font-weight:400;" class="multiselect-header">Profile 👤</label>
             </a>
@@ -38,17 +40,47 @@
         </div>
     </div>
     <div class="slide">
-        <div class="view-switcher" id="viewSwitcher">
-            <input type="radio" id="monthlyView" name="calendarView" value="monthly" checked>
-            <label for="monthlyView">Monthly</label>
-
-            <input type="radio" id="weeklyView" name="calendarView" value="weekly">
-            <label for="weeklyView">Weekly</label>
-
-            <input type="radio" id="dailyView" name="calendarView" value="daily">
-            <label for="dailyView">Daily</label>
+        <!-- Main View Switcher -->
+        <div class="main-view-switcher">
+            <div class="view-switcher" id="reportTypeSwitcher">
+                <input type="radio" id="standardReportView" name="reportType" value="standard" checked>
+                <label for="standardReportView">Standard Reports</label>
+                <input type="radio" id="interactivePivotView" name="reportType" value="interactive">
+                <label for="interactivePivotView">Interactive Pivot</label>
+            </div>
         </div>
-        <div id="timeline-root-home-page"></div>
+
+        <!-- Container for the Interactive Pivot Builder and Table -->
+        <div id="interactive-pivot-container" class="hidden-view">
+             <div id="pivot-builder-container">
+                <h2>Interactive Table Builder</h2>
+                <p>Drag categories into the "Rows" box to build your report. The table will update automatically.</p>
+                <div class="pivot-builder">
+                    <div class="pivot-section">
+                        <h3>Available Categories</h3>
+                        <div id="dimension-pool" class="dimension-list"></div>
+                    </div>
+                    <div class="pivot-section">
+                        <h3>Rows (Max 3)</h3>
+                        <div id="row-drop-zone" class="dimension-list drop-zone"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="pivot-table-root"></div>
+        </div>
+
+        <!-- Container for the Standard Reports -->
+        <div id="standard-reports-container">
+            <div class="view-switcher" id="viewSwitcher">
+                <input type="radio" id="monthlyView" name="calendarView" value="monthly" checked>
+                <label for="monthlyView">Monthly</label>
+                <input type="radio" id="weeklyView" name="calendarView" value="weekly">
+                <label for="weeklyView">Weekly</label>
+                <input type="radio" id="dailyView" name="calendarView" value="daily">
+                <label for="dailyView">Daily</label>
+            </div>
+            <div id="standard-reports-root"></div>
+        </div>
     </div>
 
     <script type="module" src="scripts/app.js"></script>
