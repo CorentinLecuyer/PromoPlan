@@ -465,27 +465,58 @@ const LOCAL_STORAGE_KEY = 'pivotConfig';
 
 function renderInteractivePivot() {
     const savedConfig = JSON.parse(localStorage.getItem(LOCAL_STORAGE_KEY));
-    const rowDimensions = savedConfig || [{ id: 'channel_tags', name: 'Channel' }];
+    const rowDimensions = savedConfig?.rows || [{ id: 'channel_tags', name: 'Channel' }];
+    const valueType = savedConfig?.valueType || 'icons';
 
+    renderValueSwitcher(valueType);
     renderPivotBuilder(rowDimensions);
     initDragAndDrop(rerender);
+    
+    document.getElementById('pivotValueSwitcher').addEventListener('change', rerender);
+
     rerender();
 
     function rerender() {
-        const currentConfig = Array.from(document.querySelectorAll('#row-drop-zone .dimension-item'))
-            .map(el => ({ id: el.dataset.id, name: el.textContent }));
+        const currentConfig = {
+            rows: Array.from(document.querySelectorAll('#row-drop-zone .dimension-item'))
+                       .map(el => ({ id: el.dataset.id, name: el.textContent })),
+            valueType: document.querySelector('input[name="pivotValue"]:checked').value
+        };
         
-        if (currentConfig.length > 3) {
+        if (currentConfig.rows.length > 3) {
             showToast('You can select a maximum of 3 row categories.', 'error');
             renderInteractivePivot(); 
             return;
         }
         
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentConfig));
-        renderPivotBuilder(currentConfig);
-        const pivotData = buildPivotData(currentConfig);
-        renderPivotTable(pivotData, currentConfig);
+        renderPivotBuilder(currentConfig.rows);
+        const pivotData = buildPivotData(currentConfig.rows, currentConfig.valueType);
+        renderPivotTable(pivotData, currentConfig.rows, currentConfig.valueType);
     }
+}
+
+function renderValueSwitcher(selectedValue) {
+    const switcher = document.getElementById('pivotValueSwitcher');
+    if (!switcher) return;
+
+    const budgetTypes = [...new Set(appState.allTimelineItems.flatMap(item => item.promo_budget_type || []))];
+    const upliftTypes = ['MACO', 'promo_uplift_HL', 'promo_uplift_machine'];
+    
+    let optionsHTML = `<input type="radio" id="valueIcons" name="pivotValue" value="icons" ${selectedValue === 'icons' ? 'checked' : ''}><label for="valueIcons">Icons</label>`;
+    
+    budgetTypes.forEach(type => {
+        const id = `valueBudget_${type.replace(/\s+/g, '')}`;
+        optionsHTML += `<input type="radio" id="${id}" name="pivotValue" value="${type}" ${selectedValue === type ? 'checked' : ''}><label for="${id}">${type}</label>`;
+    });
+
+    upliftTypes.forEach(type => {
+        const id = `valueUplift_${type}`;
+        const label = type.replace('promo_uplift_', '').replace('_', ' ').toUpperCase();
+        optionsHTML += `<input type="radio" id="${id}" name="pivotValue" value="${type}" ${selectedValue === type ? 'checked' : ''}><label for="${id}">${label}</label>`;
+    });
+
+    switcher.innerHTML = optionsHTML;
 }
 
 function renderPivotBuilder(rowDimensions) {
@@ -508,22 +539,11 @@ function initDragAndDrop(onUpdateCallback) {
     if (pool.sortable) pool.sortable.destroy();
     if (rows.sortable) rows.sortable.destroy();
 
-    pool.sortable = new Sortable(pool, {
-        group: 'pivot-builder',
-        animation: 150,
-        sort: false,
-    });
-
-    rows.sortable = new Sortable(rows, {
-        group: 'pivot-builder',
-        animation: 150,
-        onAdd: onUpdateCallback,
-        onUpdate: onUpdateCallback,
-        onRemove: onUpdateCallback,
-    });
+    pool.sortable = new Sortable(pool, { group: 'pivot-builder', animation: 150, sort: false });
+    rows.sortable = new Sortable(rows, { group: 'pivot-builder', animation: 150, onAdd: onUpdateCallback, onUpdate: onUpdateCallback, onRemove: onUpdateCallback });
 }
 
-function buildPivotData(rowConfig) {
+function buildPivotData(rowConfig, valueType) {
     if (rowConfig.length === 0) return { children: {}, count: 0 };
 
     const items = appState.allTimelineItems.map(item => {
@@ -533,15 +553,11 @@ function buildPivotData(rowConfig) {
 
     function groupData(data, dimensions) {
         if (dimensions.length === 0) {
-            return {
-                values: aggregateTimeData(data),
-                count: 1
-            };
+            return { values: aggregateTimeData(data, valueType), count: 1 };
         }
 
         const [currentDim, ...restDims] = dimensions;
         const grouped = {};
-        let totalCount = 0;
         
         for (const item of data) {
             const keys = Array.isArray(item[currentDim.id]) ? item[currentDim.id] : [item[currentDim.id] || 'N/A'];
@@ -552,21 +568,17 @@ function buildPivotData(rowConfig) {
         }
 
         for (const key in grouped) {
-            const childrenResult = groupData(grouped[key], restDims);
-            grouped[key] = childrenResult;
-            totalCount += childrenResult.count;
+            grouped[key] = groupData(grouped[key], restDims);
         }
         
-        return { children: grouped, count: totalCount };
+        return { children: grouped };
     }
 
     return groupData(items, rowConfig);
 }
 
-function aggregateTimeData(items) {
-    const view = 'monthly';
-    const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
-    const timeColumns = getTimeColumns(view, yearsToRender);
+function aggregateTimeData(items, valueType) {
+    const timeColumns = getTimeColumns('monthly', [...new Set(items.map(i => new Date(i.promo_start_date).getFullYear().toString()))]);
     const aggregated = {};
 
     items.forEach(item => {
@@ -579,48 +591,43 @@ function aggregateTimeData(items) {
             const key = `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
             
             if (timeColumns.some(c => c.key === key)) {
-                if (!aggregated[key]) aggregated[key] = new Set();
-                aggregated[key].add(item.icon);
+                if (!aggregated[key]) aggregated[key] = 0;
+
+                if (valueType === 'icons') {
+                    if (typeof aggregated[key] !== 'object') aggregated[key] = new Set();
+                    aggregated[key].add(item.icon);
+                } else if (valueType.startsWith('promo_uplift_') || valueType === 'MACO') {
+                    aggregated[key] += (item[valueType] || 0);
+                } else { // It's a budget type
+                    const budgetIndex = (item.promo_budget_type || []).indexOf(valueType);
+                    if (budgetIndex !== -1) {
+                        aggregated[key] += (item.promo_budget[budgetIndex] || 0);
+                    }
+                }
             }
-            
             currentDate.setMonth(currentDate.getMonth() + 1);
         }
     });
     return aggregated;
 }
 
-function renderPivotTable(pivotData, rowConfig) {
+function renderPivotTable(pivotData, rowConfig, valueType) {
     const root = document.getElementById('pivot-table-root');
-     if (!root) {
-        console.error('[Debug] Critical Error: The element with id="pivot-table-root" was not found.');
-        return;
-    }
-    const view = 'monthly';
+    if (!root) return;
     const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
-    const timeColumns = getTimeColumns(view, yearsToRender);
+    const timeColumns = getTimeColumns('monthly', yearsToRender);
     
-    let tableHTML = '<div class="table-scroll-wrapper"><table class="promo-table-HomePage">';
-    
-    tableHTML += `<thead><tr>`;
-    rowConfig.forEach(dim => {
-        tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`;
-    });
-    timeColumns.forEach(col => {
-        tableHTML += `<th class="month-header">${col.label}</th>`;
-    });
-    tableHTML += `</tr></thead>`;
-
-    tableHTML += `<tbody>`;
-    tableHTML += generatePivotRows(pivotData, timeColumns);
+    let tableHTML = `<div class="table-scroll-wrapper"><table class="promo-table-HomePage"><thead><tr>`;
+    rowConfig.forEach(dim => { tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`; });
+    timeColumns.forEach(col => { tableHTML += `<th class="month-header">${col.label}</th>`; });
+    tableHTML += `</tr></thead><tbody>`;
+    tableHTML += generatePivotRows(pivotData, timeColumns, rowConfig, valueType);
     tableHTML += `</tbody></table></div>`;
-
     root.innerHTML = tableHTML;
 }
 
-function generatePivotRows(node, timeColumns, headers = []) {
-    if (!node || !node.children) {
-        return '';
-    }
+function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []) {
+    if (!node || !node.children) return '';
 
     let html = '';
     const sortedKeys = Object.keys(node.children).sort();
@@ -628,20 +635,37 @@ function generatePivotRows(node, timeColumns, headers = []) {
     sortedKeys.forEach(key => {
         const childNode = node.children[key];
         const newHeaders = [...headers, key];
-
+        
         if (childNode.values) {
             html += '<tr>';
-            newHeaders.forEach(header => {
-                html += `<td class="icon-cell">${header}</td>`;
+            newHeaders.forEach((header, i) => {
+                const isBrandDim = rowConfig[i].id === 'brand';
+                if (isBrandDim) {
+                    const brand = appState.catalogData.brands.find(b => b.name === header);
+                    const logoUrl = brand?.logo_medium_url || 'https://placehold.co/80x40/EEE/31343C?text=N/A';
+                    html += `<td class="pivot-table-column-header-cell"><img src="${logoUrl}" alt="${header}" class="pivot-brand-logo"></td>`;
+                } else {
+                    html += `<td class="pivot-table-column-header-cell">${header}</td>`;
+                }
             });
             timeColumns.forEach(col => {
-                const icons = childNode.values[col.key];
-                const cellContent = icons ? Array.from(icons).join('') : '-';
-                html += `<td class="${icons ? 'icon-cell' : 'empty-cell'}">${cellContent}</td>`;
+                const value = childNode.values[col.key];
+                let cellContent = '-';
+                if (value) {
+                    if (valueType === 'icons') {
+                        cellContent = Array.from(value).join('');
+                    } else {
+                        const isCurrency = valueType === 'MACO' || !valueType.startsWith('promo_uplift_');
+                        cellContent = isCurrency 
+                            ? value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })
+                            : value.toLocaleString('fr-FR');
+                    }
+                }
+                html += `<td class="${value ? 'pivot-data-cell' : 'empty-cell'}">${cellContent}</td>`;
             });
             html += '</tr>';
         } else {
-            html += generatePivotRows(childNode, timeColumns, newHeaders);
+            html += generatePivotRows(childNode, timeColumns, rowConfig, valueType, newHeaders);
         }
     });
 

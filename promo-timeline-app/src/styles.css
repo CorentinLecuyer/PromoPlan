@@ -2173,6 +2173,14 @@ em-emoji-picker {
     background-color: rgba(245, 223, 2, 1);
 }
 
+.pivot-table-column-header-cell{
+    font-weight: 600;
+    text-align: center !important;
+    vertical-align: middle;
+    color: #333;
+    background-color: rgb(255, 254, 242);
+}
+
 .main-view-switcher {
     display: flex;
     justify-content: center;
@@ -2189,6 +2197,34 @@ em-emoji-picker {
     display: none;
 }
 
+.value-switcher {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.value-switcher label {
+    width: 100%;
+    text-align: center;
+}
+
+.pivot-brand-logo {
+    height: 40px;
+    max-width: 100px; /* Adjust as needed */
+    object-fit: contain;
+}
+
+.pivot-data-cell {
+    font-size: 0.85em;
+    text-align: left !important;
+    vertical-align: top;
+}
+
+.pivot-data-cell span {
+    display: block;
+    margin-bottom: 2px;
+}
 
 
 

@@ -175,13 +175,15 @@ function getPromoDataFromForm(userName) {
         channel_tags: Array.from(channelTagsInput.selectedOptions).map(option => option.value),
         promo_start_date: promoStartDateInput.value || null,
         promo_end_date: promoEndDateInput.value || null,
-        promo_uplift_HL: promoUpliftHLInput.value ? Number(promoUpliftHLInput.value) : null,
-        promo_uplift_machine: promoUpliftMachineInput.value ? Number(promoUpliftMachineInput.value) : null,
-        ROI: roiInput.value,
+
+        promo_uplift_HL: Number(promoUpliftHLInput.value) || 0,
+        promo_uplift_machine: Number(promoUpliftMachineInput.value) || 0,
+        ROI: Number(roiInput.value) || 0,
+        MACO: Number(macoInput.value) || 0,
+
         icon: promoIconDisplay ? promoIconDisplay.textContent : '🎯',
         link: linkInput.value,
         table_name: [], // This will be populated after tables are saved
-        MACO: macoInput.value ? Number(macoInput.value) : null,
         fscreen: fscreenCheckbox.checked,
         status: statusSelect.value,
         country: selectedCountry,

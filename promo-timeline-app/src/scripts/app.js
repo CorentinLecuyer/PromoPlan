@@ -38,13 +38,13 @@ export async function updateAndRenderContent() {
 
         // Render content based on which root element exists on the current page
         const timelineRoot = document.getElementById('timeline-root');
-        const homePageRoot = document.getElementById('timeline-root-home-page');
+        const commandBoardRoot = document.getElementById('standard-reports-container');
 
         if (timelineRoot) {
             console.log('Rendering Timeline...');
             renderTimeline();
         }
-        if (homePageRoot) {
+        if (commandBoardRoot) {
             console.log('Rendering Homepage Tables...');
             renderTablesHomePage();
         }
@@ -52,7 +52,7 @@ export async function updateAndRenderContent() {
     } catch (error) {
         console.error('Application Error:', error);
         const errorMessage = '<p style="color:red;">Failed to load data. Please check your internet connection or Supabase configuration.</p>';
-        const rootElement = document.getElementById('timeline-root') || document.getElementById('timeline-root-home-page');
+        const rootElement = document.getElementById('timeline-root') || document.getElementById('standard-reports-root');
         if (rootElement) {
             rootElement.innerHTML = errorMessage;
         }
