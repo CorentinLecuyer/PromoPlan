@@ -193,3 +193,45 @@ export function arrayToString(arr) {
     }
     return arr.join(', ');
 }
+
+export function downloadTableAsCSV(tableId, filename) {
+    const table = document.getElementById(tableId);
+    if (!table) {
+        console.error(`Table with ID "${tableId}" not found.`);
+        return;
+    }
+
+    let csv = [];
+    const rows = table.querySelectorAll("tr");
+    
+    for (const row of rows) {
+        const rowData = [];
+        const cols = row.querySelectorAll("td, th");
+        
+        for (const col of cols) {
+            // --- MODIFIED LOGIC ---
+            // 1. Prioritize the raw data value for numbers.
+            // 2. For text, clean it by removing currency symbols and non-breaking spaces.
+            let data = col.dataset.value !== undefined 
+                ? col.dataset.value 
+                : col.innerText.replace(/[\s€,]/g, '').trim();
+            
+            // 3. Sanitize for CSV: escape double quotes.
+            data = String(data).replace(/"/g, '""');
+            rowData.push(`"${data}"`);
+        }
+        csv.push(rowData.join(","));
+    }
+
+    // 4. Add a BOM (Byte Order Mark) for better Excel compatibility with UTF-8 characters.
+    const bom = "\uFEFF";
+    const csvContent = "data:text/csv;charset=utf-8," + bom + csv.join("\n");
+    
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${filename}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+} 

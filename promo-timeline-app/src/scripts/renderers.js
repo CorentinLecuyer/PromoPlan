@@ -1,5 +1,5 @@
 import { appState } from './state.js';
-import { formatDateRange, getMonthsBetweenDates } from './utils.js';
+import { formatDateRange, downloadTableAsCSV } from './utils.js';
 import { getSavedFilters } from './shared/filterModal.js';
 
 export function getTableDataById(tableId) {
@@ -439,14 +439,42 @@ function renderStandardReports() {
     const fullUpliftTable = yearsToRender.map(year => `${tableHeaders(year)}<tbody>${generateYearlyRows(year, ['HL Uplift'], () => upliftData.HL)}${generateYearlyRows(year, ['MACO'], () => upliftData.MACO, true)}${generateYearlyRows(year, ['Machines Uplift'], () => upliftData.machines)}</tbody>`).join('');
 
     root.innerHTML = `
-        <h1>Promotional Calendar ${yearsToRender.join(', ')} - Icons (${viewTitle})</h1>
-        <div class="table-scroll-wrapper"><table class="promo-table-HomePage">${fullIconTable}</table></div>
-        <div style="margin-top: 20px; font-size: 12px; color: #666;"><p><strong>Note:</strong> Icons represent all time periods spanned by a promotion. Financials are attributed to the start date (or end date for Loyalty Programs).</p></div>
-        <h1 style="margin-top: 50px;">Budget Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
-        <div class="table-scroll-wrapper"><table class="promo-table-HomePage" style="margin-top: 30px;">${fullBudgetTable}</table></div>
-        <h1 style="margin-top: 50px;">Uplift / MACO Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
-        <div class="table-scroll-wrapper"><table class="promo-table-HomePage" style="margin-top: 30px;">${fullUpliftTable}</table></div>
+        <div class="report-header">
+            <h1>Promotional Calendar ${yearsToRender.join(', ')} - Icons (${viewTitle})</h1>
+            <button class="download-button" data-table-id="icons-table">Download CSV</button>
+        </div>
+
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage"  id="icons-table">${fullIconTable}</table>    
+        </div>
+        <div style="margin-top: 20px; font-size: 12px; color: #666;">
+            <p><strong>Note:</strong> Icons represent all time periods spanned by a promotion. Financials are attributed to the start date (or end date for Loyalty Programs).</p>
+        </div>
+        
+        <div class="report-header" style="margin-top: 50px;">
+            <h1>Budget Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
+            <button class="download-button" data-table-id="budget-table">Download CSV</button>
+        </div>
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage" id="budget-table" style="margin-top: 30px;">${fullBudgetTable}</table>
+        </div>
+        
+        <div class="report-header" style="margin-top: 50px;">
+            <h1>Uplift / MACO Calendar ${yearsToRender.join(', ')} (${viewTitle})</h1>
+            <button class="download-button" data-table-id="uplift-table">Download CSV</button>
+        </div>
+
+        <div class="table-scroll-wrapper">
+            <table class="promo-table-HomePage" id="uplift-table" style="margin-top: 30px;">${fullUpliftTable}</table>
+        </div>
     `;
+
+    root.querySelectorAll('.download-button').forEach(button => {
+        button.addEventListener('click', () => {
+            const tableId = button.dataset.tableId;
+            downloadTableAsCSV(tableId, `standard_report_${tableId}`);
+        });
+    });
 }
 
 
@@ -617,13 +645,18 @@ function renderPivotTable(pivotData, rowConfig, valueType) {
     const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
     const timeColumns = getTimeColumns('monthly', yearsToRender);
     
-    let tableHTML = `<div class="table-scroll-wrapper"><table class="promo-table-HomePage"><thead><tr>`;
+    let tableHTML = `<div class="table-scroll-wrapper"><table class="promo-table-HomePage" id="pivot-table"><thead><tr>`;
     rowConfig.forEach(dim => { tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`; });
     timeColumns.forEach(col => { tableHTML += `<th class="month-header">${col.label}</th>`; });
     tableHTML += `</tr></thead><tbody>`;
     tableHTML += generatePivotRows(pivotData, timeColumns, rowConfig, valueType);
     tableHTML += `</tbody></table></div>`;
     root.innerHTML = tableHTML;
+
+     // Add listener for the pivot download button
+    document.getElementById('downloadPivotBtn').onclick = () => {
+        downloadTableAsCSV('pivot-table', 'interactive_pivot_report');
+    };
 }
 
 function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []) {
@@ -648,6 +681,7 @@ function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []
                     html += `<td class="pivot-table-column-header-cell">${header}</td>`;
                 }
             });
+            let rowTotal = 0;
             timeColumns.forEach(col => {
                 const value = childNode.values[col.key];
                 let cellContent = '-';
@@ -663,6 +697,14 @@ function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []
                 }
                 html += `<td class="${value ? 'pivot-data-cell' : 'empty-cell'}">${cellContent}</td>`;
             });
+            if (valueType !== 'icons') {
+                const isCurrency = valueType === 'MACO' || !valueType.startsWith('promo_uplift_');
+                const totalContent = isCurrency
+                    ? rowTotal.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })
+                    : rowTotal.toLocaleString('fr-FR');
+                html += `<td class="pivot-data-cell"><strong>${totalContent}</strong></td>`;
+            }
+
             html += '</tr>';
         } else {
             html += generatePivotRows(childNode, timeColumns, rowConfig, valueType, newHeaders);

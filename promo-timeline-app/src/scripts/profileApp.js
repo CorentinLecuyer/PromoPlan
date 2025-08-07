@@ -1,5 +1,6 @@
 import { supabase, signOut, getSession, getUser, updateUserProfile as updateAuthUserProfile } from './supabaseAuth.js';
-import { showToast } from './shared/toast.js'; 
+import { showToast } from './shared/toast.js';
+import { downloadTableAsCSV } from './utils.js';
 
 document.addEventListener('DOMContentLoaded', async () => {
     // --- Page Elements ---
@@ -18,6 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const logoutButton = document.getElementById('logoutButton');
     const userPromosTableBody = document.querySelector('#userPromosTable tbody');
     const manageBrandsButton = document.getElementById('Managebrands')
+    const downloadButton = document.querySelector('.download-button[data-table-id="userPromosTable"]');
 
     let picker;
     let selectedEmoji = '👤';
@@ -42,7 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         userPromosTableBody.innerHTML = '';
         if (!promos || promos.length === 0) {
             const hasActiveFilters = document.querySelectorAll('.column-filter').some(input => input.value.trim() !== '');
-            hasActiveFilters ? showToast ('No promotions match your current filter.', 'info') : showToast ("You haven't created any promotions yet.", 'info');
+            hasActiveFilters ? showToast('No promotions match your current filter.', 'info') : showToast("You haven't created any promotions yet.", 'info');
             return;
         }
 
@@ -159,7 +161,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        
+
         if (profile.can_manage_catalog === true) {
             manageBrandsButton.style.display = 'inline-block'; // Or 'inline-block' etc.
         } else {
@@ -213,6 +215,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
+
+    if (downloadButton) {
+        downloadButton.addEventListener('click', () => {
+            const tableId = downloadButton.dataset.tableId; // Use the correct variable
+            downloadTableAsCSV(tableId, `my_promotions_report`);
+        });
+    }
+
+
     logoutButton.addEventListener('click', async () => {
         await signOut();
         window.location.href = 'login.html';
@@ -232,9 +243,9 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (error) {
             showToast(`Update failed: ${error.message}`, 'error');
-            
+
         } else {
-            showToast('Profile updated successfully!','success');
+            showToast('Profile updated successfully!', 'success');
         }
         saveProfileButton.disabled = false;
     });

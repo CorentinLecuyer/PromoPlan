@@ -2230,3 +2230,41 @@ em-emoji-picker {
 
 
 
+.report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.report-header h1, .report-header h2 {
+    margin-bottom: 0;
+}
+
+.download-button {
+    background-color: #17a2b8;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.download-button:hover {
+    background-color: #138496;
+}
+
+/* Add this to the end of styles.css */
+
+.promo-controls-container .multiselect-header,
+.promo-controls-container .create-button,
+.promo-controls-container .download-button {
+    height: 38px; /* Sets a consistent height for all buttons */
+    padding-top: 0;
+    padding-bottom: 0;
+    display: inline-flex;
+    align-items: center; /* Vertically centers the text/icons inside */
+}
