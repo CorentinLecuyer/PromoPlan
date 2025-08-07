@@ -529,7 +529,11 @@ function renderValueSwitcher(selectedValue) {
     if (!switcher) return;
 
     const budgetTypes = [...new Set(appState.allTimelineItems.flatMap(item => item.promo_budget_type || []))];
-    const upliftTypes = ['MACO', 'promo_uplift_HL', 'promo_uplift_machine'];
+    const upliftTypes = [
+        { id: 'MACO', name: 'MACO' },
+        { id: 'promo_uplift_HL', name: 'HL Uplift' },
+        { id: 'promo_uplift_machine', name: 'Machines Uplift' }
+    ];
     
     let optionsHTML = `<input type="radio" id="valueIcons" name="pivotValue" value="icons" ${selectedValue === 'icons' ? 'checked' : ''}><label for="valueIcons">Icons</label>`;
     
@@ -539,9 +543,8 @@ function renderValueSwitcher(selectedValue) {
     });
 
     upliftTypes.forEach(type => {
-        const id = `valueUplift_${type}`;
-        const label = type.replace('promo_uplift_', '').replace('_', ' ').toUpperCase();
-        optionsHTML += `<input type="radio" id="${id}" name="pivotValue" value="${type}" ${selectedValue === type ? 'checked' : ''}><label for="${id}">${label}</label>`;
+        const id = `valueUplift_${type.id}`;
+        optionsHTML += `<input type="radio" id="${id}" name="pivotValue" value="${type.id}" ${selectedValue === type.id ? 'checked' : ''}><label for="${id}">${type.name}</label>`;
     });
 
     switcher.innerHTML = optionsHTML;
@@ -605,39 +608,48 @@ function buildPivotData(rowConfig, valueType) {
     return groupData(items, rowConfig);
 }
 
+// --- THIS IS THE CORRECTED AGGREGATION FUNCTION ---
 function aggregateTimeData(items, valueType) {
-    const timeColumns = getTimeColumns('monthly', [...new Set(items.map(i => new Date(i.promo_start_date).getFullYear().toString()))]);
     const aggregated = {};
 
     items.forEach(item => {
-        const startDate = new Date(item.promo_start_date);
-        const endDate = new Date(item.promo_end_date);
-        let currentDate = new Date(startDate);
-
-        while (currentDate <= endDate) {
-            const year = String(currentDate.getFullYear());
-            const key = `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+        // Logic for Icons (spans the entire duration)
+        if (valueType === 'icons') {
+            const startDate = new Date(item.promo_start_date);
+            const endDate = new Date(item.promo_end_date);
+            let currentDate = new Date(startDate);
+            while (currentDate <= endDate) {
+                const year = String(currentDate.getFullYear());
+                const key = `${year}-${String(currentDate.getMonth() + 1).padStart(2, '0')}`;
+                if (!aggregated[key]) aggregated[key] = new Set();
+                aggregated[key].add(item.icon);
+                currentDate.setMonth(currentDate.getMonth() + 1);
+            }
+        } 
+        // Logic for all financial data (attributed to a single point in time)
+        else {
+            const attributionDate = item.promo_type === "Loyalty Program" 
+                ? new Date(item.promo_end_date) 
+                : new Date(item.promo_start_date);
             
-            if (timeColumns.some(c => c.key === key)) {
-                if (!aggregated[key]) aggregated[key] = 0;
+            const year = String(attributionDate.getFullYear());
+            const key = `${year}-${String(attributionDate.getMonth() + 1).padStart(2, '0')}`;
 
-                if (valueType === 'icons') {
-                    if (typeof aggregated[key] !== 'object') aggregated[key] = new Set();
-                    aggregated[key].add(item.icon);
-                } else if (valueType.startsWith('promo_uplift_') || valueType === 'MACO') {
-                    aggregated[key] += (item[valueType] || 0);
-                } else { // It's a budget type
-                    const budgetIndex = (item.promo_budget_type || []).indexOf(valueType);
-                    if (budgetIndex !== -1) {
-                        aggregated[key] += (item.promo_budget[budgetIndex] || 0);
-                    }
+            if (!aggregated[key]) aggregated[key] = 0;
+
+            if (['MACO', 'promo_uplift_HL', 'promo_uplift_machine'].includes(valueType)) {
+                aggregated[key] += (item[valueType] || 0);
+            } else { // It's a budget type
+                const budgetIndex = (item.promo_budget_type || []).indexOf(valueType);
+                if (budgetIndex !== -1) {
+                    aggregated[key] += (item.promo_budget[budgetIndex] || 0);
                 }
             }
-            currentDate.setMonth(currentDate.getMonth() + 1);
         }
     });
     return aggregated;
 }
+
 
 function renderPivotTable(pivotData, rowConfig, valueType) {
     const root = document.getElementById('pivot-table-root');
@@ -648,12 +660,14 @@ function renderPivotTable(pivotData, rowConfig, valueType) {
     let tableHTML = `<div class="table-scroll-wrapper"><table class="promo-table-HomePage" id="pivot-table"><thead><tr>`;
     rowConfig.forEach(dim => { tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`; });
     timeColumns.forEach(col => { tableHTML += `<th class="month-header">${col.label}</th>`; });
+    if (valueType !== 'icons') {
+        tableHTML += `<th class="month-header">Total</th>`;
+    }
     tableHTML += `</tr></thead><tbody>`;
     tableHTML += generatePivotRows(pivotData, timeColumns, rowConfig, valueType);
     tableHTML += `</tbody></table></div>`;
     root.innerHTML = tableHTML;
 
-     // Add listener for the pivot download button
     document.getElementById('downloadPivotBtn').onclick = () => {
         downloadTableAsCSV('pivot-table', 'interactive_pivot_report');
     };
@@ -676,35 +690,39 @@ function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []
                 if (isBrandDim) {
                     const brand = appState.catalogData.brands.find(b => b.name === header);
                     const logoUrl = brand?.logo_medium_url || 'https://placehold.co/80x40/EEE/31343C?text=N/A';
-                    html += `<td class="pivot-table-column-header-cell"><img src="${logoUrl}" alt="${header}" class="pivot-brand-logo"></td>`;
+                    html += `<td class="pivot-table-column-header-cell" data-value="${header}"><img src="${logoUrl}" alt="${header}" class="pivot-brand-logo"></td>`;
                 } else {
                     html += `<td class="pivot-table-column-header-cell">${header}</td>`;
                 }
             });
+
             let rowTotal = 0;
             timeColumns.forEach(col => {
                 const value = childNode.values[col.key];
                 let cellContent = '-';
+                let dataValueAttr = '';
                 if (value) {
                     if (valueType === 'icons') {
                         cellContent = Array.from(value).join('');
                     } else {
+                        rowTotal += value;
                         const isCurrency = valueType === 'MACO' || !valueType.startsWith('promo_uplift_');
                         cellContent = isCurrency 
                             ? value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })
                             : value.toLocaleString('fr-FR');
+                        dataValueAttr = `data-value="${value}"`;
                     }
                 }
-                html += `<td class="${value ? 'pivot-data-cell' : 'empty-cell'}">${cellContent}</td>`;
+                html += `<td ${dataValueAttr} class="${value ? 'pivot-data-cell' : 'empty-cell'}">${cellContent}</td>`;
             });
+
             if (valueType !== 'icons') {
                 const isCurrency = valueType === 'MACO' || !valueType.startsWith('promo_uplift_');
                 const totalContent = isCurrency
                     ? rowTotal.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })
                     : rowTotal.toLocaleString('fr-FR');
-                html += `<td class="pivot-data-cell"><strong>${totalContent}</strong></td>`;
+                html += `<td class="pivot-data-cell" data-value="${rowTotal}"><strong>${totalContent}</strong></td>`;
             }
-
             html += '</tr>';
         } else {
             html += generatePivotRows(childNode, timeColumns, rowConfig, valueType, newHeaders);
