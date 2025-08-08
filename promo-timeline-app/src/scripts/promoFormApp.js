@@ -147,9 +147,11 @@ Alpine.data('tableManager', () => ({
 // =================================================================
 let currentPromoId = null;
 let emojiMartData = null;
+let editMode = false;
 let picker = null;
 let catalog = { brands: [], subBrands: [], products: [] }; // <-- Global catalog variable
-
+const formTitle = document.getElementById('formTitle');
+const saveSubmitButton = document.getElementById('saveSubmitButton');
 
 const promoDetailForm = document.getElementById('promoDetailForm');
 const promoIdDisplay = document.getElementById('promoIdDisplay');
@@ -197,7 +199,7 @@ const promoProductsSelect = document.getElementById('promoProducts');
 // =================================================================
 
 function populateSelect(selectElement, items, selectedIds = []) {
-    const safeSelectedIds = selectedIds || []; // FIX: Ensure selectedIds is always an array
+    const safeSelectedIds = selectedIds || [];
     selectElement.innerHTML = '';
     items.forEach(item => {
         const option = document.createElement('option');
@@ -210,20 +212,20 @@ function populateSelect(selectElement, items, selectedIds = []) {
     });
 }
 
-function updateProductSelect(promo) {
+function updateProductSelect(promo = {}) {
     const selectedSubBrandIds = Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
     const availableProducts = catalog.products.filter(p => selectedSubBrandIds.includes(p.sub_brand_id));
     populateSelect(promoProductsSelect, availableProducts, promo.product_ids);
 }
 
-function updateSubBrandSelect(promo) {
+function updateSubBrandSelect(promo = {}) {
     const selectedBrandIds = Array.from(promoBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
     const availableSubBrands = catalog.subBrands.filter(sb => selectedBrandIds.includes(sb.brand_id));
     populateSelect(promoSubBrandsSelect, availableSubBrands, promo.sub_brand_ids);
     updateProductSelect(promo);
 }
 
-function populateForm(promo) {
+function populateForm(promo = {}) {
     promoTitleInput.value = promo.promo_title || '';
     promoTypeInput.value = promo.promo_type || '';
     promoDetailsInput.value = arrayToString(promo.promo_details);
@@ -253,26 +255,26 @@ function populateForm(promo) {
     titleTextColorInput.value = promo.titletextcolor || '';
     dateTextColorInput.value = promo.datetextcolor || '';
     detailsTextColorInput.value = promo.detailtextcolor || '';
+
     populateSelect(promoBrandsSelect, catalog.brands, promo.brand_ids);
     updateSubBrandSelect(promo);
 }
 
-function getPromoDataFromForm() {
+function getPromoDataFromForm(userName) {
     let BU_final = buInput.value;
     if (['Belgium', 'France', 'Luxembourg', 'Netherlands'].includes(countryInput.value)) BU_final = 'BNFL';
     else if (['England', 'Northern Ireland'].includes(countryInput.value)) BU_final = 'BU WEST';
     else if (['Switzerland', 'Italy', 'Czech Republic', 'Germany'].includes(countryInput.value)) BU_final = 'BU CENTRAL';
 
-    return {
-        id: currentPromoId,
+    const data = {
         promo_title: promoTitleInput.value,
         promo_type: promoTypeInput.value,
         promo_details: stringToArray(promoDetailsInput.value),
         promo_budget: stringToNumberArray(promoBudgetInput.value),
         promo_budget_type: Array.from(promoBudgetTypeInput.selectedOptions).map(option => option.value),
         channel_tags: Array.from(channelTagsInput.selectedOptions).map(option => option.value),
-        promo_start_date: promoStartDateInput.value,
-        promo_end_date: promoEndDateInput.value,
+        promo_start_date: promoStartDateInput.value || null,
+        promo_end_date: promoEndDateInput.value || null,
         promo_uplift_HL: Number(promoUpliftHLInput.value) || 0,
         promo_uplift_machine: Number(promoUpliftMachineInput.value) || 0,
         ROI: Number(roiInput.value) || 0,
@@ -294,11 +296,19 @@ function getPromoDataFromForm() {
         sub_brand_ids: Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value)),
         product_ids: Array.from(promoProductsSelect.selectedOptions).map(opt => parseInt(opt.value)),
     };
+
+    if (!editMode && userName) {
+        data.author = userName;
+        data.owner = userName;
+        data.creation_date = new Date().toISOString();
+    }
+    
+    return data;
 }
 
 function updatePreviewFromForm() {
-    if (!promoDetailForm) return;
-    const previewPromo = getPromoDataFromForm();
+    if (!promoForm) return;
+    const previewPromo = getPromoDataFromForm('Current User');
     renderPromoPreview(previewPromo);
 }
 
@@ -449,72 +459,76 @@ function renderPromoPreview(promo) {
 // 5. MAIN PAGE INITIALIZATION & EVENT LISTENERS
 // =================================================================
 document.addEventListener('DOMContentLoaded', async () => {
-
+    
     const urlParams = new URLSearchParams(window.location.search);
     currentPromoId = urlParams.get('id');
+    editMode = !!currentPromoId;
 
-    if (currentPromoId) {
+    if (editMode) {
+        formTitle.textContent = 'Edit Promotion';
+        saveSubmitButton.textContent = 'Save Changes';
+        deletePromoButton.style.display = 'inline-block';
         promoIdDisplay.textContent = `Editing Promotion ID: ${currentPromoId}`;
-        showToast('Loading promotion details...', 'info');
-        const { data, error } = await fetchPromoById(currentPromoId);
-        if (error || !data) {
-            showToast('Promotion not found or you do not have access.', 'info');
-            if (promoDetailForm) promoDetailForm.style.display = 'none';
-        } else {
-            populateForm(data);
-            showToast('Promotion details loaded.', 'success');
-            updatePreviewFromForm();
-        }
     } else {
-        showToast('No promotion ID found in URL.', 'error');
-        if (promoDetailForm) promoDetailForm.style.display = 'none';
-    }
-    
-    function populateSelect(selectElement, items, selectedIds = []) {
-        selectElement.innerHTML = '';
-        items.forEach(item => {
-            const option = document.createElement('option');
-            option.value = item.id;
-            option.textContent = item.name;
-            if (selectedIds.includes(item.id)) {
-                option.selected = true;
-            }
-            selectElement.appendChild(option);
-        });
+        formTitle.textContent = 'Create New Promotion';
+        saveSubmitButton.textContent = 'Create Promotion';
+        document.querySelector('.admin-info').style.display = 'none';
     }
 
-    function updateProductSelect(promo) {
-        const selectedSubBrandIds = Array.from(promoSubBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
-        const availableProducts = catalog.products.filter(p => selectedSubBrandIds.includes(p.sub_brand_id));
-        populateSelect(promoProductsSelect, availableProducts, promo.product_ids);
-    }
+    promoForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        saveSubmitButton.disabled = true;
+        
+        const { data: { user } } = await supabase.auth.getUser();
+        const userName = user ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}` : 'System';
+        const promoData = getPromoDataFromForm(userName);
 
-    function updateSubBrandSelect(promo) {
-        const selectedBrandIds = Array.from(promoBrandsSelect.selectedOptions).map(opt => parseInt(opt.value));
-        const availableSubBrands = catalog.subBrands.filter(sb => selectedBrandIds.includes(sb.brand_id));
-        populateSelect(promoSubBrandsSelect, availableSubBrands, promo.sub_brand_ids);
-        updateProductSelect(promo);
-    }
-
-    // --- Attach Event Listeners ---
-    if (promoDetailForm) {
-        promoDetailForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            savePromoButton.disabled = true;
-            showToast('Saving promotion...', 'info');
-            const updatedPromo = getPromoDataFromForm();
-            try {
-                const { error } = await updatePromo(currentPromoId, updatedPromo);
-                if (error) throw error;
+        if (editMode) {
+            showToast('Saving changes...', 'info');
+            const { error } = await updatePromo(currentPromoId, promoData);
+            if (error) {
+                showToast(`Update failed: ${error.message}`, 'error');
+            } else {
                 showToast('Promotion updated successfully!', 'success');
-            } catch (error) {
-                showToast(`Failed to update promotion: ${error.message}`, 'error');
-            } finally {
-                savePromoButton.disabled = false;
             }
-        });
-        promoDetailForm.addEventListener('input', updatePreviewFromForm);
-        promoDetailForm.addEventListener('change', updatePreviewFromForm);
+        } else {
+            showToast('Creating promotion...', 'info');
+            const { data: newPromo, error } = await createPromo(promoData);
+            if (error) {
+                showToast(`Creation failed: ${error.message}`, 'error');
+            } else {
+                showToast('Promotion created! Redirecting...', 'success');
+                setTimeout(() => {
+                    window.location.href = `promo-form.html?id=${newPromo[0].id}`;
+                }, 1500);
+            }
+        }
+        saveSubmitButton.disabled = false;
+    });
+
+    try {
+        const { data, error } = await fetchAllCatalogData();
+        if (error) throw error;
+        catalog = data;
+        
+        if (editMode) {
+            const promoRes = await fetchPromoById(currentPromoId);
+            if (promoRes.error || !promoRes.data) throw new Error('Promotion not found.');
+            populateForm(promoRes.data);
+        } else {
+            populateForm({}); 
+        }
+        
+        promoBrandsSelect.addEventListener('change', () => updateSubBrandSelect(getPromoDataFromForm()));
+        promoSubBrandsSelect.addEventListener('change', () => updateProductSelect(getPromoDataFromForm()));
+
+        updatePreviewFromForm();
+
+        promoForm.addEventListener('input', updatePreviewFromForm);
+        promoForm.addEventListener('change', updatePreviewFromForm);
+
+    } catch (error) {
+        showToast(error.message, 'error');
     }
 
     if (deletePromoButton) {

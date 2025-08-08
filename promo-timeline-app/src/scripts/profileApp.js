@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             const actionCell = row.insertCell(8);
             const editLink = document.createElement('a');
-            editLink.href = `promo-detail.html?id=${promo.id}`;
+            editLink.href = `promo-form.html?id=${promo.id}`;
             editLink.textContent = 'Edit';
             editLink.classList.add('action-link');
             actionCell.appendChild(editLink);

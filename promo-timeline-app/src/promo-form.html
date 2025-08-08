@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Promotion - PerfectDraft</title>
+    <title>Promotion Form - PerfectDraft</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/favicon%20small.ico" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css">
@@ -42,10 +42,10 @@
     <div class="edit-page-wrapper">
         <div class="edit-info-section">
             <div class="profile-box">
-                <h1>Edit Promotion</h1>
+                <h1 id="formTitle">Loading Promotion...</h1>
                 <p id="promoIdDisplay" style="font-size: 0.9em; color: #666; margin-bottom: 20px;"></p>
 
-                <form id="promoDetailForm">
+                <form id="promoForm">
                     <div class="form-section">
                         <h2>Promotion Core Details</h2>
                         <div class="form-grid-container">
@@ -274,8 +274,8 @@
                     </div>
 
                     <div class="button-inline-group">
-                        <button type="submit" id="savePromoButton" class="updateButton">Save Promotion</button>
-                        <button type="button" id="deletePromoButton" class="logoutButton">Delete Promotion</button>
+                        <button type="submit" id="saveSubmitButton" class="updateButton">Save</button>
+                        <button type="button" id="deletePromoButton" class="logoutButton" style="display: none;">Delete Promotion</button>
                     </div>
                 </form>
                 <p id="promoMessage" class="auth-message"></p>
@@ -368,7 +368,7 @@
         </div>
     </div>
 
-    <script type="module" src="scripts/promoDetailApp.js"></script>
+    <script type="module" src="scripts/promoFormApp.js"></script>
 
 </body>
 
