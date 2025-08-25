@@ -13,6 +13,8 @@ export function generateTableHTML(tableObj) {
     const tableHeaders = tableObj.th || [];
     const tableRows = tableObj.tr || [];
 
+    console.log(tableObj)
+
     return `
         <div class="table-container ${tableObj.style}">
             <h3 class="table-title">${tableTitle}</h3>
@@ -23,19 +25,25 @@ export function generateTableHTML(tableObj) {
                     </tr>
                 </thead>
                 <tbody>
+
                     ${tableRows.map(rowContent => {
-        let cellsHTML = '';
-        if (Array.isArray(rowContent)) {
-            cellsHTML = rowContent.map(cell => `<td>${cell}</td>`).join('');
-        } else {
-            cellsHTML = `<td colspan="${tableHeaders.length || 1}">${rowContent}</td>`;
+        // --- THIS IS THE FIX ---
+        // The database stores rows as an array of strings. We need to parse
+        // each cell's content, which might be a stringified array itself.
+        let rowArray;
+        try {
+            // Attempt to parse the row, which might be a JSON string like '["<img...>", "text"]'
+            rowArray = JSON.parse(rowContent);
+        } catch (e) {
+            // If it's not valid JSON, treat it as a single-column row
+            rowArray = [rowContent];
         }
-        return `
-                            <tr>
-                                ${cellsHTML}
-                            </tr>
-                        `;
+        if (!Array.isArray(rowArray)) rowArray = [rowArray];
+
+        const cellsHTML = rowArray.map(cell => `<td>${cell}</td>`).join('');
+        return `<tr>${cellsHTML}</tr>`;
     }).join('')}
+
                 </tbody>
             </table>
         </div>
@@ -43,8 +51,8 @@ export function generateTableHTML(tableObj) {
 }
 
 export function generateMultipleTablesHTML(tableIds) {
-    if (!tableIds || (Array.isArray(tableIds) && tableIds.length === 0) || tableIds === 'none') return '';
 
+    if (!tableIds || (Array.isArray(tableIds) && tableIds.length === 0) || tableIds === 'none') return '';
     const tableIdArray = Array.isArray(tableIds) ? tableIds : [tableIds];
 
     return tableIdArray
@@ -69,6 +77,8 @@ export function renderTimeline() {
 
     let lastMonthMarker = '';
     let lastYearMarker = '';
+
+    
 
     root.innerHTML = `
     <div class="timeline-container">
@@ -102,7 +112,10 @@ export function renderTimeline() {
         const showYearMarker = yearMarker !== lastYearMarker;
         lastYearMarker = yearMarker;
 
+        console.log(item);
         const tablesHTML = generateMultipleTablesHTML(item.table);
+        
+
 
         const hasBudget = Array.isArray(item.promo_budget) && item.promo_budget.length > 0 && item.promo_budget.some(b => b > 0);
         const hasMACO = typeof item.MACO === 'number' && item.MACO > 0;
@@ -156,14 +169,10 @@ export function renderTimeline() {
         const titleStyle = item.titletextcolor ? `style="color: ${item.titletextcolor};"` : '';
         const dateStyle = item.datetextcolor ? `style="color: ${item.datetextcolor};"` : '';
         const detailsStyle = item.detailtextcolor ? `style="color: ${item.detailtextcolor};"` : '';
-        
-        const editLink = document.createElement('a');
-        editLink.href = `promo-detail.html?id=${item.id}`;
-        editLink.textContent = '🖊️';
 
-        
-        // --- Dynamic Table Loading ---
-        const dynamicTablesHTML = generateMultipleTablesHTML(item.table_name);
+        const editLink = document.createElement('a');
+        editLink.href = `promo-form.html?id=${item.id}`;
+        editLink.textContent = '🖊️';
 
         return `
                     ${showYearMarker ? `<div class="year-marker">${yearMarker}</div>` : ""}
@@ -329,7 +338,7 @@ function renderStandardReports() {
         root.innerHTML = '<h1>No promotions found for the selected filters.</h1>';
         return;
     }
-    
+
     const allChannels = new Set();
     const allBudgetTypesSet = new Set();
     appState.allTimelineItems.forEach(item => {
@@ -344,7 +353,7 @@ function renderStandardReports() {
     const allYearsInFilteredData = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
     const yearsToRender = (filters.year && filters.year.length > 0) ? filters.year.sort() : allYearsInFilteredData;
     const timeColumns = getTimeColumns(view, yearsToRender);
-    
+
     const iconsData = {};
     const budgetData = {};
     const upliftData = { HL: {}, machines: {}, MACO: {} };
@@ -499,7 +508,7 @@ function renderInteractivePivot() {
     renderValueSwitcher(valueType);
     renderPivotBuilder(rowDimensions);
     initDragAndDrop(rerender);
-    
+
     document.getElementById('pivotValueSwitcher').addEventListener('change', rerender);
 
     rerender();
@@ -507,16 +516,16 @@ function renderInteractivePivot() {
     function rerender() {
         const currentConfig = {
             rows: Array.from(document.querySelectorAll('#row-drop-zone .dimension-item'))
-                       .map(el => ({ id: el.dataset.id, name: el.textContent })),
+                .map(el => ({ id: el.dataset.id, name: el.textContent })),
             valueType: document.querySelector('input[name="pivotValue"]:checked').value
         };
-        
+
         if (currentConfig.rows.length > 3) {
             showToast('You can select a maximum of 3 row categories.', 'error');
-            renderInteractivePivot(); 
+            renderInteractivePivot();
             return;
         }
-        
+
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(currentConfig));
         renderPivotBuilder(currentConfig.rows);
         const pivotData = buildPivotData(currentConfig.rows, currentConfig.valueType);
@@ -534,9 +543,9 @@ function renderValueSwitcher(selectedValue) {
         { id: 'promo_uplift_HL', name: 'HL Uplift' },
         { id: 'promo_uplift_machine', name: 'Machines Uplift' }
     ];
-    
+
     let optionsHTML = `<input type="radio" id="valueIcons" name="pivotValue" value="icons" ${selectedValue === 'icons' ? 'checked' : ''}><label for="valueIcons">Icons</label>`;
-    
+
     budgetTypes.forEach(type => {
         const id = `valueBudget_${type.replace(/\s+/g, '')}`;
         optionsHTML += `<input type="radio" id="${id}" name="pivotValue" value="${type}" ${selectedValue === type ? 'checked' : ''}><label for="${id}">${type}</label>`;
@@ -589,7 +598,7 @@ function buildPivotData(rowConfig, valueType) {
 
         const [currentDim, ...restDims] = dimensions;
         const grouped = {};
-        
+
         for (const item of data) {
             const keys = Array.isArray(item[currentDim.id]) ? item[currentDim.id] : [item[currentDim.id] || 'N/A'];
             for (const key of keys) {
@@ -601,7 +610,7 @@ function buildPivotData(rowConfig, valueType) {
         for (const key in grouped) {
             grouped[key] = groupData(grouped[key], restDims);
         }
-        
+
         return { children: grouped };
     }
 
@@ -625,13 +634,13 @@ function aggregateTimeData(items, valueType) {
                 aggregated[key].add(item.icon);
                 currentDate.setMonth(currentDate.getMonth() + 1);
             }
-        } 
+        }
         // Logic for all financial data (attributed to a single point in time)
         else {
-            const attributionDate = item.promo_type === "Loyalty Program" 
-                ? new Date(item.promo_end_date) 
+            const attributionDate = item.promo_type === "Loyalty Program"
+                ? new Date(item.promo_end_date)
                 : new Date(item.promo_start_date);
-            
+
             const year = String(attributionDate.getFullYear());
             const key = `${year}-${String(attributionDate.getMonth() + 1).padStart(2, '0')}`;
 
@@ -656,7 +665,7 @@ function renderPivotTable(pivotData, rowConfig, valueType) {
     if (!root) return;
     const yearsToRender = [...new Set(appState.allTimelineItems.map(item => String(new Date(item.promo_start_date).getFullYear())))].sort();
     const timeColumns = getTimeColumns('monthly', yearsToRender);
-    
+
     let tableHTML = `<div class="table-scroll-wrapper"><table class="promo-table-HomePage" id="pivot-table"><thead><tr>`;
     rowConfig.forEach(dim => { tableHTML += `<th class="pivot-table-header-cell">${dim.name}</th>`; });
     timeColumns.forEach(col => { tableHTML += `<th class="month-header">${col.label}</th>`; });
@@ -682,7 +691,7 @@ function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []
     sortedKeys.forEach(key => {
         const childNode = node.children[key];
         const newHeaders = [...headers, key];
-        
+
         if (childNode.values) {
             html += '<tr>';
             newHeaders.forEach((header, i) => {
@@ -707,7 +716,7 @@ function generatePivotRows(node, timeColumns, rowConfig, valueType, headers = []
                     } else {
                         rowTotal += value;
                         const isCurrency = valueType === 'MACO' || !valueType.startsWith('promo_uplift_');
-                        cellContent = isCurrency 
+                        cellContent = isCurrency
                             ? value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR', minimumFractionDigits: 0 })
                             : value.toLocaleString('fr-FR');
                         dataValueAttr = `data-value="${value}"`;

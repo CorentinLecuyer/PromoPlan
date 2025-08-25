@@ -3,7 +3,8 @@
 // Centralized state for filters and fetched data
 export const appState = {
     allTimelineItems: [], // Processed timeline data
-    allTableData: [], 
+    allTableData: [],  
+    tempTables: [], 
     catalogData: { 
             brands: [],
             subBrands: [],

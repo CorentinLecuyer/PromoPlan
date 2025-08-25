@@ -2,13 +2,14 @@
 // 1. IMPORTS
 // =================================================================
 import Alpine from 'https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/module.esm.js';
-import { appState } from './state.js';
+import { appState, setTableData } from './state.js';
 import { supabase, signOut } from './supabaseAuth.js';
 import {
     fetchPromoById,
     updatePromo,
     deletePromo,
     fetchAllTableData,
+    createPromo,
     createPromoTableItem,
     updatePromoTableItem,
     deletePromoTableItem,
@@ -19,143 +20,22 @@ import { showToast } from './shared/toast.js';
 import { stringToArray, stringToNumberArray, arrayToString, formatDateRange } from './utils.js';
 import { getTableDataById, generateMultipleTablesHTML } from './renderers.js';
 
-// =================================================================
-// 2. ALPINE COMPONENT DEFINITION
-// =================================================================
-Alpine.data('tableManager', () => ({
-    isModalOpen: false,
-    linkedTableIds: [],
-    selectedTableId: null,
-    editor: {
-        tableName: '',
-        tableStyle: 'blackTable',
-        headers: [],
-        rows: [],
-        columnLimit: 6,
-    },
-    message: { text: '', isError: false },
-
-    openModal() {
-        this.linkedTableIds = stringToNumberArray(document.getElementById('tableName').value);
-        this.startNewTable();
-        this.isModalOpen = true;
-    },
-    closeModal() {
-        this.isModalOpen = false;
-        this.message.text = '';
-    },
-    startNewTable() {
-        this.selectedTableId = null;
-        this.editor.tableName = '';
-        this.editor.tableStyle = 'blackTable';
-        this.editor.headers = [];
-        this.editor.rows = [];
-        this.message.text = 'Ready to create a new table.';
-        this.message.isError = false;
-    },
-    loadTableForEditing(tableId) {
-        const tableData = getTableDataById(tableId);
-        if (!tableData) {
-            this.message = { text: `Error: Table with ID ${tableId} not found.`, isError: true };
-            return;
-        }
-        this.selectedTableId = tableId;
-        this.editor.tableName = tableData.table_name || '';
-        this.editor.tableStyle = tableData.style || 'blackTable';
-        this.editor.headers = [...(tableData.th || [])];
-        this.editor.rows = tableData.tr.map(rowStr => {
-            try {
-                const parsedRow = JSON.parse(rowStr);
-                return Array.isArray(parsedRow) ? parsedRow : [parsedRow];
-            } catch (e) {
-                console.warn('Could not parse row data, treating as raw string:', rowStr);
-                return [rowStr];
-            }
-        });
-        this.message = { text: `Editing Table ID: ${tableId}`, isError: false };
-    },
-    addColumn() {
-        if (this.editor.headers.length >= this.editor.columnLimit) return;
-        this.editor.headers.push(`Column ${this.editor.headers.length + 1}`);
-        this.editor.rows.forEach(row => row.push(''));
-    },
-    removeLastColumn() {
-        if (this.editor.headers.length === 0) return;
-        this.editor.headers.pop();
-        this.editor.rows.forEach(row => row.pop());
-    },
-    addRow() {
-        const newRow = Array(this.editor.headers.length).fill('');
-        this.editor.rows.push(newRow);
-    },
-    removeLastRow() {
-        if (this.editor.rows.length === 0) return;
-        this.editor.rows.pop();
-    },
-    async saveTable() {
-        this.message = { text: 'Saving...', isError: false };
-        const tableNameInput = document.getElementById('tableName');
-        const payload = {
-            table_name: this.editor.tableName,
-            style: this.editor.tableStyle,
-            th: this.editor.headers,
-            tr: this.editor.rows.map(row => JSON.stringify(row)),
-        };
-        try {
-            if (this.selectedTableId) {
-                const { data, error } = await updatePromoTableItem(this.selectedTableId, payload);
-                if (error) throw error;
-                const index = appState.allTableData.findIndex(t => t.id === this.selectedTableId);
-                if (index !== -1) appState.allTableData[index] = data[0];
-                this.message = { text: `Table ${this.selectedTableId} updated successfully!`, isError: false };
-            } else {
-                const { data: newId, error: createTableError } = await createPromoTableWithFunction(payload);
-                if (createTableError) throw createTableError;
-                const existingTableIds = stringToNumberArray(tableNameInput.value);
-                if (!existingTableIds.includes(newId)) {
-                    existingTableIds.push(newId);
-                }
-                const { error: linkTableError } = await updatePromo(currentPromoId, { table_name: existingTableIds });
-                if (linkTableError) throw linkTableError;
-                const { data: userResponse } = await supabase.auth.getUser();
-                const newTable = {
-                    id: newId,
-                    created_at: new Date().toISOString(),
-                    user_id: userResponse.user.id,
-                    ...payload
-                };
-                appState.allTableData.push(newTable);
-                this.selectedTableId = newId;
-                this.linkedTableIds = existingTableIds;
-                tableNameInput.value = arrayToString(existingTableIds);
-                this.message = { text: `New table created (ID: ${newId}) and linked successfully!`, isError: false };
-            }
-            updatePreviewFromForm();
-        } catch (error) {
-            if (error.code === '23505') {
-                this.message = { text: `Error: The table name "${this.editor.tableName}" already exists.`, isError: true };
-            } else {
-                this.message = { text: `Error saving: ${error.message}`, isError: true };
-            }
-            console.error('Error saving custom table:', error);
-        }
-    },
-}));
 
 // =================================================================
-// 3. GLOBAL VARIABLES & DOM ELEMENT DEFINITIONS
+// 2. VARIABLES & DOM ELEMENT DEFINITIONS
 // =================================================================
+
+
 let currentPromoId = null;
-let emojiMartData = null;
 let editMode = false;
+let emojiMartData = null;
 let picker = null;
-let catalog = { brands: [], subBrands: [], products: [] }; // <-- Global catalog variable
+let catalog = { brands: [], subBrands: [], products: [] };
+
 const formTitle = document.getElementById('formTitle');
 const saveSubmitButton = document.getElementById('saveSubmitButton');
-
-const promoDetailForm = document.getElementById('promoDetailForm');
+const promoForm = document.getElementById('promoForm');
 const promoIdDisplay = document.getElementById('promoIdDisplay');
-const savePromoButton = document.getElementById('savePromoButton');
 const deletePromoButton = document.getElementById('deletePromoButton');
 const logoutButton = document.getElementById('logoutButton');
 const promoTitleInput = document.getElementById('promoTitle');
@@ -194,9 +74,7 @@ const promoBrandsSelect = document.getElementById('promoBrands');
 const promoSubBrandsSelect = document.getElementById('promoSubBrands');
 const promoProductsSelect = document.getElementById('promoProducts');
 
-// =================================================================
-// 4. APPLICATION LOGIC (HELPER FUNCTIONS)
-// =================================================================
+// --- 3.2. HELPER FUNCTIONS (Defined within the main scope) ---
 
 function populateSelect(selectElement, items, selectedIds = []) {
     const safeSelectedIds = selectedIds || [];
@@ -250,7 +128,7 @@ function populateForm(promo = {}) {
     buInput.value = promo.BU || '';
     borderColorInput.value = promo.bordercolor || '';
     bgColorInput.value = arrayToString(promo.bgcolor);
-    userIdInput.value = promo.user_id || '';
+    if (userIdInput) userIdInput.value = promo.user_id || '';
     borderTextColorInput.value = promo.bordertextcolor || '';
     titleTextColorInput.value = promo.titletextcolor || '';
     dateTextColorInput.value = promo.datetextcolor || '';
@@ -300,9 +178,9 @@ function getPromoDataFromForm(userName) {
     if (!editMode && userName) {
         data.author = userName;
         data.owner = userName;
-        data.creation_date = new Date().toISOString();
+        data.creation_date = new Date().toISOString().split('T')[0];
     }
-    
+
     return data;
 }
 
@@ -367,8 +245,13 @@ function renderPromoPreview(promo) {
     const dateStyle = promo.datetextcolor ? `style="color: ${promo.datetextcolor};"` : '';
     const detailsStyle = promo.detailtextcolor ? `style="color: ${promo.detailtextcolor};"` : '';
 
+    const tableIdsForRendering = (promo.table_name && promo.table_name.length > 0)
+        ? promo.table_name.map(String)
+        : 'none';
+
+    console.log(tableIdsForRendering);
     // --- Dynamic Table Loading ---
-    const dynamicTablesHTML = generateMultipleTablesHTML(promo.table_name);
+    const dynamicTablesHTML = generateMultipleTablesHTML(tableIdsForRendering);
 
     promoPreviewDiv.innerHTML = `
         <div class="timeline">
@@ -454,12 +337,257 @@ function renderPromoPreview(promo) {
 
 }
 
+// =================================================================
+// 3. ALPINE COMPONENT DEFINITION
+// =================================================================
+Alpine.data('tableManager', () => ({
+    isModalOpen: false,
+    linkedTableIds: [],
+    selectedTableId: null,
+    editor: {
+        tableName: '',
+        tableStyle: 'blackTable',
+        headers: [],
+        rows: [],
+        columnLimit: 6,
+    },
+    message: { text: '', isError: false },
+    focusedCell: { row: null, col: null },
+
+    openModal() {
+        this.linkedTableIds = stringToNumberArray(document.getElementById('tableName').value);
+        this.startNewTable();
+        this.isModalOpen = true;
+    },
+    closeModal() {
+        this.isModalOpen = false;
+        this.message.text = '';
+    },
+    startNewTable() {
+        this.selectedTableId = null;
+        this.editor.tableName = '';
+        this.editor.tableStyle = 'blackTable';
+        this.editor.headers = [];
+        this.editor.rows = [];
+        this.message.text = 'Ready to create a new table.';
+        this.message.isError = false;
+    },
+    loadTableForEditing(tableId) {
+        const tableData = getTableDataById(tableId);
+        if (!tableData) {
+            this.message = { text: `Error: Table with ID ${tableId} not found.`, isError: true };
+            return;
+        }
+        this.selectedTableId = tableId;
+        this.editor.tableName = tableData.table_name || '';
+        this.editor.tableStyle = tableData.style || 'blackTable';
+        this.editor.headers = [...(tableData.th || [])];
+        this.editor.rows = tableData.tr.map(rowStr => {
+            try {
+                const parsedRow = JSON.parse(rowStr);
+                return Array.isArray(parsedRow) ? parsedRow : [parsedRow];
+            } catch (e) {
+                console.warn('Could not parse row data, treating as raw string:', rowStr);
+                return [rowStr];
+            }
+        });
+        this.message = { text: `Editing Table ID: ${tableId}`, isError: false };
+    },
+    addColumn() {
+        if (this.editor.headers.length >= this.editor.columnLimit) return;
+        this.editor.headers.push(`Column ${this.editor.headers.length + 1}`);
+        this.editor.rows.forEach(row => row.push(''));
+    },
+    removeLastColumn() {
+        if (this.editor.headers.length === 0) return;
+        this.editor.headers.pop();
+        this.editor.rows.forEach(row => row.pop());
+    },
+    addRow() {
+        const newRow = Array(this.editor.headers.length).fill('');
+        this.editor.rows.push(newRow);
+    },
+    removeLastRow() {
+        if (this.editor.rows.length === 0) return;
+        this.editor.rows.pop();
+    },
+
+    triggerImageUpload() {
+        if (this.focusedCell.row === null || this.focusedCell.col === null) {
+            showToast('Please click on a cell in the table first!', 'error');
+            return;
+        }
+        document.getElementById('cellImageUpload').click();
+    },
+
+    async handleImageUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        if (this.focusedCell.row === null || this.focusedCell.col === null) {
+            showToast('Error: No cell was selected for the image.', 'error');
+            return;
+        }
+
+        showToast('Compressing and uploading image...', 'info');
+
+        // Compression options, same as catalog page
+        const options = {
+            maxSizeMB: 0.4,
+            maxWidthOrHeight: 1024,
+            useWebWorker: true,
+        };
+
+        try {
+            // 1. Compress the file
+            const compressedFile = await imageCompression(file, options);
+
+            // 2. Define a unique path for the image in Supabase Storage
+            const filePath = `public/table-images/${Date.now()}-${compressedFile.name}`;
+
+            // 3. Upload the compressed file
+            const { error: uploadError } = await supabase.storage
+                .from('promo-assets') // Ensure this bucket exists and has public access
+                .upload(filePath, compressedFile);
+
+            if (uploadError) throw uploadError;
+
+            // 4. Get the public URL of the uploaded image
+            const { data: urlData } = supabase.storage
+                .from('promo-assets')
+                .getPublicUrl(filePath);
+
+            const publicUrl = urlData.publicUrl;
+
+            // 5. Create the HTML for the image and update the editor's data
+            const imageHtml = `<img src="${publicUrl}" alt="User uploaded content">`;
+            this.editor.rows[this.focusedCell.row][this.focusedCell.col] = imageHtml;
+
+            showToast('Image inserted successfully!', 'success');
+
+        } catch (error) {
+            console.error('Image upload failed:', error);
+            showToast(`Error uploading image: ${error.message}`, 'error');
+        } finally {
+            // Clear the file input so the user can upload the same file again if needed
+            event.target.value = '';
+        }
+    },
+    async deleteTable() {
+        if (!this.selectedTableId) {
+            this.message = { text: 'No table selected to delete.', isError: true };
+            return;
+        }
+
+        if (!confirm(`Are you sure you want to permanently delete Table ID: ${this.selectedTableId}? This cannot be undone.`)) {
+            return;
+        }
+
+        this.message = { text: 'Deleting...', isError: false };
+        const tableIdToDelete = this.selectedTableId;
+
+        try {
+            // 1. Unlink the table from the current promotion
+            const tableNameInput = document.getElementById('tableName');
+            const updatedTableIds = this.linkedTableIds.filter(id => id !== tableIdToDelete);
+            const { error: unlinkError } = await updatePromo(currentPromoId, { table_name: updatedTableIds });
+            if (unlinkError) throw unlinkError;
+
+            // 2. Delete the table itself from the database
+            const { error: deleteError } = await deletePromoTableItem(tableIdToDelete);
+            if (deleteError) throw deleteError;
+
+            // 3. Update local state to reflect the deletion
+            this.linkedTableIds = updatedTableIds;
+            tableNameInput.value = arrayToString(updatedTableIds);
+            appState.allTableData = appState.allTableData.filter(t => t.id !== tableIdToDelete);
+
+            this.message = { text: `Table ${tableIdToDelete} was deleted and unlinked.`, isError: false };
+            this.startNewTable(); // Reset the editor to the "Create New" state
+
+        } catch (error) {
+            this.message = { text: `Error deleting table: ${error.message}`, isError: true };
+        }
+
+        // Refresh the main form preview
+        updatePreviewFromForm();
+    },
+    async saveTable() {
+        this.message = { text: 'Saving...', isError: false };
+        const payload = {
+            table_name: this.editor.tableName,
+            style: this.editor.tableStyle,
+            th: this.editor.headers,
+            tr: this.editor.rows.map(row => JSON.stringify(row)),
+        };
+
+        try {
+            const tableNameInput = document.getElementById('tableName');
+            if (this.selectedTableId) {
+                const { error: updateError } = await updatePromoTableItem(this.selectedTableId, payload);
+                if (updateError) throw updateError;
+
+                // 2. Update the local appState for instant preview refresh
+                const tableIndex = appState.allTableData.findIndex(t => t.id == this.selectedTableId);
+                if (tableIndex !== -1) {
+                    // Merge the existing ID and creation date with the new payload
+                    appState.allTableData[tableIndex] = { ...appState.allTableData[tableIndex], ...payload };
+                }
+
+                this.message = { text: `Table ID: ${this.selectedTableId} updated successfully!`, isError: false };
+            } else {
+                // --- CREATE LOGIC (This part is updated) ---
+                const { data: newId, error: createTableError } = await createPromoTableWithFunction(payload);
+                if (createTableError) throw createTableError;
+
+                const existingTableIds = stringToNumberArray(tableNameInput.value);
+                if (!existingTableIds.includes(newId)) existingTableIds.push(newId);
+
+                const { error: linkTableError } = await updatePromo(currentPromoId, { table_name: existingTableIds });
+                if (linkTableError) throw linkTableError;
+
+                // --- THIS IS THE FIX ---
+                // Create a complete table object and add it to the local appState
+                // so the preview can find it immediately.
+                const { data: { user } } = await supabase.auth.getUser();
+                const newTableForState = {
+                    id: newId,
+                    created_at: new Date().toISOString(),
+                    user_id: user.id,
+                    ...payload
+                };
+                appState.allTableData.push(newTableForState);
+
+                this.selectedTableId = newId;
+                this.linkedTableIds = existingTableIds;
+                tableNameInput.value = arrayToString(existingTableIds);
+                this.message = { text: `New table (ID: ${newId}) created and linked!`, isError: false };
+
+            }
+        } catch (error) {
+            this.message = { text: `Error: ${error.message}`, isError: true };
+        }
+        updatePreviewFromForm();
+    },
+}));
 
 // =================================================================
-// 5. MAIN PAGE INITIALIZATION & EVENT LISTENERS
+// 4. MAIN INITIALIZATION FUNCTION
 // =================================================================
-document.addEventListener('DOMContentLoaded', async () => {
-    
+async function initializeApp() {
+
+    try {
+        const { data: rawTableData, error: tableError } = await fetchAllTableData();
+        if (tableError) throw tableError;
+        // The processDisplayTables function is not available here,
+        // but the raw data structure is often sufficient for the lookup.
+        // If processing is needed, you'll need to import and use it.
+        setTableData(rawTableData);
+        console.log('All table data loaded into state for preview.', appState.allTableData);
+    } catch (error) {
+        showToast(`Could not load table data for previews: ${error.message}`, 'error');
+    }
+
     const urlParams = new URLSearchParams(window.location.search);
     currentPromoId = urlParams.get('id');
     editMode = !!currentPromoId;
@@ -472,15 +600,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     } else {
         formTitle.textContent = 'Create New Promotion';
         saveSubmitButton.textContent = 'Create Promotion';
-        document.querySelector('.admin-info').style.display = 'none';
+        // --- THIS IS THE FIX ---
+        document.querySelector('.table-section').style.display = 'none';
     }
 
     promoForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         saveSubmitButton.disabled = true;
-        
+
         const { data: { user } } = await supabase.auth.getUser();
-        const userName = user ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}` : 'System';
+        const userName = user ? `${user.user_metadata.first_name} ${user.user_metadata.last_name}`.trim() : 'System';
+
         const promoData = getPromoDataFromForm(userName);
 
         if (editMode) {
@@ -493,14 +623,17 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } else {
             showToast('Creating promotion...', 'info');
-            const { data: newPromo, error } = await createPromo(promoData);
-            if (error) {
-                showToast(`Creation failed: ${error.message}`, 'error');
-            } else {
-                showToast('Promotion created! Redirecting...', 'success');
+            try {
+                // Since tables are disabled in create mode, we no longer need to handle temp tables here.
+                const { data: newPromo, error } = await createPromo(promoData);
+                if (error) throw error;
+
+                showToast('Promotion created! Redirecting to edit page...', 'success');
                 setTimeout(() => {
-                    window.location.href = `promo-form.html?id=${newPromo[0].id}`;
+                    window.location.href = `promo-form.html?id=${newPromo.id}`;
                 }, 1500);
+            } catch (error) {
+                showToast(`Creation failed: ${error.message}`, 'error');
             }
         }
         saveSubmitButton.disabled = false;
@@ -510,22 +643,19 @@ document.addEventListener('DOMContentLoaded', async () => {
         const { data, error } = await fetchAllCatalogData();
         if (error) throw error;
         catalog = data;
-        
+
         if (editMode) {
             const promoRes = await fetchPromoById(currentPromoId);
-            if (promoRes.error || !promoRes.data) throw new Error('Promotion not found.');
+            if (promoRes.error || !promoRes.data) throw new Error('Promotion not found or you do not have access.');
             populateForm(promoRes.data);
         } else {
-            populateForm({}); 
+            populateForm({});
         }
-        
+
         promoBrandsSelect.addEventListener('change', () => updateSubBrandSelect(getPromoDataFromForm()));
         promoSubBrandsSelect.addEventListener('change', () => updateProductSelect(getPromoDataFromForm()));
 
         updatePreviewFromForm();
-
-        promoForm.addEventListener('input', updatePreviewFromForm);
-        promoForm.addEventListener('change', updatePreviewFromForm);
 
     } catch (error) {
         showToast(error.message, 'error');
@@ -592,54 +722,12 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         });
     }
-
-    // --- Load All Page Data ---
-    try {
-        const { data, error } = await fetchAllTableData();
-        if (error) throw error;
-        appState.allTableData = data;
-    } catch (error) {
-        showToast(`Failed to load table data: ${error.message}`, 'error');
-    }
-
-    try {
-        // Fetch promotion and catalog data in parallel for faster loading
-        const [promoRes, catalogRes, tablesRes] = await Promise.all([
-            fetchPromoById(currentPromoId),
-            fetchAllCatalogData(),
-            fetchAllTableData()
-        ]);
-
-        if (catalogRes.error) throw new Error('Could not load catalog data.');
-        catalog = catalogRes.data;
-
-        if (tablesRes.error) throw new Error('Could not load table definitions.');
-        appState.allTableData = tablesRes.data;
-
-        if (promoRes.error || !promoRes.data) {
-            throw new Error('Promotion not found or you do not have access.');
-        }
-
-        const promoData = promoRes.data;
-        populateForm(promoData);
-
-        // Setup cascading dropdown listeners AFTER data is loaded
-        promoBrandsSelect.addEventListener('change', () => updateSubBrandSelect(getPromoDataFromForm()));
-        promoSubBrandsSelect.addEventListener('change', () => updateProductSelect(getPromoDataFromForm()));
-
-        showToast('Promotion details loaded.', 'success');
-        updatePreviewFromForm();
-    } catch (error) {
-        showToast(error.message, 'error');
-        if (promoDetailForm) promoDetailForm.style.display = 'none';
-    }
-
-
-    
-});
-
+    promoForm.addEventListener('input', updatePreviewFromForm);
+    promoForm.addEventListener('change', updatePreviewFromForm);
+}
 // =================================================================
-// 6. START ALPINE
+// 5. START ALPINE
 // =================================================================
+document.addEventListener('DOMContentLoaded', initializeApp);
 window.Alpine = Alpine;
 Alpine.start();

@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" href="img/favicon%20small.ico" type="image/png">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/emoji-mart@latest/css/emoji-mart.css">
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
+
 </head>
 
 <body>
@@ -211,7 +213,7 @@
                         </div>
                     </div>
 
-                    <div class="form-section">
+                    <div class="form-section table-section">
                         <h2>Custom Tables</h2>
                         <div x-data>
                             <button type="button" @click="$dispatch('open-table-modal')" class="updateButton">
@@ -275,7 +277,8 @@
 
                     <div class="button-inline-group">
                         <button type="submit" id="saveSubmitButton" class="updateButton">Save</button>
-                        <button type="button" id="deletePromoButton" class="logoutButton" style="display: none;">Delete Promotion</button>
+                        <button type="button" id="deletePromoButton" class="logoutButton" style="display: none;">Delete
+                            Promotion</button>
                     </div>
                 </form>
                 <p id="promoMessage" class="auth-message"></p>
@@ -301,7 +304,8 @@
             <div class="modal-section">
                 <h2>Select a Table to Edit or Create a New One</h2>
                 <div class="table-selection-list">
-                    <button @click="startNewTable()" :class="{ 'active': !selectedTableId }">
+                    <!-- Added class="create-button" to this button -->
+                    <button @click="startNewTable()" :class="{ 'active': !selectedTableId }" class="create-button">
                         ➕ Create New Table
                     </button>
                     <template x-for="id in linkedTableIds" :key="id">
@@ -318,19 +322,32 @@
             <div class="modal-section">
                 <h2 x-text="selectedTableId ? 'Editing Table ' + selectedTableId : 'Creating New Table'"></h2>
                 <div class="table-controls">
-                    <label for="modalTableName">Table Name:</label>
-                    <input type="text" id="modalTableName" x-model="editor.tableName">
-                    <label for="modalTableStyle">Style:</label>
-                    <select id="modalTableStyle" x-model="editor.tableStyle">
-                        <option value="blackTable">Black Header</option>
-                        <option value="HomePage">Homepage</option>
-                        <option value="transparentTable">Transparent</option>
-                        <option value="budget">Budget</option>
-                    </select>
-                    <button @click="addColumn()">+ Col</button>
-                    <button @click="removeLastColumn()">- Col</button>
-                    <button @click="addRow()">+ Row</button>
-                    <button @click="removeLastRow()">- Row</button>
+                    <div class="input-group">
+                        <label for="modalTableName">Table Name:</label>
+                        <input type="text" id="modalTableName" x-model="editor.tableName">
+                    </div>
+                    <div class="input-group">
+                        <label for="modalTableStyle">Style:</label>
+                        <select id="modalTableStyle" x-model="editor.tableStyle">
+                            <option value="blackTable">Black Header</option>
+                            <option value="HomePage">Homepage</option>
+                            <option value="transparentTable">Transparent</option>
+                            <option value="budget">Budget</option>
+                        </select>
+                    </div>
+                    <div class="control-button-group">
+                        <!-- Added class="modal-control-button" to these buttons -->
+                        <button @click="addColumn()" class="modal-control-button">+ Column</button>
+                        <button @click="removeLastColumn()" class="modal-control-button">- Column</button>
+                        <button @click="addRow()" class="modal-control-button">+ Row</button>
+                        <button @click="removeLastRow()" class="modal-control-button">- Row</button>
+                        <button @mousedown.prevent="triggerImageUpload()"
+                            class="modal-control-button upload-image-btn">🖼️ Upload Image</button>
+
+                        <input type="file" id="cellImageUpload" @change="handleImageUpload($event)" accept="image/*"
+                            style="display: none;">
+
+                    </div>
                 </div>
                 <div class="table-display">
                     <table class="dynamic-custom-table" :class="editor.tableStyle">
@@ -347,10 +364,11 @@
                             <template x-for="(row, rowIndex) in editor.rows" :key="rowIndex">
                                 <tr>
                                     <template x-for="(cell, colIndex) in row" :key="colIndex">
+                                        <!-- FIX: Add @click to track which cell is focused -->
                                         <td contenteditable="true"
+                                            @click="focusedCell = { row: rowIndex, col: colIndex }"
                                             @blur="editor.rows[rowIndex][colIndex] = $event.target.innerHTML"
                                             x-html="cell"></td>
-
                                     </template>
                                 </tr>
                             </template>

@@ -622,7 +622,6 @@ p {
 
 /* Common table styling */
 .promo-tableblackTable,
-.dynamic-custom-table,
 .promo-table-HomePage,
 .promo-table-budget,
 .threePP-table {
@@ -639,8 +638,9 @@ p {
 }
 
 
+
+
 .promo-tableblackTable-header,
-.dynamic-custom-table blackTable,
 .promo-table-HomePage-header,
 .threePP-table-header {
     font-size: 12px;
@@ -654,7 +654,6 @@ p {
 /* Common table header (thead) styling */
 .promo-tableblackTable thead,
 .promo-table-HomePage thead,
-.dynamic-custom-table thead,
 .threePP-table thead {
     background-color: #333;
     color: white;
@@ -672,7 +671,6 @@ p {
 
 /* Common table header (th) styling */
 .promo-tableblackTable th,
-.dynamic-custom-table th,
 .promo-table-HomePage th,
 .threePP-table th {
     padding: 10px 12px;
@@ -711,7 +709,7 @@ p {
 
 /* Common table body (tbody) styling */
 .promo-tableblackTable tbody,
-.dynamic-custom-table tbody .promo-table-HomePage tbody,
+.promo-table-HomePage tbody,
 .threePP-table tbody {
     background-color: white;
 }
@@ -724,7 +722,6 @@ p {
 
 /* Common table data (td) styling */
 .promo-tableblackTable td,
-.dynamic-custom-table td,
 .promo-table-HomePage td,
 .threePP-table td {
     padding: 8px 12px;
@@ -960,13 +957,29 @@ select {
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
-    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
     background-repeat: no-repeat;
     background-position: right 8px center;
     background-size: 18px;
     padding-right: 30px;
+    min-height: 90px;
     cursor: pointer;
 }
+
+.admin-info select,
+#promoType,
+#modalTableStyle {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+    background-size: 18px;
+    padding-right: 30px;
+    min-height: 30px;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="%23333" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    cursor: pointer;
+}
+
 
 /* Focus States for all editable inputs */
 input[type="text"]:focus,
@@ -1066,7 +1079,7 @@ textarea[disabled]:focus {
 }
 
 .create-button {
-    background-color: #28a745; /* A vibrant green */
+    background-color: #31d14c; /* A vibrant green */
     color: white;
     padding: 8px 15px; /* Adjusted padding */
     border-radius: 6px;
@@ -1084,10 +1097,12 @@ textarea[disabled]:focus {
 }
 
 .create-button:hover {
-    background-color: #218838; /* Darker green on hover */
+    background-color: #27ae60; /* Darker green on hover */
     transform: translateY(-1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
+
+
 
 .upload-button:hover {
     background-color: #a2a2a2;
@@ -1139,16 +1154,7 @@ textarea[disabled]:focus {
     font-weight: 500;
 }
 
-#promoMessage {
-    color: #155724;
-    background-color: #d4edda;
-    border: 1px solid #c3e6cb;
-    margin-top: 20px;
-    padding: 10px 15px;
-    border-radius: 5px;
-    font-size: 0.9em;
-    text-align: center;
-}
+
 
 /* --- Profile/Edit Page Layout --- */
 .edit-page-wrapper {
@@ -1339,7 +1345,7 @@ em-emoji-picker {
 
 /* Checkbox specific styling for #promoDetailForm */
 #promoDetailForm .input-group.checkbox-group {
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
 }
 
@@ -1519,7 +1525,7 @@ em-emoji-picker {
     padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    max-width: 800px;
+    max-width: 1000px;
     /* Adjust as needed */
     width: 90%;
     max-height: 90vh;
@@ -1665,45 +1671,6 @@ em-emoji-picker {
     flex-grow: 1;
 }
 
-
-.table-selection-list button {
-    background-color: rgb(206, 206, 206);
-    color: #333;
-    padding: 6px;
-    border-radius: 6px;
-    margin-left: 10px;
-    margin-top: 10px;
-    padding-left: 25px;
-    padding-right: 25px;
-
-
-}
-
-.table-controls button {
-    background-color: rgb(206, 206, 206);
-    color: #333;
-    padding: 6px;
-    border-radius: 6px;
-    margin-left: 10px;
-    margin-top: 25px;
-    padding-left: 25px;
-    padding-right: 25px;
-
-
-}
-
-.table-controls button:hover,
-.table-selection-list button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-    background: rgb(216, 216, 216);
-}
-
-.dynamic-custom-table {
-    border: #000 1px;
-    border-radius: 3px;
-    padding: 10px;
-}
 
 .view-switcher {
     display: inline-block;
@@ -2217,18 +2184,12 @@ em-emoji-picker {
 
 .pivot-data-cell {
     font-size: 0.85em;
-    text-align: left !important;
-    vertical-align: top;
 }
 
 .pivot-data-cell span {
     display: block;
     margin-bottom: 2px;
 }
-
-
-
-
 
 .report-header {
     display: flex;
@@ -2267,4 +2228,163 @@ em-emoji-picker {
     padding-bottom: 0;
     display: inline-flex;
     align-items: center; /* Vertically centers the text/icons inside */
+}
+
+.table-controls {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr; /* Give more space to name, less to others */
+    gap: 15px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.table-controls .input-group {
+    margin-bottom: 0;
+}
+
+.control-button-group {
+   
+    display: flex;
+    gap: 8px;
+}
+
+/* Styling for the small editor buttons (+ Col, - Row, etc.) */
+.modal-control-button {
+    background-color: #f2ff00;
+    color: #333;
+    border: 1px solid #dee2e6;
+    padding: 8px 10px;
+    font-size: 0.85em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+    border-radius: 6px;
+    margin-left: 10px;
+    margin-top: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+
+}
+
+.modal-control-button:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+    transform: translateY(-1px);
+}
+
+/* Ensure the create button in the modal uses the correct green style */
+.table-selection-list .create-button {
+    padding: 8px 15px; /* Adjust padding to better match other buttons */
+}
+
+.table-selection-list button:not(.create-button) {
+  /* Your styles go here */
+  background-color: #0188ff; /* Example: grey color */
+  color: white;
+      padding: 8px 15px;
+      border-radius: 6px;
+    border: 1px solid #dee2e6;
+        font-weight: 600;
+    font-size: 0.9em;
+    cursor: pointer;
+}
+
+.table-selection-list button:not(.create-button):hover {
+  /* Your styles go here */
+  background-color: #0173d7; /* Example: grey color */
+  transform: translateY(-1px);
+}
+
+.dynamic-custom-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.dynamic-custom-table th,
+.dynamic-custom-table td {
+    padding: 10px 12px;
+    border: 1px solid #dee2e6;
+    text-align: left;
+}
+
+/* Style for 'Black Header' option */
+.dynamic-custom-table.blackTable thead {
+    background-color: #333;
+    color: white;
+}
+
+/* Style for 'Homepage' option */
+.dynamic-custom-table.HomePage thead {
+    background-color: #f8f9fa;
+    color: #333;
+}
+.dynamic-custom-table.HomePage tbody tr:hover {
+    background-color: #f1f2f6;
+}
+
+/* Style for 'Budget' option */
+.dynamic-custom-table.budget thead {
+    background-color: #FFCC02;
+    color: #333;
+}
+.dynamic-custom-table.budget tbody {
+    background-color: lightyellow;
+}
+
+/* Style for 'Transparent' option */
+.dynamic-custom-table.transparentTable {
+    box-shadow: none;
+    border: none;
+}
+.dynamic-custom-table.transparentTable th,
+.dynamic-custom-table.transparentTable td {
+    border: none;
+}
+.dynamic-custom-table.transparentTable thead {
+    display: none; /* Transparent tables often have no visible header */
+}
+
+.control-button-group .upload-image-btn {
+    grid-column: 1 / -1; /* Span both columns */
+    background-color: #5a6268;
+    color: white;
+    border-color: #545b62;
+}
+
+.control-button-group .upload-image-btn:hover {
+    background-color: #4e555b;
+}
+
+/* Style for images inside the dynamic table cells */
+.dynamic-custom-table td img {
+    max-width: 100%;
+    height: auto;
+    max-height: 120px; /* Prevent excessively tall images */
+    display: block;
+    margin: 0 auto; /* Center the image in the cell */
+    border-radius: 4px;
+}
+
+.timeline-content table td img {
+    max-width: 100%; /* Ensures the image never overflows the table cell's width */
+    height: auto;    /* Maintains the aspect ratio */
+    display: block;  /* Removes extra space below the image */
+    margin: 0 auto;  /* Centers the image within the cell */
+}
+
+/* * Default max-height for images in a standard (not full-screen) promo.
+ */
+.timeline-content .promo-table td img {
+    max-height: 300px;
+}
+
+/* * A specific override for when the promo is in full-screen mode.
+ * This rule increases the max-height for a larger display.
+ */
+.timeline-content.full-width-content .promo-table td img {
+    max-height: 475px;
 }
