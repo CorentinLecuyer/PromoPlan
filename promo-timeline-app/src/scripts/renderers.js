@@ -11,9 +11,22 @@ export function generateTableHTML(tableObj) {
 
     const tableTitle = tableObj.table_name || '';
     const tableHeaders = tableObj.th || [];
-    const tableRows = tableObj.tr || [];
+    let tableRows = tableObj.tr || []; 
 
-    console.log(tableObj)
+    // 🎯 FINAL CRITICAL FIX: AGGRESSIVE FLATTENING 
+    // This explicitly checks if the top-level array contains other arrays.
+    // If it does, we flatten it to ensure tableRows is just an array of strings.
+    if (Array.isArray(tableRows) && tableRows.some(row => Array.isArray(row))) {
+        // Use flat(Infinity) to recursively un-nest the array.
+        tableRows = tableRows.flat(Infinity); 
+    }
+    // --------------------------------------------------------
+    
+    // NOTE: If you are logging the object here to check, the tr property
+    // on tableObj will still show the old structure because tableObj is a 
+    // reference to the original data. However, the *local* tableRows variable 
+    // should be flat. Log tableRows directly to confirm the fix works *before* the map loop.
+    // console.log('Fixed tableRows for mapping:', tableRows);
 
     return `
         <div class="table-container ${tableObj.style}">
@@ -26,16 +39,15 @@ export function generateTableHTML(tableObj) {
                 </thead>
                 <tbody>
 
-                    ${tableRows.map(rowContent => {
-        // --- THIS IS THE FIX ---
-        // The database stores rows as an array of strings. We need to parse
-        // each cell's content, which might be a stringified array itself.
+                    ${tableRows.map(rowContent => { 
+        // 1. rowContent is now guaranteed to be the stringified array: "[\"cell1\", \"cell2\"]"
         let rowArray;
         try {
-            // Attempt to parse the row, which might be a JSON string like '["<img...>", "text"]'
+            // 2. We parse the string to get the array of cell values.
             rowArray = JSON.parse(rowContent);
         } catch (e) {
-            // If it's not valid JSON, treat it as a single-column row
+            // ... (error handling)
+            console.warn('Could not parse row data in generateTableHTML, treating as raw string:', rowContent, e);
             rowArray = [rowContent];
         }
         if (!Array.isArray(rowArray)) rowArray = [rowArray];
@@ -273,23 +285,6 @@ export function renderTimeline() {
 
 
 // ------------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export function renderTablesHomePage() {
