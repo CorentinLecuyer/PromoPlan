@@ -66,13 +66,13 @@ export async function signOut() {
  * @returns {Promise<object>} Supabase auth response (error if any).
  */
 export async function resetPassword(email) {
-const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    
-    // *** IMPORTANT: REPLACE THIS PLACEHOLDER WITH YOUR ACTUAL PRODUCTION DOMAIN ***
+    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
     const PRODUCTION_BASE_URL = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src'; 
-    // Example: const PRODUCTION_BASE_URL = 'https://perfectdraft.com';
-    
+
+    // When running locally (127.0.0.1:5500), construct the local file path dynamically.
     const localRedirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
+    
+    // For production, use the explicit, stable GitHub Pages URL.
     const productionRedirectURL = `${PRODUCTION_BASE_URL}/set-password.html`;
 
     const redirectURL = isLocal ? localRedirectURL : productionRedirectURL;
