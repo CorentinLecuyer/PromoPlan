@@ -66,17 +66,19 @@ export async function signOut() {
  * @returns {Promise<object>} Supabase auth response (error if any).
  */
 export async function resetPassword(email) {
+    // Determine the environment and set the redirect URL accordingly.
     const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const PRODUCTION_BASE_URL = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/set-password.html';
-
-    // When running locally (127.0.0.1:5500), construct the local file path dynamically.
+    
+    // *** MODIFIED: This is the EXACT URL to the file, no concatenation needed. ***
+    // This MUST match the full URL of the set-password.html page in production.
+    const PRODUCTION_REDIRECT_URL = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/set-password.html'; 
+    
+    // When running locally, construct the local file path dynamically.
     const localRedirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
-
-    // For production, use the explicit, stable GitHub Pages URL.
-    const productionRedirectURL = `${PRODUCTION_BASE_URL}/set-password.html`;
-
-    const redirectURL = isLocal ? localRedirectURL : productionRedirectURL;
-
+    
+    // Use the explicit production URL for deployment, or the dynamic local URL for local testing.
+    const redirectURL = isLocal ? localRedirectURL : PRODUCTION_REDIRECT_URL;
+    
     console.log(`Sending password reset with redirect to: ${redirectURL}`);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
