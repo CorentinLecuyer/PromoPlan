@@ -10,25 +10,47 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /**
- * Signs up a new user with email, password, and metadata.
+ * Signs up a new user with email and metadata, then sends a setup password link.
  * @param {string} email - User's email.
- * @param {string} password - User's password.
  * @param {object} metadata - An object containing data like { first_name, last_name }.
  * @returns {Promise<object>} Supabase auth response.
  */
-export async function signUp(email, password, metadata) {
-    const { data, error } = await supabase.auth.signUp({
+export async function signUp(email, metadata) {
+    // Step 1: Sign up the user WITHOUT a password.
+    // This creates the user in auth.users but does not log them in.
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
         email: email,
-        password: password,
         options: {
-            // This 'data' object is passed to the trigger that creates the user profile
             data: metadata
         }
     });
-    if (error) {
-        console.error('Sign up error:', error.message);
+
+    if (signUpError) {
+        console.error('Sign up error:', signUpError.message);
+        return { data: null, error: signUpError };
     }
-    return { data, error };
+
+    // Check if a user was actually created and needs a password setup link
+    if (signUpData.user && signUpData.user.identities && signUpData.user.identities.length === 0) {
+        // This indicates a real new user was created who doesn't have any providers yet.
+        // We can skip sending the email if the user already exists.
+        console.log(`User ${email} already exists. Skipping password setup email.`);
+        // You might want to return a specific message to the UI here.
+        return { data: signUpData, error: { message: "User already exists." } };
+    }
+
+    // Step 2: Immediately send a "reset password" email.
+    // This will serve as the user's setup/invitation link.
+    const { error: resetError } = await resetPassword(email);
+
+    if (resetError) {
+        console.error('Error sending password setup email:', resetError.message);
+        // Even if the email fails, the user was created. You might need manual intervention.
+        return { data: null, error: resetError };
+    }
+
+    console.log('User created and password setup email sent.');
+    return { data: signUpData, error: null };
 }
 
 /**
