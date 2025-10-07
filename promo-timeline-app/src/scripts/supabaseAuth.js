@@ -66,10 +66,21 @@ export async function signOut() {
  * @returns {Promise<object>} Supabase auth response (error if any).
  */
 export async function resetPassword(email) {
-    const redirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
+const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    
+    // *** IMPORTANT: REPLACE THIS PLACEHOLDER WITH YOUR ACTUAL PRODUCTION DOMAIN ***
+    const PRODUCTION_BASE_URL = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src'; 
+    // Example: const PRODUCTION_BASE_URL = 'https://perfectdraft.com';
+    
+    const localRedirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
+    const productionRedirectURL = `${PRODUCTION_BASE_URL}/set-password.html`;
+
+    const redirectURL = isLocal ? localRedirectURL : productionRedirectURL;
+    
+    console.log(`Sending password reset with redirect to: ${redirectURL}`);
 
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectURL
+        redirectTo: redirectURL // Use the stable URL
     });
     if (error) {
         console.error('Password reset error:', error.message);
