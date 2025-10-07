@@ -82,34 +82,21 @@ export async function signOut() {
     return { error };
 }
 
-/**
- * Sends a password reset email to the user.
- * @param {string} email - User's email.
- * @returns {Promise<object>} Supabase auth response (error if any).
- */
-export async function resetPassword(email) {
-    // Determine the environment and set the redirect URL accordingly.
-    const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    
-    // *** MODIFIED: This is the EXACT URL to the file, no concatenation needed. ***
-    // This MUST match the full URL of the set-password.html page in production.
-    const PRODUCTION_REDIRECT_URL = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/set-password.html'; 
-    
-    // When running locally, construct the local file path dynamically.
-    const localRedirectURL = `${window.location.origin}${window.location.pathname.substring(0, window.location.pathname.lastIndexOf('/'))}/set-password.html`;
-    
-    // Use the explicit production URL for deployment, or the dynamic local URL for local testing.
-    const redirectURL = isLocal ? localRedirectURL : PRODUCTION_REDIRECT_URL;
-    
-    console.log(`Sending password reset with redirect to: ${redirectURL}`);
 
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectURL // Use the stable URL
+export async function resetPassword(email) {
+    console.log('Attempting to send password reset...');
+
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        // Using the EXACT production URL. Nothing dynamic.
+        redirectTo: 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/set-password.html',
     });
+
     if (error) {
-        console.error('Password reset error:', error.message);
+        console.error('Password reset API call failed:', error.message);
+    } else {
+        console.log('Password reset API call succeeded. Check your email.');
     }
-    return { error };
+    return { data, error };
 }
 
 /**
