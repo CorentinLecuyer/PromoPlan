@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             authMessage.textContent = 'Password successfully set! Redirecting you to login...';
             authMessage.style.color = 'green';
             setTimeout(() => {
-                window.location.href = 'login.html'; // Redirect to the login page
+                window.location.href = 'CommandBoard.html'; // Redirect to the login page
             }, 2000);
         }
     });
