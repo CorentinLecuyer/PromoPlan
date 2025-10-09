@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             channelSelect.innerHTML = '<option value="">Select a channel</option>';
             channels.forEach(ch => channelSelect.innerHTML += `<option value="${ch.id}">${ch.name}</option>`);
         }
-        
+
         teamSelect.innerHTML = '<option value="">Select a channel first</option>';
         teamSelect.disabled = true;
     }
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             teamSelect.disabled = false;
             teamSelect.innerHTML = '<option value="">Loading teams...</option>';
             const { data: teams } = await fetchTeams(selectedChannelId);
-            
+
             teamSelect.innerHTML = '<option value="">Select a team</option>';
             if (teams && teams.length > 0) {
                 teams.forEach(t => teamSelect.innerHTML += `<option value="${t.id}">${t.name}</option>`);
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             teamSelect.disabled = true;
         }
     });
-    
+
     // This handles the form submission with the corrected logic
     createForm.addEventListener('submit', async (event) => {
         event.preventDefault();
@@ -93,9 +93,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             createMessage.textContent = data.message;
             createForm.reset();
+            window.location.href = '../profile.html'; // Redirect after successful creation    
+
         }
         createButton.disabled = false;
     });
-    
+
     await populateInitialDropdowns();
 });
