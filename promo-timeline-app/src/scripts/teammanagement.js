@@ -93,7 +93,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         } else {
             createMessage.textContent = data.message;
             createForm.reset();
-            window.location.href = '../profile.html'; // Redirect after successful creation    
+            window.location.href = 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/profile.html'; // Redirect after successful creation
 
         }
         createButton.disabled = false;

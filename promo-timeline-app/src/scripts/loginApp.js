@@ -9,9 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const passwordInput = document.getElementById('password');
     const signInButton = document.getElementById('signInButton');
     const resetPasswordButton = document.getElementById('resetPasswordButton');
-
-
-
+    const authMessage = document.getElementById('authMessage');
 
     // Handle Sign In
     loginForm.addEventListener('submit', async (event) => {
@@ -26,28 +24,30 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast(`Sign In Failed: ${error.message}`, 'error');
         } else if (data.user && data.session) {
             showToast('Sign In Successful! Redirecting...', 'success');
-            window.location.href = 'profile.html'; 
+            window.location.href = 'profile.html';
         } else {
-             showToast('Sign In Failed: Check your credentials.', 'error');
+            showToast('Sign In Failed: Check your credentials.', 'error');
         }
     });
 
+
+
     // Handle Password Reset
     resetPasswordButton.addEventListener('click', async () => {
-        const email = emailInput.value;
-
-        if (!email) {
-            showToast('Please enter your email to reset password.', 'info');
-            return;
-        }
-
-        showToast('Sending password reset email...', 'info');
-        const { error } = await resetPassword(email);
-
-        if (error) {
-            showToast(`Password Reset Failed: ${error.message}`, 'error');
-        } else {
-            showToast('Password reset email sent! Check your inbox.', 'success');
+        const email = prompt("Please enter your email address to receive a password reset code:");
+        if (email) {
+            authMessage.textContent = 'Sending reset code...';
+            authMessage.style.color = '#333';
+            const { error } = await resetPassword(email);
+            if (error) {
+                authMessage.textContent = error.message;
+                authMessage.style.color = 'red';
+            } else {
+                authMessage.textContent = 'Reset code sent! Please check your email and go to the reset password page.';
+                authMessage.style.color = 'green';
+                // Optionally redirect them to the page where they'll enter the code
+                window.location.href = 'set-password.html';
+            }
         }
     });
 
