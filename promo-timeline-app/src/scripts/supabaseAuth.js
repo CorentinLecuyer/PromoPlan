@@ -84,17 +84,14 @@ export async function signOut() {
 
 
 export async function resetPassword(email) {
-    console.log('Attempting to send password reset...');
+    console.log('Attempting to send password reset code...');
 
-    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-        // Using the EXACT production URL. Nothing dynamic.
-        redirectTo: 'https://corentinlecuyer.github.io/PromoPlan/promo-timeline-app/src/set-password.html',
-    });
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email); // redirectTo removed
 
     if (error) {
         console.error('Password reset API call failed:', error.message);
     } else {
-        console.log('Password reset API call succeeded. Check your email.');
+        console.log('Password reset API call succeeded. Check your email for the code.');
     }
     return { data, error };
 }
